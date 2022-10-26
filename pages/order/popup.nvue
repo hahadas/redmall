@@ -1,0 +1,64 @@
+<template>
+	<div class="flex flex-center main">
+		<div class="box flex flex-center">
+			<text class="color-purple font48">{{code}}</text>
+			<text class="color-purple font30" style="margin-top: 30rpx;" v-if="code" @click.stop="copy">点击复制</text>
+		</div>
+		<icon type="cancel" color="#db293d" size="28" class="icon"/>
+	</div>
+</template>
+
+<script>
+	export default {
+		data(){
+			return {
+				code: ""
+			}
+		},
+		created(){
+			let vm = this;
+			uni.$on('page-popup', (data) => {
+				vm.code = data.code;
+			})
+		},
+		beforeDestroy() {
+			uni.$off('page-popup')
+		},
+		methods: {
+			copy(){
+				let _this = this
+				uni.setClipboardData({
+				    data: _this.code,
+				    success() {
+						uni.showToast({
+							title: "复制成功～",
+							mask: true,
+							icon: "none"
+						});
+				    },
+					fail() {
+						uni.showToast({
+							title: "复制失败～",
+							mask: true,
+							icon: "none"
+						});
+					}
+				});
+			}
+		}
+	}
+</script>
+
+<style scoped>
+	.main{
+		width: 750rpx;
+		height: 100vh;
+	}
+	.box{
+		background-color: white;
+		width: 500rpx;
+		height: 200rpx;
+		border-radius: 20rpx;
+		margin-bottom: 30rpx;
+	}
+</style>

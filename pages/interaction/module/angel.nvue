@@ -1,0 +1,223 @@
+<template>
+	<div>
+		<list :show-scrollbar="false" style="width: 750rpx;" :style="{height: swiperHeight + 'px'}">
+			<yy-refresh ref="refresh" @refresh="loadData('refresh')"></yy-refresh>
+			<header>
+				<dropdown ref="dropdown" :statusBarHeight="statusBarHeight" :filterData='filterData' :defaultIndex='defaultIndex' @onSelected="onSelected"></dropdown>
+			</header>
+			<cell class="list">
+				<view class="list-item" v-for="(item, i) in proxyList" :key="i" @tap="viewUser(item, 2)">
+					<image :src="filterImg(item.headPortrait, 1)" lazy-load mode="aspectFill" class="list-item-avatar"></image>
+					<text class="list-item-status" style="background-color: #0488a9;" v-if="item.distributorWorkStatus === 2">已开工</text>
+					<text class="list-item-status" style="background-color: #ffa800;" v-else-if="item.distributorWorkStatus === 3">工作中</text>
+					<text class="list-item-status" v-else>休息中</text>
+					<!-- <view class="online">
+						<text class="iconfont yuan" :class="{'grey':!item.isOnline}">&#xe630;</text>
+						<text class="txt">{{item.isOnline?'在线':'离线'}}</text>
+					</view> -->
+					<view class="list-item-bom">
+						<view class="list-item-bom-con">
+							<view class="list-item-bom-con-box">
+								<view class="left">
+									<image src="/static/video/man_color.png" mode="" class="six" v-if="item.gender === 2"></image>
+									<image src="/static/video/woman_color.png" mode="" class="six" v-if="item.gender === 3"></image>
+									<text class="name">{{item.nickname}}</text>
+								</view>
+								<text class="right">{{item.constellation}}/{{item.age||0}}岁</text>
+							</view>
+							<view class="list-item-bom-con-box mar">
+								<text class="right">评分：{{item.distributorScore}}</text>
+								<text class="right">{{item.distance | distance}}</text>
+							</view>
+						</view>
+					</view>
+				</view>
+			</cell>
+			<cell>
+				<uni-load-more :status="loading"></uni-load-more>
+			</cell>
+			<yy-load-more ref="loadMore" @loadMore="loadData()"></yy-load-more>
+		</list>
+	</div>
+</template>
+
+<script>
+	import { sendRequest } from "@/common/http/api.js"
+	import url from "@/common/http/url.js"
+	import mix from "./mix.js"
+	import filter from "../module/filter.js"
+	import dropdown from "./dropdown.nvue"
+	import yyRefresh from "@/components/yy-refresh/yy-refresh.nvue"
+	import yyLoadMore from "@/components/yy-refresh/yy-load-more.nvue"
+	export default {
+		components: { yyLoadMore, yyRefresh, dropdown },
+		mixins: [mix],
+		props:["wordKey"],
+		data(){
+			return {
+				loading: "nomore",
+				proxyList: [],
+				keyWord: "",
+				defaultIndex: [0,0,0],
+				defaultValue: null,
+				filterData: filter.threeFilter
+			}
+		},
+		watch:{
+			wordKey(val){
+				this.keyWord = val
+			}
+			// 	interactionOnlineStatus(val){
+			// 		console.log("......interactionOnlineStatus.....11111.222222", val)
+			// 		let content = JSON.parse(val.content)
+			// 		let listIndex = content.index
+			// 		let type = content.type
+			// 		if (type === "angel"){
+			// 			this.proxyList[listIndex].isOnline = val.isOnline
+			// 			this.$forceUpdate()
+			// 			console.log(listIndex, this.proxyList.length)
+			// 			if (listIndex < this.proxyList.length){
+			// 				listIndex++
+			// 				if (listIndex === this.proxyList.length) return
+			// 				let sendMsg = this.filterSendMsg(this.proxyList[listIndex].imAccount, listIndex)
+			// 				uni.setStorageSync("angelSendMsg", sendMsg)
+			// 				getApp().globalData.socket.sendSocketMessage(sendMsg)
+			// 			}
+			// 		}
+			// 	}
+		},
+		methods: {
+			loadData(type){
+				this.loading = "loading"
+				// let length = this.proxyList.length
+				if (this.oldKeyWord !== this.keyWord){
+					this.proxyList = []
+				}
+				if (type) this.proxyList = []
+				let params = {
+					lng: this.myAddressData.longitude,
+					lat: this.myAddressData.latitude,
+					status: this.defaultValue?this.defaultValue[0]:0,
+					gender: this.defaultValue?this.defaultValue[1]:-1,
+					ageRange: this.defaultValue?this.defaultValue[2]:0,
+					pageNum: this.proxyList.length,
+					wordKey: this.keyWord
+				}
+				this.oldKeyWord = this.keyWord
+				
+				sendRequest('get', url.interaction.getAngelNearbyList, params).then(res => {
+					let list = res.data
+					this.proxyList = [...this.proxyList ,...list];
+					if (type) {
+						this.$refs.refresh.finish()
+					} else {
+						let hasMore = true
+						if (res.data.length < 12) {
+							hasMore = false
+						}
+						this.$refs.loadMore.finish(hasMore)
+					}
+					if (res.data.length < 12) {
+						this.loading = "nomore"
+					} else {
+						this.loading = "more"
+					}
+					// if (list.length > 0){
+					// 	let index = length > 0 ? length : 0
+					// 	let sendMsg = this.filterSendMsg(this.proxyList[index].imAccount, index)
+					// 	uni.setStorageSync("angelSendMsg", sendMsg)
+					// 	getApp().globalData.socket.sendSocketMessage(sendMsg)
+					// }
+				}).catch(()=>{
+					this.loading = "nomore"
+				})
+			},
+			onSelected(res){
+				this.defaultValue = res
+				this.loadData('refresh')
+			}
+		}
+	}
+</script>
+
+<style scoped>
+	.list{
+		padding: 0 20rpx;
+		margin-top: 260rpx;
+		align-items: center;
+		justify-content: space-between;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+	.list-item{
+		width: 350rpx;
+		height: 450rpx;
+		border-radius: 16rpx;
+		position: relative;
+		margin-top: 10rpx;
+		overflow: hidden;
+	}
+	.list-item-avatar{
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		width: 350rpx;
+		height: 450rpx;
+		border-radius: 16rpx;
+		background-color: #161922;
+	}
+	.list-item-status{
+		position: absolute;
+		left: 0;
+		top: 0;
+		color: #FFFFFF;
+		background-color: #7c7d7e;
+		font-size: 26rpx;
+		padding: 4rpx 16rpx;
+		border-top-left-radius: 16rpx;
+		border-top-right-radius: 26rpx;
+		border-bottom-right-radius: 26rpx;
+		display: block;
+	}
+	.list-item-bom{
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+	.list-item-bom-con{
+		padding: 0 10rpx 10rpx;
+		background-image: linear-gradient(to top, rgba(0,0,0,0.8) 0, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+		border-radius: 0rpx 0rpx 26rpx 26rpx;
+	}
+	.list-item-bom-con-box{
+		margin-top: 10rpx;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.left{
+		flex-direction: row;
+		align-items: center;
+	}
+	.right{
+		color: #FFFFFF;
+		font-size: 24rpx;
+	}
+	.six{
+		width: 26rpx;
+		height: 26rpx;
+		margin-top: -4rpx;
+		margin-right: 10rpx;
+	}
+	.name{
+		color: #FFFFFF;
+		font-size: 28rpx;
+		width: 120rpx;
+		lines: 1;
+	}
+	.mar{
+		margin: 0;
+	}
+</style>

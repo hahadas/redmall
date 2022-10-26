@@ -1,0 +1,730 @@
+<template>
+    <div class="subnvue flex" @click.stop="">
+		
+		<!-- @click="hide()" -->
+		<div class="mask"></div>
+		
+		<div class="content flex" ref="content" style="background-color: #191919;opacity: 0.85;">
+			<div class="top flex" @click="hide()" >
+				<div class="hideBtn flex">
+					<image src="/static/video/video_close.png" style="width: 30upx;height: 30upx;opacity: 0;"></image>
+				</div>
+				<div class="title">
+					<text style="color: #ffffff;font-size: 25upx;">{{count}}条评论</text>
+				</div>
+				<div class="hideBtn flex">
+					<image src="/static/video/video_close.png" style="width: 30upx;height: 30upx;"></image>
+				</div>
+			</div>
+			<scroll-view scroll-y class="srcoll-view">
+				<div v-if="dataList && dataList.length > 0" v-for="(item,index) in dataList" :style="index==0 ? 'margin-top: 20upx;':''" class="card" :key="index">
+					<div class="card-left">
+						<image v-if="item.status == 0" class="card-image" :src="item.icon"></image>
+						<image v-if="item.status != 0" class="card-image" :src="delVideoIcon"></image>
+						<div class="card-content">
+							<div class="card-top">
+								<text v-if="item.status == 0" @click="commentByUser(item,0)" class="card-name" style="width: 400rpx;color: #bdbdbd;font-size: 28upx;">{{item.nickname}}</text>
+								<text v-if="item.status != 0" class="card-name" style="width: 400rpx;color: #bdbdbd;font-size: 28upx;">-已删除</text>
+								<text v-if="item.status == 0" @click="commentByUser(item,0)" class="color-grey" style="color: #f1f1f1;font-size: 28upx;">{{item.note}}</text>
+								<text v-if="item.status != 0" class="color-grey" style="color: #f1f1f1;font-size: 28upx;">{{item.note}}</text>
+								<text class="color-grey" style="color: #bdbdbd;font-size: 26upx;width: 500rpx;">{{item.createTime}}</text>
+							</div>
+							<!-- 二级评论、回复 -->
+							<div class="card-message" style="padding-top: 10rpx;" 
+							v-if="item.oneCommentsJson && item.oneCommentsJson.length > 0" 
+							v-for="(itemTwo,indexTwo) in item.oneCommentsJson" :key="indexTwo">
+								<image v-if="itemTwo.status == 0" class="card-image" style="height: 60rpx;width: 60rpx;" :src="itemTwo.icon"></image>
+								<image v-if="itemTwo.status != 0" class="card-image" style="height: 60rpx;width: 60rpx;" :src="delVideoIcon"></image>
+								<div class="card-top">
+									<text v-if="itemTwo.status == 0" @click="commentByUser(itemTwo,1)" class="card-name" style="width: 350rpx;color: #bdbdbd;font-size: 28upx;">{{itemTwo.nickname}}</text>
+									<text v-if="itemTwo.status != 0" class="card-name" style="width: 350rpx;color: #bdbdbd;font-size: 28upx;">-已删除</text>
+									
+									<text v-if="itemTwo.status == 0" @click="commentByUser(itemTwo,1)" class="color-grey" style="color: #f1f1f1;font-size: 28upx;width: 500rpx;">{{itemTwo.note}}</text>
+									<text v-if="itemTwo.status != 0" class="color-grey" style="color: #f1f1f1;font-size: 28upx;width: 500rpx;">{{itemTwo.note}}</text>
+									
+									<text v-if="itemTwo.commentsType == 1" class="color-grey" style="color: #bdbdbd;font-size: 26upx;width: 500rpx;">{{itemTwo.createTime}}</text>
+									
+									<text v-if="itemTwo.commentsType == 2 && itemTwo.status == 0" @click="commentByUser(itemTwo,2)" class="color-grey" style="color: #bdbdbd;font-size: 26upx;width: 500rpx;">{{itemTwo.createTime}} - 回复: @{{itemTwo.nicknameOne}}</text>
+									<text v-if="itemTwo.commentsType == 2 && itemTwo.status != 0" class="color-grey" style="color: #bdbdbd;font-size: 26upx;width: 500rpx;">{{itemTwo.createTime}} - 回复的评论已删除</text>
+								</div>
+								<div class="card-right" style="right:5rpx;" @click="likeByComment(itemTwo)">
+									<text v-if="itemTwo.commentLike > 0" class="color-gray" style="color: #ed1549;font-size: 28upx;">{{itemTwo.likes}}</text>
+									<text v-if="itemTwo.commentLike <= 0" class="color-gray" style="color: #bdbdbd;font-size: 28upx;">{{itemTwo.likes}}</text>
+									<image v-if="itemTwo.commentLike > 0" src="/static/video/love_red.png" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
+									<image v-if="itemTwo.commentLike <= 0" src="/static/video/love_grey.png" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
+								</div>
+							</div>
+							<div class="card-bottom" @click="commentsDatas(item.id,1)"
+							v-if="item.oneCommentsJson && item.oneCommentsJson.length > 0 && (item.commentCount-item.oneCommentsJson.length) > 0">
+								<text class="color-grey">查看{{item.commentCount-item.oneCommentsJson.length}}条回复></text>
+							</div>
+						</div>
+					</div>
+					
+					<div class="card-right" @click="likeByComment(item)">
+						<text v-if="item.commentLike > 0" class="color-gray" style="color: #ed1549;font-size: 28upx;">{{item.likes}}</text>
+						<text v-if="item.commentLike <= 0" class="color-gray" style="color: #bdbdbd;font-size: 28upx;">{{item.likes}}</text>
+						<image v-if="item.commentLike > 0" src="/static/video/love_red.png" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
+						<image v-if="item.commentLike <= 0" src="/static/video/love_grey.png" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
+					</div>
+				</div>
+				<div class="card" @click="commentsDatas(0,0)"
+				v-if="dataList && dataList.length > 0 && (countOne-dataList.length) > 0">
+					<text class="color-grey" style="font-size: 30rpx;text-align: center;">继续查看剩余{{countOne-dataList.length}}条评论></text>
+				</div>
+				
+				<div v-if="!dataList || dataList.length <= 0" style="margin-top: 20upx;" class="card">
+					<div class="card-bottom">
+						<text class="color-grey">{{dataTitle}}</text>
+					</div>
+				</div>
+			</scroll-view>
+			
+			<div class="bottom" :style="inputClassParent">
+				<!-- hold-keyboard="true" -->
+				<!-- <textarea class="input" :style="inputClass" :focus="focusTextarea" 
+				:adjust-position="false" cursor-spacing="10" maxlength="100" 
+				v-model="message" :placeholder="placeholder" @focus="textareaFocus" @blur="textareaBlur"/> -->
+				<textarea class="input" :style="inputClass" :focus="focusTextarea"
+				:adjust-position="false" cursor-spacing="10" maxlength="100" 
+				v-model="message" :placeholder="placeholder" @focus="textareaFocus" @blur="textareaBlur"/>
+				<div style="padding: 10rpx 0rpx;" @click="commint">
+					<div class="bottomBtn">
+						<text class="bottom-text">{{message.trim().length > 0 ? '发送':'关闭'}}</text>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+    </div>
+</template>
+
+<script>
+	import url from '@/common/http/url.js';
+	import imUtils from '@/common/im/imTools.js';
+	import { sendRequest } from "@/common/http/api.js"
+	import publics from "@/common/utils/public.js"
+	//上拉加载插件
+	import yyLoadMore from '@/components/yy-refresh/yy-load-more.nvue';
+	
+	//#ifdef APP-NVUE
+	const animation = weex.requireModule('animation')
+	const modal = weex.requireModule('modal');
+	//#endif
+	
+    export default {
+		components: {
+			yyLoadMore
+		},
+		data() {
+			return {
+				jianPanHeight:0,
+				commentType:0,
+				commentId:0,
+				loadMoreText: ['','加载中...', '没有更多啦'],
+				userId:0,
+				videoId:0,
+				type:0,
+				commentsId:0,
+				count:0,
+				countOne:0,
+				delVideoIcon:'https://yunjulai-oss.oss-cn-shenzhen.aliyuncs.com/defout/video_del_icon.png',
+				focusTextarea:false,
+				flag:true,
+				canHide:false,
+				inputClass:'',
+				inputClassParent:'',
+				message:'',
+				placeholder:'有爱评论,说点好听的~',
+				placeholderUserName:'回复@春雷',
+				dataTitle:'',
+				reply:'',
+				detailHeight:0,//软键盘高度
+				dataList:[]
+			}
+		},
+		created() {
+			plus.screen.lockOrientation("portrait-primary")
+			
+			let that = this;
+			uni.$on('showComment',function(data){
+				that.commentType = data.commentType;
+				
+				if(!that.videoId || that.videoId != data.videoId){
+					that.dataList = [];
+					that.count = 0;
+					that.message = "";
+					that.type = 0;
+					that.commentsId = 0;
+					that.placeholder = '有爱评论,说点好听的~';
+					that.placeholderUserName = '有爱评论,说点好听的~';
+					
+					//获取评论信息
+					that.videoId = data.videoId;
+					//获取评论信息,调用这句话，
+					//that.commentsDatas(that.videoId,that.dataList.length,false);//初始化数据
+				}
+				
+				let userInfo = uni.getStorageSync('userInfo');
+				if(userInfo != ''){
+					let user = userInfo;
+					that.userId = user.id;
+				}
+				
+				//判断是否有评论信息
+				if(data.commentId && data.commentId != 0){
+					that.commentId = data.commentId
+				}
+			})
+			
+			uni.$on('showComment', that.showComment)
+			uni.$on('sendComment', that.sendComment) 
+			
+			// 监听键盘高度
+			uni.onKeyboardHeightChange(e => {
+				if (e.height) {
+					if(uni.getSystemInfoSync().platform == 'ios'){
+						that.jianPanHeight = e.height-32;
+					}else{
+						that.jianPanHeight = e.height;
+					}
+					that.inputClassParent = 'background-color: #ffffff;color: #000000;bottom: '+that.jianPanHeight+'px;';
+					that.inputClass = 'background-color: #ffffff;color: #000000;';
+				} else {
+					that.textareaBlur()
+				}
+			})
+			
+		},
+		destroyed() {
+			uni.$off('showComment')
+			uni.$off('sendComment')
+		},
+        methods: {
+			async commentsDatas(commentsId,type){
+				uni.showLoading({
+					title: '评论加载中...'
+				});
+				setTimeout(function() {
+					//最多10秒
+					uni.hideLoading();
+				}, 1000*10);
+				
+				let pageSize=0;
+				let twoIndex=0;
+				if(type == 0){//主评论
+					pageSize=this.dataList.length;
+				}else{//二级评论
+					for(let i=0;i<this.dataList.length;i++){
+						if(this.dataList[i].id == commentsId){
+							pageSize = this.dataList[i].oneCommentsJson.length;
+							twoIndex = i;
+							break;
+						}
+					}
+				}
+				
+				let paremet = {videoId:this.videoId,type:type,commentsId:commentsId,commentId:this.commentId,pageSize:pageSize};
+				let res = await sendRequest("GET", url.interaction.comments, paremet)
+				uni.hideLoading();
+				let data = res.data
+				if (data){
+					let newItems = [];
+					data.commentsList.forEach((e) => {
+						if (e) {
+							// if(e.createTime){
+							// 	e.createTime = imUtils.fromTimer(e.createTime);
+							// }
+							// if(e.oneCommentsJson){
+							// 	for(let i=0;i<e.oneCommentsJson.length;i++){
+							// 		if(e.oneCommentsJson[i].createTime){
+							// 			e.oneCommentsJson[i].createTime = imUtils.fromTimer(e.oneCommentsJson[i].createTime);
+							// 		}
+							// 	}
+							// }
+							newItems.push(e);
+						}
+					});
+					if(newItems && newItems.length > 0){
+						if(type == 0){//主评论
+							this.count = data.count;
+							this.countOne = data.countOne;
+							this.dataList = [...this.dataList,...newItems];
+						}else{//二级评论
+							this.dataList[twoIndex].oneCommentsJson = [...this.dataList[twoIndex].oneCommentsJson,...newItems];
+							this.dataList[twoIndex].commentCount = data.twoCount;
+						}
+					}
+					if(!this.dataList || this.dataList.length<=0){
+						this.dataTitle='当前未有任何评论~~~';
+					}
+				}
+			},
+			async commint(){
+				plus.key.hideSoftKeybord();
+				this.textareaBlur();
+				let that = this;
+				if(this.message.trim().length > 100){
+					uni.showToast({
+						title: "评论内容过长,最多只能输入一百个字符",
+						icon: "none"
+					});
+					return;
+				}
+				if(!this.message || this.message.trim() == ''){
+					return;
+				}
+				let type = this.type;
+				let commentId = this.commentsId;
+				
+				let paremet = {videoId:this.videoId,type:type,commentId:commentId,note:this.message.trim()};
+				let res = await sendRequest("POST", url.interaction.commentByVideo, paremet)
+				let data = res.data
+				if (data){
+					this.message = "";
+					this.type = 0;
+					this.commentsId = 0;
+					this.placeholder = '有爱评论,说点好听的~';
+					this.placeholderUserName = '有爱评论,说点好听的~';
+					uni.showToast({
+						title: "评论成功~~~",
+						icon: "none"
+					});
+					// if(data.createTime){
+					// 	data.createTime = imUtils.fromTimer(data.createTime);
+					// }
+					
+					//添加评论总数
+					this.count += 1;
+					
+					//插入评论
+					if(type == 0){//一级评论
+						this.countOne = data.commentCount;
+						this.dataList.push(data);
+					}else{//二级评论、二级回复
+						let oneId = data.oneId;//获取到一级评论的id
+						for(let i=0;i<that.dataList.length;i++){
+							if(that.dataList[i].id == oneId){
+								this.dataList[i].oneCommentsJson.push(data);
+								this.dataList[i].commentCount = data.commentCount;
+							}
+						}
+					}
+				}
+			},
+			async delComment(comment){
+				if(comment.userId != this.userId){
+					uni.showToast({
+						title: "删除失败,只能删除自己的评论",
+						icon: "none"
+					});
+					return;
+				}
+				let paremet = {videoId:comment.videoId,commentId:comment.id};
+				let res = await sendRequest("POST", url.interaction.commentByDel, paremet)
+				let data = res.data
+				if (data){
+					uni.showToast({
+						title: "删除成功~~~",
+						icon: "none"
+					});
+					for(let i=0;i<this.dataList.length;i++){
+						if(comment.commentsType == 0){//一级评论
+							if(this.dataList[i].id == comment.id){
+								//设置评论删除
+								this.dataList[i].status = 1;
+								this.dataList[i].userId = 0;
+								this.dataList[i].note = "该评论已删除";
+								this.dataList[i].nickname = "-";
+								this.dataList[i].icon = this.delVideoIcon;
+							}
+						}else{//二级回复、二级评论
+							for(let t=0;t<this.dataList[i].oneCommentsJson.length;t++){
+								if(this.dataList[i].oneCommentsJson[t].id == comment.id){
+									//设置评论删除
+									this.dataList[i].oneCommentsJson[t].status = 1;
+									this.dataList[i].oneCommentsJson[t].userId = 0;
+									this.dataList[i].oneCommentsJson[t].note = "该评论已删除";
+									this.dataList[i].oneCommentsJson[t].nickname = "-已删除";
+									this.dataList[i].oneCommentsJson[t].icon = this.delVideoIcon;
+								}
+							}
+						}
+					}
+				}
+			},
+			async likeByComment(comment){
+				let type = 0;//默认点赞
+				let likesNumber = 1;//默认添加赞
+				let commentLikeSet = 1;//默认已经点赞
+				//判断是点赞还是取消点赞
+				if(comment.commentLike > 0){//取消点赞
+					type = 1;
+					likesNumber = -1;
+					commentLikeSet = 0;
+				}
+				
+				let paremet = {videoId:comment.videoId,commentId:comment.id,type:type};
+				let res = await sendRequest("POST", url.interaction.likeByCommentByJiuYin, paremet)
+				let data = res.data
+				if (data){
+					for(let i=0;i<this.dataList.length;i++){
+						if(comment.commentsType == 0){//一级评论
+							if(this.dataList[i].id == comment.id){
+								//设置评论点赞、点赞数量
+								this.dataList[i].likes += likesNumber;
+								this.dataList[i].commentLike = commentLikeSet;
+							}
+						}else{//二级回复、二级评论
+							for(let t=0;t<this.dataList[i].oneCommentsJson.length;t++){
+								if(this.dataList[i].oneCommentsJson[t].id == comment.id){
+									//设置评论点赞、点赞数量
+									this.dataList[i].oneCommentsJson[t].likes += likesNumber;
+									this.dataList[i].oneCommentsJson[t].commentLike = commentLikeSet;
+								}
+							}
+						}
+					}
+				}
+			},
+			onLoadMore() {
+				//此处模拟请求数据  Here the request data is simulated
+				setTimeout(() => {
+					//结束加载  stop loading
+					this.$refs.yyLoadMore.finish(false);
+					this.$refs.yyLoadMore.finish(true);
+				}, 1000);
+			},
+			//获取焦点，如果不是选表情ing,则关闭抽屉
+			textareaFocus(e) {
+				let _this = this
+				if(e && e.detail.height > 0){
+					if(uni.getSystemInfoSync().platform == 'ios'){
+						this.jianPanHeight = e.detail.height-32;
+					}else{
+						this.jianPanHeight = e.detail.height;
+					}
+				}
+				_this.inputClassParent = 'background-color: #ffffff;color: #000000;bottom: '+_this.jianPanHeight+'px;';
+				_this.inputClass = 'background-color: #ffffff;color: #000000;';
+			},
+			textareaBlur(e){
+				this.focusTextarea = false;
+				this.inputClassParent = 'background-color: #000000;color: #ffffff;bottom: 0px;';
+				this.inputClass = 'background-color: #000000;color: #ffffff;';
+				if(this.message && this.message.length > 0){
+					this.placeholder = '';
+				}else{
+					this.placeholder = this.placeholderUserName;
+				}
+			},
+			commentByUser(comment,type){				
+				this.focusTextarea = false;
+				this.textareaBlur();
+				let that = this;
+				
+				let nameTiele = "";
+				if(type == 0){//一级评论
+					nameTiele = "评论@"+comment.nickname;
+				}else if(type == 1){//二级回复
+					nameTiele = "回复@"+comment.nickname;
+				}else if(type == 2){//同二级回复，回复的是别人回复的回复，有点乱，不要紧功能正常就行
+					nameTiele = "回复@"+comment.nicknameOne;
+				}
+				
+				console.log(this.userId);
+				let itemList = [nameTiele,'复制评论','进入Ta的主页'];
+				if(comment.userId == this.userId && type != 2){
+					itemList = [nameTiele,'复制评论','进入Ta的主页','删除评论'];
+				}
+				
+				uni.showActionSheet({
+				    itemList: itemList,
+				    success: function (res) {
+						if(res.tapIndex == 0){//回复
+							that.commentsId = comment.id;
+							that.placeholder = nameTiele;
+							if(type == 0){//二级评论
+								that.type = 1;
+							}else if(type == 1){//二级回复
+								that.type = 2;
+							}else if(type == 2){//同二级回复，回复的是别人回复的回复，有点乱，不要紧功能正常就行
+								that.type = 2;
+								//这个的评论id就不一样了，切换为，当前评论的回复的评论的id
+								that.commentsId = comment.twoId;
+							}
+							
+							that.focusTextarea = true;
+							that.textareaFocus();
+						}else if(res.tapIndex == 1){//复制评论
+							uni.setClipboardData({
+								data: comment.note,
+								success:() => {
+									uni.showToast({
+										title: "复制成功~~~",
+										icon: "none"
+									})
+								}
+							});
+						}else if(res.tapIndex == 2){//进入主页
+							uni.navigateTo({
+								url: '/pages/interaction/user?current=1&userId='+comment.imAccountOne
+							})
+						}else if(res.tapIndex == 3){//删除评价
+							uni.showModal({
+								title: '提示',
+								content: '确定要删除该评论吗',
+								success: res => {
+									if(res.confirm){
+										that.delComment(comment);
+									}
+								}
+							});
+						}
+				    },
+				    fail: function (res) {
+				        console.log(res.errMsg);
+				    }
+				});
+			},
+			relationByNowTime(){
+				let date1= '2015/05/01 00:00:00';  //开始时间
+				let date2 = new Date();    //结束时间
+				let date3 = date2.getTime() - new Date(date1).getTime();   //时间差的毫秒数    
+				//计算出相差天数
+				let days=Math.floor(date3/(24*3600*1000))
+		 
+				//计算出小时数
+				let leave1=date3%(24*3600*1000)    //计算天数后剩余的毫秒数
+				let hours=Math.floor(leave1/(3600*1000))
+				//计算相差分钟数
+				let leave2=leave1%(3600*1000)        //计算小时数后剩余的毫秒数
+				let minutes=Math.floor(leave2/(60*1000))
+				//计算相差秒数
+				let leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
+				let seconds=Math.round(leave3/1000)
+			},
+			replyName(name){
+				this.reply = name
+				this.placeholder = `回复 ${name} :`
+			},
+			//发送评论
+			sendComment(val){
+				console.log(val)
+				this.dataList.push(JSON.parse(val));
+				//评论数量
+				this.count += 1;
+				this.message = "";
+				this.type = 0;
+				this.commentsId = 0;
+				this.placeholder = '有爱评论,说点好听的~';
+				this.placeholderUserName = '有爱评论,说点好听的~';
+			},
+			//显示评论
+			showComment(val){
+				let that = this;
+				this.flag = true
+				this.canHide = false
+				let content = this.$refs.content;
+				animation.transition(content, {
+					styles: {transform: `translate(0px, 0px)`,},
+					duration: 200, //ms
+					timingFunction: 'ease-in-out',
+					delay: 0 //ms
+				},()=>{
+					this.canHide = true;
+					//获取评论信息
+					this.commentsDatas(0,0);//初始化数据
+				})
+			},
+            hide() {
+				uni.hideKeyboard()
+				let that = this;
+				if(!this.canHide) return
+				let content = this.$refs.content;
+				animation.transition(content, {
+					styles: {transform: `translate(0px, 1000rpx)`,},
+					duration: 200, //ms
+					timingFunction: 'ease-in-out',
+					delay: 0 //ms
+				},()=>{
+					console.log("===="+that.commentType);
+					if(that.commentType == 0){//首页
+						uni.getSubNVueById('comment').hide()
+					}else if(that.commentType == 1){//用户个人视频
+						uni.getSubNVueById('commentUser').hide()
+					}else if(that.commentType == 2){//评论视频
+						uni.getSubNVueById('commentCommentId').hide()
+					}else{
+						uni.getSubNVueById('comment').hide()
+						uni.getSubNVueById('commentUser').hide()
+						uni.getSubNVueById('commentCommentId').hide()
+					}
+					
+				})
+			},
+			showInput(){
+				uni.getSubNVueById('input-box').show('none',0,()=>{
+					this.flag = false
+					uni.$emit('showInput')
+				});
+			}
+        }
+    }
+</script>
+
+<style  lang="scss" scoped>
+	.color-gray{
+		color: #515352;
+		font-size: 14px;
+	}
+	.card-name{
+		line-height: 35rpx;
+	}
+	.color-grey{
+		color: #A8ACAF;
+		font-size: 12px;
+		width: 600rpx;
+		line-height: 35rpx;
+	}
+	.color-bule{
+		color: #55ADDF;
+		
+	}
+	.margin-right{
+		margin-right: 20rpx;
+	}
+	
+	
+	.subnvue {
+		flex-direction: column;
+		flex: 1;
+		background-color: transparent;
+		position: relative;
+	}
+	.mask{
+		flex-direction: column;
+		background-color:#000 ;
+		opacity: 0.4;
+		flex: 1;
+		
+	}
+	.content{
+		position: absolute;
+		background-color: #fff;
+		width: 750rpx;
+		bottom: 0;
+		height: 1000rpx;
+		transform: translateY(1000rpx);
+		flex-direction: column;
+		justify-content: space-between;
+		border-top-left-radius:30rpx;
+		border-top-right-radius:30rpx; 
+	}
+	.top{
+		padding: 20rpx 20rpx 10rpx 20rpx;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	.title{
+		flex: 1;
+		align-items: center;
+		color: #ffffff;
+	}
+	.hideBtn{
+		padding: 0rpx;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	/* 底部输入框 */
+	.bottom{
+		width: 750rpx;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		display: flex;
+		box-shadow: 0 -1px 4px 1px rgba(0,0,0,0.1);
+		align-items: center;
+		flex-direction: row;
+		justify-content: space-between;
+		background-color: #000000;
+		overflow: hidden;
+	}
+	.input{
+		flex-direction: row;
+		align-items: center;
+		flex: 1;
+		margin: 20rpx;
+		height: 60rpx;
+		background-color: #000000;
+		color: #ffffff;
+		font-size: 30rpx;
+		line-height: 50rpx;
+		padding-top: 10rpx;
+	}
+	.bottomBtn{
+		padding: 10rpx 15rpx;
+		border-radius:10rpx;
+		margin: 0rpx 10rpx 0rpx 0rpx;
+		background-color: #464646;
+	}
+	.bottom-text{
+		color: #fff;
+	}
+	
+	/* 评论滚动区 */
+	.srcoll-view{
+		flex: 1;
+	}
+	.card{
+		position: relative;
+		flex-direction: row;
+		justify-content: space-between;
+		padding: 30rpx;
+		padding-top: 0rpx;
+	}
+	
+	.card-left{
+		flex-direction: row;
+	}
+	
+	/* 中 */
+	.card-content{
+		flex: 1;
+		
+	}
+	.card-image{
+		height: 70rpx;
+		width: 70rpx;
+		border-radius: 50%;
+		margin-right: 30rpx;
+	}
+	.card-top{
+		min-height: 70rpx;
+		justify-content: space-between;
+	}
+	.card-message{
+		padding: 20rpx 0rpx 10rpx 0rpx;
+		flex-direction: row;
+		width: 600rpx;
+	}
+	.card-text{
+		flex: 1;
+	}
+
+
+	/* 右 */
+	.card-right{
+		position: absolute;
+		right:30rpx;
+		top:0rpx;
+		flex-direction: row;
+		
+	}
+	.card-icon{
+		margin-left: 40rpx;
+		margin-right: 20rpx;
+	}
+	
+</style>

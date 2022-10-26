@@ -1,0 +1,501 @@
+<template>
+	<div class="page">
+		<cover-view class="cover-view-center">
+			<div :style="{ height: `${sysheight-60}px`,width: width }" ref="touch" @click="clickVideo(index)" @touchstart="ListTouchStart" @touchmove="ListTouchMove">
+				<div class="nav">
+					<image class="img-icon" src="/static/video/video_fanhui.png" style="width: 64upx;" @click.stop="clickLeft"></image>
+					<div class="title-center">
+						<text class="title" :class="distanceX>0?'active-title':''" @click="click1"></text> &nbsp;
+						<text class="title" :class="distanceX==0?'active-title':''" @click="click0"></text> &nbsp; 
+						<text class="title" :class="distanceX<0?'active-title':''" @click="click_1"></text>
+					</div>
+					<image class="img-icon" src="/static/video/video_bianji.png" @click.stop="clickRight" v-if="videoByUserData.userFlag"></image>
+				</div>
+				<div class="cover-view-right" style="top: 380upx;">
+					<!-- 头像 -->
+					<image class="img" style="height: 100upx;" @click.stop="tapAvater"></image>
+					<!-- <text class="right-text" style="background-color: #bb6c6c;opacity: 0.5;height: 40upx;"> </text> -->
+					<!-- 关注 -->
+					<image class="img" style="height: 50upx;" @click.stop="tapAvaterLikes"></image>
+					<text class="right-text" style="margin-bottom: 10upx;"> </text>
+					<!-- 点赞 -->
+					<image class="img" @click.stop="tapLove"></image>
+					<text class="right-text" style="margin-bottom: 36upx;"> </text>
+					<!-- 评价 -->
+					<image class="img" @click.stop="tapMsg"></image>
+					<text class="right-text" style="margin-bottom: 25upx;"> </text>
+					<!-- 分享 -->
+					<image class="img" @click.stop="tapShare"></image>
+					<text class="right-text"> </text>
+				</div>
+			</div>
+		</cover-view>
+		
+		<div class="swiper" ref="swiper">
+			<block v-for="(item, idx) in videoList" :key="idx">
+				<div class="video-box" :style="{ height: height }">
+					<block v-if="Math.abs(-distance/sysheight-idx)<=1">
+						<chunlei-video class="video" :src="item.video" :poster="item.image" :gDuration="item.duration" 
+						:height="height" :width="width" :play="item.flag" 
+						:objectFit="item.objectFit":initialTime="item.initialTime" @pause="pauseVideo">
+						</chunlei-video>
+						<cover-view class="cover-view-left">
+							<text class="left-text">@{{videoByUserData.nickname}}</text>
+							<text class="left-text">{{item.note}}</text>
+						</cover-view>
+						<cover-view class="cover-view-right">
+							<cover-image :src="videoByUserData.icon" class="avater img" @click.stop="tapAvater"></cover-image>
+							<text class="right-text"></text>
+							<cover-image :src="item.likeFlag && item.likeFlag >= 1?'/static/video/video_love.png':'/static/video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
+							<text class="right-text">{{item.likes}}</text>
+							<cover-image src="/static/video/video_noties.png" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
+							<text class="right-text">{{item.evaluationQuantity}}</text>
+							<cover-image src="/static/video/video_share.png" class="img imgFenXiang" @click.stop="tapShare"></cover-image>
+							<text class="right-text">分享</text>
+						</cover-view>
+					</block>
+				</div>
+				
+			</block>
+		</div>
+		
+		<div class="left-div"  @click="clickVideo(index)" :style="{ width: width,left:`${-parseInt(width)}px` }" ref="left"  @touchstart="ListTouchStart" @touchmove="ListTouchMove">
+			<block v-for="(item, idx) in videoList1" :key="idx">
+				<div class="video-box" :style="{ height: height }">
+					<block v-if="Math.abs(-distance1/sysheight-idx)<=1">
+						<chunlei-video class="video" :src="item.src"  :height="height" :width="width" 
+							:play="item.flag" :gDuration="item.duration" :objectFit="item.objectFit"
+							:initialTime="item.initialTime" @pause="pauseVideo"
+						>
+						</chunlei-video>
+						<cover-view class="cover-view-left">
+							<text class="left-text">@{{item.at}}</text>
+							<text class="left-text">{{item.content}}</text>
+						</cover-view>
+						<cover-view class="cover-view-right">
+							<cover-image :src="item.avater" class="avater img" @click.stop="tapAvater"></cover-image>
+							<text class="right-text-avater">+</text>
+							<text class="right-text"></text>
+							<cover-image :src="item.check?'/static/video/video_love.png':'/static/video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
+							<text class="right-text">{{item.like}}</text>
+							<cover-image src="/static/video/video_noties.png" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
+							<text class="right-text">{{item.comment}}</text>
+							<cover-image src="/static/video/video_share.png" class="img imgFenXiang" @click.stop="tapShare"></cover-image>
+							<text class="right-text">分享</text>
+						</cover-view>
+					</block>
+				</div>
+				
+			</block>
+		</div>
+		<div class="right-div"  :style="{ width: width,right:`${-parseInt(width)}px` }" ref="right"  @touchstart="ListTouchStart" @touchmove="ListTouchMove">
+			<block v-for="(item, idx) in videoList_1" :key="idx">
+				<div class="video-box" :style="{ height: height }">
+					<block v-if="Math.abs(-distance_1/sysheight-idx)<=1">
+						<chunlei-video class="video" :src="item.src"  :height="height" :width="width" 
+							:play="item.flag" :gDuration="item.duration" :objectFit="item.objectFit"
+							:initialTime="item.initialTime" @pause="pauseVideo"
+						>
+						</chunlei-video>
+						<cover-view class="cover-view-left">
+							<text class="left-text">@{{item.at}}</text>
+							<text class="left-text">{{item.content}}</text>
+						</cover-view>
+						<cover-view class="cover-view-right">
+							<cover-image :src="item.avater" class="avater img" @click.stop="tapAvater"></cover-image>
+							<text class="right-text-avater">+</text>
+							<text class="right-text"></text>
+							<cover-image :src="item.check?'/static/video/video_love.png':'/static/video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
+							<text class="right-text">{{item.like}}</text>
+							<cover-image src="/static/video/video_noties.png" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
+							<text class="right-text">{{item.comment}}</text>
+							<cover-image src="/static/video/video_share.png" class="img imgFenXiang" @click.stop="tapShare"></cover-image>
+							<text class="right-text">分享</text>
+						</cover-view>
+					</block>
+				</div>
+				
+			</block>
+		</div>
+		
+	</div>
+</template>
+
+<script>
+	import url from '@/common/http/url.js';
+	import publics from "@/common/utils/public.js"
+	import { sendRequest } from "@/common/http/api.js" // nvue 不能使用this.$http
+	import chunleiVideo from '@/components/chunlei-video/chunlei-video';
+	import scrollMixins from './scrollMixins';
+	const BindingX = uni.requireNativePlugin('bindingx');
+	const animation = weex.requireModule('animation');
+	const modal = weex.requireModule('modal');
+
+	export default { 
+		mixins:[scrollMixins],
+		components:{
+			chunleiVideo
+		},
+		data(){
+			return{
+				commentId:0,
+				videoNowIndex:0,//当前播放视频的下标
+				videoByUserData:{},
+				videoList:[],
+				videoList_1:[],
+				videoList1:[]
+			}
+		},
+		onLoad(options) {
+			if(options.commentId){
+				this.commentId = options.commentId;
+			}
+			
+			let that = this;
+			//获取数据
+			let videoByUserData = uni.getStorageSync("VideoByUserCommentOneData");
+			if(videoByUserData){
+				let jsonData = JSON.parse(videoByUserData);
+				console.log(jsonData);
+				jsonData.flag = false;
+				jsonData.initialTime = 0;
+				that.videoByUserData = jsonData;
+				that.videoList.push(jsonData);
+			}
+		},
+		created(){
+			//#ifdef APP-PLUS
+			plus.screen.lockOrientation("portrait-primary")
+			//隐藏subnvue
+			uni.getSubNVueById('commentCommentId').hide()
+			//#endif
+			this.init();
+			
+			let that = this;
+			if(this.commentId && this.commentId != 0){
+				//显示评论
+				//获取id
+				let index = this.getIndex();
+				let videoId = this.videoList[index].id;
+				uni.getSubNVueById('commentCommentId').show('none',0,()=>{
+					uni.$emit('showComment',{videoId:videoId,commentId:that.commentId,commentType:2})
+				});
+			}
+		},
+		async mounted() {
+			this.videoPlay(this.index)
+		},
+		onHide(){
+			this.videoNoPay();
+		},
+		methods:{
+			async getByVideoIdMyMsgFlag(x,index,videoUserId,videoId){
+				
+				let that = this;
+				
+				let videoOneData = {};
+				if(x > 0){//同城
+					videoOneData = this.videoList1[index];
+				}else if(x == 0){//推荐
+					videoOneData = this.videoList[index];
+				}else{//关注
+					videoOneData = this.videoList_1[index];
+				}
+				
+				let paremet = {videoUserId:videoUserId,videoId:videoId};
+				let res = await sendRequest("GET", url.interaction.getByVideoIdMyMsg, paremet)
+				let data = res.data
+				if(data){
+					if(!data.videoLike){
+						data.videoLike = 0;
+					}
+					if(!data.likeAmount){
+						data.likeAmount = 0;
+					}
+					if(!data.videoUserLike){
+						data.videoUserLike = 0;
+					}
+					if(x > 0){//同城
+						this.videoList1[index].likeFlag = data.videoLike;
+						this.videoList1[index].likes = data.likeAmount;
+						this.videoList1[index].likeCheck = data.videoUserLike;
+						this.videoList1[index].evaluationQuantity = data.commentCount;
+					}else if(x == 0){//推荐
+						this.videoList[index].likeFlag = data.videoLike;
+						this.videoList[index].likes = data.likeAmount;
+						this.videoList[index].likeCheck = data.videoUserLike;
+						this.videoList[index].evaluationQuantity = data.commentCount;
+					}else{//关注
+						this.videoList_1[index].likeFlag = data.videoLike;
+						this.videoList_1[index].likes = data.likeAmount;
+						this.videoList_1[index].likeCheck = data.videoUserLike;
+						this.videoList_1[index].evaluationQuantity = data.commentCount;
+					}
+				}
+			},
+			videoNoPay(){
+				let flag = false
+				this.videoList_1.forEach((item)=>{
+					if(item.flag){
+						item.flag = false
+						flag = true
+					} 
+				})
+				this.videoList1.forEach((item)=>{
+					if(item.flag){
+						item.flag = false
+						flag = true
+					} 
+				})
+				this.videoList.forEach((item)=>{
+					if(item.flag){
+						item.flag = false
+						flag = true
+					} 
+				})
+			},
+			getIndex(){
+				return this.videoNowIndex;
+				
+				let listData = this.videoList;
+				for(let i=0;i<listData.length;i++){
+					if(listData[i].flag){
+						return i;
+					}
+				}
+			},
+			//设置参数
+			init(){
+				this.typeX = false //开启左右滑动
+				this.playCount = 2 //剩余多少视频加载视频列表
+				this.startDistance = 5 //判断左右上下拖动的启动距离 px
+				this.minTime = 300 //判断快速滑动的时间,该时间内无视回弹距离判断
+				this.backDistance = 200 //判断上下滑动的回弹距离 px
+			},
+			tapAvater(e){
+				e.stopPropagation();
+				//返回即可
+				this.clickLeft();
+			},
+			tapAvaterLikes(e){
+				e.stopPropagation();
+				console.log("关注");
+				let index = this.getIndex();
+			},
+			tapLove(e){
+				e.stopPropagation();
+				console.log("点赞");
+				
+				let index = this.getIndex();
+				let type = 0;
+				
+				if(this.videoList[index].likeFlag >= 1){//取消点赞
+					type = 1;
+					this.videoList[index].likeFlag = 0;
+					this.videoList[index].likes -= 1;
+				}else{//点赞
+					this.videoList[index].likeFlag = 1;
+					this.videoList[index].likes += 1;
+				}
+				this.videoList = [...this.videoList];
+				
+				publics.setDianZanTrueDatasJiLu(this.videoList[index].id,type);
+				this.likeByUserVideo(this.videoList[index].id,type);
+			},
+			//点赞
+			async likeByUserVideo(videoId, type) {
+				let res = await sendRequest('post', url.interaction.likeByVideo, {
+					videoId: videoId,
+					type: type
+				});
+			},
+			tapMsg(e){
+				let that = this;
+				e.stopPropagation();
+				console.log("评论");
+				//获取id
+				let index = this.getIndex();
+				let videoId = this.videoList[index].id;
+				uni.getSubNVueById('commentCommentId').show('none',0,()=>{
+					uni.$emit('showComment',{videoId:videoId,commentId:that.commentId,commentType:2})
+				});
+			},
+			tapShare(e){
+				e.stopPropagation();
+				console.log("分享");
+			},
+			//加载视频
+			async pushVideoList(){
+				
+			},
+			clickRight(e){
+				e.stopPropagation();
+			},
+			clickLeft(e){
+				e.stopPropagation();
+				uni.navigateBack();
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.page{
+		flex: 1;
+		overflow: hidden;
+		position: relative;
+		background-color: #000;
+	}
+	.swiper{
+		position: relative;
+		background-color: #000;
+	}
+	.left-div{
+		background-color: #000;
+		position: absolute;
+		top: 0;
+		justify-content: center;
+		align-items: center;
+	}
+	.right-div{
+		background-color: #000;
+		position: absolute;
+		top: 0;
+		justify-content: center;
+		align-items: center;
+	}
+	.title-text{
+		font-size: 16px;
+		color: #000000;
+	}
+	.video-box{
+		position: relative;
+		background-color: #000;
+	}
+	.cover-view-center{
+
+		position: fixed;
+		justify-content: center;
+		align-items: center;
+		
+		z-index: 999;
+	}
+	.cover-view-top{
+		position: fixed;
+		width: 750rpx;
+		height: 150px;
+		overflow: hidden;
+	}
+	.cover-view-left{
+		position: absolute;
+		margin-left: 10upx;
+		width: 500upx;
+		bottom: 200upx;
+		z-index: 9999;
+		font-size: 16px;
+		color: #FFFFFF;
+	}
+	.left-text{
+		font-size: 16px;
+		color: #FFFFFF;
+		margin-bottom: 20upx;
+	}
+	.avater{
+		border-radius: 50upx;
+		border-color: #fff;
+		border-style: solid;
+		border-width: 2px;
+	}
+	
+	.cover-view-right{
+		position: absolute;
+		top: 400upx;
+		right: 20upx;
+		z-index: 9999;
+	}
+	.right-text-avater{
+		position: absolute;
+		font-size: 14px;
+		top: 80upx;
+		left: 30upx;
+		height: 40upx;
+		width: 40upx;
+		background-color: #DD524D;
+		color: #FFFFFF;
+		border-radius: 50%;
+		text-align: center;
+		line-height: 40upx;
+		z-index: 999;
+	}
+	
+	.avater-icon{
+		height: 40upx;
+		width: 40upx;
+		
+		color: #fff;
+		background-color: #DD524D;
+		border-radius: 50%;
+		position: absolute;
+		left: 30upx;
+		top:-20upx;
+	}
+	
+	.right-text{
+		text-align: center;
+		font-size: 14px;
+		color: #FFFFFF;
+		margin-bottom: 50upx;
+		height: 20px;
+	}
+	.img{
+		height: 100upx;
+		width: 100upx;
+		opacity: 0.9;
+	}
+	.imgDianZan{
+		height: 84upx;
+		width: 84upx;
+		margin-left: 10upx;
+		opacity: 0.9;
+	}
+	.imgPinLun{
+		height: 60upx;
+		width: 60upx;
+		margin-left: 20upx;
+		opacity: 0.9;
+	}
+	.imgFenXiang{
+		height: 75upx;
+		width: 75upx;
+		margin-left: 20upx;
+		opacity: 0.9;
+	}
+	.img-icon{
+		width: 50upx;
+		height: 50upx;
+		margin-top: 18upx;
+	}
+	.nav{
+		flex-direction: row;
+		height:200upx; 
+		justify-content: space-between;
+		padding: 44px 15px 0;
+	}
+	.title{
+		line-height: 80upx;
+		color: #eee;
+		font-size: 18px;
+	}
+	.active-title{
+		border-bottom-width: 2px;
+		font-weight: bold; 
+		border-style: solid;
+		border-bottom-color: #FFFFFF; 
+		color: #FFFFFF;
+		height: 40px;
+	}
+	.title-center{
+		flex-direction: row;
+		height: 45px;
+	}
+</style>

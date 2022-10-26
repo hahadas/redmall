@@ -1,0 +1,247 @@
+{
+    "name" : "RedMall",
+    "appid" : "__UNI__2311B04",
+    "description" : "",
+    "versionName" : "1.5.5",
+    "versionCode" : 105005,
+    "transformPx" : false,
+    /* 5+App特有相关 */
+    "app-plus" : {
+        "usingComponents" : true,
+        "nvueCompiler" : "uni-app",
+        "compilerVersion" : 3,
+        "splashscreen" : {
+            "alwaysShowBeforeRender" : true,
+            "waiting" : true,
+            "autoclose" : true,
+            "delay" : 0
+        },
+        /* 取消弹出Html5+ Runtime 的弹框 */
+        "compatible" : {
+            "ignoreVersion" : true
+        },
+        /* 模块配置 */
+        "modules" : {
+            "VideoPlayer" : {},
+            "Maps" : {},
+            "Payment" : {},
+            "Share" : {},
+            "Push" : {},
+            "SQLite" : {}
+        },
+        /* 应用发布信息 */
+        "distribute" : {
+            /* android打包配置 */
+            "android" : {
+                "permissions" : [
+                    "<uses-feature android:name=\"android.hardware.camera\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+                    "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+                ],
+                "schemes" : "hejiume"
+            },
+            /* ios打包配置 */
+            "ios" : {
+                "idfa" : false,
+                "urltypes" : "hejiume",
+                "privacyDescription" : {
+                    "NSPhotoLibraryUsageDescription" : "注册、发布动态、发布酒音、聊天中用到相册中的图片",
+                    "NSPhotoLibraryAddUsageDescription" : "聊天、动态中可保存图片至本地相册",
+                    "NSCameraUsageDescription" : "聊天时发送图片、发送视频、视频通话需要用到摄像头拍摄图片和视频",
+                    "NSMicrophoneUsageDescription" : "聊天时发送语音、视频通话时需要用到麦克风",
+                    "NSLocationWhenInUseUsageDescription" : "需要根据用户当前的位置定位获取应用中的附近商品、附近商家、附近的动态、附近的人、附近的商家",
+                    "NSLocationAlwaysUsageDescription" : "如果入驻成为天使(配送员)接单配送的时候，需要实时更新配送员的位置，让用户能看到配送轨迹",
+                    "NSLocationAlwaysAndWhenInUseUsageDescription" : "如果入驻成为天使(配送员)接单配送的时候，需要实时更新配送员的位置，让用户能看到配送轨迹"
+                },
+                "dSYMs" : false
+            },
+            /* SDK配置 */
+            "sdkConfigs" : {
+                "maps" : {
+                    "amap" : {
+                        "appkey_ios" : "1b55895eb972f6b0a5b64193b6d667b5",
+                        "appkey_android" : "3a9d575da42c6406f278c9dd5f4a5a66"
+                    }
+                },
+                "push" : {
+                    "unipush" : {}
+                },
+                "payment" : {
+                    "alipay" : {},
+                    "weixin" : {
+                        "appid" : "wx4d04e1c95f5f0dca",
+                        "UniversalLinks" : "https://taisoner.com/ulink/"
+                    },
+                    "appleiap" : {}
+                },
+                "share" : {
+                    "weixin" : {
+                        "appid" : "wx4d04e1c95f5f0dca",
+                        "UniversalLinks" : "https://taisoner.com/ulink/"
+                    }
+                },
+                "oauth" : {},
+                "ad" : {}
+            },
+            "icons" : {
+                "android" : {
+                    "hdpi" : "unpackage/res/icons/72x72.png",
+                    "xhdpi" : "unpackage/res/icons/96x96.png",
+                    "xxhdpi" : "unpackage/res/icons/144x144.png",
+                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                },
+                "ios" : {
+                    "appstore" : "unpackage/res/icons/1024x1024.png",
+                    "ipad" : {
+                        "app" : "unpackage/res/icons/76x76.png",
+                        "app@2x" : "unpackage/res/icons/152x152.png",
+                        "notification" : "unpackage/res/icons/20x20.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "proapp@2x" : "unpackage/res/icons/167x167.png",
+                        "settings" : "unpackage/res/icons/29x29.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight" : "unpackage/res/icons/40x40.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                    },
+                    "iphone" : {
+                        "app@2x" : "unpackage/res/icons/120x120.png",
+                        "app@3x" : "unpackage/res/icons/180x180.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "notification@3x" : "unpackage/res/icons/60x60.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "settings@3x" : "unpackage/res/icons/87x87.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
+                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
+                    }
+                }
+            },
+            "splashscreen" : {
+                "androidStyle" : "common",
+                "android" : {
+                    "hdpi" : "static/login/480.png",
+                    "xhdpi" : "static/login/720.png",
+                    "xxhdpi" : "static/login/1080.png"
+                },
+                "iosStyle" : "common",
+                "ios" : {
+                    "iphone" : {
+                        "retina47" : "static/login/yidao.png",
+                        "portrait-896h@3x" : "static/login/yidao.png",
+                        "landscape-896h@3x" : "static/login/yidao.png",
+                        "portrait-896h@2x" : "static/login/yidao.png",
+                        "iphonex" : "static/login/yidao.png",
+                        "landscape-896h@2x" : "static/login/yidao.png",
+                        "iphonexl" : "static/login/yidao.png",
+                        "retina55" : "static/login/yidao.png",
+                        "retina47l" : "static/login/yidao.png",
+                        "retina55l" : "static/login/yidao.png",
+                        "retina40" : "static/login/yidao.png",
+                        "retina35" : "static/login/yidao.png",
+                        "retina40l" : "static/login/yidao.png"
+                    }
+                }
+            }
+        },
+        "nativePlugins" : {
+            "Html5App-TencentCall" : {
+                "sdkAppId" : "1400751450",
+                "__plugin_info__" : {
+                    "name" : "腾讯云 视频通话插件 Andord 和 IOS 支持多人通话 直播",
+                    "description" : "支持视频,语音电话、视频直播、连麦互动、语音聊天室等功能 ： Android 和 IOS QQ交流群：891416757",
+                    "platforms" : "Android,iOS",
+                    "url" : "https://ext.dcloud.net.cn/plugin?id=493",
+                    "android_package_name" : "uni.UNI7D57679",
+                    "ios_bundle_id" : "uni.UNI7D57679",
+                    "isCloud" : true,
+                    "bought" : 1,
+                    "pid" : "493",
+                    "parameters" : {
+                        "sdkAppId" : {
+                            "des" : "腾讯云视频通话sdkAppId",
+                            "key" : "tencenttrtc:appid",
+                            "value" : ""
+                        }
+                    }
+                }
+            },
+            "CL-UpDater" : {
+                "__plugin_info__" : {
+                    "name" : "app版本升级原生弹框和进度提示(包含wgt升级)",
+                    "description" : "app版本升级(包含热更新)弹框提示和进度显示，apk自动安装",
+                    "platforms" : "Android,iOS",
+                    "url" : "https://ext.dcloud.net.cn/plugin?id=1371",
+                    "android_package_name" : "uni.UNI7D57679",
+                    "ios_bundle_id" : "uni.UNI7D57679",
+                    "isCloud" : true,
+                    "bought" : 1,
+                    "pid" : "1371",
+                    "parameters" : {}
+                }
+            },
+            "Html5app-VideoCrop" : {
+                "__plugin_info__" : {
+                    "name" : "Android 和 IOS 视频裁剪、视频压缩插件",
+                    "description" : "支持android 和 ios 视频裁剪,压缩插件 QQ交流群：891416757",
+                    "platforms" : "Android,iOS",
+                    "url" : "https://ext.dcloud.net.cn/plugin?id=894",
+                    "android_package_name" : "uni.UNI7D57679",
+                    "ios_bundle_id" : "uni.UNI7D57679",
+                    "isCloud" : true,
+                    "bought" : 1,
+                    "pid" : "894",
+                    "parameters" : {}
+                }
+            }
+        },
+        "uniStatistics" : {
+            "enable" : true
+        }
+    },
+    /* 快应用特有相关 */
+    "quickapp" : {},
+    /* 小程序特有相关 */
+    "mp-weixin" : {
+        "appid" : "",
+        "setting" : {
+            "urlCheck" : false
+        },
+        "usingComponents" : true
+    },
+    "mp-alipay" : {
+        "usingComponents" : true
+    },
+    "mp-baidu" : {
+        "usingComponents" : true
+    },
+    "mp-toutiao" : {
+        "usingComponents" : true
+    },
+    "uniStatistics" : {
+        "enable" : false
+    },
+    "h5" : {
+        "title" : "喝酒么",
+        "domain" : "http://hejiume-wap.hushuo.show"
+    }
+}

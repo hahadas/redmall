@@ -1,0 +1,74 @@
+<template>
+	<loading id="loading" style="height:50px;" @loading="onLoading" :style="{width:screenWidth}" class="load-more-div"
+	 :display="loading ? 'show':'hide'">
+		<image :src="loadingIcon[loadMoreStatus]" class="loading-icon"></image>
+		<text class="load-more-div-text">{{ loadingText[loadMoreStatus] }}</text>
+	</loading>
+</template>
+
+<script>
+	export default {
+		props: {
+			loadingText: {
+				type: Array,
+				default: ['', '加载中...', '没有更多啦']
+			}
+		},
+		data() {
+			return {
+				loadMoreStatus: 0,
+				loading: false,
+				screenWidth: 750,
+				loadingIcon: [
+					'',
+					'/static/yy-refresh/loading.gif',
+					''
+				]
+			};
+		},
+		watch: {
+			loading(newValue) {
+				console.log(newValue)
+			}
+		},
+		created() {
+			this.screenWidth = uni.getSystemInfoSync().windowWidth;
+		},
+		methods: {
+			onLoading() {
+				this.loadMoreStatus = 1;
+				this.loading = true
+				this.$emit('loadMore');
+			},
+			finish(hasMore = true) {
+				this.loadMoreStatus = hasMore ? 1 : 2;
+				setTimeout(() => {
+					this.loadMoreStatus = 0;
+					this.loading = false
+				}, 500)
+			}
+		}
+	};
+</script>
+
+<style>
+	.load-more-div {
+		height: 60px;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.loading-icon {
+		width: 16px;
+		height: 16px;
+	}
+
+	.load-more-div-text {
+		font-size: 14px;
+		color: #999;
+		line-height: 60px;
+		text-align: center;
+		margin-left: 5px;
+	}
+</style>

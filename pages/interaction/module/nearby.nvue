@@ -1,0 +1,223 @@
+<template>
+	<div>
+		<list :show-scrollbar="false" style="width: 750rpx;" :style="{height: swiperHeight + 'px'}">
+			<yy-refresh ref="refresh" @refresh="loadData('refresh')"></yy-refresh>
+			<header>
+				<dropdown ref="dropdown" :statusBarHeight="statusBarHeight" :filterData='filterData' :defaultIndex='defaultIndex' @onSelected="onSelected"></dropdown>
+			</header>
+			<cell class="list">
+				<view class="list-grid" @tap.stop="viewUser(item)" v-for="(item, i) in penpleNearbyList" :key="i">
+					<image :src="filterImg(item.headPortrait, 1)" lazy-load mode="aspectFill" class="list-grid-img"></image>
+					<!-- <view class="six online">
+						<text class="iconfont yuan" :class="{'grey':!item.isOnline}">&#xe630;</text>
+						<text class="txt">{{item.isOnline?'在线':'离线'}}</text>
+					</view> -->
+					<div class="six" :class="{'woman':item.gender===3}">
+						<image src="/static/video/man.png" mode="" class="six-icon" v-if="item.gender === 2"></image>
+						<image src="/static/video/woman.png" mode="" class="six-icon" v-if="item.gender === 3"></image>
+						<text class="six-name">{{item.age||0}}</text>
+					</div>
+					
+					<view class="list-grid-con">
+						<text class="list-grid-con-name line">{{item.nickname}}</text>
+						<view class="list-grid-con-box">
+							<text class="signature line">{{item.constellation}}</text>
+							<text class="list-grid-con-box-name">{{item.distance | distance}}</text>
+						</view>
+					</view>
+				</view>
+			</cell>
+			<cell>
+				<uni-load-more :status="loading"></uni-load-more>
+			</cell>
+			<yy-load-more ref="loadMore" @loadMore="loadData()"></yy-load-more>
+		</list>
+	</div>
+</template>
+
+<script>
+	import { sendRequest } from "@/common/http/api.js"
+	import url from "@/common/http/url.js"
+	import mix from "./mix.js"
+	import filter from "../module/filter.js"
+	import dropdown from "./dropdown.nvue"
+	import yyRefresh from "@/components/yy-refresh/yy-refresh.nvue"
+	import yyLoadMore from "@/components/yy-refresh/yy-load-more.nvue"
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	export default {
+		components: { yyLoadMore, yyRefresh, dropdown, uniLoadMore },
+		mixins: [mix],
+		props:["wordKey"],
+		data(){
+			return {
+				loading: "nomore",
+				penpleNearbyList: [],
+				keyWord: "",
+				oldKeyWord: "",
+				defaultIndex: [0,0],
+				defaultValue: null,
+				filterData: filter.twoFilter,
+			}
+		},
+		watch:{
+			wordKey(val){
+				this.keyWord = val
+			}
+			// interactionOnlineStatus(val){
+			// 	console.log("......interactionOnlineStatus.....11111.222222", val)
+			// 	let content = JSON.parse(val.content)
+			// 	let listIndex = content.index
+			// 	let type = content.type
+			// 	if (type === "nearby"){
+			// 		this.penpleNearbyList[listIndex].isOnline = val.isOnline
+			// 		this.$forceUpdate()
+			// 		console.log(listIndex, this.penpleNearbyList.length)
+			// 		if (listIndex < this.penpleNearbyList.length){
+			// 			listIndex++
+			// 			if (listIndex === this.penpleNearbyList.length) return
+			// 			let sendMsg = this.filterSendMsg(this.penpleNearbyList[listIndex].imAccount, listIndex)
+			// 			uni.setStorageSync("interactionSendMsg", sendMsg)
+			// 			getApp().globalData.socket.sendSocketMessage(sendMsg)
+			// 		}
+			// 	}
+			// }
+		},
+		methods: {
+			loadData(type){
+				this.loading = "loading"
+				// let length = this.penpleNearbyList.length
+				if (this.oldKeyWord !== this.keyWord){
+					this.penpleNearbyList = []
+				}
+				if (type) {
+					this.penpleNearbyList = []
+				}
+				let params = {
+					lng: this.myAddressData.longitude,
+					lat: this.myAddressData.latitude,
+					gender: this.defaultValue?this.defaultValue[0]:-1,
+					ageRange: this.defaultValue?this.defaultValue[1]:"0",
+					pageNum: this.penpleNearbyList.length,
+					wordKey: this.keyWord
+				}
+				this.oldKeyWord = this.keyWord
+				console.log("params....", params)
+				sendRequest('get', url.interaction.storeUmsList, params).then(res => {
+					let list = res.data
+					this.penpleNearbyList = [...this.penpleNearbyList ,...list];
+					if (type) {
+						this.$refs.refresh.finish()
+					} else {
+						let hasMore = true
+						if (res.data.length < 12) {
+							hasMore = false
+						}
+						this.$refs.loadMore.finish(hasMore)
+					}
+					if (res.data.length < 12) {
+						this.loading = "nomore"
+					} else {
+						this.loading = "more"
+					}
+				}).catch(()=>{
+					this.loading = "nomore"
+				})
+				
+				// if (list.length > 0){
+				// 	let index = length > 0 ? length : 0
+				// 	let sendMsg = this.filterSendMsg(this.penpleNearbyList[index].imAccount, index)
+				// 	uni.setStorageSync("interactionSendMsg", sendMsg)
+				// 	getApp().globalData.socket.sendSocketMessage(sendMsg)
+				// }
+			},
+			onSelected(res){
+				this.defaultValue = res
+				this.loadData('refresh')
+			}
+		}
+	}
+</script>
+
+<style scoped>
+	.line{
+		overflow: hidden;
+		text-overflow:ellipsis; 
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+	}
+	.woman{
+		background-color: #ff4d94 !important;
+	}
+	.six{
+		background-color: #1995fc;
+		border-radius: 20rpx;
+		padding: 2rpx 10rpx;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		right: 10rpx;
+		top: 10rpx;
+	}
+	.six-icon{
+		width: 20rpx;
+		height: 20rpx;
+		margin-right: 6rpx;
+	}
+	.six-name{
+		font-size: 24rpx;
+		color: #FFFFFF;
+	}
+	.list{
+		width: 750rpx;
+		padding: 0 20rpx;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+	.list-grid{
+		width: 350rpx;
+		height: 450rpx;
+		border-radius: 16rpx;
+		margin-top: 10rpx;
+		border-width: 2rpx;
+		border-style: solid;
+		border-color: #EEEEEE;
+		position: relative;
+		background-color: #FFFFFF;
+		overflow: hidden;
+	}
+	.list-grid-img{
+		width: 350rpx;
+		height: 350rpx;
+		border-top-right-radius: 16rpx;
+		border-top-left-radius: 16rpx;
+		vertical-align: bottom;
+	}
+	.list-grid-con{
+		border-bottom-right-radius: 20rpx;
+		border-bottom-left-radius: 20rpx;
+		margin: 5rpx 20rpx 10rpx 20rpx;
+		color: #333333;
+	}
+	.list-grid-con-name{
+		margin-bottom: 10rpx;
+		font-size: 30rpx;
+		width: 300rpx;
+	}
+	.list-grid-con-box{
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.list-grid-con-box-name{
+		font-size: 28rpx;
+		color: #666666;
+	}
+	.signature{
+		font-size: 26rpx;
+		width: 180rpx;
+	}
+</style>

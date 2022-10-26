@@ -1,0 +1,77 @@
+<template>
+	<refresh id="refresh" @refresh="onRefresh" @pullingdown="onPullingDown" :style="{width:screenWidth}" class="refresh-div"
+	 :display="refreshing ? 'show' : 'hide'">
+		<image :src="loadingIcon[refreshStatus]" class="loading-icon"></image>
+		<text class="refresh-div-text">{{ refreshText[refreshStatus] }}</text>
+	</refresh>
+</template>
+
+<script>
+	export default {
+		props: {
+			refreshText: {
+				type: Array,
+				default: ['下拉刷新', '释放更新', '刷新中...', '刷新成功']
+			}
+		},
+		data() {
+			return {
+				refreshStatus: 0,
+				refreshing: false,
+				screenWidth: 750,
+				loadingIcon: [
+					'/static/yy-refresh/arrow-down.png',
+					'/static/yy-refresh/arrow-up.png',
+					'/static/yy-refresh/loading.gif',
+					'/static/yy-refresh/refresh-ok.png'
+				]
+			};
+		},
+		created() {
+			this.screenWidth = uni.getSystemInfoSync().windowWidth;
+		},
+		watch: {
+			refreshStatus(newValue) {
+				this.refreshing = newValue == 2
+			}
+		},
+		methods: {
+			onPullingDown(event) {
+				var refreshHeight = event.viewHeight;
+				var pullingDistance = event.pullingDistance;
+				this.refreshStatus = refreshHeight < pullingDistance ? 1 : 0;
+			},
+			onRefresh() {
+				this.refreshStatus = 2;
+				this.$emit('refresh');
+			},
+			finish() {
+				setTimeout(()=>{
+					this.refreshStatus = 3;
+				}, 500)
+			}
+		}
+	};
+</script>
+
+<style>
+	.refresh-div {
+		height: 60px;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.loading-icon {
+		width: 16px;
+		height: 16px;
+	}
+
+	.refresh-div-text {
+		font-size: 14px;
+		color: #999;
+		line-height: 60px;
+		text-align: center;
+		margin-left: 5px;
+	}
+</style>

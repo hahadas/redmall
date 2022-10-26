@@ -1,0 +1,1055 @@
+<template>
+	<div class="page" style="background-color: #000;" >
+		<cover-view class="cover-view-center">
+			<div :style="{ height: `${sysheight-60}px`,width: width }" ref="touch" @click="clickVideo(index)" @touchstart="ListTouchStart" @touchmove="ListTouchMove">
+				<div class="nav">
+					<image class="img-icon" src="/static/video/video_index_home.png" @click="clickLeft"></image> 
+					<div class="title-center">
+						<text class="title" :class="distanceX>0?'active-title':''" @click="click1" v-if="isShowLocal">{{areaCode}}</text> &nbsp;
+						<text class="title" :class="distanceX==0?'active-title':''" @click="click0">推荐</text> &nbsp; 
+						<text class="title" :class="distanceX<0?'active-title':''" @click="click_1">关注</text>
+					</div>
+					<image class="img-icon" src="/static/video/release.png" @click.stop="clickRight"></image>
+				</div>
+				<div class="cover-view-right" style="top: 380upx;">
+					<!-- 头像 -->
+					<image class="img" style="height: 100upx;" @click.stop="tapAvater"></image>
+					<!-- <text class="right-text" style="background-color: #bb6c6c;opacity: 0.5;height: 40upx;"> </text> -->
+					<!-- 关注 -->
+					<image class="img" style="height: 50upx;" @click.stop="tapAvaterLikes"></image>
+					<text class="right-text" style="margin-bottom: 10upx;"> </text>
+					<!-- 点赞 -->
+					<image class="img" @click.stop="tapLove"></image>
+					<text class="right-text" style="margin-bottom: 36upx;"> </text>
+					<!-- 评价 -->
+					<image class="img" @click.stop="tapMsg"></image>
+					<text class="right-text" style="margin-bottom: 25upx;"> </text>
+					<!-- 举报 -->
+					<image class="img" @click.stop="tapReport"></image>
+					<text class="right-text"> </text>
+					<!-- 红包 -->
+					<image class="img" v-if="redData.show" @click.stop="openRedBag"></image>
+					<text class="right-text"> </text>
+					<!-- 分享 -->
+					<image class="img" @click.stop="tapShare"></image>
+					<text class="right-text"> </text>
+				</div>
+			</div>
+			
+		</cover-view>
+		<div class="swiper" ref="swiper">
+			<block v-for="(item, idx) in videoList" :key="idx">
+				<div class="video-box" :style="{ height: height }">
+					<block v-if="Math.abs(-distance/sysheight-idx)<=1">
+						<chunlei-video class="video" :src="item.video" :poster="item.image" :gDuration="item.duration"
+						:height="height" :width="width" :play="item.flag" 
+						:objectFit="item.objectFit" :initialTime="item.initialTime" @pause="pauseVideo">
+						</chunlei-video>
+						<cover-view class="cover-view-left">
+							<text class="left-text">@{{item.nickname}}</text>
+							<text class="left-text">{{item.note}}</text>
+						</cover-view>
+						<cover-view class="cover-view-right">
+							<cover-image :src="filterImg(item.icon)" class="avater img" @click.stop="tapAvater"></cover-image>
+							<text class="right-text-avater" @click.stop="tapAvaterLikes" v-if="myUserId!=item.userId && (item.likeCheck <= 0)">+</text>
+							<text class="right-text"></text>
+							<cover-image :src="item.likeFlag && item.likeFlag >= 1?'/static/video/video_love.png':'/static/video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
+							<text class="right-text">{{item.likes}}</text>
+							<cover-image src="/static/video/video_noties.png" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
+							<text class="right-text">{{item.evaluationQuantity}}</text>
+							<block v-if="myUserId!==item.userId">
+								<cover-image src="/static/video/report.png" class="img imgPinLun" @click.stop="tapReport"></cover-image>
+								<text class="right-text">举报</text>
+							</block>
+							<cover-image src="/static/home/redBag.png" class="img imgRedBag" v-if="redData.show" @click.stop="openRedBag"></cover-image>
+							<cover-image src="/static/video/video_share.png" class="img imgFenXiang" style="opacity: 0;" @click.stop="tapShare"></cover-image>
+							<text class="right-text" style="opacity: 0;">分享</text>
+						</cover-view>
+					</block>
+				</div>
+				
+			</block>
+		</div>
+		
+		<div class="left-div" @click="clickVideo(index)" :style="{ width: width,left:`${-parseInt(width)}px` }" ref="left"  @touchstart="ListTouchStart" @touchmove="ListTouchMove">
+			<block v-if="isShowLocal">
+				<div class="video-box" v-for="(item, idx) in videoList1" :key="idx" :style="{ height: height }">
+					<block v-if="Math.abs(-distance1/sysheight-idx)<=1">
+						<chunlei-video class="video" :src="item.video" :poster="item.image" :gDuration="item.duration"
+						:height="height" :width="width" :play="item.flag" 
+						:objectFit="item.objectFit" :initialTime="item.initialTime" @pause="pauseVideo">
+						</chunlei-video>
+						<cover-view class="cover-view-left">
+							<text class="left-text">@{{item.nickname}}</text>
+							<text class="left-text">{{item.note}}</text>
+						</cover-view>
+						<cover-view class="cover-view-right">
+							<cover-image :src="filterImg(item.icon)" class="avater img" @click.stop="tapAvater"></cover-image>
+							<text class="right-text-avater" @click.stop="tapAvaterLikes" v-if="myUserId!=item.userId && (item.likeCheck <= 0)">+</text>
+							<text class="right-text"></text>
+							<cover-image :src="item.likeFlag && item.likeFlag >= 1?'/static/video/video_love.png':'/static/video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
+							<text class="right-text">{{item.likes}}</text>
+							<cover-image src="/static/video/video_noties.png" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
+							<text class="right-text">{{item.evaluationQuantity}}</text>
+							<block v-if="myUserId!==item.userId">
+								<cover-image src="/static/video/report.png" class="img imgPinLun" @click.stop="tapReport"></cover-image>
+								<text class="right-text">举报</text>
+							</block>
+							<cover-image src="/static/home/redBag.png" class="img imgRedBag" v-if="redData.show"@click.stop="openRedBag"></cover-image>
+							<cover-image src="/static/video/video_share.png" class="img imgFenXiang" @click.stop="tapShare" style="opacity: 0;"></cover-image>
+							<text class="right-text" style="opacity: 0;">分享</text>
+						</cover-view>
+					</block>
+				</div>
+				
+			</block>
+		</div>
+		<div class="right-div" :style="{ width: width,right:`${-parseInt(width)}px` }" ref="right"  @touchstart="ListTouchStart" @touchmove="ListTouchMove">
+			<block v-for="(item, idx) in videoList_1" :key="idx">
+				<div class="video-box" :style="{ height: height }">
+					<block v-if="Math.abs(-distance_1/sysheight-idx)<=1">
+						<chunlei-video class="video" :src="item.video" :poster="item.image" :gDuration="item.duration"
+						:height="height" :width="width" :play="item.flag" 
+						:objectFit="item.objectFit" :initialTime="item.initialTime" @pause="pauseVideo">
+						</chunlei-video>
+						<cover-view class="cover-view-left">
+							<text class="left-text">@{{item.nickname}}</text>
+							<text class="left-text">{{item.note}}</text>
+						</cover-view>
+						<cover-view class="cover-view-right">
+							<cover-image :src="filterImg(item.icon)" class="avater img" @click.stop="tapAvater"></cover-image>
+							<text class="right-text-avater" @click.stop="tapAvaterLikes" v-if="myUserId!=item.userId && (item.likeCheck <= 0)">+</text>
+							<text class="right-text"></text>
+							<cover-image :src="item.likeFlag && item.likeFlag >= 1?'/static/video/video_love.png':'/static/video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
+							<text class="right-text">{{item.likes}}</text>
+							<cover-image src="/static/video/video_noties.png" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
+							<text class="right-text">{{item.evaluationQuantity}}</text>
+							<block v-if="myUserId!==item.userId">
+								<cover-image src="/static/video/report.png" class="img imgPinLun" @click.stop="tapReport"></cover-image>
+								<text class="right-text">举报</text>
+							</block>
+							<cover-image src="/static/home/redBag.png" class="img imgRedBag" v-if="redData.show" @click.stop="openRedBag"></cover-image>
+							<cover-image src="/static/video/video_share.png" class="img imgFenXiang" @click.stop="tapShare" style="opacity: 0;"></cover-image>
+							<text class="right-text" style="opacity: 0;">分享</text>
+						</cover-view>
+					</block>
+				</div>
+				
+			</block>
+		</div>
+		
+		<div class="mark" v-if="rbagmodelshow" @touchmove.prevent.stop>
+			<div class="mark-wrapper" ref="wrapper">
+				<image src="/static/home/redBagClose.png" mode="widthFix" class="mark-wrapper-img"></image>
+				<div class="mark-wrapper-con">
+					<div class="mark-wrapper-con-txt">
+						<text class="mark-wrapper-title">{{redData.titleName}}</text>
+						<text class="mark-wrapper-desc">{{redData.describeDetails}}</text>
+					</div>
+					<div class="mark-wrapper-btn" ref="btn" @tap.stop="move">
+						<text class="mark-wrapper-btn-txt">立即领取</text>
+					</div>
+				</div>
+				<icon type="cancel" color="#fbd977" size="28" @click="rbagmodelshow = false"/>
+			</div>
+		</div>
+		<div class="mark" v-if="openrbagmodelshow" @touchmove.prevent.stop>
+			<div class="mark-wrapper" ref="wrapperOpen">
+				<image src="/static/home/redBagOpen.png" mode="widthFix" class="mark-wrapper-img"></image>
+				<div class="mark-wrapper-con" style="top: 400rpx; height: 380rpx;">
+					<div class="mark-wrapper-con-txt" v-if="!isTake">
+						<text class="mark-wrapper-title">恭喜您获得</text>
+						<text class="mark-wrapper-tip">{{redData.receiveDetails}}</text>
+					</div>
+					<div class="mark-wrapper-con-txt" v-else>
+						<text class="mark-wrapper-tip">您已领取过专享红包</text>
+					</div>
+					<div class="mark-wrapper-btn2" ref="btn" @tap.stop="checkMoney">
+						<text class="mark-wrapper-btn2-txt">查看我的福利</text>
+					</div>
+				</div>
+				<icon type="cancel" color="#fbd977" size="28" style="margin-top: 50rpx;" @click="close"/>
+			</div>
+		</div>
+		
+	</div>
+</template>
+
+<script>
+	import { mapState } from "vuex"
+	import url from '@/common/http/url.js';
+	import publics from "@/common/utils/public.js"
+	import { sendRequest } from "@/common/http/api.js" // nvue 不能使用this.$http
+	
+	var QQMapWX = require('@/libs/qqmap-wx-jssdk.min.js')
+	var qqmapsdk = new QQMapWX({
+	  key: 'BJVBZ-UWBR6-DCZSL-E6DJE-AXQGZ-O5BMI'
+	})
+	import chunleiVideo from '../../components/chunlei-video/chunlei-video';
+	import scrollMixins from './scrollMixins';
+	const music = uni.createInnerAudioContext(); //创建播放器对象
+	const BindingX = uni.requireNativePlugin('bindingx');
+	const animation = weex.requireModule('animation');
+
+	export default { 
+		mixins:[scrollMixins],
+		components:{
+			chunleiVideo
+		},
+		data(){
+			return{
+				myUserId:0,
+				videoNowIndex:0,//当前播放视频的下标
+				cityCode:'--',
+				areaCode:'--',
+				isShowLocal: false,
+				pageDatas:[
+					{
+						type:0,
+						pageSize:1,
+						number:0,
+					},
+					{
+						type:1,
+						pageSize:1,
+						number:0,
+					},
+					{
+						type:2,
+						pageSize:1,
+						number:0,
+					}
+				],
+				videoList:[],//推荐
+				//left
+				videoList1:[],//同城
+				//right
+				videoList_1:[],//关注
+				// 红包相关
+				redData: {
+					show: false
+				},
+				rbagmodelshow: false,
+				openrbagmodelshow: false,
+				isTake: false,
+				isReqBack: false
+			}
+		},
+		computed: {
+			...mapState(["userInfo"])
+		},
+		async onLoad(option) {
+			//#ifdef APP-PLUS
+			//隐藏subnvue
+			uni.getSubNVueById('comment').hide()
+			//#endif
+			
+			//获取自己的ID
+			this.myUserId = this.userInfo.id
+		},
+		created(){
+			//#ifdef APP-PLUS
+			plus.screen.lockOrientation("portrait-primary")
+			//隐藏subnvue
+			uni.getSubNVueById('comment').hide()
+			//#endif
+			
+			this.init()
+		},
+		onShow() {
+			let that = this;
+			//判断是否设置地址
+			uni.getLocation({
+				type: 'wgs84',
+				geocode: true,
+				success: async function(res) {
+					//设置地址
+					publics.setMyaddressLngLat(JSON.stringify(res));
+					that.lngLatByCityName(res);
+				},
+				fail: function(err) {
+					that.inintIndexVideoData()
+				}
+			});
+			// let addressLngLat = publics.getMyaddressLngLat();
+			// if(addressLngLat){
+			// 	//设置地址
+			// 	let myAddressData = JSON.parse(addressLngLat);
+			// 	console.log("......缓存的地址。。。。", myAddressData)
+			// 	that.lngLatByCityName(myAddressData);
+			// }else{
+			// 	that.inintIndexVideoData()
+			// }
+		},
+		onHide(){
+			this.videoNoPay();
+		},
+		methods:{
+			// 红包福利
+			getRedBagList(){
+				sendRequest("GET", url.cms.redEnvelopesList).then(res =>{
+					if (res.data && res.data.length > 0) {
+						let data = res.data
+						data.map(v =>{
+							v.show = true
+						})
+						this.redList = data
+					}
+				})
+			},
+			openRedBag(e){
+				e.stopPropagation();
+				console.log("1111111111111", this.isTake)
+				let that = this
+				if (this.isTake) {
+					that.redOpenAnimation()
+				} else {
+					that.rbagmodelshow = true
+					console.log("111111111111111111111111")
+					setTimeout(()=>{
+						let wrapper = that.$refs.wrapper
+						animation.transition(wrapper, {
+							styles: {
+								transform: 'scale(1.2)',
+								transformOrigin: 'center center'
+							},
+							duration: 500, //ms
+							timingFunction: 'ease',
+							delay: 0 //ms
+						}, function(){
+							animation.transition(wrapper, {
+								styles: {
+									transform: 'scale(1)',
+									transformOrigin: 'center center'
+								},
+								duration: 500, //ms
+								timingFunction: 'ease',
+								delay: 0 //ms
+							})
+						})
+					}, 100)
+				}
+			},
+			move(){
+				let that = this
+				let btn = this.$refs.btn
+				animation.transition(btn, {
+					styles: {
+						transform: 'rotateY(360deg)',
+						transformOrigin: 'center center'
+					},
+					duration: 1000, //ms
+					timingFunction: 'ease',
+					delay: 0 //ms
+				}, function(){
+					// sendRequest("POST", url.cms.receiveRedEnvelopes, {id: that.redData.id}).then(res => {
+						if (that.redData.audioUrl) {
+							music.loop = false; //循环播放
+							music.src = that.redData.audioUrl;
+							music.play(); //执行播放
+						}
+						that.redData.show = false
+						that.rbagmodelshow = false
+						// #ifdef APP-PLUS
+						// 如果返回imAccount，并且直推人奖励开启，并且需要提示声音
+						// if (res.data && that.redData.directPushRewardStatus === 1 && that.redData.directPushRewardAudioUrl) {
+						// 	that.imSendMsg(res.data)
+						// }
+						// #endif
+						that.redOpenAnimation()
+					// }).catch(()=>{
+					// 	that.rbagmodelshow = false
+					// })
+					animation.transition(btn, {
+						styles: {
+							transform: 'rotateY(0)',
+							transformOrigin: 'center center'
+						},
+						duration: 10, //ms
+						timingFunction: 'ease',
+						delay: 0 //ms
+					})
+				})
+			},
+			redOpenAnimation(){
+				let that = this
+				that.openrbagmodelshow = true
+				setTimeout(()=>{
+					let wrapperOpen = that.$refs.wrapperOpen
+					animation.transition(wrapperOpen, {
+						styles: {
+							transform: 'scale(1.2)',
+							transformOrigin: 'center center'
+						},
+						duration: 500, //ms
+						timingFunction: 'ease',
+						delay: 0 //ms
+					}, function(){
+						animation.transition(wrapperOpen, {
+							styles: {
+								transform: 'scale(1)',
+								transformOrigin: 'center center'
+							},
+							duration: 500, //ms
+							timingFunction: 'ease',
+							delay: 0 //ms
+						})
+					})
+				}, 100)
+			},
+			close(){
+				this.openrbagmodelshow = false
+				this.isTake = true
+			},
+			filterImg(img){
+				return publics.filterImgUrl(img, 1)
+			},
+			async getByVideoIdMyMsgFlag(x,index,videoUserId,videoId){
+				let that = this;
+				let videoOneData = {};
+				if(x > 0){//同城
+					videoOneData = this.videoList1[index];
+				}else if(x == 0){//推荐
+					videoOneData = this.videoList[index];
+				}else{//关注
+					videoOneData = this.videoList_1[index];
+				}
+				
+				let paremet = {videoUserId:videoUserId,videoId:videoId};
+				let res = await sendRequest("GET", url.interaction.getByVideoIdMyMsg, paremet)
+				let data = res.data
+				if(!data.videoLike){
+					data.videoLike = 0;
+				}
+				if(!data.likeAmount){
+					data.likeAmount = 0;
+				}
+				if(!data.videoUserLike){
+					data.videoUserLike = 0;
+				}
+				if(x > 0){//同城
+					this.videoList1[index].likeFlag = data.videoLike;
+					this.videoList1[index].likes = data.likeAmount;
+					this.videoList1[index].likeCheck = data.videoUserLike;
+					this.videoList1[index].evaluationQuantity = data.commentCount;
+				}else if(x == 0){//推荐
+					this.videoList[index].likeFlag = data.videoLike;
+					this.videoList[index].likes = data.likeAmount;
+					this.videoList[index].likeCheck = data.videoUserLike;
+					this.videoList[index].evaluationQuantity = data.commentCount;
+				}else{//关注
+					this.videoList_1[index].likeFlag = data.videoLike;
+					this.videoList_1[index].likes = data.likeAmount;
+					this.videoList_1[index].likeCheck = data.videoUserLike;
+					this.videoList_1[index].evaluationQuantity = data.commentCount;
+				}
+			},
+			videoNoPay(){
+				let flag = false
+				this.videoList_1.forEach((item)=>{
+					if(item.flag){
+						item.flag = false
+						flag = true
+					} 
+				})
+				this.videoList1.forEach((item)=>{
+					if(item.flag){
+						item.flag = false
+						flag = true
+					} 
+				})
+				this.videoList.forEach((item)=>{
+					if(item.flag){
+						item.flag = false
+						flag = true
+					} 
+				})
+			},
+			//设置参数
+			init(){
+				this.typeX = true //开启左右滑动
+				this.playCount = 2 //剩余多少视频加载视频列表
+				this.startDistance = 5 //判断左右上下拖动的启动距离 px
+				this.minTime = 300 //判断快速滑动的时间,该时间内无视回弹距离判断
+				this.backDistance = 200 //判断上下滑动的回弹距离 px
+			},
+			getIndex(){
+				return this.videoNowIndex;
+				
+				let listData = [];
+				if(this.distanceX > 0){//同城
+					listData = this.videoList1;
+				}else if(this.distanceX == 0){//推荐
+					listData = this.videoList;
+				}else{//关注
+					listData = this.videoList_1;
+				}
+				for(let i=0;i<listData.length;i++){
+					if(listData[i].flag){
+						return i;
+					}
+				}
+			},
+			tapAvater(e){
+				e.stopPropagation();
+				console.log("头像");
+				
+				let index = this.getIndex();
+				let userId = "";
+				if(this.distanceX > 0){//同城
+					userId = this.videoList1[index].imAccount;
+				}else if(this.distanceX == 0){//推荐
+					userId = this.videoList[index].imAccount;
+				}else{//关注
+					userId = this.videoList_1[index].imAccount;
+				}
+				this.videoNoPay();
+				uni.navigateTo({
+					url:'/pages/interaction/user?current=1&&userId='+userId
+				})
+			},
+			tapAvaterLikes(e){
+				e.stopPropagation();
+				console.log("关注");
+				
+				let index = this.getIndex();
+				
+				if(this.distanceX > 0){//同城
+					if(this.videoList1[index].likeCheck >= 1){//取消关注
+						this.videoList1[index].likeCheck = 0;
+					}else{//关注
+						this.videoList1[index].likeCheck = 1;
+					}
+					this.videoList1 = [...this.videoList1];
+					publics.setGuanZhuDatasJiLu(this.videoList1[index].userId,0);
+					this.followByUser(this.videoList1[index].userId,0);
+				}else if(this.distanceX == 0){//推荐
+					if(this.videoList[index].likeCheck >= 1){//取消关注
+						this.videoList[index].likeCheck = 0;
+					}else{//关注
+						this.videoList[index].likeCheck = 1;
+					}
+					this.videoList = [...this.videoList];
+					publics.setGuanZhuDatasJiLu(this.videoList[index].userId,0);
+					this.followByUser(this.videoList[index].userId,0);
+				}else{//关注
+					if(this.videoList_1[index].likeCheck >= 1){//取消关注
+						this.videoList_1[index].likeCheck = 0;
+					}else{//关注
+						this.videoList_1[index].likeCheck = 1;
+					}
+					this.videoList_1 = [...this.videoList_1];
+					publics.setGuanZhuDatasJiLu(this.videoList_1[index].userId,0);
+					this.followByUser(this.videoList_1[index].userId,0);
+				}
+			},
+			//关注/取消关注
+			async followByUser(userId, type) {
+				let res = await sendRequest('post', url.interaction.followByUserId, {
+					userId: userId,
+					type: type
+				});
+			},
+			tapLove(e){
+				e.stopPropagation();
+				console.log("点赞");
+				let type = 0;
+				let index = this.getIndex();
+				if(this.distanceX > 0){//同城
+					if(this.videoList1[index].likeFlag >= 1){//取消点赞
+						type = 1;
+						this.videoList1[index].likeFlag = 0;
+						this.videoList1[index].likes -= 1;
+					}else{//点赞
+						this.videoList1[index].likeFlag = 1;
+						this.videoList1[index].likes += 1;
+					}
+					this.videoList1 = [...this.videoList1];
+					publics.setDianZanTrueDatasJiLu(this.videoList1[index].id,type);
+					this.likeByUserVideo(this.videoList1[index].id,type);
+				}else if(this.distanceX == 0){//推荐
+					if(this.videoList[index].likeFlag >= 1){//取消点赞
+						type = 1;
+						this.videoList[index].likeFlag = 0;
+						this.videoList[index].likes -= 1;
+					}else{//点赞
+						this.videoList[index].likeFlag = 1;
+						this.videoList[index].likes += 1;
+					}
+					this.videoList = [...this.videoList];
+					publics.setDianZanTrueDatasJiLu(this.videoList[index].id,type);
+					this.likeByUserVideo(this.videoList[index].id,type);
+				}else{//关注
+					if(this.videoList_1[index].likeFlag >= 1){//取消点赞
+						type = 1;
+						this.videoList_1[index].likeFlag = 0;
+						this.videoList_1[index].likes -= 1;
+					}else{//点赞
+						this.videoList_1[index].likeFlag = 1;
+						this.videoList_1[index].likes += 1;
+					}
+					this.videoList_1 = [...this.videoList_1];
+					publics.setDianZanTrueDatasJiLu(this.videoList_1[index].id,type);
+					this.likeByUserVideo(this.videoList_1[index].id,type);
+				}
+			},
+			//点赞
+			async likeByUserVideo(videoId, type) {
+				let res = await sendRequest('post', url.interaction.likeByVideo, {
+					videoId: videoId,
+					type: type
+				});
+			},
+			tapMsg(e){
+				e.stopPropagation();
+				console.log("评论");
+				//获取id
+				let videoId = 0;
+				let index = this.getIndex();
+				if(this.distanceX > 0){//同城
+					videoId = this.videoList1[index].id;
+				}else if(this.distanceX == 0){//推荐
+					videoId = this.videoList[index].id;
+				}else{//关注
+					videoId = this.videoList_1[index].id;
+				}
+
+				uni.getSubNVueById('comment').show('none',0,()=>{
+					uni.$emit('showComment',{videoId:videoId,commentType:0})
+				});
+			},
+			// 举报
+			tapReport(e){
+				if (this.isReqBack) return
+				this.isReqBack = true
+				e.stopPropagation();
+				let _this = this;
+				let videoId = 0;
+				let index = this.getIndex();
+				let imAccount = null
+				if(this.distanceX > 0){//同城
+					videoId = this.videoList1[index].id;
+					imAccount = this.videoList1[index].imAccount
+				}else if(this.distanceX == 0){//推荐
+					videoId = this.videoList[index].id;
+					imAccount = this.videoList[index].imAccount
+				}else{//关注
+					videoId = this.videoList_1[index].id;
+					imAccount = this.videoList_1[index].imAccount
+				}
+				let params = {
+					toImAccount: imAccount
+				}
+				sendRequest("GET", url.user.isBackUser, params).then(d => {
+					this.isReqBack = false
+					let isBack = d.data
+					let itemList = ["举报", "拉黑"]
+					if (isBack) {
+						itemList = ["举报", "移除黑名单"]
+					}
+					uni.showActionSheet({
+						itemList: itemList,
+						success: function (res) {
+							if (res.tapIndex === 0) {
+								uni.navigateTo({
+									url: "/pages/report/index?type=1&configType=1&id="+videoId
+								})
+							} else {
+								let msg = "拉黑该用户后，在附近、天使、动态、酒音中将不会出现该用户以及该用户发布的任何内容，是否要拉黑？"
+								let title = "拉黑"
+								let path = url.user.addBackUser
+								if (isBack) {
+									msg = "是否把该用户移除黑名单？"
+									title = "移除黑名单"
+									path = url.user.delBackUser
+								}
+								uni.showModal({
+									title: title,
+									content: msg,
+									success(r) {
+										if (r.confirm) {
+											// 重新获取酒音数据
+											_this.videoList = []
+											_this.videoList1 = []
+											_this.videoList_1 = []
+											_this.videoNoPay();
+											sendRequest("POST", path, params).then(doc => {
+												_this.inintIndexVideoData()
+												uni.showToast({
+													title: doc.data,
+													icon: "none"
+												})
+											})
+										}
+									}
+								})
+							}
+						}
+					})
+				}).catch(()=>{
+					this.isReqBack = false
+				})
+			},
+			tapShare(e){
+				e.stopPropagation();
+				console.log("分享");
+			},
+			//数据初始化
+			async inintIndexVideoData(){
+				let that = this;
+				let res = await sendRequest('get', url.interaction.inintIndexVideo,{cityCode:this.cityCode,areaCode:this.areaCode});
+				let data = res.data
+				// 推荐
+				for(let i=0;i<data.tuiJian.length;i++){
+					//是否播放
+					data.tuiJian[i].flag = false;
+					//视频从0秒开始播放
+					data.tuiJian[i].initialTime = 0;
+				}
+				if(data.tuiJian && data.tuiJian.length > 0){
+					//data.tuiJian[0].objectFit = 'fill';
+					that.videoList = [...that.videoList,...data.tuiJian];//推荐
+				}
+				//关注
+				for(let i=0;i<data.guanZhu.length;i++){
+					//是否播放
+					data.guanZhu[i].flag = false;
+					//视频从0秒开始播放
+					data.guanZhu[i].initialTime = 0;
+				}
+				if(data.guanZhu && data.guanZhu.length > 0){
+					//data.guanZhu[0].objectFit = 'fill';
+					that.videoList_1 = [...that.videoList_1,...data.guanZhu];//关注
+				}
+				//同城
+				for(let i=0;i<data.tongCheng.length;i++){
+					//是否播放
+					data.tongCheng[i].flag = false;
+					//视频从0秒开始播放
+					data.tongCheng[i].initialTime = 0;
+				}
+				if(data.tongCheng && data.tongCheng.length > 0){
+					//data.tongCheng[0].objectFit = 'fill';
+					that.videoList1 = [...that.videoList1,...data.tongCheng];//同城
+				}
+				that.videoPlay(that.index)
+			},
+			//获取视频数据
+			async pushVideoList(){
+				console.log("pushVideoList================")
+				let that = this;
+				let par = {};
+				let typeOrIndex = 0;
+				let pageSize = 0;
+				if(this.distanceX > 0){//同城
+					typeOrIndex=0;
+					pageSize = that.videoList1.length;
+				}else if(this.distanceX == 0){//推荐
+					typeOrIndex=1;
+					pageSize = that.videoList.length;
+				}else{//关注
+					typeOrIndex=2;
+					pageSize = that.videoList_1.length;
+				}
+				let pageDatas = this.pageDatas[typeOrIndex];
+				
+				let paremet = {type:pageDatas.type,pageSize:pageSize,cityCode:this.cityCode,areaCode:this.areaCode};
+				sendRequest("GET", url.interaction.indexVideoDates, paremet).then(res =>{
+					let data = res.data
+					for(let i=0;i<data.length;i++){
+						//是否播放
+						data[i].flag = false;
+						//视频从0秒开始播放
+						data[i].initialTime = 0;
+					}
+					if(data && data.length > 0){
+						if(that.distanceX > 0){//同城
+							this.videoList1 = [...this.videoList1,...data];
+						}else if(that.distanceX == 0){//推荐
+							this.videoList = [...this.videoList,...data];
+						}else{//关注
+							this.videoList_1 = [...this.videoList_1,...data];
+						}
+					}
+				})
+			},
+			clickRight(e){
+				e.stopPropagation();
+				let that = this;
+				that.videoNoPay();
+				// 跳转发布酒音
+				uni.setStorageSync("interactionCurrent", 3)
+				uni.switchTab({
+					url:'/pages/interaction/index'
+				})
+			},
+			clickLeft(){
+				//视频会自动暂停，不进入onHide()方法
+				uni.switchTab({
+					url: '/pages/home/index'
+				});
+			},
+			openMap(){
+				var _this = this;
+				uni.chooseLocation({
+					keyword: "",
+					success: function(res) {
+						publics.setMyaddressLngLat(JSON.stringify(res));
+						_this.lngLatByCityName(res);
+					}
+				});
+			},
+			lngLatByCityName(data){
+				if (data.address && typeof data.address === "object") {
+					this.isShowLocal = true
+					this.cityCode = data.address.city
+					this.areaCode = data.address.district
+				} else {
+					// this.openMap()
+				}
+				this.inintIndexVideoData();//初始化数据
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.page{
+		flex: 1;
+		overflow: hidden;
+		position: relative;
+	}
+	.swiper{
+		position: relative;
+		background-color: #000;
+	}
+	.left-div{
+		background-color: #000;
+		position: absolute;
+		top: 0;
+		justify-content: center;
+		align-items: center;
+	}
+	.right-div{
+		background-color: #000;
+		position: absolute;
+		top: 0;
+		justify-content: center;
+		align-items: center;
+	}
+	.title-text{
+		font-size: 16px;
+		color: #000000;
+	}
+	.video-box{
+		position: relative;
+		background-color: #000;
+	}
+	.cover-view-center{
+		position: fixed;
+		justify-content: center;
+		align-items: center;
+		z-index: 999;
+	}
+	.cover-view-top{
+		position: fixed;
+		width: 750rpx;
+		height: 150px;
+		overflow: hidden;
+	}
+	.cover-view-left{
+		position: absolute;
+		margin-left: 10upx;
+		width: 500upx;
+		bottom: 200upx;
+		z-index: 999;
+		font-size: 16px;
+		color: #FFFFFF;
+	}
+	.left-text{
+		font-size: 16px;
+		color: #FFFFFF;
+		margin-bottom: 20upx;
+	}
+	.avater{
+		border-radius: 50upx;
+		border-color: #fff;
+		border-style: solid;
+		border-width: 2px;
+	}
+	.cover-view-right{
+		position: absolute;
+		top: 400upx;
+		right: 20upx;
+		z-index: 999;
+	}
+	.right-text-avater{
+		position: absolute;
+		font-size: 14px;
+		top: 80upx;
+		left: 30upx;
+		height: 40upx;
+		width: 40upx;
+		background-color: #DD524D;
+		color: #FFFFFF;
+		border-radius: 50%;
+		text-align: center;
+		line-height: 40upx;
+		z-index: 999;
+	}
+	.avater-icon{
+		height: 40upx;
+		width: 40upx;
+		color: #fff;
+		background-color: #DD524D;
+		border-radius: 50%;
+		position: absolute;
+		left: 30upx;
+		top:-20upx;
+	}
+	.right-text{
+		text-align: center;
+		font-size: 14px;
+		color: #FFFFFF;
+		margin-bottom: 50upx;
+		height: 20px;
+	}
+	.img{
+		height: 100upx;
+		width: 100upx;
+		opacity: 0.9;
+	}
+	.imgDianZan{
+		height: 84upx;
+		width: 84upx;
+		margin-left: 10upx;
+		opacity: 0.9;
+	}
+	.imgPinLun{
+		height: 60upx;
+		width: 60upx;
+		margin-left: 20upx;
+		opacity: 0.9;
+	}
+	.imgFenXiang{
+		height: 75upx;
+		width: 75upx;
+		// margin-left: 20upx;
+		opacity: 0.9;
+	}
+	.imgRedBag{
+		width: 130upx;
+		height: 85upx;
+		position: absolute;
+		bottom: 100rpx;
+		right: -20rpx;
+	}
+	.img-icon{
+		width: 50upx;
+		height: 50upx;
+		margin-top: 18upx;
+	}
+	.nav{
+		flex-direction: row;
+		height:200upx; 
+		justify-content: space-between;
+		padding: 44px 15px 0;
+	}
+	.title{
+		line-height: 80upx;
+		color: #eee;
+		font-size: 18px;
+	}
+	.active-title{
+		border-bottom-width: 2px;
+		font-weight: bold; 
+		border-style: solid;
+		border-bottom-color: #FFFFFF; 
+		color: #FFFFFF;
+		height: 40px;
+	}
+	.title-center{
+		flex-direction: row;
+		height: 45px;
+	}
+	.mark{
+		position: fixed;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		background-color: rgba(0,0,0,0.5);
+		align-items: center;
+		justify-content: center;
+	}
+	.mark-wrapper{
+		width: 600rpx;
+		align-items: center;
+		justify-content: center;
+	}
+	.mark-wrapper-img{
+		width: 660rpx;
+		margin-left: 0rpx;
+	}
+	.mark-wrapper-con{
+		height: 500rpx;
+		position: absolute;
+		left: 0;
+		top: 150rpx;
+		right: 0;
+		align-items: center;
+		justify-content: flex-end;
+	}
+	.mark-wrapper-con-txt{
+		flex: 1;
+	}
+	.mark-wrapper-title{
+		width: 500rpx;
+		lines: 1;
+		font-size: 60rpx;
+		color: #FFFFFF;
+		text-align: center;
+	}
+	.mark-wrapper-desc{
+		width: 500rpx;
+		font-size: 34rpx;
+		color: #FFFFFF;
+		text-align: center;
+		margin-top: 20rpx;
+	}
+	.mark-wrapper-tip{
+		width: 500rpx;
+		text-align: center;
+		font-size:50upx;
+		font-weight: bold;
+		color: #ffcc1a;
+		margin-top: 30rpx;
+	}
+	.mark-wrapper-btn{
+		box-shadow:inset 0 0 0 10upx #fff06e,0 10upx 0 0 #f69614;
+		background-image:linear-gradient(to bottom, #fff6a5,#ffcd1b);
+		width: 160upx;
+		height:160upx;
+		border-radius: 100rpx;
+		align-items: center;
+		justify-content: center;
+	}
+	.mark-wrapper-btn-txt{
+		color: white;
+		font-size: 32rpx;
+	}
+	.mark-wrapper-btn2{
+		width: 300upx;
+		height:60upx;
+		line-height: 60upx;
+		border-radius: 30upx;
+		box-shadow:inset 0 0 0 10upx #fff06e,0 10upx 0 0 #f69614;
+		background-image:linear-gradient(to bottom, #fff6a5,#ffcd1b);
+		align-items: center;
+		justify-content: center;
+	}
+	.mark-wrapper-btn2-txt{
+		font-size:26upx;
+		color:#ff2400;
+	}
+</style>

@@ -1,0 +1,14 @@
+.DS_Storep
+.DS_Store
+# Editor directories and files
+.idea
+.vscode
+.hbuilderx
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.hbuilderx
+/unpackage
+package-lock.json
+

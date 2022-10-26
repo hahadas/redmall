@@ -1,0 +1,111 @@
+// iconfont
+// @font-face {
+// 	font-family: 'iconfont';
+// 	font-weight: normal;
+// 	font-style: normal;
+// 	src: url('https://at.alicdn.com/t/font_2169618_qimh95iaj2k.ttf') format('truetype');
+// }
+// .iconfont {
+// 	font-family: 'iconfont' !important;
+// 	font-size: 32rpx;
+// 	font-style: normal;
+// 	-webkit-font-smoothing: antialiased;
+// 	-moz-osx-font-smoothing: grayscale;
+// }
+
+.hide {
+	display: none;
+}
+
+// flex
+.flex{ display: flex; }
+.flex-1{ flex: 1; }
+.flex-column{ flex-direction: column; }
+.flex-row{ flex-direction: row; }
+.flex-center{ align-items: center; justify-content: center; }
+.flex-align-end{ align-items: flex-end; }
+.flex-align-center{ align-items: center; }
+.flex-space-end{ justify-content: flex-end; }
+.flex-space-start{ justify-content: flex-start; }
+.flex-between{ align-items: center; justify-content: space-between;}
+.flex-space-around{ justify-content: space-around;}
+.flex-grow{ flex-grow: 1;}
+
+// text
+.text-cen{
+	text-align: center;
+}
+
+// color
+.color-w{ color: white; }
+.color-b2{ color: #222222; }
+.color-b3{ color: #333333; }
+.color-b5{ color: #555555; }
+.color-b6{ color: #666666; }
+.color-b8{ color: #888888; }
+.color-b9{ color: #999999; }
+.color-purple{ color: #381895;}
+.color-purple2{ color: #6b5aac;}
+.color-red{color: #fa2d43;}
+.color-yellow{color: #ffdf84;}
+.bg-w{ background-color: #FFFFFF; }
+.bg-f5{ background-color: #f5f5f5; }
+.bg-f8{ background-color: #F8F8F8; }
+.bg-base{ background: linear-gradient(to bottom, #381895 0%, #865afd 100%); }
+
+.font24{ font-size: 24rpx;}
+.font26{ font-size: 26rpx;}
+.font28{ font-size: 28rpx;}
+.font30{ font-size: 30rpx;}
+.font32{ font-size: 32rpx;}
+.font34{ font-size: 34rpx;}
+.font36{ font-size: 36rpx;}
+.font38{ font-size: 38rpx;}
+.font40{ font-size: 40rpx;}
+.font42{ font-size: 42rpx;}
+.font44{ font-size: 44rpx;}
+.font46{ font-size: 46rpx;}
+.font48{ font-size: 48rpx;}
+.font60{ font-size: 60rpx;}
+.blod{ font-weight: bold;}
+.bor-no{ border: none !important;}
+.b-l-20{
+	width: 730rpx;
+	height: 2rpx;
+	margin-left: 20rpx;
+	background-color: #EEEEEE;
+}
+
+.mar0{
+	margin: 0 !important;
+}
+
+.line{
+	overflow: hidden;
+	text-overflow:ellipsis; 
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+}
+.line-2{
+	-webkit-line-clamp: 2!important;
+}
+.text-del{
+	text-decoration:line-through;
+}
+
+/* 手机顶部状态栏 */
+.status-bar-height {
+	height: var(--status-bar-height);  
+	width: 100%;  
+	position: fixed;  
+	background-color: #ffffff;  
+	top: 0;  
+	z-index: 99999;
+}
+
+.status-bar-height-height {
+	width: 100%;  
+	height: var(--status-bar-height);  
+	background-color: #ffffff;  
+}

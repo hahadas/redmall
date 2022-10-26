@@ -1,0 +1,345 @@
+<template>
+	<view>
+		<image 
+			v-if="data.show && data.pageThatAppears === type && !rbagmodelshow && !openrbagmodelshow"
+			:style="{bottom: bottom+'px'}"
+			src="/static/home/redBag.png" 
+			:ref="'redBag'+data.id" class="redBag" @click="openrbagbtn"></image>
+		
+		<div class="mark" v-if="rbagmodelshow" @touchmove.prevent.stop>
+			<div class="mark-wrapper" ref="wrapper">
+				<image src="/static/home/redBagClose.png" mode="widthFix" class="mark-wrapper-img"></image>
+				<div class="mark-wrapper-con">
+					<div class="mark-wrapper-con-txt">
+						<text class="mark-wrapper-title">{{data.titleName}}</text>
+						<text class="mark-wrapper-desc">{{data.describeDetails}}</text>
+					</div>
+					<div class="mark-wrapper-btn" ref="btn" @tap.stop="move">
+						<text class="mark-wrapper-btn-txt">立即领取</text>
+					</div>
+				</div>
+				<icon type="cancel" color="#fbd977" size="28" @click="rbagmodelshow = false"/>
+			</div>
+		</div>
+		
+		<div class="mark" v-if="openrbagmodelshow" @touchmove.prevent.stop>
+			<div class="mark-wrapper" ref="wrapperOpen">
+				<image src="/static/home/redBagOpen.png" mode="widthFix" class="mark-wrapper-img"></image>
+				<div class="mark-wrapper-con" style="top: 400rpx; height: 380rpx;">
+					<div class="mark-wrapper-con-txt" v-if="!isTake">
+						<text class="mark-wrapper-title">恭喜您获得</text>
+						<text class="mark-wrapper-tip">{{data.receiveDetails}}</text>
+					</div>
+					<div class="mark-wrapper-con-txt" v-else>
+						<text class="mark-wrapper-tip">您已领取过专享红包</text>
+					</div>
+					<div class="mark-wrapper-btn2" ref="btn" @tap.stop="checkMoney">
+						<text class="mark-wrapper-btn2-txt">查看我的福利</text>
+					</div>
+				</div>
+				<icon type="cancel" color="#fbd977" size="28" style="margin-top: 50rpx;" @click="close"/>
+			</div>
+		</div>
+		
+	</view>
+</template>
+
+<script>
+	import { mapState } from "vuex"
+	import { sendRequest } from "@/common/http/api.js"
+	import url from "@/common/http/url.js"
+	import { getUUID } from "@/common/utils/index.js"
+	const music = uni.createInnerAudioContext(); //创建播放器对象
+	const animation = weex.requireModule('animation');
+	export default{
+		props: {
+			type: {
+				type: Number,
+				default: 0
+			},
+			data: {
+				type: Object,
+				default: {}
+			},
+			bottom: {
+				type: Number,
+				default: 100
+			}
+		},
+		computed: {
+			...mapState(["userInfo"])
+		},
+		data(){
+			return{
+				rbagmodelshow: false,
+				openrbagmodelshow: false,
+				isTake: false // 是否已领取过了
+			}
+		},
+		mounted() {
+			let that = this
+			let el = this.$refs["redBag"+this.data.id]
+			setInterval(function(){
+				that.onState(el)
+			}, 800)
+			
+			// 如果需要自动领取
+			if (this.data.automaticCollection === 2 && this.data.pageThatAppears === this.type) {
+				this.openrbagbtn()
+				setTimeout(()=>{
+					this.move()
+				}, 500)
+			}
+		},
+		methods:{
+			// 领取红包动效
+			move(){
+				let that = this
+				let btn = this.$refs.btn
+				animation.transition(btn, {
+					styles: {
+						transform: 'rotateY(360deg)',
+						transformOrigin: 'center center'
+					},
+					duration: 1000, //ms
+					timingFunction: 'ease',
+					delay: 0 //ms
+				}, function(){
+					sendRequest("POST", url.cms.receiveRedEnvelopes, {id: that.data.id}).then(res => {
+						if (that.data.audioUrl) {
+							music.loop = false; //循环播放
+							music.src = that.data.audioUrl;
+							music.play(); //执行播放
+						}
+						that.data.show = false
+						that.rbagmodelshow = false
+						// #ifdef APP-PLUS
+						// 如果返回imAccount，并且直推人奖励开启，并且需要提示声音
+						if (res.data && that.data.directPushRewardStatus === 1 && that.data.directPushRewardAudioUrl) {
+							that.imSendMsg(res.data)
+						}
+						// #endif
+						that.redOpenAnimation()
+					}).catch(()=>{
+						that.rbagmodelshow = false
+					})
+					animation.transition(btn, {
+						styles: {
+							transform: 'rotateY(0)',
+							transformOrigin: 'center center'
+						},
+						duration: 10, //ms
+						timingFunction: 'ease',
+						delay: 0 //ms
+					})
+				})
+			},
+			// 领取红包后显示结果
+			redOpenAnimation(){
+				let that = this
+				that.openrbagmodelshow = true
+				setTimeout(()=>{
+					let wrapperOpen = that.$refs.wrapperOpen
+					animation.transition(wrapperOpen, {
+						styles: {
+							transform: 'scale(1.2)',
+							transformOrigin: 'center center'
+						},
+						duration: 500, //ms
+						timingFunction: 'ease',
+						delay: 0 //ms
+					}, function(){
+						animation.transition(wrapperOpen, {
+							styles: {
+								transform: 'scale(1)',
+								transformOrigin: 'center center'
+							},
+							duration: 500, //ms
+							timingFunction: 'ease',
+							delay: 0 //ms
+						})
+					})
+				}, 100)
+			},
+			// 点击红包展示的动效
+			openrbagbtn(){
+				let that = this
+				if (this.isTake) {
+					that.redOpenAnimation()
+				} else {
+					that.rbagmodelshow = true
+					setTimeout(()=>{
+						let wrapper = that.$refs.wrapper
+						animation.transition(wrapper, {
+							styles: {
+								transform: 'scale(1.2)',
+								transformOrigin: 'center center'
+							},
+							duration: 500, //ms
+							timingFunction: 'ease',
+							delay: 0 //ms
+						}, function(){
+							animation.transition(wrapper, {
+								styles: {
+									transform: 'scale(1)',
+									transformOrigin: 'center center'
+								},
+								duration: 500, //ms
+								timingFunction: 'ease',
+								delay: 0 //ms
+							})
+						})
+					}, 100)
+				}
+			},
+			onState(el){
+				animation.transition(el, {
+					styles: {
+						transform: 'rotate(-5deg)',
+						transformOrigin: 'center center'
+					},
+					duration: 400, //ms
+					timingFunction: 'ease',
+					delay: 0 //ms
+				}, function(){
+					animation.transition(el, {
+						styles: {
+							transform: 'rotate(5deg)',
+							transformOrigin: 'center center'
+						},
+						duration: 400, //ms
+						timingFunction: 'ease',
+						delay: 0 //ms
+					})
+				})
+			},
+			close(){
+				this.openrbagmodelshow = false
+				this.isTake = true
+			},
+			checkMoney(){
+				let path = ""
+				if (this.data.welfareType === "1") {
+					path = "/pages/user/cardBag"
+				} else {
+					path = "/pages/user/wallet/index"
+				}
+				uni.navigateTo({
+					url: path
+				})
+			},
+			imSendMsg(toImAccount){
+				sendRequest("GET", url.im.createConversation, {toImAccount: toImAccount, type: 1}).then(doc =>{
+					let conversationId = doc.data.id
+					let uid = getUUID() + this.userInfo.recommendCode
+					let params = {
+						conversationId: conversationId,
+						id: uid,
+						uid: uid,
+						from: this.userInfo.imAccount,
+						to: toImAccount,
+						cmd: 11,
+						createTime: new Date().getTime(),
+						chatType: 2,
+						msgType: 77,
+						content: JSON.stringify({
+							type: 1,
+							musicUrl: this.data.directPushRewardAudioUrl
+						})
+					};
+					getApp().globalData.socket.sendSocketMessage(params)
+				})
+				
+			}
+		}
+	}
+</script>
+
+<style scoped>
+	.redBag{
+		width: 133rpx;
+		height: 85rpx;
+		position: fixed;
+		right: 0;
+	}
+	.mark{
+		position: fixed;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		background-color: rgba(0,0,0,0.5);
+		align-items: center;
+		justify-content: center;
+	}
+	.mark-wrapper{
+		width: 600rpx;
+		align-items: center;
+		justify-content: center;
+	}
+	.mark-wrapper-img{
+		width: 660rpx;
+		margin-left: 0rpx;
+	}
+	.mark-wrapper-con{
+		height: 500rpx;
+		position: absolute;
+		left: 0;
+		top: 150rpx;
+		right: 0;
+		align-items: center;
+		justify-content: flex-end;
+	}
+	.mark-wrapper-con-txt{
+		flex: 1;
+	}
+	.mark-wrapper-title{
+		width: 500rpx;
+		lines: 1;
+		font-size: 60rpx;
+		color: #FFFFFF;
+		text-align: center;
+	}
+	.mark-wrapper-desc{
+		width: 500rpx;
+		font-size: 34rpx;
+		color: #FFFFFF;
+		text-align: center;
+		margin-top: 20rpx;
+	}
+	.mark-wrapper-tip{
+		width: 500rpx;
+		text-align: center;
+		font-size:50upx;
+		font-weight: bold;
+		color: #ffcc1a;
+		margin-top: 30rpx;
+	}
+	.mark-wrapper-btn{
+		box-shadow:inset 0 0 0 10upx #fff06e,0 10upx 0 0 #f69614;
+		background-image:linear-gradient(to bottom, #fff6a5,#ffcd1b);
+		width: 160upx;
+		height:160upx;
+		border-radius: 100rpx;
+		align-items: center;
+		justify-content: center;
+	}
+	.mark-wrapper-btn-txt{
+		color: white;
+		font-size: 32rpx;
+	}
+	.mark-wrapper-btn2{
+		width: 300upx;
+		height:60upx;
+		line-height: 60upx;
+		border-radius: 30upx;
+		box-shadow:inset 0 0 0 10upx #fff06e,0 10upx 0 0 #f69614;
+		background-image:linear-gradient(to bottom, #fff6a5,#ffcd1b);
+		align-items: center;
+		justify-content: center;
+	}
+	.mark-wrapper-btn2-txt{
+		font-size:26upx;
+		color:#ff2400;
+	}
+</style>

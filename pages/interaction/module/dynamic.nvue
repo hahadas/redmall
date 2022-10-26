@@ -1,0 +1,261 @@
+<template>
+	<div>
+		<list :show-scrollbar="false" class="dynamic" :style="{height: swiperHeight + 'px'}">
+			<yy-refresh ref="refresh" @refresh="loadData(true)"></yy-refresh>
+			<header>
+				<dropdown ref="dropdown" :statusBarHeight="statusBarHeight" :filterData='filterData' :defaultIndex='defaultIndex' @onSelected="onSelected"></dropdown>
+			</header>
+			<cell>
+				<view class="dynamic-item" v-for="(item, i) in dynamicList" :key="item.id" v-if="dynamicList.length > 0" @tap="goDetails(item, i)">
+					<div style="height: 50rpx;"></div>
+					<div class="dynamic-item-top">
+						<view @tap.stop="viewUser(item)">
+							<image :src="filterImg((item.icon||item.images), 1)" mode="aspectFill" class="dynamic-item-top-img"></image>
+						</view>
+						<div style="flex-grow: 1;">
+							<div class="dynamic-item-top-column">
+								<text class="dynamic-item-top-column-name" style="margin-right: 10rpx;">{{item.nickname}}</text>
+							</div>
+							<div class="dynamic-item-top-column" style="justify-content: flex-start;">
+								<div class="six" style="margin-right: 20rpx;" :class="{'woman':item.gender===3}">
+									<image src="/static/video/man.png" mode="" class="six-icon" v-if="item.gender === 2"></image>
+									<image src="/static/video/woman.png" mode="" class="six-icon" v-if="item.gender === 3"></image>
+									<text class="six-name">{{item.age||0}}</text>
+								</div>
+								<text class="mark" v-if="item.distributorIsOpen">慈善天使</text>
+							</div>
+						</div>
+					</div>
+					<text class="dynamic-item-con">{{item.comment}}</text>
+					<div class="dynamic-item-con-img" v-if="item.images && item.images.split(',').length > 1">
+						<image :src="filterImg(url, 2)" mode="aspectFill" class="dynamic-item-con-img-s" v-for="(url, index) in item.images.split(',')" :key="index" @tap.stop="previewImg(item.images, index)"></image>
+					</div>
+					<div class="dynamic-item-con-img" v-if="item.images && item.images.split(',').length === 1">
+						<image :src="filterImg((item.images.split(',')[0]), 4)" mode="aspectFill" class="dynamic-item-con-img-one" @tap.stop="previewImg(item.images, index)"></image>
+					</div>
+					<div style="display: flex; flex-direction: row;">
+						<text class="dynamic-item-option-item-name">{{item.createTime}} · 距离我{{item.distance | distance}}</text>
+						<text v-if="!item.addStatus" style="margin-left: 6rpx; font-size: 22rpx; ">· {{item.address}}</text>
+					</div>
+					<div class="dynamic-item-option">
+						<div class="dynamic-item-option-item">
+							<image src="/static/video/comment.png" mode="" class="dynamic-item-option-item-icon"></image>
+							<text class="dynamic-item-option-item-name">{{item.commentCount || 0}}条评论</text>
+						</div>
+						<div class="dynamic-item-option-item" @tap.stop="onLike($event, item, i)">
+							<image src="/static/video/love_grey.png" mode="" class="dynamic-item-option-item-icon" v-if="!item.isLike"></image>
+							<image src="/static/video/love_red.png" mode="" class="dynamic-item-option-item-icon" v-else></image>
+							<text class="dynamic-item-option-item-name">{{item.likeCount || 0}}点赞</text>
+						</div>
+					</div>
+				</view>
+			</cell>
+			
+			<cell style="align-items: center; justify-content: center;">
+				<uni-load-more :status="loading"></uni-load-more>
+			</cell>
+			<yy-load-more ref="loadMore" @loadMore="loadData()"></yy-load-more>
+		</list>
+	</div>
+</template>
+
+<script>
+	import { sendRequest } from "@/common/http/api.js"
+	import url from "@/common/http/url.js"
+	import filter from "../module/filter.js"
+	import mix from "./mix.js"
+	import dropdown from "./dropdown.nvue"
+	import yyRefresh from "@/components/yy-refresh/yy-refresh.nvue"
+	import yyLoadMore from "@/components/yy-refresh/yy-load-more.nvue"
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	export default {
+		components: { yyLoadMore, yyRefresh, dropdown, uniLoadMore },
+		mixins: [mix],
+		data(){
+			return {
+				loading: "nomore",
+				statusBarHeight: uni.getSystemInfoSync().statusBarHeight,
+				dynamicList: [],
+				defaultIndex: [0,0],
+				defaultValue: null,
+				filterData: filter.oneFilter,
+			}
+		},
+		methods:{
+			loadData(type) {
+				this.loading = "loading"
+				if (type) this.dynamicList = []
+				let params = {
+					pageNum: this.dynamicList.length,
+					lng: this.myAddressData.longitude,
+					lat: this.myAddressData.latitude,
+					gender: this.defaultValue?this.defaultValue[0]:"-1",
+					type: this.defaultValue?this.defaultValue[1]:"-1"
+				}
+				sendRequest('GET', url.interaction.dynamicAllList, params).then(res =>{
+					let list = res.data
+					this.dynamicList = [...this.dynamicList ,...list];
+					if (type) {
+						this.$refs.refresh.finish()
+					} else {
+						let hasMore = true
+						if (res.data.length < 12) {
+							hasMore = false
+						}
+						this.$refs.loadMore.finish(hasMore)
+					}
+					if (res.data.length < 12) {
+						this.loading = "nomore"
+					} else {
+						this.loading = "more"
+					}
+				}).catch(()=>{
+					this.loading = "nomore"
+				})
+			},
+			// 点赞
+			onLike(e, item, index){
+				e.stopPropagation(); 
+				let type = item.isLike ? 1 : 0
+				sendRequest('post', url.interaction.likeByComment, {type:type, commentId: item.id}).then(res => {
+					this.dynamicList[index].isLike = !type
+					if (!type) {
+						this.dynamicList[index].likeCount += 1
+					} else {
+						this.dynamicList[index].likeCount -= 1
+					}
+					this.$forceUpdate()
+				})
+			},
+			previewImg(imgs, index){
+				let _this = this
+				let imgList = imgs.split(",")
+				uni.previewImage({
+					urls: imgList,
+					current: index
+				});
+			},
+			onSelected(res){
+				this.defaultValue = res
+				this.loadData(true)
+			}
+		}
+	}
+</script>
+
+<style scoped>
+	.woman{
+		background-color: #ff4d94 !important;
+	}
+	.six{
+		background-color: #1995fc;
+		border-radius: 20rpx;
+		padding: 2rpx 10rpx;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+	.six-icon{
+		width: 20rpx;
+		height: 20rpx;
+		margin-right: 6rpx;
+	}
+	.six-name{
+		font-size: 24rpx;
+		color: #FFFFFF;
+	}
+	.mark{
+		font-size: 24rpx;
+		background-image: linear-gradient(to bottom, #381895, #865afd);
+		border-radius: 6rpx;
+		color: white;
+		padding: 4rpx 10rpx;
+		display: inline-block;
+		border-radius: 20rpx;
+	}
+	.dynamic{
+		width: 750rpx;
+	}
+	.dynamic-item{
+		border-bottom-color: #eee;
+		border-bottom-width: 2rpx;
+		border-bottom-style: solid;
+		padding-bottom: 50rpx;
+		margin-bottom: 50rpx;
+		padding-left: 20rpx;
+		padding-right: 20rpx;
+	}
+	.dynamic-item-top{
+		align-items: center;
+		flex-direction: row;
+	}
+	.dynamic-item-top-img{
+		width: 120rpx;
+		height: 120rpx;
+		margin-right: 20rpx;
+		border-radius: 60rpx;
+		will-change: transform;
+	}
+	.dynamic-item-top-column{
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 10rpx;
+	}
+	.dynamic-item-top-column-name{
+		color: #666;
+		font-size: 30rpx;
+		width: 550rpx;
+		overflow: hidden;
+		text-overflow: ellipsis; 
+		display: -webkit-box; 
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+	}
+	.dynamic-item-con{
+		margin: 20rpx 0;
+		font-size: 30rpx;
+		display: block;
+	}
+	.dynamic-item-con-img{
+		flex-direction: row;
+		align-items: center;
+		margin-bottom: 20rpx;
+		flex-wrap: wrap;
+	}
+	.dynamic-item-con-img-s{
+		margin-right: 6rpx;
+		width: 214rpx;
+		height: 214rpx;
+		margin-bottom: 6rpx;
+		border-radius: 10rpx;
+		will-change: transform;
+	}
+	.dynamic-item-con-img-one{
+		width: 400rpx;
+		height: 400rpx;
+		border-radius: 10rpx;
+		will-change: transform;
+	}
+	.dynamic-item-option{
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 10rpx;
+	}
+	.dynamic-item-option-item{
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.dynamic-item-option-item-icon{
+		width: 40rpx;
+		height: 40rpx;
+		margin-right: 10rpx;
+	}
+	.dynamic-item-option-item-name{
+		font-size: 24rpx;
+		color: #999999;
+	}
+</style>
+

@@ -9,32 +9,15 @@
 					<view>
 						<view class="flex flex-align-center">
 							<text class="font38 line">{{userDetailInfo.nickname}}</text>
-							<!-- <text class="iconfont" v-if="userDetailInfo.gender === 1">&#xe621;</text>
-							<text class="iconfont" v-if="userDetailInfo.gender === 2">&#xe622;</text>
-							<text class="font32">{{userDetailInfo.age}}</text> -->
 						</view>
 						<view class="flex flex-align-center">
 							<view class="six" v-if="userDetailInfo.distributorIsOpen === 1">
-								<text class="font24">慈善天使</text>
+								<text class="font24">配送员</text>
 							</view>
 							<view class="redd six" v-if="userDetailInfo.storeIsOpen === 1">
 								<text class="font24">商家</text>
 							</view>
-							<view class="yellow six" v-if="userDetailInfo.roleManagerLevel !== 0">
-								<text class="font24">{{userDetailInfo.roleManagerLevel | filterRoleManager}}</text>
-							</view>
-							<view class="green six" v-if="userDetailInfo.roleTalentLevel !== 0">
-								<text class="font24">{{userDetailInfo.roleTalentLevel | filterRoleTalent}}</text>
-							</view>
-							<view class="orange six" v-if="userDetailInfo.roleAgentLevel !== 0">
-								<text class="font24">{{userDetailInfo.roleAgentLevel | filterRoleAgent}}</text>
-							</view>
 						</view>
-						<!-- <text class="font30">{{userDetailInfo.phone}}</text> -->
-						<!-- <view class="flex flex-align-center">
-							<text class="font34 line">{{userDetailInfo.personalizedSignature || "未设置个性签名"}}</text>
-							<text class="iconfont font40" style="margin-left: 10rpx;">&#xe63c;</text>
-						</view> -->
 					</view>
 				</view>
 				<text class="iconfont blod font48" @click="toNav('/pages/user/setting/index')">&#xe62a;</text>
@@ -82,25 +65,6 @@
 					</view>
 				</view>
 			</view>
-			<!-- 关注 -->
-			<!-- <view class="grod" style="flex-wrap: nowrap;">
-				<view class="grod-item" @click="toNav('/pages/user/balance')">
-					<text class="color-b6 font36">{{ userDetailInfo.blance || 0 }}</text>
-					<text class="color-b5 font26">关注</text>
-				</view>
-				<view class="grod-item" @click="toNav('/pages/user/balance')">
-					<text class="color-b6 font36">{{ userDetailInfo.banceJingPing || 0 }}</text>
-					<text class="color-b5 font26">粉丝</text>
-				</view>
-				<view class="grod-item" @click="toNav('/pages/user/balance')">
-					<text class="color-b6 font36">{{ userDetailInfo.blanceIntegration || 0 }}</text>
-					<text class="color-b5 font26">发布</text>
-				</view>
-				<view class="grod-item bor-no" @click="toNav('/pages/user/balance')">
-					<text class="color-b6 font36">{{userDetailInfo.blanceXiaoFei || 0}}</text>
-					<text class="color-b5 font26">最近来访</text>
-				</view>
-			</view> -->
 			<!-- 余额 -->
 			<view class="list" @click="toNav('/pages/user/wallet/index')">
 				<view class="list-item flex flex-between bg-w">
@@ -150,15 +114,10 @@
 							<image src="/static/user/address.png" mode="" class="img"></image>
 							<text class="color-b5 font26">地址管理</text>
 						</view>
-						<!-- <view class="grod-item" @click="toNav('/pages/notice/index?keyType=all_public_notice')">
-							<image src="/static/user/notice.png" mode="" class="img"></image>
-							<text class="color-b5 font26">通知</text>
-						</view> -->
 						<view class="grod-item" @click="toNav('/pages/user/setting/personal')">
 							<image src="/static/user/personal.png" mode="" class="img"></image>
 							<text class="color-b5 font26">个人资料</text>
 						</view>
-						
 					</view>
 					<view class="grod">
 						<view class="grod-item" @click="toNav('/pages/user/setting/index')">
@@ -198,80 +157,11 @@
 							<text class="color-b5 font26">油卡充值</text>
 							<text class="color-b9 font26">{{getScale("third_party_services_recharge_oil_card")}}</text>
 						</view>
-						<view class="grod-item" v-if="showThreeItem('third_party_services_calculus')" @click="contact()">
-							<view class="iconfont icon" style="color: #DA6C3F;">&#xe7de;</view>
-							<text class="color-b5 font26">微积分</text>
-							<text class="color-b9 font26">{{getScale("third_party_services_calculus")}}</text>
-						</view>
-						<view class="grod-item" v-if="showThreeItem('third_party_services_depository_interest')" @click="toNav('/pages/user/deposit/index')">
-							<view class="iconfont icon" style="color: #dbab00;">&#xe726;</view>
-							<text class="color-b5 font26">存托权益</text>
-							<text class="color-b9 font26">{{getScale("third_party_services_depository_interest")}}</text>
-						</view>
-						<view class="grod-item" v-if="showThreeItem('third_party_services_exchange_goods')" @click="showToast(true)">
-							<view class="iconfont icon" style="color: #a2a4a4;">&#xe665;</view>
-							<text class="color-b5 font26">兑换商品</text>
-							<text class="color-b9 font26">{{getScale("third_party_services_exchange_goods")}}</text>
-						</view>
-						<view class="grod-item" v-if="showThreeItem('third_party_services_charge_for_water_and_electricity')" @click="showToast(true)">
-							<view class="iconfont icon" style="color: #a2a4a4;">&#xe668;</view>
-							<text class="color-b5 font26">缴水电费</text>
-							<text class="color-b9 font26">{{getScale("third_party_services_charge_for_water_and_electricity")}}</text>
-						</view>
-						<view class="grod-item" v-if="showThreeItem('third_party_services_crowd_funding')" @click="showToast(true)">
-							<view class="iconfont icon" style="color: #a2a4a4;">&#xe810;</view>
-							<text class="color-b5 font26">众筹</text>
-							<text class="color-b9 font26">{{getScale("third_party_services_crowd_funding")}}</text>
-						</view>
-						<view class="grod-item" v-if="showThreeItem('third_party_services_digital_capital_factory')" @click="showToast(true)">
-							<view class="iconfont icon" style="color: #a2a4a4;">&#xe667;</view>
-							<text class="color-b5 font26">数资工厂</text>
-							<text class="color-b9 font26">{{getScale("third_party_services_digital_capital_factory")}}</text>
-						</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		
-		<!-- 推荐人信息 -->
-		<uni-popup ref="popup" type="center">
-			<view class="popup">
-				<view class="flex flex-align-center">
-					<view @click="goUser(recommendInfo.imAccount)">
-						<image :src="recommendInfo.headPortrait" mode="" class="img"></image>
-					</view>
-					<view class="flex flex-column font28" style="width: 100%;">
-						<!-- <text class="color-b3">{{recommendInfo.nickname}}</text> -->
-						<view>
-							<text class="color-b6">昵&ensp;&ensp;称：</text>
-							<text>{{recommendInfo.nickname}}</text>
-						</view>
-						<view style="margin:6rpx 0">
-							<text class="color-b6">性&ensp;&ensp;别：</text>
-							<text>{{recommendInfo.gender | filterGender}}</text>
-						</view>
-						<view class="flex flex-between" style="margin-bottom: 6rpx;">
-							<view>
-								<text class="color-b6">手机号：</text>
-								<text>{{recommendInfo.username}}</text>
-							</view>
-							<text class="btn" @click="callPhoto(recommendInfo.username)">拨打</text>
-						</view>
-						<view class="flex flex-between">
-							<view>
-								<text class="color-b6">推荐码：</text>
-								<text>{{recommendInfo.recommendCode}}</text>
-							</view>
-							<text class="btn" @click="$onCopy(recommendInfo.recommendCode)">复制</text>
-						</view>
-					</view>
-				</view>
-			</view>
-			<view class="flex flex-center" style="margin-top: 30rpx;" @click="closePopup">
-				<icon type="cancel" color="#fff" size="28" />
-			</view>
-		</uni-popup>
-		
+				
 		<!-- 弹框 -->
 		<modal v-if="showModal">
 			<image :src="advertData.ossUrl" mode="widthFix" @click="imgJump"></image>
@@ -319,57 +209,6 @@
 					agentAndStore: false,
 					three: false
 				},
-				recommendInfo: {}
-			}
-		},
-		filters:{
-			filterRoleManager(val){
-				switch(val){
-					case 1:
-						return "普通掌柜";
-					case 2:
-						return "中级掌柜";
-					case 3:
-						return "高级掌柜";
-					default:
-						return
-				}
-			},
-			filterRoleTalent(val){
-				switch(val){
-					case 1:
-						return "初级达人";
-					case 2:
-						return "中级达人";
-					case 3:
-						return "高级达人";
-					case 4:
-						return "至尊达人";
-					default:
-						return
-				}
-			},
-			filterRoleAgent(val){
-				switch(val){
-					case 1:
-						return "省代理";
-					case 2:
-						return "市代理";
-					case 3:
-						return "区代理";
-					default:
-						return
-				}
-			},
-			filterGender(val){
-				switch(val){
-					case 2:
-						return "男";
-					case 3:
-						return "女";
-					default:
-						return "未设置"
-				}
 			}
 		},
 		onPullDownRefresh() {
@@ -461,14 +300,13 @@
 						this.configData.three = true
 						this.configData.agentAndStore = true
 					} else {
-						console.log(this.platform)
+						let version = uni.getSystemInfoSync().appVersion
 						res.data.map(v => {
 							if (v.keyCode === ("personal_center_module_two_"+this.platform)) {
 								if (v.keyValue === "1") {
 									this.configData.three = false
 								} else if (v.keyValue && v.keyValue !== "1") {
 									let list = v.keyValue.split(",")
-									let version = plus.runtime.version
 									if (list.includes(version)){
 										this.configData.three = false
 									} else {
@@ -483,7 +321,6 @@
 									this.configData.agentAndStore = false
 								} else if (v.keyValue && v.keyValue !== "1") {
 									let list = v.keyValue.split(",")
-									let version = plus.runtime.version
 									if (list.includes(version)){
 										this.configData.agentAndStore = false
 									} else {
@@ -495,30 +332,6 @@
 							}
 						})
 					}
-					
-				
-					// if (this.platform === "ios") {
-					// 	res.data.map(v => {
-					// 		if (v.keyCode === "personal_center_module_two_ios") {
-					// 			this.configData.three = v.keyValue === "1" ? true : false
-					// 		}
-					// 		if (v.keyCode === "personal_center_module_one_ios") {
-					// 			this.configData.agentAndStore = v.keyValue === "1" ? true : false
-					// 		}
-					// 	})
-					// } else if (this.platform === "android") {
-					// 	res.data.map(v => {
-					// 		if (v.keyCode === "personal_center_module_two_android") {
-					// 			this.configData.three = v.keyValue === "1" ? true : false
-					// 		}
-					// 		if (v.keyCode === "personal_center_module_one_android") {
-					// 			this.configData.agentAndStore = v.keyValue === "1" ? true : false
-					// 		}
-					// 	})
-					// } else { // 网页版默认显示
-					// 	this.configData.three = true
-					// 	this.configData.agentAndStore = true
-					// }
 				})
 			},
 			getUserInfo(){
@@ -562,32 +375,6 @@
 			},
 			filterImg(img){
 				return publics.filterImgUrl(img, 1)
-			},
-			showToast(status){
-				this.$msg('本模块即将开通，敬请期待～')
-			},
-			contact(){
-				let _this = this
-				uni.showModal({
-					title: "微积分",
-					content: "请联系您的【喝酒么App】的上级推荐用户",
-					confirmText: "查看联系方式",
-					success(res) {
-						if (res.confirm) {
-							_this.$http("GET", url.user.getRecommendInfo).then(r => {
-								if (r.data) {
-									_this.recommendInfo = r.data
-									_this.$refs.popup.open()
-								} else {
-									_this.$msg("您没有推荐人～")
-								}
-							})
-						}
-					}
-				})
-			},
-			closePopup(){
-				this.$refs.popup.close()
 			},
 			callPhoto(phone){
 				uni.makePhoneCall({

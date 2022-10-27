@@ -1,7 +1,6 @@
 <template>
 	<view class="main">
 		<view class="header bg-base" :style="{'padding-top': statusBarHeight+'px'}">
-			<!-- <view v-if="!isOpenPosition" style="height: 100rpx;"></view> -->
 			<view class="positionShow" v-if="!isOpenPosition" @click="goSet">
 				<view class="flex flex-align-center item">
 					<text class="iconfont icon">&#xe659;</text>
@@ -40,7 +39,6 @@
 			</view>
 			<view class="flex flex-between font26 color-w">
 				<text>{{addressName}}</text>
-				<!-- <text>贵阳</text> -->
 			</view>
 		</view>
 		<!-- 轮播图 -->
@@ -94,17 +92,9 @@
 						<image src="/static/home/phone.png" mode="" class="icon"></image>
 						<text class="color-b6">使用教程</text>
 					</view>
-					<view class="grid-item" @tap="jumpToNotice(4, '砸金蛋')">
-						<image src="/static/home/zjd.png" mode="" class="icon"></image>
-						<text class="color-b6">砸金蛋</text>
-					</view>
 					<view class="grid-item" @tap="jumpToNew(1, '新人大礼')">
 						<image src="/static/home/gift.png" mode="" class="icon"></image>
 						<text class="color-b6">新人大礼</text>
-					</view>
-					<view class="grid-item" @tap="jumpToNotice(5, '约酒')">
-						<image src="/static/home/drink.png" mode="" class="icon"></image>
-						<text class="color-b6">约酒</text>
 					</view>
 					<view class="grid-item" @tap="jumpToNew(2, '限时秒杀')">
 						<image src="/static/home/alarm.png" mode="" class="icon"></image>
@@ -116,10 +106,6 @@
 						<image src="/static/home/settled.png" mode="" class="icon"></image>
 						<text class="color-b6">积分大送</text>
 					</view>
-					<view class="grid-item" @tap="jumpToNotice(6, '酒文创')">
-						<image src="/static/home/jwc.png" mode="" class="icon"></image>
-						<text class="color-b6">酒文创</text>
-					</view>
 					<view class="grid-item" @tap="jumpToNew(3, '特价商品')">
 						<image src="/static/home/special.png" mode="" class="icon"></image>
 						<text class="color-b6">特价商品</text>
@@ -127,10 +113,6 @@
 					<view class="grid-item" @tap="jumpToNew(4, '拼团')">
 						<image src="/static/home/team.png" mode="" class="icon"></image>
 						<text class="color-b6">拼团</text>
-					</view>
-					<view class="grid-item" @tap="jumpToNotice(7, '专属定制')">
-						<image src="/static/home/diamond.png" mode="" class="icon"></image>
-						<text class="color-b6">专属定制</text>
 					</view>
 				</view>
 			</view>
@@ -728,7 +710,7 @@
 			border-radius: 20rpx;
 			padding: 20rpx 0 30rpx;
 			&-item{
-				width: 20%;
+				width: 33.33%;
 				display: flex;
 				flex-direction: column;
 				align-items: center;

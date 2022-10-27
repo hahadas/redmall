@@ -565,175 +565,6 @@
 			}
 		},
 		{
-			"path": "pages/user/deposit/index",
-			"style": {
-				"navigationBarTitleText": "存托权益" ,// 存托权益
-				"enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"color": "#381895"
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/user/deposit/transactions",
-			"style": {
-				"navigationBarTitleText": "理财" ,// 理财
-				"enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"color": "#381895"
-					},
-					"titleNView":{
-						"buttons":[
-							{
-								"text": "存托记录",
-								"width": "80px",
-								"fontSize": "16px"
-							}
-						]
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/user/deposit/transformToIntegral",
-			"style": {
-				"navigationBarTitleText": "资产转积分",// 资产转积分
-				"app-plus": {
-					"titleNView":{
-						"buttons":[
-							{
-								"text": "转换记录",
-								"width": "80px",
-								"fontSize": "16px"
-							}
-						]
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/user/deposit/transformToIntegralList",
-			"style": {
-				"navigationBarTitleText": "转换记录",// 转换记录
-				"enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"color": "#381895"
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/user/deposit/transform",
-			"style": {
-				"navigationBarTitleText": "资产转换",// 资产转换
-				"app-plus": {
-					"titleNView":{
-						"buttons":[
-							{
-								"text": "转换记录",
-								"width": "80px",
-								"fontSize": "16px"
-							}
-						]
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/user/deposit/transformList",
-			"style": {
-				"navigationBarTitleText": "转换记录"// 转换记录
-			}
-		},
-		{
-			"path": "pages/user/deposit/payment",
-			"style": {
-				"navigationBarTitleText": "存托"// 存托
-			}
-		},
-		{
-			"path": "pages/user/deposit/detail",
-			"style": {
-				"navigationBarTitleText": "流水列表",// 流水列表
-				"enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"color": "#381895"
-					},
-					"titleNView":{
-						"buttons":[
-							{
-								"type": "menu"
-							}
-						]
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/user/deposit/depositDetail",
-			"style": {
-				"navigationBarTitleText": "存托明细",// 存托明细
-				"enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"color": "#381895"
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/user/deposit/recharge",
-			"style": {
-				"navigationBarTitleText": "充值",// 充值
-				"app-plus":{
-					"titleNView":{
-						"buttons":[
-							{
-								"text": "充值记录",
-								"width": "80px",
-								"fontSize": "16px"
-							}
-						]
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/user/deposit/rechargeList",
-			"style": {
-				"navigationBarTitleText": "充值记录" ,// 充值记录
-				"enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"color": "#381895"
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/user/deposit/notice",
-			"style": {
-				"navigationBarTitleText": "公告列表" ,// 公告列表
-				"enablePullDownRefresh": true,
-				"app-plus": {
-					"pullToRefresh": {
-						"color": "#381895"
-					}
-				}
-			}
-		},
-		{
-			"path": "pages/user/deposit/noticeDetail",
-			"style": {
-				"navigationBarTitleText": "公告详情"// 公告详情
-			}
-		},
-		{
 			"path": "pages/user/three/phoneBill",
 			"style": {
 				"navigationBarTitleText": "话费充值",// 话费充值
@@ -1440,13 +1271,15 @@
 	        "iconPath": "/static/tabber/my2.png",
 	        "selectedIconPath": "/static/tabber/my_user2.png",
 	        "text": "我"
-	    }],
+	    }]
+		// #ifdef H5
+		,
 		"midButton": {
-			// "width": "70px",
 			"height": "65px",
 			"iconPath": "static/tabber/jy2.png",
 			"iconWidth": "60px"
 		}
+		// #endif
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

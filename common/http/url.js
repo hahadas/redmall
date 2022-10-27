@@ -110,33 +110,6 @@ export default{
 		updateAddress: 'address/update', // 修改收货地址
 		deleteAddress: 'address/del', // 删除地址
 	},
-	// 存托相关
-	deposit: {
-		depositPlanAdminAmount: "deposit/depositPlanAdminAmount", // 获取存托发售统计数据
-		getLevelAndTeamMoney: "deposit/userInfo", // 获取用户等级，团队累计存托金额
-		getUserWallet: "deposit/userWallet", // 获取存托用户钱包信息
-		getBankPlatformInfo: "deposit/platformCollection", // 获取平台线下收款银行卡信息
-		commitVoucher: "deposit/addRemittanceVoucher", // 提交汇款信息凭证
-		getVoucherList: "deposit/userRemittanceVoucher", // 获取汇款的信息列表
-		getVoucherDetail: "deposit/userRemittanceVoucherDetails", // 获取汇款的信息详情（主要是汇款凭证）
-		getDepositList: "deposit/platformDepositPlan", // 获取理财存托计划列表
-		buyDepositPlan: "deposit/buyDepositPlan", // 购买理财存托计划
-		getUserDepositList: "deposit/userDepositPlan", // 获取自己的理财存托列表
-		getflowList: "deposit/userWalletFlowing", // 获取流水列表
-		getNoticeList: "deposit/platformNotice", // 获取公告列表
-		getTeamList: "deposit/myTeam", // 获取团队列表
-		getDepositToBanlanceConfig: "deposit/depositTransformationBalanceConfig", // 获取存托收益转余额钱包参数
-		depositToBanlance: "deposit/depositTransformationBalance", // 存托收益转余额钱包
-		getSaleToBanlanceConfig: "deposit/depositSaleTransformationBalanceConfig", // 获取销售提成钱包转转余额钱包参数
-		saleToBanlance: "deposit/depositSaleTransformationBalance", // 销售提成转余额钱包
-		getTransformList: "deposit/transformationBalanceList", // 获取转换记录
-		getWithdrawalInfo: "deposit/withdrawalConfig", // 获取提现参数
-		withdrawal: "deposit/addWithdrawal", // 提现
-		withdrawalList: "deposit/withdrawalList", // 提现记录
-		walletToIntegralConfig: "deposit/walletTransformationIntegralConfig", // 我的资产转积分比例参数
-		transformToIntegral: "deposit/walletTransformationIntegral", // 资产转积分
-		transformToIntegralList: "deposit/walletTransformationIntegralList", // 资产转积分记录
-	},
 	// 商家相关
 	store: {
 		getApplyInfo: "userStore/applyInfo", // 获取用户商家入驻申请信息

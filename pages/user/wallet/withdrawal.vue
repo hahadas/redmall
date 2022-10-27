@@ -46,7 +46,7 @@
 				balance: 0,
 				paymentInfo: {},
 				config: {},
-				type: 1 // 1-用户， 2-天使， 3-商家, 4-存托
+				type: 1 // 1-用户， 2-配送员， 3-商家, 4-存托
 			}
 		},
 		filters: {

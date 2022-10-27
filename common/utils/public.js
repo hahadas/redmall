@@ -15,8 +15,8 @@ let publics = {
 			scene: "WXSceneSession",
 			type: 0,
 			href: inviteUrl + id, //这地址太长了，就省略了
-			title: "喝酒么",
-			summary: nickname + " 邀请您加入喝酒么,各种福利等您来拿~~~",
+			title: "redMall",
+			summary: nickname + " 邀请您加入redMall,各种福利等您来拿~~~",
 			imageUrl: icon,
 			success: function(res) {
 			},
@@ -31,8 +31,8 @@ let publics = {
 			scene: "WXSenceTimeline",
 			type: 0,
 			href: inviteUrl + id, //这地址太长了，就省略了
-			title: "喝酒么",
-			summary: nickname + " 邀请您加入喝酒么,各种福利等您来拿~~~",
+			title: "redMall",
+			summary: nickname + " 邀请您加入redMall,各种福利等您来拿~~~",
 			imageUrl: icon,
 			success: function(res) {
 			},
@@ -231,7 +231,7 @@ let publics = {
 		return data;
 	},
 	/**
-	 * 酒音视频编辑压缩和裁剪封面
+	 * 视频编辑压缩和裁剪封面
 	 */
 	jiuYinVideoCrop(data,callback) {
 		const crop = uni.requireNativePlugin("Html5app-VideoCrop");
@@ -268,7 +268,7 @@ let publics = {
 		});
 	},
 	/**
-	 * 上传酒音视频
+	 * 上传视频
 	 */
 	uploadJiuYinVideo(sizeConfig,type,callback){
 		uni.chooseVideo({
@@ -433,7 +433,7 @@ let publics = {
 	/**
 	 * 格式化oss链接
 	 * @param {String} imgUrl 图片链接
-	 * @param {Number} type 类型，1-互动，酒音头像，消息列表，个人主页，2-互动中动态的图片列表，3-商品, 4-动态列表图片单张, 5-评论列表图片
+	 * @param {Number} type 类型，1-互动，头像，消息列表，个人主页，2-互动中动态的图片列表，3-商品, 4-动态列表图片单张, 5-评论列表图片
 	 * */
 	filterImgUrl(imgUrl, type){
 		let ossResizeData = uni.getStorageSync("ossResizeData")
@@ -497,7 +497,7 @@ let publics = {
 					url: "/pages/interaction/user?id="+value
 				})
 				return
-			case "visit_alcohol_sound": //访问酒音视频
+			case "visit_alcohol_sound": //访问视频
 				uni.navigateTo({
 					url: "/pages/video/indexByUser?id="+value
 				})

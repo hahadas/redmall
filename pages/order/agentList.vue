@@ -137,7 +137,7 @@
 			onSelect(item){
 				let _this = this
 				this.sessionOperation(item.imAccount, 2)
-				this.$showModal("是否选择该天使为我配送", "提示", res=>{
+				this.$showModal("是否选择该配送员为我配送", "提示", res=>{
 					if (res.confirm) {
 						_this.$http("POST", url.distributor.choiceDistributor, {orderId: _this.id, distributorUserId: item.id}).then(res =>{
 							_this.$msg(res.data)
@@ -154,8 +154,8 @@
 								skuName: _this.optData.skuName,
 								price: _this.optData.price,
 								number: _this.optData.number,
-								status: 1 ,// 1-邀请对方接单，用户和天使都可操作取消 2-用户取消配送 3-天使取消接单 4-天使接单
-								identity: item.imAccount, // 配送天使的imAccount
+								status: 1 ,// 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
+								identity: item.imAccount, // 配送配送员的imAccount
 							}
 							_this.sendMsgToOther(item.imAccount, goodsInfo, 6, 2, ()=>{
 								_this.editDBData(goodsInfo.orderId, goodsInfo.status)

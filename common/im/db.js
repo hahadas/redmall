@@ -107,8 +107,8 @@ function createChatListSQL(callback){
  * 数据结构：
  * {
  * 	id	 				会话id
- * 	type	 			会话类型，1-用户 2-天使 3-店铺
- * 	toType	 			会话类型，1-用户 2-天使 3-店铺 4-天使用户 5-店铺客户
+ * 	type	 			会话类型，1-用户 2-配送员 3-店铺
+ * 	toType	 			会话类型，1-用户 2-配送员 3-店铺 4-配送员用户 5-店铺客户
  *  userId	 			我的id
  *  toUserId	 		对方用户id
  *  imAccount			我的im账号

@@ -119,7 +119,7 @@
 					iconPath: '/static/icon_position.png'
 				}]"></map>
 				<view class="flex flex-center" style="margin-top: 20rpx;" v-if="orderInfo.orderType === 2">
-					<button type="primary" size="mini" class="bg-base" v-if="orderInfo.deliveryPlatformStatus === 1" @click="selectAgent()">选择天使</button>
+					<button type="primary" size="mini" class="bg-base" v-if="orderInfo.deliveryPlatformStatus === 1" @click="selectAgent()">选择配送员</button>
 					<button type="primary" size="mini" class="bg-base" :disabled="btnLoading" :loading="btnLoading" v-if="orderInfo.deliveryPlatformStatus === 2" @click="cancelDelivery()">取消配送</button>
 				</view>
 			</block>
@@ -241,7 +241,7 @@
 						<uni-rate :size="15" :margin="4" :value="goodsEvaluate.evaluateDistributionScore" readonly></uni-rate>
 					</view>
 				</view>
-				<text class="font28 color-b9">评价天使：<text class="color-b3">{{goodsEvaluate.evaluateDistributionComment || "用户未评论天使"}}</text></text>
+				<text class="font28 color-b9">评价配送员：<text class="color-b3">{{goodsEvaluate.evaluateDistributionComment || "用户未评论配送员"}}</text></text>
 				<view class="imgs" v-if="goodsEvaluate.evaluateDistributionImages">
 					<image :src="item" mode="" class="pic" v-for="(item, index) in goodsEvaluate.evaluateDistributionImages" :key="index" @click="viewImg(goodsEvaluate.evaluateDistributionImages, item)"></image>
 				</view>
@@ -406,7 +406,7 @@
 					// 平台配送
 					if (res.data.deliveryMethod === 4) {
 						if (res.data.orderType === 1) { // 普通商品
-							this.agentOption.unshift({title: "等待天使接单", desc: this.splitTime(res.data.createTime)})
+							this.agentOption.unshift({title: "等待配送员接单", desc: this.splitTime(res.data.createTime)})
 							if (res.data.deliveryPlatformStatus === 1) {
 								this.agentActive = res.data.deliveryPlatformStatus - 1
 							} else {
@@ -414,8 +414,8 @@
 							}
 						} else if (res.data.orderType === 2) {
 							this.agentOption.unshift({
-								title: "请选择天使", desc: this.splitTime(res.data.createTime)}, 
-								{title: "已选择天使", desc: this.splitTime(res.data.deliveryPlatformSelectTime)})
+								title: "请选择配送员", desc: this.splitTime(res.data.createTime)}, 
+								{title: "已选择配送员", desc: this.splitTime(res.data.deliveryPlatformSelectTime)})
 							this.agentActive = res.data.deliveryPlatformStatus - 1
 						}
 						let length = this.agentOption.length
@@ -423,7 +423,7 @@
 						this.agentOption[length-2].desc = this.splitTime(res.data.deliveryPlatformPickedTime) || ""
 						this.agentOption[length-1].desc = this.splitTime(res.data.confirmReceiptTime) || ""
 						this.deliveryUserInfo = res.data.deliveryUserInfo || {}
-						// 已接单或配送中时，计时器开始获取天使经纬度，更新天使位置，暂时注释
+						// 已接单或配送中时，计时器开始获取配送员经纬度，更新配送员位置，暂时注释
 						// if (res.data.deliveryPlatformStatus === 3 || res.data.deliveryPlatformStatus === 4) { // 已接单/配送中
 						// 	this.countDown()
 						// 	this.sessionOperation()
@@ -492,7 +492,7 @@
 				// }
 			},
 			// 是否隐藏配送元手机号码和点击拨号
-			// 如果是精品订单，平台配送，已选择配送员则隐藏订单中的天使手机号，和拨号按钮
+			// 如果是精品订单，平台配送，已选择配送员则隐藏订单中的配送员手机号，和拨号按钮
 			isDeliveryPhone(row){
 				if (row.orderType === 2 && row.deliveryMethod === 4 && row.deliveryPlatformStatus === 2) {
 					return false
@@ -521,7 +521,7 @@
 					address: _this.storeInfo.addressDetails + _this.storeInfo.addressSupplement
 				});
 			},
-			// 取消天使为我配送
+			// 取消配送员为我配送
 			cancelDelivery(){
 				this.btnLoading = true
 				let toImAccount = this.deliveryUserInfo.imAccount
@@ -541,8 +541,8 @@
 						goodsName: this.orderInfo.goodsName,
 						skuName: this.orderInfo.skuName,
 						price: this.orderInfo.totalPrice,
-						status: 2 , // 1-邀请对方接单，用户和天使都可操作取消 2-用户取消配送 3-天使取消接单 4-天使接单
-						identity: toImAccount, // 配送天使imAccount
+						status: 2 , // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
+						identity: toImAccount, // 配送配送员imAccount
 					}
 					this.sendMsgToOther(toImAccount, goodsInfo, 6, 2, ()=>{
 						this.editDBData(goodsInfo.orderId, goodsInfo.status)
@@ -553,7 +553,7 @@
 					this.btnLoading = false
 				})
 			},
-			// 选择天使
+			// 选择配送员
 			selectAgent(){
 				let data = {
 					orderId: this.id,

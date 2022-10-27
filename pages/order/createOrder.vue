@@ -23,7 +23,6 @@
 			<view class="g-header">
 				<image class="logo" :src="orderInfo.storeInfo.logoImage"></image>
 				<text class="name">{{orderInfo.storeInfo.name }}</text>
-				<!-- <text class="name" v-if="groupActivity">团购-{{groupActivity.name}}</text> -->
 			</view>
 			<!-- 商品 -->
 			<view class="g-box">
@@ -84,9 +83,6 @@
 						<text class="txt" v-else>无需配送</text>
 					</view>
 				</view>
-				<!-- <view class="flex flex-center" v-if="item.storeDistanceFlag && item.storeIsBoutique && goods.dkUserSize">
-					<text class="color-purple blod font34">此刻附近还有<text class="font48" style="margin: 0 10rpx;">{{ goods.dkUserSize }}</text>位慈善天使</text>
-				</view> -->
 				<view class="other" v-if="orderInfo.discountUserList && orderInfo.discountUserList.length > 0">
 					<view class="g-cell" @click="showDiscountPopup()">
 						<text class="label">店铺优惠</text>
@@ -97,12 +93,6 @@
 						</view>
 					</view>
 				</view>
-				<!-- <view class="flex flex-space-end g-box-bom">
-					<text class="color-b9 font24">共{{item.commitOrderList.length}}件，</text>
-					<text class="color-b3 font26">小计：</text>
-					<text class="color-red font28">{{ (item.goodsAllTotal - item.goodsIntegralTotal - item.discountAmount).toFixed(2) }}元 {{item.goodsIntegralTotal.toFixed(2)}}积分</text>
-				</view> -->
-				
 			</view>
 		</view>
 		<view style="height: 120rpx;"></view>
@@ -171,7 +161,6 @@
 				integral: 0,
 				deliveryMode: [], // 配送方式
 				discountList: [], // 优惠券
-				// discountId: null, // 使用优惠券的id
 			}
 		},
 		filters: {
@@ -206,7 +195,7 @@
 				// 配送方式
 				if (commitOrderData.goodsInfo.deliveryNo === 2){
 					if (commitOrderData.orderType === 2) { // 精品商品只有平台配送
-						this.deliveryMode.push({value: "deliveryPlatform", name: "平台配送", note: "平台天使配送上门", status: 4})
+						this.deliveryMode.push({value: "deliveryPlatform", name: "平台配送", note: "平台配送员配送上门", status: 4})
 					} else {
 						if (commitOrderData.goodsInfo.deliveryExpress === 1) {
 							this.deliveryMode.push({value: "deliveryExpress", name: "快递邮寄", note: "快递物流配送", status: 1})
@@ -215,7 +204,7 @@
 							this.deliveryMode.push({value: "deliveryBusiness", name: "商家配送", note: "商家自行配送上门", status: 2})
 						}
 						if (commitOrderData.goodsInfo.deliveryPlatform === 1 && commitOrderData.orderType !== 3) { // 进货时没有平台配送
-							this.deliveryMode.push({value: "deliveryPlatform", name: "平台配送", note: "平台天使配送上门", status: 4})
+							this.deliveryMode.push({value: "deliveryPlatform", name: "平台配送", note: "平台配送员配送上门", status: 4})
 						}
 						if (commitOrderData.goodsInfo.deliverySelfraising === 1) {
 							this.deliveryMode.push({value: "deliverySelfraising", name: "用户自提", note: "到店自取", status: 3})
@@ -270,7 +259,6 @@
 					paymentCombination: this.orderInfo.payComposeType || 1, // 支付组合 1-关闭 2-使用
 					deliveryMethod: this.orderInfo.deliveryId || 5 // 配送方式
 				}
-				// console.log("......commit...params...", params)
 				this.$http("POST", url.order.commitOrder, params).then(res =>{
 					let data = {
 						goodsId: this.orderInfo.goodsId,
@@ -283,7 +271,6 @@
 						toImAccount: this.orderInfo.storeInfo.imAccount,
 						...res.data
 					}
-					console.log(data, ".........")
 					uni.setStorageSync("orderData", data)
 					uni.redirectTo({
 						url: "/pages/order/payment/index"
@@ -361,7 +348,6 @@
 			},
 			// 选择优惠券
 			radioChangeDiscount(e){
-				// this.discountId = parseInt(e.detail.value)
 				this.orderInfo.discountId = parseInt(e.detail.value)
 			},
 			// 优惠券modal确认按钮

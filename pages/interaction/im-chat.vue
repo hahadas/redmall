@@ -128,7 +128,7 @@
 										<text class="color-b6 font28" v-if="row.content.status === 3 && row.content.reason">取消配送原因：{{row.content.reason}}</text>
 										<view class="flex flex-align-center flex-space-around" style="width: 100%;">
 											<block v-if="row.content.identity === userInfo.imAccount">
-												<!-- 天使 -->
+												<!-- 配送员 -->
 												<text class="btn" v-if="row.content.status === 1" @tap.stop="takOrder(row, 4)">确认接单</text>
 												<text class="btn" v-if="row.content.status === 1" @tap.stop="takOrder(row, 3)">取消接单</text>
 												<text class="btn" v-if="row.content.status === 2">已取消配送</text>
@@ -245,7 +245,7 @@
 										<text class="color-b6 font28" v-if="row.content.status === 3 && row.content.reason">取消配送原因：{{row.content.reason}}</text>
 										<view class="flex flex-align-center flex-space-around" style="width: 100%;">
 											<block v-if="row.content.identity === userInfo.imAccount">
-												<!-- 天使 -->
+												<!-- 配送员 -->
 												<text class="btn" v-if="row.content.status === 1" @tap.stop="takOrder(row, 4)">确认接单</text>
 												<text class="btn" v-if="row.content.status === 1" @tap.stop="takOrder(row, 3)">取消接单</text>
 												<text class="btn" v-if="row.content.status === 2">已取消配送</text>
@@ -503,7 +503,7 @@
 				createVideoContext: null,
 				videoKeyObj: {},
 				isOnline: true, // 对方是否在线，默认在线
-				type: 1, // 会话类型 1-用户 2-天使 3-店铺
+				type: 1, // 会话类型 1-用户 2-配送员 3-店铺
 				pages: "", // 从哪个页面进入，点击导航栏按钮的时候进入对方个人主页，默认从user.nvue进入聊天，点击则返回，如果是从会话列表进入聊天，点击进入对方个人主页并隐藏下方按钮
 				msgLock: false,
 				orderList: [],
@@ -1003,7 +1003,7 @@
 			onCloseOrder(i){
 				this.orderList.splice(i, 1)
 			},
-			// 接单操作, type 1=用户邀请接单，2=用户取消配送，3=天使取消接单, 4=天使接单，
+			// 接单操作, type 1=用户邀请接单，2=用户取消配送，3=配送员取消接单, 4=配送员接单，
 			takOrder(row, type, status, index){
 				let _this = this
 				let path = null
@@ -1032,7 +1032,7 @@
 							goodsName: row.goodsName,
 							skuName: row.skuName,
 							price: row.totalPrice,
-							status: 1 , // 1-邀请对方接单，用户和天使都可操作取消 2-用户取消配送 3-天使取消接单 4-天使接单
+							status: 1 , // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
 							identity: this.chatUser.imAccount, // 配送员的imAccount
 						}
 						this.onCloseOrder(index)

@@ -24,7 +24,7 @@
 				</view>
 			</view>
 		</view>
-		<!-- 评价天使 -->
+		<!-- 评价配送员 -->
 		<view class="con bg-w" v-if="info.deliveryPlatformUserId">
 			<view class="flex">
 				<view><image :src="info.deliveryUserInfo.headPortrait" mode="" class="img"></image></view>
@@ -36,7 +36,7 @@
 			<view class="flex flex-center rate">
 				<uni-rate :size="30" :margin="10" @change="rateChange($event, 'evaluateDistributionScore')"></uni-rate>
 			</view>
-			<textarea class="textarea font30" v-model="form.evaluateDistributionComment" :maxlength="100" placeholder="评价天使,配送满足你的期待吗？分享给大家吧" />
+			<textarea class="textarea font30" v-model="form.evaluateDistributionComment" :maxlength="100" placeholder="评价配送员,配送满足你的期待吗？分享给大家吧" />
 			<view class="img-box flex flex-align-center">
 				<block v-if="agentImgList.length > 0">
 					<view class="imgs" v-for="(item, index) in agentImgList" :key="index" @tap="viewImage(item, 'agentImgList')">

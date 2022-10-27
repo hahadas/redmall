@@ -42,9 +42,6 @@
 		<view class="user-detail">
 			<view class="left flex">
 				<text class="color-w font36"> {{memberData.userNickName}} </text>
-				<!-- <view class="number">
-					<text class="text-white"> 酒音号：100001 </text>
-				</view> -->
 				<!-- 签名 -->
 				<text class="font28 color-b9">{{memberData.userNote ? memberData.userNote:"未填写个性签名"}} </text>
 			</view>

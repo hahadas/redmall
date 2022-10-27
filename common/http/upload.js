@@ -137,7 +137,7 @@ let uploadImg = {
 			}
 		});
 	},
-	// 动态酒音上传
+	// 动态上传
 	async oldOssUpload(path, callback){
 		if(!path) return
 		uni.showLoading({

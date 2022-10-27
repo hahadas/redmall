@@ -1,6 +1,5 @@
 <template>
 	<view style="height: 100%;">
-		<!-- :menuTop="100+statusBarHeight*2" -->
 		<HMfilterDropdown
 			:menuTop="100+statusBarHeight*2"
 			:filterData="oneFilter" 
@@ -24,7 +23,7 @@
 									<text class="iconfont icon" v-else>&#xe622;</text>
 									<text class="txt">{{item.age||0}}</text>
 								</view>
-								<text class="mark bg-base" v-if="item.distributorIsOpen">慈善天使</text>
+								<text class="mark bg-base" v-if="item.distributorIsOpen">配送员</text>
 							</view>
 						</view>
 					</view>

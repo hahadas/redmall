@@ -24,7 +24,7 @@ let filter = {
 			submenu: [
 				{name: "全部", value: -1},
 				{name: "普通用户", value: 0},
-				{name: "慈善天使", value: 1}
+				{name: "配送员", value: 1}
 			]
 		}
 	],

@@ -27,7 +27,7 @@
 			</view>
 			<view class="form-item flex flex-align-center" v-if="!isView">
 				<text class="label font32">登入密码：</text>
-				<input type="password" placeholder="喝酒么登入密码" v-model="password">
+				<input type="password" placeholder="登入密码" v-model="password">
 			</view>
 		</view>
 		<button type="primary" class="bg-base" v-if="!isView" :loading="loading" :disabled="loading" @tap="onSave()">确定</button>

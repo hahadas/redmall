@@ -31,7 +31,7 @@
 				    if (value) {
 						// launchFlag=true直接跳转到首页
 						uni.switchTab({
-							url: '/pages/interaction/index'
+							url: '/pages/home/index'
 						});
 				    } else {
 						// launchFlag!=true显示引导页
@@ -50,7 +50,7 @@
 				}
 				return;
 				uni.switchTab({
-				    url: '/pages/interaction/index'
+				    url: '/pages/home/index'
 				});
 			},
 		}

@@ -33,7 +33,7 @@
 							<text style="padding-left: 10upx;">普通</text>	
 						</radio>
 						<radio v-if="videoType.dkUser" class='blue radio radio-my' :class="videoDate.userType=='1'?'checked':''" :checked="videoDate.userType=='1'?true:false" value="1">
-							<text style="padding-left: 10upx;">天使(品酒师)主页</text>	
+							<text style="padding-left: 10upx;">配送员(品酒师)主页</text>	
 						</radio>
 						<radio v-if="videoType.store" class='blue radio radio-my' :class="videoDate.userType=='2'?'checked':''" :checked="videoDate.userType=='2'?true:false" value="2">
 							<text style="padding-left: 10upx;">商家店铺主页</text>	

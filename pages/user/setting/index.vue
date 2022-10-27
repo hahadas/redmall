@@ -44,7 +44,7 @@
 			</view>
 			<view class="b-b"></view>
 			<view class="list-cell m-t" @click="navTo('/pages/notice/agreement?id='+aboutId)" hover-class="cell-hover" :hover-stay-time="50">
-				<text class="cell-tit">关于喝酒么</text>
+				<text class="cell-tit">关于redMall</text>
 				<text class="cell-more iconfont">&#xe770;</text>
 			</view>
 			<view class="b-b"></view>
@@ -64,7 +64,7 @@
 		</view>
 		<view class="fixed">
 			<text class="p1" @tap="navTo('privacy?status=hide')">服务协议｜隐私政策</text>
-			<text class="p2">Copyright ©️ 2020 HeJiuMe.All Rights Reserved.</text>
+			<text class="p2">Copyright ©️ 2020 RedMall.All Rights Reserved.</text>
 		</view>
 	</view>
 </template>

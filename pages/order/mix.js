@@ -18,7 +18,7 @@ export default{
 					return "用户自提";
 					break;
 				case 4:
-					return "平台天使配送";
+					return "平台配送员配送";
 					break;
 				default:
 					return "无";
@@ -74,11 +74,11 @@ export default{
 				}
 			} else if (row.deliveryMethod === 4){ // 平台配送
 				if (row.deliveryPlatformStatus === 1 && row.orderType !== 2) { // 普通商品时，未选择配送员/等待配送员接单
-					str = "等待天使接单"
+					str = "等待配送员接单"
 				} else if (row.deliveryPlatformStatus === 1 && row.orderType === 2){ // 精品商品时，已选择配送员/等待配送员接单
-					str = "请选择天使"
+					str = "请选择配送员"
 				} else if (row.deliveryPlatformStatus === 2){ // 已选择配送员/等待配送员接单，商品是精品商品时才存在该状态
-					str = "已选择天使"
+					str = "已选择配送员"
 				} else if (row.deliveryPlatformStatus === 3){
 					str = "已接单"
 				} else if (row.deliveryPlatformStatus === 4){

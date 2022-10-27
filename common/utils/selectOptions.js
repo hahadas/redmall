@@ -71,25 +71,6 @@ export default{
 		{name: "已退款", value: 10},
 		{name: "已关闭", value: 11}
 	],
-	// 存托操作类型
-	depositOperationList: [
-		{name: "全部", value: -1},
-		{name: "存托计划", value: 1},
-		{name: "销售提成", value: 2},
-		{name: "存托收益", value: 3},
-		{name: "平台充值", value: 4},
-		{name: "平台扣除", value: 5},
-		{name: "存托收益转资产", value: 6},
-		{name: "销售提成转资产", value: 7},
-		{name: "提现", value: 8},
-		{name: "资产转喝酒么积分", value: 33}
-	],
-	// 存托钱包类型
-	depositWalletList: [
-		{name: "余额钱包", value: 1},
-		{name: "存托收益钱包", value: 2},
-		{name: "销售提成钱包", value: 3}
-	],
 	// 用户钱包类型
 	walletType: [
 		{name: "余额钱包", value: 1},

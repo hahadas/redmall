@@ -8,15 +8,12 @@
 			<view class="about" v-if="current === 0">
 				<view class="about-item">
 					<image src="/static/merchants/introduce1.png" mode="widthFix"></image>
-					<!-- <text class="name">喝酒么APP通过大量的广告宣传，吸引了大量用户。</text> -->
 				</view>
 				<view class="about-item">
 					<image src="/static/merchants/introduce2.png" mode="widthFix"></image>
-					<!-- <text class="name">品牌代理为客户配送，粘性高，销售量增加，收益上升。</text> -->
 				</view>
 				<view class="about-item">
 					<image src="/static/merchants/introduce3.png" mode="widthFix"></image>
-					<!-- <text class="name">降低宣传成本，人工成本，销售成本。</text> -->
 				</view>
 			</view>
 			<view class="procedure bg-w" v-if="current === 1">
@@ -54,7 +51,7 @@
 					<image src="/static/merchants/class.png" mode="" class="icon"></image>
 					<text>品类范围</text>
 				</view>
-				<text class="font28 color-b9">喝酒么支持一下经营项目</text>
+				<text class="font28 color-b9">redMall支持一下经营项目</text>
 				<view class="flex wrap">
 					<text class="name">1.酒水饮料</text>
 					<text class="name">2.服装鞋帽</text>
@@ -70,7 +67,7 @@
 		<view class="bom">
 			<button type="primary" class="bg-base btn" @click="onClick">立即入驻</button>
 			<text class="font26 color-b9">
-				入驻即表示同意喝酒么的<text class="color-purple" @click="jumpTo()">《商家入驻条款》</text>
+				入驻即表示同意redMall的<text class="color-purple" @click="jumpTo()">《商家入驻条款》</text>
 			</text>
 		</view>
 	</view>

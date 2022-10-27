@@ -61,7 +61,7 @@
 		</view>
 		<view class="flex flex-center" style="margin-top: 50rpx;">
 			<text class="font26 color-b9">
-				提交申请即表示同意喝酒么的<text class="color-purple" @click="jumpTo()">《天使入驻条款》</text>
+				提交申请即表示同意redMall的<text class="color-purple" @click="jumpTo()">《配送员入驻条款》</text>
 			</text>
 		</view>
 		<!-- <view style="height: 80rpx;"></view> -->

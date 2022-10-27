@@ -93,9 +93,9 @@
 		data(){
 			return {
 				swiperHeight: uni.getSystemInfoSync().windowHeight,
-				tabs: ["发布酒音", "发布动态"],
+				tabs: ["发布视频", "发布动态"],
 				current: 0,
-				// 发布酒音
+				// 发布
 				videoBtnTitle:'发布视频',
 				videoHeight:'200',
 				videoSize:50,
@@ -365,7 +365,6 @@
 				let res = await sendRequest('post', url.interaction.saveOrUpdateVideo, paret);
 				let data = res.data
 				uni.hideLoading();
-				console.log("......发布酒音成功......", data)
 				if(data){
 					if(data.trim() == "411"){
 						this.showToast("请先设置您当前的位置");
@@ -513,7 +512,7 @@
 		color: #381895;
 		border-bottom-color: #381895;
 	}
-	/* 发布酒音 */
+	/* 发布 */
 	.pad{
 		width: 750rpx;
 		padding: 30rpx 20rpx;

@@ -63,12 +63,11 @@
 						<view><image :src="userData.headPortrait" mode="" class="avatar"></image></view>
 						<view class="flex flex-column flex-grow">
 							<text class="font30 line">{{userData.nickname}}</text>
-							<!-- <text>Lv.0慈善天使</text> -->
 						</view>
 						<text class="iconfont">&#xe770;</text>
 					</view>
 					<view class="flex flex-between today font28">
-						<text>天使钱包</text>
+						<text>配送员钱包</text>
 						<text>¥{{balance||0}}</text>
 					</view>
 				</view>
@@ -289,8 +288,8 @@
 							skuName: row.skuName,
 							price: row.totalPrice,
 							number: row.number,
-							status: 4 ,// 1-邀请对方接单，用户和天使都可操作取消 2-用户取消配送 3-天使取消接单 4-天使接单
-							identity: this.userData.imAccount, // 配送天使的imAccount
+							status: 4 ,// 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
+							identity: this.userData.imAccount, // 配送配送员的imAccount
 						}
 						this.sendMsgToOther(row.userOrderImAccount, goodsInfo, 6, 1, ()=>{
 							this.editDBData(goodsInfo.orderId, goodsInfo.status)
@@ -326,8 +325,8 @@
 						skuName: row.skuName,
 						price: row.totalPrice,
 						number: row.number,
-						status: 3, // 1-邀请对方接单，用户和天使都可操作取消 2-用户取消配送 3-天使取消接单 4-天使接单
-						identity: this.userData.imAccount, // 配送天使的imAccount
+						status: 3, // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
+						identity: this.userData.imAccount, // 配送配送员的imAccount
 						reason: value
 					}
 					this.sendMsgToOther(toImAccount, goodsInfo, 6, 1, ()=>{

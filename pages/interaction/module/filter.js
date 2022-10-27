@@ -8,7 +8,7 @@ let filter = {
 		[
 			{text: "所有用户", value: -1},
 			{text: "普通用户", value: 0},
-			{text: "慈善天使", value: 1}
+			{text: "配送员", value: 1}
 		]
 	],
 	twoFilter:[

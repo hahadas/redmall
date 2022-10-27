@@ -14,10 +14,6 @@
 					<view class="wrap-box">
 						<view class="wrap-box-avatar">
 							<image :src="filterImg(userDetail.headPortrait, 1)" mode="aspectFill" class="wrap-box-avatar-img" @click="previewImg($event, [userDetail.headPortrait], 0)"></image>
-							<!-- <view class="wrap-box-avatar-online">
-								<image :src="'/static/user/yuan_'+(isOnline?'green':'grey')+'.png'" mode="" class="wrap-box-avatar-online-yuan"></image>
-								<text class="wrap-box-avatar-online-txt">{{isOnline?'在线':'离线'}}</text>
-							</view> -->
 						</view>
 						<view class="wrap-box-info">
 							<text class="wrap-box-info-name">{{userDetail.nickname}}</text>
@@ -28,7 +24,7 @@
 									<text class="six-name">{{userDetail.age}}</text>
 								</view>
 								<text class="constellation">{{userDetail.constellation}}</text>
-								<text class="mark" v-if="userDetail.distributorIsOpen">慈善天使</text>
+								<text class="mark" v-if="userDetail.distributorIsOpen">配送员</text>
 							</view>
 							<view class="addr">
 								<view class="flex flex-align-center flex-row" style="width: 400rpx;" v-if="addressName">
@@ -109,7 +105,7 @@
 												<image src="/static/video/woman.png" mode="" class="six-icon" v-if="userDetail.gender === 3"></image>
 												<text class="six-name">{{userDetail.age||0}}</text>
 											</view>
-											<text class="mark" v-if="userDetail.distributorIsOpen">慈善天使</text>
+											<text class="mark" v-if="userDetail.distributorIsOpen">配送员</text>
 										</view>
 									</view>
 								</view>
@@ -168,8 +164,6 @@
 									<image :src="filterImg(item.goodsInfo.mainImage, 3)" mode="aspectFill" class="goods-img" lazy-load></image>
 									<view class="goods-wrap">
 										<view class="goods-wrap-title">
-											<!-- <text class="goods-wrap-title-mark" v-if="item.isNewProducts == 2">新品</text> -->
-											<!-- <text class="goods-wrap-title-mark" v-else-if="item.goodsType == 2">精品</text> -->
 											<text class="goods-wrap-title-name">{{item.goodsInfo.titleName}}</text>
 										</view>
 										<view class="goods-wrap-tip">
@@ -250,8 +244,8 @@
 				dynamicList: [],
 				cellTabs: [
 					{name:"TA的动态", total:0},
-					{name:"TA的酒音", total:0}
-					// {name:"天使库存", total:8}
+					{name:"TA的视频", total:0}
+					// {name:"配送员库存", total:8}
 				],
 				cellIndex: 0,
 				localUserId: "",
@@ -364,7 +358,7 @@
 				this.getList()
 				this.getVideoInit()
 				if (this.userDetail.distributorIsOpen){
-					this.cellTabs[2] = {name:"天使库存", total:0}
+					this.cellTabs[2] = {name:"配送员库存", total:0}
 					this.getProductList()
 				}
 				this.$refs.refresh.finish()
@@ -515,7 +509,7 @@
 							let params = {
 								toImAccount: _this.id
 							}
-							let msg = "拉黑该用户后，在附近、天使、动态、酒音中将不会出现该用户以及该用户发布的任何内容，是否要拉黑？"
+							let msg = "拉黑该用户后，在附近、配送员、动态、视频中将不会出现该用户以及该用户发布的任何内容，是否要拉黑？"
 							let title = "拉黑"
 							let path = url.user.addBackUser
 							if (_this.isBack) {

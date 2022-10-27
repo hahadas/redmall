@@ -16,7 +16,7 @@
 											<view class="username">
 												<text class="font24 bg-base color-w"
 												style="padding: 5upx 8upx;border-radius: 6rpx;margin-right: 5upx;">
-													慈善天使
+													配送员
 												</text>
 												{{item.channelName}}
 											</view>

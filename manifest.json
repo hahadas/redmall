@@ -59,20 +59,21 @@
                     "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ],
-                "schemes" : "hejiume"
+                "schemes" : "redMall",
+                "abiFilters" : [ "armeabi-v7a", "arm64-v8a" ]
             },
             /* ios打包配置 */
             "ios" : {
                 "idfa" : false,
-                "urltypes" : "hejiume",
+                "urltypes" : "redMall",
                 "privacyDescription" : {
-                    "NSPhotoLibraryUsageDescription" : "注册、发布动态、发布酒音、聊天中用到相册中的图片",
+                    "NSPhotoLibraryUsageDescription" : "注册、发布动态、发布视频、聊天中用到相册中的图片",
                     "NSPhotoLibraryAddUsageDescription" : "聊天、动态中可保存图片至本地相册",
                     "NSCameraUsageDescription" : "聊天时发送图片、发送视频、视频通话需要用到摄像头拍摄图片和视频",
                     "NSMicrophoneUsageDescription" : "聊天时发送语音、视频通话时需要用到麦克风",
                     "NSLocationWhenInUseUsageDescription" : "需要根据用户当前的位置定位获取应用中的附近商品、附近商家、附近的动态、附近的人、附近的商家",
-                    "NSLocationAlwaysUsageDescription" : "如果入驻成为天使(配送员)接单配送的时候，需要实时更新配送员的位置，让用户能看到配送轨迹",
-                    "NSLocationAlwaysAndWhenInUseUsageDescription" : "如果入驻成为天使(配送员)接单配送的时候，需要实时更新配送员的位置，让用户能看到配送轨迹"
+                    "NSLocationAlwaysUsageDescription" : "如果入驻成为配送员(配送员)接单配送的时候，需要实时更新配送员的位置，让用户能看到配送轨迹",
+                    "NSLocationAlwaysAndWhenInUseUsageDescription" : "如果入驻成为配送员(配送员)接单配送的时候，需要实时更新配送员的位置，让用户能看到配送轨迹"
                 },
                 "dSYMs" : false
             },
@@ -241,7 +242,7 @@
         "enable" : false
     },
     "h5" : {
-        "title" : "喝酒么",
+        "title" : "redMall",
         "domain" : "http://hejiume-wap.hushuo.show"
     }
 }

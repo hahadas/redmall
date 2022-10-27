@@ -96,7 +96,7 @@ export default{
 		getCollectionInfo: "collection/collectionInfo", // 根据扫码信息获取支付信息
 		scanBalancePay: "payBalance/scanPayment",  // 扫码余额支付
 	},
-	// 用户/天使/商家提现相关
+	// 用户/配送员/商家提现相关
 	withdrawal: {
 		apply: "withdrawal/add", // 提交余额钱包提现申请
 		getConfigInfo: "withdrawal/config", // 余额钱包提现参数
@@ -133,9 +133,9 @@ export default{
 		getWithdrawalInfo: "deposit/withdrawalConfig", // 获取提现参数
 		withdrawal: "deposit/addWithdrawal", // 提现
 		withdrawalList: "deposit/withdrawalList", // 提现记录
-		walletToIntegralConfig: "deposit/walletTransformationIntegralConfig", // 我的资产转喝酒么积分比例参数
-		transformToIntegral: "deposit/walletTransformationIntegral", // 资产转喝酒么积分
-		transformToIntegralList: "deposit/walletTransformationIntegralList", // 资产转喝酒么积分记录
+		walletToIntegralConfig: "deposit/walletTransformationIntegralConfig", // 我的资产转积分比例参数
+		transformToIntegral: "deposit/walletTransformationIntegral", // 资产转积分
+		transformToIntegralList: "deposit/walletTransformationIntegralList", // 资产转积分记录
 	},
 	// 商家相关
 	store: {
@@ -181,25 +181,25 @@ export default{
 		getTodayCollectionTotal: "collection/store_collection_statistics_today", // 商家获取今日收款数据的统计
 		getCollectionRecordList: "collection/store_collection_order_record", // 商家获取收款记录
 	},
-	// 配送员（天使）相关
+	// 配送员相关
 	distributor: {
 		getApplyInfo: "distributor/applyInfo", // 获取用户配送员入驻申请信息
 		submitApply: "distributor/submitApply", // 提交配送员入驻申请
 		updateApply: "distributor/updateApply", // 修改配送员入驻申请
-		choiceDistributorList: "distributor/choiceDistributorList", // 精品订单获取天使列表
-		choiceDistributor: "distributor/choiceDistributor", // 选择天使为我配送
-		cancelDistributor:"distributor/cancelDistributor", // 取消天使为我配送
-		updateWorkStatus: "distributor/updateWorkStatus", // 天使操作自己的工作状态
+		choiceDistributorList: "distributor/choiceDistributorList", // 精品订单获取配送员列表
+		choiceDistributor: "distributor/choiceDistributor", // 选择配送员为我配送
+		cancelDistributor:"distributor/cancelDistributor", // 取消配送员为我配送
+		updateWorkStatus: "distributor/updateWorkStatus", // 配送员操作自己的工作状态
 		distributorWorkOrder: "distributor/distributorWorkOrder", // 工作中时的订单列表
-		confirmReceiptOrder: "distributor/confirmReceiptOrder", // 天使确认接单
-		cancelReceiptOrder: "distributor/cancelReceiptOrder", // 天使取消接单
-		confirmService: "distributor/confirmService", // 天使确认送达
-		getOrderDetailsById: "distributor/distributorOrderDetails", // 天使获取 精品/普通 订单详情
+		confirmReceiptOrder: "distributor/confirmReceiptOrder", // 配送员确认接单
+		cancelReceiptOrder: "distributor/cancelReceiptOrder", // 配送员取消接单
+		confirmService: "distributor/confirmService", // 配送员确认送达
+		getOrderDetailsById: "distributor/distributorOrderDetails", // 配送员获取 精品/普通 订单详情
 		generalOrderList: "distributor/generalOrderList", // 获取普通大厅订单列表
-		confirmPickUp: "distributor/confirmPickUp", // 天使确认已取货
-		historyOrderList: "distributor/historyOrderList", // 天使获取配送过的历史订单列表
-		historyOrderDetails: "distributor/historyOrderDetails", // 天使获取配送过的历史订单详情
-		distributorDeposit: "distributor/distributorDeposit", // 天使获取交纳押金状态
+		confirmPickUp: "distributor/confirmPickUp", // 配送员确认已取货
+		historyOrderList: "distributor/historyOrderList", // 配送员获取配送过的历史订单列表
+		historyOrderDetails: "distributor/historyOrderDetails", // 配送员获取配送过的历史订单详情
+		distributorDeposit: "distributor/distributorDeposit", // 配送员获取交纳押金状态
 	},
 	// 商品相关
 	goods: {
@@ -223,7 +223,7 @@ export default{
 		refundOrder: "order/refundOrder", // 退款
 		confirmReceipt: "order/confirmReceipt", // 确认收货
 		evaluate: "order/evaluate", // 评论
-		orderBoutiqueList: "order/orderBoutiqueList", // 获取待选择天使配送的订单列表信息
+		orderBoutiqueList: "order/orderBoutiqueList", // 获取待选择配送员配送的订单列表信息
 		orderUpdateRecAddress: "order/orderUpdateRecAddress", // 订单修改收货地址
 		delUserOrder: "order/delUserOrder", // 删除订单
 	},
@@ -246,7 +246,7 @@ export default{
 	interaction: {
 		dynamicAllList: "single/comment/indexComments", // 所有动态信息
 		storeUmsList: "dynamic/peopleNearby", // 附近的人列表
-		getAngelNearbyList: "dynamic/angelNearby", // 附近的天使列表
+		getAngelNearbyList: "dynamic/angelNearby", // 附近的配送员列表
 		dkUsersHuDong: 'single/store/store/dk_users', // 互动界面精品代理信息
 		getDynamicUser: "single/comment/userCommentInit", // 获取动态用户信息
 		getUserDynamickList: "single/comment/userComments", // 获取用户所有动态列表
@@ -258,28 +258,28 @@ export default{
 		delDynamic: "single/comment/delComment", // 删除动态
 		commentOrReplyDynamic: "single/comment/commentByVideo", // 评论/回复动态
 		addDynamic: "single/comment/add_comment", // 发布动态
-		// 酒音
-		inintIndexVideo: 'single/home/inintIndexVideoData', //酒音视频：附近、推荐、关注数据初始化
-		indexVideoDates: 'single/home/indexVideoDates', //酒音视频：附近、推荐、关注
-		userVideoType: 'single/home/userVideoType', //酒音用户主页作品、关注、喜欢数据
-		getVideoDetailById: "single/home/findByJiuYinId", // 根据酒音id获取视频
+		// 视频
+		inintIndexVideo: 'single/home/inintIndexVideoData', //视频：附近、推荐、关注数据初始化
+		indexVideoDates: 'single/home/indexVideoDates', //视频：附近、推荐、关注
+		userVideoType: 'single/home/userVideoType', //用户主页作品、关注、喜欢数据
+		getVideoDetailById: "single/home/findByJiuYinId", // 根据id获取视频
 		followByUserId: 'single/home/followByUserId', //关注、取关
 		likeByVideo: 'single/home/likeByVideo', //点赞、取消点赞视频
 		comments: 'single/home/comments', //获取评论、回复
 		commentByVideo: 'single/home/commentByVideo', //评论、回复视频
 		commentByDel: 'single/home/commentByDel', //删除评论
 		likeByCommentByJiuYin: 'single/home/likeByComment', //评论点赞
-		updateJiuYinAvatar: 'single/user/updateJiuYinAvatar', //修改酒音主页背景
-		userVideoInit: 'single/home/userVideoInit', //酒音用户主页数据初始化
+		updateJiuYinAvatar: 'single/user/updateJiuYinAvatar', //修改主页背景
+		userVideoInit: 'single/home/userVideoInit', //用户主页数据初始化
 		getByVideoIdMyMsg: 'single/home/getByVideoIdMyMsg', //获取点赞、关注信息
 		getVideoByCommentId: 'single/home/getVideoByCommentId', //获取我的评论的视频信息
-		commentsByMe: 'single/home/commentsByMe', //获取酒音评论回复信息
+		commentsByMe: 'single/home/commentsByMe', //获取评论回复信息
 		getMyCommentList: 'single/comment/commentsByMe', //获取动态评论回复信息
-		videoConfig: 'single/home/video_config', //获取酒音配置信息
-		saveOrUpdateVideo: 'single/home/saveOrUpdateVideo', //发布/修改酒音视频
+		videoConfig: 'single/home/video_config', //获取配置信息
+		saveOrUpdateVideo: 'single/home/saveOrUpdateVideo', //发布/修改视频
 		delVideo: 'single/home/delVideo', //删除视频
 	},
-	// 天使库存相关
+	// 配送员库存相关
 	agent: {
 		getStockList: "userStock/stockList", // 获取库存商品列表
 	},

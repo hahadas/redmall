@@ -222,7 +222,7 @@
 									{
 										type: 'text',
 										fontStyle: 'italic',
-										text: '喝酒么',
+										text: 'redMall',
 										fontWeight: 'bold',
 										size: fontSize+10,
 										color: 'white',

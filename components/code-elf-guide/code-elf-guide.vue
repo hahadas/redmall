@@ -15,14 +15,6 @@
 		:autoplay="autoplay" 
 		:duration="duration">
 			<swiper-item v-for="(item,index) in imagesList" :key="index" style="width: 100%;height: 100%;overflow-y: hidden;">
-				<!-- <view class="swiper-item" style="width: 100%;overflow-y: hidden;
-		height: 100%;
-		position: fixed;
-		background-repeat: no-repeat;
-		background-position: 0px 0px;
-		background-size: 100% 100%;
-		font-size: 30upx;" :style="'background-image: url('+item+');'">
-				</view> -->
 				<image :src="item" mode="aspectFill" style="width: 100%;overflow-y: hidden;height: 100%;position: fixed;background-repeat: no-repeat;" @tap="advertJump(item.operationCode, item.operationValue)"></image>
 				<view class="jump-over" v-if="index < imagesList.length-1" @tap="launchFlag()">{{index+1}}/{{imagesList.length}} {{jumpover}}</view>
 				<view class="experience" v-if="index == imagesList.length-1" @tap="launchFlag()">{{experience}}</view>
@@ -79,7 +71,7 @@
 					}
 				}).catch((err) => {
 					uni.switchTab({
-						url: '/pages/interaction/index'
+						url: '/pages/home/index'
 					});
 				})
 			},
@@ -94,7 +86,7 @@
 						curRoute += '';
 						if(curRoute.indexOf("startup/index") != -1){//如果当前路由还是在该页面，则进行跳转主页操作
 							uni.switchTab({
-								url: '/pages/interaction/index'
+								url: '/pages/home/index'
 							});
 						}
 					}, _this.interval-500);
@@ -110,7 +102,7 @@
 				}); */
 				this.autoplay = false;
 				uni.switchTab({
-					url: '/pages/interaction/index'
+					url: '/pages/home/index'
 				});
 				
 			},

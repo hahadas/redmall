@@ -179,7 +179,7 @@
 						let params = {
 							toImAccount: _this.detailInfo.imAccount
 						}
-						let msg = "拉黑该用户后，在附近、天使、动态、酒音中将不会出现该用户以及该用户发布的任何内容，是否要拉黑？"
+						let msg = "拉黑该用户后，在附近、配送员、动态、视频中将不会出现该用户以及该用户发布的任何内容，是否要拉黑？"
 						let title = "拉黑"
 						let path = url.user.addBackUser
 						if (_this.isBack) {

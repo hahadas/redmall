@@ -21,7 +21,7 @@
 			return{
 				statusBarHeight: uni.getSystemInfoSync().statusBarHeight, // 状态栏高度
 				current: 0,
-				tabs: ["酒音评论", "动态评论"]
+				tabs: ["视频评论", "动态评论"]
 			}
 		},
 		methods:{

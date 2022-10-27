@@ -74,7 +74,7 @@
 				<!-- <text>积分：{{ (parseInt((goodsInfo.bonusIntegral/100*goodsInfo.wholesalePrice)*100)/100).toFixed(2) }}</text> -->
 				<text>积分：{{ goodsInfo.bonusIntegral }}%</text>
 				<text>月售：{{goodsInfo.totalSales}}</text>
-				<!-- <text v-if="dkUserFlag">附近的天使：{{ dkUserSize }}</text> -->
+				<!-- <text v-if="dkUserFlag">附近的配送员：{{ dkUserSize }}</text> -->
 				<text>浏览：{{goodsInfo.visitBrowse}}</text>
 			</view>
 			<view class="bg-w servies flex flex-align-center font28 color-b9">
@@ -402,7 +402,7 @@
 					if (this.isCollection) {
 						this.options[2].icon = "\ue614"
 					}
-					// 是否具备进货资格(当前商品为精品商品，并且自己为天使, 并且开启精品商品进货)
+					// 是否具备进货资格(当前商品为精品商品，并且自己为配送员, 并且开启精品商品进货)
 					if (res.data.goodsType === 2 && this.userInfo.distributorIsOpen === 1 && res.data.boutiqueBuyingStatus === 1){
 						// this.btnTxt = "进货"
 						this.buttonGroup.push({text: "进货", color: "#fff", backgroundColor: "#764de8"})

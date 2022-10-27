@@ -97,14 +97,14 @@
 				navScrollLeft: 0, // 导航滚动区的滚动距离
 				activeBarLeft: 0, // 滑块距离左边距离
 				navItemWidth: 48,// navitem 宽
-				navList: ["动态", "附近", "天使", "发布", "我的", "评论"],
+				navList: ["动态", "附近", "配送员", "发布", "我的", "评论"],
 				switchIndex: 0, // 使 swiper 切换到的 index
 				current: 0, // swiper change 时的 index
 				finishedIndex: 0, // swiper 停止滑动后的 index
 				isSearch: false, // 是否显示搜索
 				wordKey: "", // 检索条件
 				nearbyWordKey: "", // 附近的人检索key
-				angelWordKey: "", // 天使检索key
+				angelWordKey: "", // 配送员检索key
 				unReadTotal: 0, // 未读消息数量
 				myAddressData: {longitude:0,latitude:0}, // 经纬度
 				redList: [],
@@ -231,7 +231,7 @@
 			},
 			showSearch(){
 				if (this.current !== 1 && this.current !== 2) {
-					return this.$msg("搜索仅限附近和天使～")
+					return this.$msg("搜索仅限附近和配送员～")
 				}
 				this.isSearch = !this.isSearch
 				this.wordKey = ""
@@ -251,7 +251,7 @@
 					setTimeout(()=>{
 						this.$refs.nearby.loadData()
 					}, 200)
-				} else if (current === 2) { // 附近的天使
+				} else if (current === 2) { // 附近的配送员
 					this.angelWordKey = this.wordKey
 					this.$refs.angel.proxyList = []
 					setTimeout(()=>{

@@ -24,7 +24,7 @@
 		data(){
 			return {
 				statusBarHeight: uni.getSystemInfoSync().statusBarHeight, // 状态栏高度
-				tabs: ["发布酒音", "发布动态"],
+				tabs: ["发布视频", "发布动态"],
 				current: 0
 			}
 		},

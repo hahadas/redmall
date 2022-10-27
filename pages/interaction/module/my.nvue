@@ -21,7 +21,7 @@
 									<text class="six-name">{{userDetail.age}}</text>
 								</view>
 								<text class="constellation">{{userDetail.constellation}}</text>
-								<text class="mark" v-if="userDetail.distributorIsOpen">慈善天使</text>
+								<text class="mark" v-if="userDetail.distributorIsOpen">配送员</text>
 							</view>
 							<view class="addr" v-if="addressName">
 								<image src="/static/user/addr.png" mode="" class="addr-icon"></image>
@@ -97,7 +97,7 @@
 												<image src="/static/video/woman.png" mode="" class="six-icon" v-if="userDetail.gender === 3"></image>
 												<text class="six-name">{{userDetail.age||0}}</text>
 											</view>
-											<text class="mark" v-if="userDetail.dkUserId">慈善天使</text>
+											<text class="mark" v-if="userDetail.dkUserId">配送员</text>
 										</view>
 									</view>
 								</view>
@@ -203,7 +203,7 @@
 				dynamicList: [],
 				cellTabs: [
 					{name:"我的动态", total:0},
-					{name:"我的酒音", total:0}
+					{name:"我的视频", total:0}
 				],
 				cellIndex: 0,
 				localUserId: "",
@@ -258,7 +258,7 @@
 				this.getList()
 				this.getVideoInit()
 				if (userInfo.distributorIsOpen){
-					this.cellTabs[2] = {name:"天使库存", total:0}
+					this.cellTabs[2] = {name:"配送员库存", total:0}
 					this.getProductList()
 				}
 			},

@@ -60,7 +60,7 @@
 		components: { vTabs, uniLoadMore },
 		data(){
 			return {
-				type: 1, // 1-用户， 2-天使， 3-用户, 4-存托
+				type: 1, // 1-用户， 2-配送员， 3-用户, 4-存托
 				loadingType: "loading",
 				current: 0,
 				tabs: [

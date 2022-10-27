@@ -54,7 +54,7 @@
 		{
 			"path": "pages/home/index",
 			"style": {
-				"navigationBarTitleText": "喝酒么",
+				"navigationBarTitleText": "redMall",
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
 				"app-plus": {
@@ -203,7 +203,7 @@
 		{
 			"path": "pages/user/index",
 			"style": {
-				"navigationBarTitleText": "喝酒么",
+				"navigationBarTitleText": "redMall",
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
 				"app-plus": {
@@ -740,7 +740,7 @@
 		{
 			"path": "pages/order/agentList",
 			"style": {
-				"navigationBarTitleText": "选择天使",// 选择天使
+				"navigationBarTitleText": "选择配送员",// 选择配送员
 				"enablePullDownRefresh": true,
 				"app-plus": {
 					"pullToRefresh": {
@@ -867,7 +867,7 @@
 		{
 			"path": "pages/video/index",
 			"style": {
-				"navigationBarTitleText": "" ,// 酒音首页
+				"navigationBarTitleText": "" ,// 首页
 				"navigationBarTextStyle": "white",
 				"navigationStyle":"custom",
 				"app-plus": {
@@ -973,7 +973,7 @@
 		{
 			"path": "pages/video/sendVideo",
 			"style": {
-				"navigationBarTitleText": "发布酒音"
+				"navigationBarTitleText": "发布视频"
 			}
 		},
 		{
@@ -1005,7 +1005,7 @@
 		{
 			"path": "pages/agent/apply",
 			"style": {
-				"navigationBarTitleText": "申请成为天使" // 成为配送员
+				"navigationBarTitleText": "申请成为配送员" // 成为配送员
 			}
 		},
 		{
@@ -1283,7 +1283,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "喝酒么",
+		"navigationBarTitleText": "redMall",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	}

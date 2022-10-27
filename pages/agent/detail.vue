@@ -52,7 +52,7 @@
 				<text class="label">预计佣金：</text>
 				<text class="blod color-purple">¥{{orderInfo.deliveryPlatformMoney}}</text>
 			</view>
-			<!-- 普通商品，并且天使已接单或配送中 -->
+			<!-- 普通商品，并且配送员已接单或配送中 -->
 			<view class="flex flex-align-center cell" v-if="orderInfo.orderType === 1 && !isHistory && (orderInfo.deliveryPlatformStatus === 3 || orderInfo.deliveryPlatformStatus === 4)">
 				<text class="label" v-if="orderInfo.deliveryPlatformStatus === 3">取&ensp;货&ensp;码：</text>
 				<text class="label" v-if="orderInfo.deliveryPlatformStatus === 4">取&ensp;消&ensp;码：</text>
@@ -105,11 +105,11 @@
 				</view>
 			</view>
 			<view class="flex flex-align-center cell" v-if="orderInfo.goodsEvaluate.evaluateDistributionScore">
-				<text class="label">天使评分：</text>
+				<text class="label">配送员评分：</text>
 				<uni-rate :size="15" :margin="4" :value="orderInfo.goodsEvaluate.evaluateDistributionScore" readonly></uni-rate>
 			</view>
 			<view class="flex cell" v-if="orderInfo.goodsEvaluate.evaluateDistributionComment">
-				<text><text class="label">评价天使：</text>{{orderInfo.goodsEvaluate.evaluateDistributionComment}}</text>
+				<text><text class="label">评价配送员：</text>{{orderInfo.goodsEvaluate.evaluateDistributionComment}}</text>
 			</view>
 			<view class="flex flex-align-center cell" v-if="orderInfo.goodsEvaluate.evaluateDistributionImages">
 				<view class="imgs">
@@ -271,8 +271,8 @@
 							skuName: this.orderInfo.skuName,
 							price: this.orderInfo.totalPrice,
 							number: this.orderInfo.number,
-							status: 4, // 1-邀请对方接单，用户和天使都可操作取消 2-用户取消配送 3-天使取消接单 4-天使接单
-							identity: this.userInfo.imAccount, // 配送天使的imAccount
+							status: 4, // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
+							identity: this.userInfo.imAccount, // 配送配送员的imAccount
 						}
 						this.sendMsgToOther(toImAccount, goodsInfo, 6, 0, ()=>{
 							this.editDBData(goodsInfo.orderId, goodsInfo.status)
@@ -307,8 +307,8 @@
 						skuName: this.orderInfo.skuName,
 						price: this.orderInfo.totalPrice,
 						number: this.orderInfo.number,
-						status: 3, // 1-邀请对方接单，用户和天使都可操作取消 2-用户取消配送 3-天使取消接单 4-天使接单
-						identity: this.userInfo.imAccount, // 配送天使的imAccount
+						status: 3, // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
+						identity: this.userInfo.imAccount, // 配送配送员的imAccount
 						reason: value
 					}
 					this.sendMsgToOther(toImAccount, goodsInfo, 6, 0, ()=>{

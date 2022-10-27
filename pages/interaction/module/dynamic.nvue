@@ -22,7 +22,7 @@
 									<image src="/static/video/woman.png" mode="" class="six-icon" v-if="item.gender === 3"></image>
 									<text class="six-name">{{item.age||0}}</text>
 								</div>
-								<text class="mark" v-if="item.distributorIsOpen">慈善天使</text>
+								<text class="mark" v-if="item.distributorIsOpen">配送员</text>
 							</div>
 						</div>
 					</div>

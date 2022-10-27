@@ -135,11 +135,11 @@
 				</view>
 			</view>
 			<view class="flex flex-align-center cell" v-if="orderInfo.goodsEvaluate.evaluateDistributionScore">
-				<text class="label">天使评分：</text>
+				<text class="label">配送员评分：</text>
 				<uni-rate :size="15" :margin="4" :value="orderInfo.goodsEvaluate.evaluateDistributionScore" readonly></uni-rate>
 			</view>
 			<view class="flex cell" v-if="orderInfo.goodsEvaluate.evaluateDistributionComment">
-				<text><text class="label">评价天使：</text>{{orderInfo.goodsEvaluate.evaluateDistributionComment}}</text>
+				<text><text class="label">评价配送员：</text>{{orderInfo.goodsEvaluate.evaluateDistributionComment}}</text>
 			</view>
 			<view class="flex flex-align-center cell" v-if="orderInfo.goodsEvaluate.evaluateDistributionImages">
 				<view class="imgs">
@@ -280,8 +280,8 @@
 			<!-- 用户自提 -->
 			<text class="btn" v-if="orderInfo.deliveryMethod === 3 && orderInfo.deliveredRaisingStatus === 1" @click="showModal(3)">用户取货</text>
 			<!-- 平台配送 -->
-			<text class="btn" v-if="orderInfo.deliveryMethod === 4 && orderInfo.deliveryPlatformStatus === 3" @click="showModal(4)">天使取货</text>
-			<!-- 平台配送，普通商品，天使已取货但想取消配送，可让商家操作，天使需提供取货码 -->
+			<text class="btn" v-if="orderInfo.deliveryMethod === 4 && orderInfo.deliveryPlatformStatus === 3" @click="showModal(4)">配送员取货</text>
+			<!-- 平台配送，普通商品，配送员已取货但想取消配送，可让商家操作，配送员需提供取货码 -->
 			<text class="btn" 
 				v-if="orderInfo.deliveryMethod === 4 && orderInfo.orderType === 1 && orderInfo.deliveryPlatformStatus === 4" 
 				@click="showModal(6)">取消配送</text>
@@ -326,11 +326,11 @@
 				</view>
 			</view>
 		</uni-popup>
-		<!-- 用户自提/天使取货/确认送达 -->
+		<!-- 用户自提/配送员取货/确认送达 -->
 		<uni-popup ref="selfPopup" type="bottom">
 			<view class="popup">
 				<text class="title" v-if="modalType === 3">用户自提</text>
-				<text class="title" v-if="modalType === 4">天使取货</text>
+				<text class="title" v-if="modalType === 4">配送员取货</text>
 				<text class="title" v-if="modalType === 5">确认送达</text>
 				<text class="title" v-if="modalType === 6">取消配送</text>
 				<view class="form">
@@ -487,7 +487,7 @@
 					uni.hideLoading()
 				})
 			},
-			// 3-用户自提/4-天使取货/5-确认送达
+			// 3-用户自提/4-配送员取货/5-确认送达
 			selfExtraction(){
 				if (!this.code) {
 					if (this.modalType !== 5) {

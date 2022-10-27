@@ -47,7 +47,7 @@
 		data(){
 			return {
 				swiperHeight: uni.getSystemInfoSync().windowHeight,
-				tabs: ["酒音评论", "动态评论"],
+				tabs: ["视频评论", "动态评论"],
 				current: 0,
 				list: [],
 				loadingType: 'nomore'

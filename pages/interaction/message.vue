@@ -11,10 +11,6 @@
 							<image :src="filterImg(item.headPortrait)" class="cu-avatar round lg" mode=""></image>
 							<view class="content" style="background-color: #ffffff;padding-top: 0upx;">
 								<view class="text-grey">{{item.nickname}}</view>
-								<!-- <view class="line text-sm flex" v-if="isHasUnSendMsg(item.conversationId)">
-									<text class="color-red">[草稿]</text>
-									<text class="text-gray line">{{isHasUnSendMsg(item.conversationId)}}</text>
-								</view> -->
 								<view class="text-gray text-sm">
 									<text class="line">{{item | filterContent}}</text>
 								</view>
@@ -35,16 +31,12 @@
 						<image :src="filterImg(item.toType === 3 ? item.storeLogoImage : item.headPortrait)" class="cu-avatar round lg" mode=""></image>
 						<view class="content" style="background-color: #ffffff;padding-top: 0upx;">
 							<view class="text-grey">
-								<text class="tips bg-base" v-if="item.toType === 2">慈善天使</text>
+								<text class="tips bg-base" v-if="item.toType === 2">配送员</text>
 								<text class="tips yellow" v-if="item.toType === 3">商家</text>
-								<text class="tips green" v-if="item.toType === 4">天使用户</text>
+								<text class="tips green" v-if="item.toType === 4">配送员用户</text>
 								<text class="tips redd" v-if="item.toType === 5">店铺客户</text>
 								{{item.toType === 3 ? item.storeName : item.nickname}}
 							</view>
-							<!-- <view class="line text-sm flex" v-if="isHasUnSendMsg(item.id)">
-								<text class="color-red">[草稿]</text>
-								<text class="text-gray line">{{isHasUnSendMsg(item.id)}}</text>
-							</view> -->
 							<view class="text-gray text-sm">
 								<text class="line">{{item | filterContent}}</text>
 							</view>
@@ -132,7 +124,6 @@
 		},
 		watch:{
 			isHandNewMsg(val){
-				console.log("........isHandNewMsg.......", val)
 				if (val) {
 					this.init()
 					this.setHandNewMsg(false)
@@ -263,7 +254,7 @@
 			/**
 			 * 创建会话
 			 * @param {String} imAccount 对方的imAccount
-			 * @param {Number} type 会话类型 1-用户 2-天使 3-商家
+			 * @param {Number} type 会话类型 1-用户 2-配送员 3-商家
 			 * @param {Bool} isCustomer 是否是客服 
 			 * @param {Number} index 索引 
 			 * */

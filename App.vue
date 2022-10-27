@@ -83,21 +83,6 @@
 					title: "未开启通知权限，无法及时收到消息通知",
 					icon: "none"
 				})
-				// uni.showModal({
-				// 	title: "通知权限开启提醒",
-				// 	content: "您还没有开启通知权限，无法接受到消息通知，是否前往设置？",
-				// 	confirmText: "去设置",
-				// 	cancelText: "取消",
-				// 	success(e) {
-				// 		if (e.confirm) {
-				// 			var app = plus.ios.invoke('UIApplication', 'sharedApplication');
-				// 			var setting = plus.ios.invoke('NSURL', 'URLWithString:', 'app-settings:');
-				// 			plus.ios.invoke(app, 'openURL:', setting);
-				// 			plus.ios.deleteObject(setting);
-				// 			plus.ios.deleteObject(app);
-				// 		}
-				// 	}
-				// })
 			}
 		}
 		// #endif  
@@ -122,25 +107,23 @@
 		onLaunch: function() {
 			console.log('App Launch')
 			
-			// 中间按钮点击
-			uni.onTabBarMidButtonTap(function(e) {
-				console.log(".......")
-				let userInfo = uni.getStorageSync('userInfo');
-				console.log("...userInfo....", userInfo)
-				uni.navigateTo({
-					url: '/pages/video/index?userId=' + userInfo.id
-				})
-			});
-			
 			let _this = this
 			// 获取缩略图比列
 			this.$http("GET", url.common.getOssImageResize).then(res =>{
 				uni.setStorageSync("ossResizeData", res.data)
 			})
-			// 如果用户是天使并且有待接订单则提示声音
+			// 如果用户是配送员并且有待接订单则提示声音
 			this.agentShowMusic()
 			
 			// #ifdef APP-PLUS
+			// 中间按钮点击
+			uni.onTabBarMidButtonTap(function(e) {
+				let userInfo = uni.getStorageSync('userInfo');
+				uni.navigateTo({
+					url: '/pages/video/index?userId=' + userInfo.id
+				})
+			});
+			
 			// 检测推送权限
 			permissions()
 			// 判断用户信息时候完善
@@ -163,9 +146,7 @@
 			}
 			let token = uni.getStorageSync('token')
 			this.token = token
-			console.log("........token.....", token)
 			if (token) {
-				console.log("--------------------------")
 				// 初始化webSocket数据
 				this.initIMClientText()
 				// 更新设备信息
@@ -310,14 +291,14 @@
 							let status = data.code === 10000 ? true : false
 							_this.setOtherOnlineStatus(status)
 							_this.onlineStatusSendMsg("interactionSendMsg", status)	// 附近的人
-							_this.onlineStatusSendMsg("angelSendMsg", status)	// 附近的天使
+							_this.onlineStatusSendMsg("angelSendMsg", status)	// 附近的配送员
 							_this.onlineStatusSendMsg("userSendMsg", status)	// 用户个人中心
 							_this.onlineStatusSendMsg("imChatSendMsg", status)	// 聊天
 							_this.onlineStatusSendMsg("userOrderDetailSendMsg", status)	// 订单详情
 							_this.onlineStatusSendMsg("selectAgentSendMsg", status) // 用户确认接单
 							_this.onlineStatusSendMsg("userCancelSendMsg", status) // 用户取消接单
-							_this.onlineStatusSendMsg("agentConfirmSendMsg", status) // 天使确认接单
-							_this.onlineStatusSendMsg("agentCancelSendMsg", status) // 天使取消接单
+							_this.onlineStatusSendMsg("agentConfirmSendMsg", status) // 配送员确认接单
+							_this.onlineStatusSendMsg("agentCancelSendMsg", status) // 配送员取消接单
 							_this.onlineStatusSendMsg("refundSendMsg", status) // 用户/商家退款
 							_this.onlineStatusSendMsg("placeOrderSendMsg", status) // 用户下单
 						}

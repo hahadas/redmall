@@ -156,7 +156,7 @@
 						name = "普通用户";
 						break;
 					case "2":
-						name = "天使";
+						name = "配送员";
 						break;
 					case "3":
 						name = "商家";

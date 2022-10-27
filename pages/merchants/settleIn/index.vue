@@ -1,6 +1,5 @@
 <template>
 	<view class="main">
-		<image src="/static/merchants/examples.png" mode="widthFix" class="top"></image>
 		<view class="flex flex-between cell" @click="selectLogo('logoImage')">
 			<text class="name">点击上传店铺LOGO</text>
 			<view class="flex flex-center img" v-if="!logoImage">
@@ -35,7 +34,6 @@
 				v-model="infor.introduce" 
 				class="font36 color-b5" style="margin-top: 10rpx;width: 100%;"
 				@keydown.enter="keydown"/>
-			<!-- <input type="text" placeholder="请输入您的店铺简介(80字以内)" :maxlength="80" v-model="infor.introduce" class="flex-grow font36"/> -->
 		</view>
 		<view class="list">
 			<view class="list-item">

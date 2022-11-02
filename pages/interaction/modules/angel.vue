@@ -1,7 +1,6 @@
 <template>
 	<view style="height: 100%;">
 		<HMfilterDropdown
-			:menuTop="100+statusBarHeight*2"
 			:filterData="threeFilter" 
 			:defaultSelected ="threeDropdownIndex" 
 			@confirm="threeFilterConfirm">
@@ -16,10 +15,6 @@
 						<text class="status" style="background-color: #0488a9;" v-if="item.distributorWorkStatus === 2">已开工</text>
 						<text class="status" style="background-color: #ffa800;" v-else-if="item.distributorWorkStatus === 3">工作中</text>
 						<text class="status" v-else>休息中</text>
-						<!-- <view class="online">
-							<text class="iconfont yuan" :class="{'grey':!item.isOnline}">&#xe630;</text>
-							<text class="txt">{{item.isOnline?'在线':'离线'}}</text>
-						</view> -->
 						<view class="bom">
 							<view class="bom-con">
 								<view class="box">
@@ -30,21 +25,9 @@
 									</view>
 									<text class="right">{{item.constellation}}/{{item.age||0}}岁</text>
 								</view>
-								<!-- <text class="signature">{{item.personalSignature || '这家伙很懒，什么都没留下'}}</text> -->
-								<!-- <view class="box mar">
-									<view class="score">
-										<view v-for="i in item.stat" :key="i" class="iconfont icon-wujiaoxing icon"></view>
-										<view v-for="i in item.statBan" :key="i" class="iconfont icon-ai65 icon"></view>
-										<view v-for="i in item.statFalse" :key="i" class="iconfont icon-wujiaoxing icon" style="color: #d9d9d9;"></view>
-									</view>
-									<text class="text">{{item.commentCount?item.commentCount:0}}单</text>
-								</view> -->
 								<view class="box mar">
 									<text class="right">评分：{{item.distributorScore}}</text>
 									<text class="right">{{item.distance | distance}}</text>
-									<!-- <text class="right">{{item.distance | distance}}/{{item.showAdname}}</text> -->
-									<!-- <text class="right" v-if="item.lng === 0 || item.laat === 0">未设置工作位置</text> -->
-									<!-- <text class="right" v-else>{{item.distance | distance}}/观山湖区</text> -->
 								</view>
 							</view>
 						</view>
@@ -89,30 +72,9 @@
 				this.keyWord = val
 			}
 		},
-		// watch:{
-		// 	interactionOnlineStatus(val){
-		// 		console.log("......interactionOnlineStatus.....11111.222222", val)
-		// 		let content = JSON.parse(val.content)
-		// 		let listIndex = content.index
-		// 		let type = content.type
-		// 		if (type === "angel"){
-		// 			this.proxyList[listIndex].isOnline = val.isOnline
-		// 			this.$forceUpdate()
-		// 			console.log(listIndex, this.proxyList.length)
-		// 			if (listIndex < this.proxyList.length){
-		// 				listIndex++
-		// 				if (listIndex === this.proxyList.length) return
-		// 				let sendMsg = this.filterSendMsg(this.proxyList[listIndex].imAccount, listIndex)
-		// 				uni.setStorageSync("angelSendMsg", sendMsg)
-		// 				getApp().globalData.socket.sendSocketMessage(sendMsg)
-		// 			}
-		// 		}
-		// 	}
-		// },
 		methods:{
 			async loadData(done){
 				this.loading = "loading"
-				// let length = this.proxyList.length
 				if (this.oldKeyWord !== this.keyWord){
 					this.proxyList = []
 				}
@@ -131,12 +93,6 @@
 				let list = res.data
 				this.proxyList = [...this.proxyList ,...list];
 				this.loading = res.data.length < 12 ? 'nomore' : 'more'
-				// if (list.length > 0){
-				// 	let index = length > 0 ? length : 0
-				// 	let sendMsg = this.filterSendMsg(this.proxyList[index].imAccount, index)
-				// 	uni.setStorageSync("angelSendMsg", sendMsg)
-				// 	getApp().globalData.socket.sendSocketMessage(sendMsg)
-				// }
 				if (typeof done === "function") done()
 			},
 			filterSendMsg(toImAccount, index){
@@ -158,8 +114,6 @@
 			},
 			refresh(done){
 				this.proxyList = []
-				// this.threeDropdownIndex = null
-				// this.threeDropdownValue = null
 				this.loadData(done)
 			}
 		}
@@ -172,7 +126,7 @@
 	}
 	.list{
 		padding: 0 10rpx;
-		margin-top: 260rpx;
+		margin-top: 100rpx;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;

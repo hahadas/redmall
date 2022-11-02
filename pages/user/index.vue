@@ -57,7 +57,7 @@
 						<text class="iconfont font38">&#xe770;</text>
 					</view>
 				</view>
-				<view class="grod pad">
+				<view class="grod">
 					<view class="grod-item" style="width: 20%;" v-for="(item, i) in cuList" :key="i" @click="goOrder(item.status)">
 						<image :src="item.icon" mode="" class="img"></image>
 						<text class="color-b5 font26">{{item.name}}</text>
@@ -79,7 +79,7 @@
 				</view>
 			</view>
 			<!-- 图片 -->
-			<view class="carousel-section" v-if="configData.agentAndStore">
+			<view class="carousel-section">
 				<view class="carousel" @click="toAgent">
 					<image src="/static/user/agent_use2.png" v-if="userDetailInfo.distributorIsOpen === 1" mode="scaleToFill" class="img"/>
 					<image src="/static/user/agent_2.png" v-else mode="scaleToFill" class="img"/>
@@ -95,12 +95,14 @@
 				<view class="title flex flex-between">
 					<text class="blod font32">我的服务</text>
 				</view>
-				<view class="flex flex-column pad">
-					<view class="grod" style="margin-bottom: 40rpx;">
+				<view class="flex flex-column">
+					<view class="grod">
+						<!-- #ifndef H5 -->
 						<view class="grod-item" @click="scanCode">
 							<text class="iconfont" style="font-size: 56rpx;margin-bottom: 10rpx; color: #cc920c;">&#xe647;</text>
 							<text class="color-b5 font26">扫一扫</text>
 						</view>
+						<!-- #endif -->
 						<view class="grod-item" @click="toNav('/pages/user/team')">
 							<image src="/static/user/share.png" mode="" class="img"></image>
 							<text class="color-b5 font26">我的分享</text>
@@ -118,8 +120,6 @@
 							<image src="/static/user/personal.png" mode="" class="img"></image>
 							<text class="color-b5 font26">个人资料</text>
 						</view>
-					</view>
-					<view class="grod">
 						<view class="grod-item" @click="toNav('/pages/user/setting/index')">
 							<image src="/static/user/set.png" mode="" class="img"></image>
 							<text class="color-b5 font26">系统设置</text>
@@ -136,12 +136,12 @@
 				</view>
 			</view>
 			<!-- 第三方 -->
-			<view class="culist" v-if="configData.three">
+			<view class="culist">
 				<view class="title flex flex-between">
 					<text class="blod font32">第三方服务</text>
 				</view>
 				<view class="flex flex-column">
-					<view class="grod flex-start">
+					<view class="grod">
 						<view class="grod-item" v-if="showThreeItem('third_party_services_credit_card')" @click="toNav('three/creditCard')">
 							<text class="iconfont icon" style="color: #d75a1b;">&#xe657;</text>
 							<text class="color-b5 font26">还信用卡</text>
@@ -195,7 +195,6 @@
 				],
 				servicePhone: "",
 				statusBarHeight: getApp().statusBarHeight,
-				platform: uni.getSystemInfoSync().platform,
 				cbfcAcountData: {},
 				teamTotal: 0,
 				balance: 0,
@@ -205,10 +204,6 @@
 				redList: [],
 				mobileList: [],
 				threeData: [],
-				configData: {
-					agentAndStore: false,
-					three: false
-				},
 			}
 		},
 		onPullDownRefresh() {
@@ -292,46 +287,6 @@
 				// 获取第三方服务比例
 				this.$http("GET", url.common.threeProportion).then(res => {
 					this.threeData = res.data
-				})
-				// 获取模块配置
-				this.$http("GET", url.common.personalCenterModule).then(res => {
-					// one-配送员和商家入口 two-第三方服务
-					if (this.platform !== "ios" && this.platform !== "android") {
-						this.configData.three = true
-						this.configData.agentAndStore = true
-					} else {
-						let version = uni.getSystemInfoSync().appVersion
-						res.data.map(v => {
-							if (v.keyCode === ("personal_center_module_two_"+this.platform)) {
-								if (v.keyValue === "1") {
-									this.configData.three = false
-								} else if (v.keyValue && v.keyValue !== "1") {
-									let list = v.keyValue.split(",")
-									if (list.includes(version)){
-										this.configData.three = false
-									} else {
-										this.configData.three = true
-									}
-								} else {
-									this.configData.three = true
-								}
-							}
-							if (v.keyCode === ("personal_center_module_one_"+this.platform) && v.keyValue) {
-								if (v.keyValue === "1") {
-									this.configData.agentAndStore = false
-								} else if (v.keyValue && v.keyValue !== "1") {
-									let list = v.keyValue.split(",")
-									if (list.includes(version)){
-										this.configData.agentAndStore = false
-									} else {
-										this.configData.agentAndStore = true
-									}
-								} else {
-									this.configData.agentAndStore = true
-								}
-							}
-						})
-					}
 				})
 			},
 			getUserInfo(){
@@ -560,8 +515,10 @@
 				border-radius: 14rpx;
 				display: flex;
 				flex-wrap: wrap;
+				padding-bottom: 30rpx;
 				&-item{
 					width: 20%;
+					margin-top: 30rpx;
 					display: flex;
 					align-items: center;
 					justify-content: center;

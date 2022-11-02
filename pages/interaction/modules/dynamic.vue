@@ -1,7 +1,7 @@
 <template>
 	<view style="height: 100%;">
 		<HMfilterDropdown
-			:menuTop="100+statusBarHeight*2"
+			:menuTop="0"
 			:filterData="oneFilter" 
 			:defaultSelected ="oneDropdownIndex" 
 			@confirm="oneFilterConfirm">
@@ -122,8 +122,6 @@
 			},
 			refresh(done){
 				this.dynamicList = []
-				// this.oneDropdownIndex = null
-				// this.oneDropdownValue = null
 				this.loadData(done)
 			}
 		}
@@ -136,7 +134,7 @@
 	}
 	.dynamic {
 		padding: 0 30rpx;
-		margin-top: 260rpx;
+		margin-top: 130rpx;
 		.item{
 			border-bottom: 2rpx solid #eee;
 			padding-bottom: 50rpx;

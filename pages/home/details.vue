@@ -186,6 +186,7 @@
 				@click="navClick" 
 				@buttonClick="buttonClick" />
 		</view>
+		<view class="fixed-height"></view>
 		<uni-popup ref="popup" type="bottom">
 			<view class="popup bg-w">
 				<view class="flex">
@@ -895,6 +896,9 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
+	}
+	.fixed-height{
+		height: 1px;
 	}
 	.popup{
 		padding: 20rpx 30rpx;

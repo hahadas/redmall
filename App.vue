@@ -290,8 +290,6 @@
 							// 对方是否在线，true在线，false不在线
 							let status = data.code === 10000 ? true : false
 							_this.setOtherOnlineStatus(status)
-							_this.onlineStatusSendMsg("interactionSendMsg", status)	// 附近的人
-							_this.onlineStatusSendMsg("angelSendMsg", status)	// 附近的配送员
 							_this.onlineStatusSendMsg("userSendMsg", status)	// 用户个人中心
 							_this.onlineStatusSendMsg("imChatSendMsg", status)	// 聊天
 							_this.onlineStatusSendMsg("userOrderDetailSendMsg", status)	// 订单详情

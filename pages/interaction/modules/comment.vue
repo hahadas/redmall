@@ -1,6 +1,6 @@
 <template>
 	<view style="height: 100%; overflow-y: scroll;">
-		<view :style="{height: 50+statusBarHeight + 'px'}"></view>
+		<!-- <view :style="{height: 50+statusBarHeight + 'px'}"></view> -->
 		<v-tabs :tabs="tabs" :value="current" fontSize="30rpx" height="90rpx" :fixed="false" :scroll="false" @change="tabsChange"></v-tabs>
 		<block v-if="current === 0">
 			<video-comment></video-comment>

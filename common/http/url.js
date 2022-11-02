@@ -15,7 +15,6 @@ export default{
 		getImChatWarning: "sys/config/imChatWarning", // 获取聊天框中大警示语
 		threeProportion: "sys/config/thirdPartyServicesProportion", // 第三方服务比例
 		distributorDepositConfig: "sys/config/distributorDepositConfig", // 配送员押金协议
-		personalCenterModule: "sys/config/personalCenterModule", // 个人中心模块配置
 	},
 	// 聚合相关
 	juhe:{

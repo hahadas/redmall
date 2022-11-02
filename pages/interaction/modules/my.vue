@@ -1,20 +1,19 @@
 <template>
-	<view class="page" v-if="isDone">
-		<uni-swiper :screenHeight="screenHeight" :leftHas="videoHas" @change="onchange" :current="curIndex">
-			<uni-push slot="left" v-if="videoHas" :screenHeight="screenHeight" :playStatus="playStatus" :list="videoObject"></uni-push>
-			<scroll-view :slot="videoHas?'right':'left'" scroll-y @scroll="onScroll" @scrolltolower="scrolltolower" class="swiper" :style="{height: screenHeight+'px'}">
-				<!-- <yy-refresh ref="refresh" @refresh="refresh()"></yy-refresh> -->
-				<swiper class="swiperImgs" :indicator-dots="true" v-if="swiperList.length > 0">
+	<view class="page">
+		<!-- <view :style="{height: 48+statusBarHeight + 'px'}"></view> -->
+		<you-scroll
+			@onPullDown="refresh"
+			@onLoadMore="loadMore">
+			<view>
+				<swiper class="swiperImgs" v-if="swiperList.length > 0" :indicator-dots="true">
 					<swiper-item v-for="(item, i) in swiperList" :key="i">
-						<image :src="item" mode="aspectFill" class="swiperImg" @click="previewImg($event, swiperList, i)"></image>
+						<image :src="item" mode="aspectFill" class="swiperImg" @click="previewImg(swiperList, i)"></image>
 					</swiper-item>
 				</swiper>
-				<image v-else :src="userDetail.headPortrait" mode="aspectFill" class="swiperImg" @click="previewImg($event, [userDetail.headPortrait], 0)"></image>
+				<image v-else :src="userDetail.headPortrait" mode="aspectFill" class="swiperImg" @click="previewImg([userDetail.headPortrait], 0)"></image>
 				<view class="wrap">
 					<view class="wrap-box">
-						<view class="wrap-box-avatar">
-							<image :src="filterImg(userDetail.headPortrait, 1)" mode="aspectFill" class="wrap-box-avatar-img" @click="previewImg($event, [userDetail.headPortrait], 0)"></image>
-						</view>
+						<view><image :src="filterImg(userDetail.headPortrait, 1)" mode="aspectFill" class="avatar"></image></view>
 						<view class="wrap-box-info">
 							<text class="wrap-box-info-name">{{userDetail.nickname}}</text>
 							<view class="wrap-box-info-basic">
@@ -26,16 +25,13 @@
 								<text class="constellation">{{userDetail.constellation}}</text>
 								<text class="mark" v-if="userDetail.distributorIsOpen">配送员</text>
 							</view>
-							<view class="addr">
-								<view class="flex flex-align-center flex-row" style="width: 400rpx;" v-if="addressName">
-									<image src="/static/user/addr.png" mode="" class="addr-icon"></image>
-									<text class="addr-name">{{addressName || "未设置地区"}}</text>
-								</view>
-								<view v-else></view>
-								<text class="addr-btn" :class="{'addr-btn-active':followStatus}" v-if="localUserId !== id" @click="guanZhuByUser">{{followStatus?'取关':'关注'}}</text>
+							<view class="addr" v-if="addressName">
+								<image src="/static/user/addr.png" mode="" class="addr-icon"></image>
+								<text class="addr-name">{{addressName}}</text>
 							</view>
 						</view>
 					</view>
+					
 					<view class="get" @click="jumpToFollow()">
 						<view class="get-item">
 							<text class="get-item-number">{{(videoData.dianZan || 0) + (videoData.commentDianZan || 0)}}</text>
@@ -54,11 +50,12 @@
 							<text class="get-item-txt">喜欢</text>
 						</view>
 					</view>
+					
 					<view class="about">
 						<block>
 							<text class="about-title">个性签名</text>
 							<view class="about-textarea">
-								<text class="about-textarea-txt">{{userDetail.personalSignature||"这个家伙很懒，什么都没留下"}}</text>
+								<text class="about-textarea-txt">{{userDetail.personalSignature || "这个家伙很懒，什么都没留下"}}</text>
 							</view>
 						</block>
 						<view class="about-cell" v-if="userDetail.alcoholConsumption">
@@ -79,7 +76,9 @@
 								<text class="about-list-tip" v-for="(item, i) in labelHobbyList" :key="i">{{item}}</text>
 							</view>
 						</view>
+						
 					</view>
+					
 					<view class="cell">
 						<view class="cell-item" v-for="(item, i) in cellTabs" :key="i" @tap="cellIndex = i">
 							<text class="cell-item-name-action" v-if="cellIndex === i">{{item.name}} {{item.total?`(${item.total})`:''}}</text>
@@ -92,7 +91,7 @@
 					
 					<block v-if="cellIndex === 0">
 						<view class="dynamic">
-							<view class="dynamic-item" v-for="(item, i) in dynamicList" :key="i" @tap="goDetails(item, i)">
+							<view class="dynamic-item" v-for="(item, i) in dynamicList" :key="i" @tap="goDetails(item)">
 								<view class="dynamic-item-top">
 									<view><image :src="filterImg(userDetail.headPortrait, 1)" mode="aspectFill" class="dynamic-item-top-img"></image></view>
 									<view style="flex-grow: 1;">
@@ -105,19 +104,19 @@
 												<image src="/static/video/woman.png" mode="" class="six-icon" v-if="userDetail.gender === 3"></image>
 												<text class="six-name">{{userDetail.age||0}}</text>
 											</view>
-											<text class="mark" v-if="userDetail.distributorIsOpen">配送员</text>
+											<text class="mark" v-if="userDetail.dkUserId">配送员</text>
 										</view>
 									</view>
 								</view>
 								<text class="dynamic-item-con">{{item.comment}}</text>
 								<view class="dynamic-item-con-img" v-if="item.images.length > 1">
-									<image :src="filterImg(url, 2)" mode="aspectFill" class="dynamic-item-con-img-s" v-for="(url, index) in item.images" :key="index" @tap.stop="previewImg($event, item.images, index)"></image>
+									<image :src="filterImg(url, 2)" mode="aspectFill" class="dynamic-item-con-img-s" v-for="(url, index) in item.images" :key="index" @tap.stop="previewImg(item.images, index)"></image>
 								</view>
 								<view class="dynamic-item-con-img" v-if="item.images.length === 1">
-									<image :src="filterImg(item.images[0], 4)" mode="aspectFill" class="dynamic-item-con-img-one" @tap.stop="previewImg($event, item.images, index)"></image>
+									<image :src="filterImg(item.images[0], 4)" mode="aspectFill" class="dynamic-item-con-img-one" @tap.stop="previewImg(item.images, index)"></image>
 								</view>
 								<view class="dynamic-item-option" v-if="item.status !== 1">
-									<text class="dynamic-item-option-item-name" v-if="item.status === 0">当前视频正在审核中～</text>
+									<text class="dynamic-item-option-item-name" v-if="item.status === 0">当前动态正在审核中～</text>
 									<view class="dynamic-item-option-item" v-if="item.status === 2">
 										<text class="dynamic-item-option-item-name" style="color: #CA0400;">动态违规！原因：{{item.violationInformation}}</text>
 									</view>
@@ -127,7 +126,7 @@
 										<image src="/static/video/comment.png" mode="" class="dynamic-item-option-item-icon"></image>
 										<text class="dynamic-item-option-item-name">{{item.commentCount || 0}}条评论</text>
 									</view>
-									<view class="dynamic-item-option-item" @tap.stop="onLike($event, item, i)">
+									<view class="dynamic-item-option-item" @tap.stop="onLike(item, i)">
 										<image src="/static/video/love_grey.png" mode="" class="dynamic-item-option-item-icon" v-if="!item.isLike"></image>
 										<image src="/static/video/love_red.png" mode="" class="dynamic-item-option-item-icon" v-else></image>
 										<text class="dynamic-item-option-item-name">{{item.likeCount || 0}}点赞</text>
@@ -140,16 +139,15 @@
 					<!-- #ifdef APP-PLUS -->
 					<block v-if="cellIndex === 1">
 						<view class="grid">
-							<view class="grid-item" v-for="(item, i) in videoList" :key="i" @tap="showVideo(item)">
+							<view class="grid-item" v-for="(item, i) in videoList" :key="i" @click="showVideo(item)">
 								<image :src="item.image" mode="aspectFill" class="grid-item-img"></image>
 								<view class="grid-item-bom">
 									<image src="/static/video/video_love.png" mode="" class="grid-item-bom-icon"></image>
 									<text class="grid-item-bom-txt">{{item.likes}}</text>
 								</view>
-								<image src="/static/video/del.png" class="grid-item-del" v-if="localUserId === id" @tap.stop="delVideo($event, item)"></image>
 								<view class="grid-item-status" v-if="item.status !== 1">
 									<text class="grid-item-status-txt" v-if="item.status === 0">审核中</text>
-									<view class="grid-item-status-box" v-if="item.status === 2" @tap.stop="showErrMsg($event, item.violationInformation)">
+									<view class="grid-item-status-box" v-if="item.status === 2" @click="showErrMsg(item.violationInformation)">
 										<text class="grid-item-status-txt" style="color: #CA0400; margin-right: 10rpx;">视频违规</text>
 										<icon type="info" color="#CA0400" size="14" />
 									</view>
@@ -159,52 +157,30 @@
 						<uni-load-more :status="videoLoading"></uni-load-more>
 					</block>
 					<!-- #endif -->
+					
 					<block v-if="cellIndex === cellTabs.length - 1">
 						<view class="product">
-							<block v-for="(item, i) in productList" :key="i">
-								<view class="goods" v-if="item.status === 1" @tap="jumpToGoodsDetail(item)">
-									<image :src="filterImg(item.goodsInfo.mainImage, 3)" mode="aspectFill" class="goods-img" lazy-load></image>
-									<view class="goods-wrap">
-										<view class="goods-wrap-title">
-											<text class="goods-wrap-title-name">{{item.goodsInfo.titleName}}</text>
-										</view>
-										<view class="goods-wrap-tip">
-											<text class="goods-wrap-tip-left">库存{{item.stock}}</text>
-											<text class="goods-wrap-tip-right">月售{{item.sales}}件</text>
-										</view>
-										<view class="goods-wrap-price">
-											<text class="goods-wrap-price-txt">¥{{item.goodsInfo.wholesalePrice}}</text>
-										</view>
+							<view class="goods" v-for="(item, i) in productList" :key="i" @tap="jumpToGoodsDetail(item)">
+								<image :src="filterImg(item.goodsInfo.mainImage, 3)" mode="aspectFill" class="goods-img" lazy-load></image>
+								<view class="goods-wrap">
+									<view class="goods-wrap-title">
+										<text class="goods-wrap-title-name">{{item.goodsInfo.titleName}}</text>
+									</view>
+									<view class="goods-wrap-tip">
+										<text class="goods-wrap-tip-left">库存{{item.stock}}</text>
+										<text class="goods-wrap-tip-right">月售{{item.sales}}件</text>
+									</view>
+									<view class="goods-wrap-price">
+										<text class="goods-wrap-price-txt">¥{{item.goodsInfo.wholesalePrice}}</text>
 									</view>
 								</view>
-							</block>
+							</view>
 						</view>
 						<uni-load-more :status="productLoading"></uni-load-more>
 					</block>
-					<view style="height: 100rpx;"></view>
-				</view>
-			</scroll-view>
-		</uni-swiper>
-		<!-- #ifdef APP-PLUS -->
-		<uni-header 
-			:statusBarHeight="statusBarHeight" :current="curIndex" 
-			:videoHas="videoHas" :headerScroll="headerScroll" 
-			:isShowMore="!(localUserId === id)" @onMore="onMore"></uni-header>
-		<uni-footer @change="footerChange" v-if="localUserId !== id && !fromImChat"></uni-footer>
-		<uni-popup ref="popup" type="bottom">
-			<view class="popup">
-				<view class="popup-item" @click="goChatIm(true, 'video')">
-					<text class="popup-item-name">视频通话</text>
-				</view>
-				<view class="popup-item" @click="goChatIm(true, 'voice')">
-					<text class="popup-item-name">语音通话</text>
-				</view>
-				<view class="popup-item popup-cancel" @click="closePopup()">
-					<text class="popup-item-name">取消</text>
 				</view>
 			</view>
-		</uni-popup>
-		<!-- #endif -->
+		</you-scroll>
 	</view>
 </template>
 <script>
@@ -213,172 +189,85 @@
 	import { sendRequest } from "@/common/http/api.js"
 	import publics from "@/common/utils/public.js"
 	var system = uni.getSystemInfoSync();
-	import uniHeader from './components/header';
-	import uniFooter from './components/footer';
-	import uniSwiper from './components/swiper';
-	import uniPush from './components/push';
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
-	import uniPopup from "@/components/uni-popup/uni-popup.vue"
-	// import yyRefresh from "@/components/yy-refresh/yy-refresh.nvue"
+	import youScroll from '@/components/you-scroll' 
 	export default {
 		components: {
-			uniHeader,
-			uniFooter,
-			uniSwiper,
-			uniPush,
 			uniLoadMore,
-			uniPopup,
-			// yyRefresh
+			youScroll
 		},
 		data() {
 			return {
-				isDone: false,
 				statusBarHeight: system.statusBarHeight,
 				screenHeight: system.screenHeight,
 				swiperList: [],
-				videoObject: {},
 				curIndex: 0,
 				addressName: "",
-				playStatus: true,
 				userDetail: {},
 				videoData: {},
 				loadingType: "loading",
 				dynamicList: [],
 				cellTabs: [
-					{name:"TA的动态", total:0},
+					{name:"我的动态", total:0},
 					// #ifdef APP-PLUS
-					{name:"TA的视频", total:0}
+					{name:"我的视频", total:0}
 					// #endif
-					// {name:"配送员库存", total:8}
 				],
 				cellIndex: 0,
 				localUserId: "",
 				id: "",
 				headerScroll: false,
-				labelHobbyList: [],
 				labelPastOccupationList: [],
-				videoHas: false,
-				followStatus: false, // 关注
+				labelHobbyList: [],
 				pageSize: 0,
 				videoList: [],
-				videoLoading: "nomore",
+				videoLoading: "loading",
 				videoTotal: 0,
 				userFlag: false,
-				isOnline: true, // 对方是否在线，默认在线
+				totalPageNo: 0,
 				productList: [],
-				productLoading: "nomore",
-				fromImChat: false ,// 是否从聊天页面进入到当前页面
-				isBack: false, // 是否已拉黑用户
+				productLoading: "loading"
 			}
 		},
 		computed:{
-			...mapState(["userInfo", "interactionOnlineStatus"])
+			...mapState(["userInfo"])
 		},
-		async onLoad(opt) {
-			uni.showLoading({
-				mask:true,
-				title: "数据加载ing..."
-			})
-			if (opt.fromImChat) {
-				this.fromImChat = opt.fromImChat
-			}
-			if (opt.userId) { // 用户imAccount
-				this.id = opt.userId
-			} else {
-				this.id = this.userInfo.imAccount
-			}
-			if (opt.id) {	// 用户id
-				let r = await sendRequest("get", url.user.getImAccountById, {id: opt.id})
-				this.id = r.data
-			}
-			this.init()
-			this.cellIndex = opt.current ? parseInt(opt.current) : 0
-		},
-		// watch:{
-		// 	interactionOnlineStatus(val){
-		// 		let content = JSON.parse(val.content)
-		// 		if (content.type === "user"){
-		// 			this.isOnline = val.isOnline
-		// 		}
-		// 	}
-		// },
 		methods: {
-			refresh(){
-				this.dynamicList = []
-				this.pageSize = 0
-				this.videoList = []
-				this.productList = []
-				this.init()
-			},
-			async init(){
-				this.localUserId = this.userInfo.imAccount
-				if (this.localUserId === this.id) {
-					this.userDetail = this.userInfo
+			getInfo(){
+				let _this = this
+				let userInfo = this.userInfo
+				if (userInfo.labelHobby) {
+					this.labelHobbyList = userInfo.labelHobby.split("-")
+				}
+				if (userInfo.labelPastOccupation) {
+					this.labelPastOccupationList = userInfo.labelPastOccupation.split("-")
+				}
+				this.userDetail = userInfo
+				if (!this.userInfo.adcode){
+					uni.getLocation({
+						type: 'wgs84',
+						geocode: true,
+						success: function(res) {
+							_this.addressName = res.address.province+res.address.city+res.address.province
+						}
+					})
 				} else {
-					let res = await sendRequest("get", url.user.getUserInfoById, {toImAccount: this.id})
-					if (!res.data) {
-						this.$navigateBack()
-						return
-					}
-					this.userDetail = res.data
-					// 是否已拉黑该用户
-					let blockInfo = await sendRequest("get", url.user.isBackUser, {toImAccount: this.id})
-					this.isBack = blockInfo.data
-					// #ifdef APP-PLUS
-					// let params = {
-					// 	from: this.userInfo.imAccount,
-					// 	to: this.userDetail.imAccount,
-					// 	cmd:11,
-					// 	chatType: 2,
-					//	msgType: 88, 
-					// 	content: JSON.stringify({type: "user"})
-					// }
-					// uni.setStorageSync("userSendMsg", params)
-					// getApp().globalData.socket.sendSocketMessage(params)
-					// #endif
+					this.addressName = publics.getAddressByThreeCode(this.userDetail.adcode)
 				}
-				if (this.userDetail.labelHobby) {
-					this.labelHobbyList = this.userDetail.labelHobby.split("-")
-				}
-				if (this.userDetail.labelPastOccupation) {
-					this.labelPastOccupationList = this.userDetail.labelPastOccupation.split("-")
-				}
-				this.addressName = publics.getAddressByThreeCode(this.userDetail.adcode)
 				let userResources = this.userDetail.userResources
-				if (userResources && userResources.length > 0) {
+				if (userResources.length > 0) {
 					this.swiperList = []
 					userResources.map(v =>{
 						if (v.type === 1) {
 							this.swiperList.push(v.ossUrl)
 						}
-						if (v.type === 2 && v.status === 1) {
-							this.videoObject = v
-							this.videoHas = true
-						}
 					})
 				}
-				this.isDone = true
-				uni.hideLoading()
 				this.getList()
 				this.getVideoInit()
-				if (this.userDetail.distributorIsOpen){
+				if (userInfo.distributorIsOpen){
 					this.cellTabs.push({name:"配送员库存", total:0})
 					this.getProductList()
-				}
-				this.$refs.refresh.finish()
-			},
-			filterImg(img, type){
-				return publics.filterImgUrl(img, type)
-			},
-			scrolltolower(){
-				if (this.cellIndex === 0) {
-					this.getList()
-				} else if (this.cellIndex === 1) {
-					this.getVideoList()
-				} else {
-					if (this.userDetail.distributorIsOpen){
-						this.getProductList()
-					}
 				}
 			},
 			async getList(){
@@ -390,19 +279,15 @@
 				let list = res.data
 				if (list&&list.length>0) {
 					list.map(v => {
-						if (v.images && typeof v.images === "string") {
+						if (typeof v.images === "string") {
 							v.images = v.images.split(",")
 						}
 					})
 					this.dynamicList = this.dynamicList.concat(list)
 					this.cellTabs[0].total = this.dynamicList.length
-					if(list.length>8){
-						this.loadingType = "more";
-					}else{
-						this.loadingType = "nomore";
-					}
-				} else{
-					this.loadingType = "nomore";
+					this.loadingType = list.length < 12 ? 'nomore' : 'more'
+				} else {
+					this.loadingType = "nomore"
 				}
 			},
 			getVideoInit(){
@@ -411,12 +296,11 @@
 					this.videoTotal = res.data.zuoPin
 					this.cellTabs[1].total = res.data.zuoPin
 					this.userFlag = res.data.userFlag
-					this.followStatus = res.data.likeItsByUserId
 					this.getVideoList()
 				})
 			},
 			getVideoList(){
-				if (this.videoList.length === this.videoTotal) return
+				if (this.videoLoading === 'nomore') return
 				let params = {
 					userId: this.userDetail.id,
 					type: 0,
@@ -427,8 +311,10 @@
 					if (this.videoList.length < parseInt(this.videoTotal)) {
 						this.pageSize++
 						this.videoLoading = "more"
+						this.totalPageNo = 1
 					} else {
 						this.videoLoading = "nomore"
+						this.totalPageNo = 0
 					}
 				})
 			},
@@ -438,185 +324,75 @@
 					pageNum: this.productList.length
 				};
 				sendRequest('GET', url.agent.getStockList, params).then(res =>{
-					this.cellTabs[2].total = res.data.stockCount
+					this.cellTabs[2].total = res.data.stockAllCount
 					let list = res.data.stockList
 					this.productList = this.productList.concat(list)
 					this.productLoading = list.length < 12 ? 'nomore' : 'more'
 				})
 			},
+			filterImg(img, type){
+				return publics.filterImgUrl(img, type)
+			},
 			//浏览视频
 			showVideo(row){
 				uni.navigateTo({
-					url: "/pages/video/indexByUser?pages=user&id="+row.id
+					url: "/pages/video/indexByUser?id="+row.id
 				})
 			},
-			// 删除视频
-			delVideo(e, item){
-				e.stopPropagation(); 
-				let _this = this
-				uni.showModal({
-					title: "删除视频",
-					content: "是否确认删除该视频",
-					success(res) {
-						if (res.confirm) {
-							sendRequest("POST", url.interaction.delVideo, {videoId: item.id}).then(res => {
-								uni.showToast({
-									title: res.data,
-									icon: "none"
-								})
-								_this.pageSize = 0
-								_this.videoList = []
-								_this.getVideoInit()
-							})
-						}
-					}
-				})
-			},
-			showErrMsg(e, msg){
-				e.stopPropagation(); 
-				if (!msg) return
-				uni.showModal({
-					content: msg,
-					showCancel: false
-				})
-			},
-			// 0-关注/1-取关
-			guanZhuByUser(){
-				publics.setGuanZhuDatasJiLu(this.userDetail.id);
-				let type = this.followStatus ? 1 : 0
-				sendRequest("POST", url.interaction.followByUserId, {
-					userId: this.userDetail.id,
-					type: type
-				}).then(res =>{
-					this.followStatus = type ? 0 : 1
-					if (type) {
-						this.videoData.fenSi--
-					} else {
-						this.videoData.fenSi++
-					}
-				})
-			},
-			onMore(){
-				let _this = this
-				let itemList = ["举报", "拉黑"]
-				if (this.isBack) {
-					itemList = ["举报", "移除黑名单"]
-				}
-				uni.showActionSheet({
-					itemList: itemList,
-					success: function (res) {
-						if (res.tapIndex === 0) {
-							uni.navigateTo({
-								url: "/pages/report/index?type=3&configType=2&id="+_this.userInfo.id
-							})
-						} else {
-							let params = {
-								toImAccount: _this.id
-							}
-							let msg = "拉黑该用户后，在附近、配送员、动态、视频中将不会出现该用户以及该用户发布的任何内容，是否要拉黑？"
-							let title = "拉黑"
-							let path = url.user.addBackUser
-							if (_this.isBack) {
-								msg = "是否把该用户移除黑名单？"
-								title = "移除黑名单"
-								path = url.user.delBackUser
-							}
-							uni.showModal({
-								title: title,
-								content: msg,
-								success(r) {
-									if (r.confirm) {
-										sendRequest("POST", path, params).then(doc => {
-											_this.isBack = !_this.isBack
-											uni.showToast({
-												title: doc.data,
-												icon: "none"
-											})
-											itemList[1] = [_this.isBack?"移除黑名单":"拉黑"]
-										})
-									}
-								}
-							})
-						}
-					}
-				})
-			},
-			previewImg(e, imgs, index){
-				e.stopPropagation(); 
+			previewImg(imgs, index){
 				let _this = this
 				uni.previewImage({
 					urls: imgs,
 					current: imgs[index]
 				});
 			},
-			// 点赞
-			onLike(e, item, index){
-				e.stopPropagation(); 
-				let type = item.isLike ? 1 : 0
-				sendRequest('post', url.interaction.likeByComment, {type:type, commentId: item.id}).then(res => {
-					this.dynamicList[index].isLike = !type
-					if (!type) {
-						this.dynamicList[index].likeCount += 1
-					} else {
-						this.dynamicList[index].likeCount -= 1
+			refresh(done){
+				this.dynamicList = []
+				this.pageSize = 0
+				this.productList = []
+				this.getInfo()
+				if (typeof done === "function") done()
+			},
+			loadMore(){
+				if (this.cellIndex === 0) {
+					// this.dynamicList = []
+					this.getList()
+				} else if (this.cellIndex === 1) {
+					// this.pageSize = 0
+					this.getVideoInit()
+				} else {
+					if (this.userDetail.distributorIsOpen){
+						this.getProductList()
 					}
-					this.$forceUpdate()
-				})
+				}
 			},
-			goDetails(item, i){
+			goDetails(item){
 				uni.navigateTo({
-					url: "details?pages=user&itemIndex="+i+"&id="+item.id
+					url: "details?id="+item.id
 				})
-			},
-			onScroll(e){
-				if (e.detail.scrollTop > 130) {
-					this.headerScroll = true
-				} else {
-					this.headerScroll = false
-				}
-			},
-			onchange: function(current) {
-				this.curIndex = current;
-				this.playStatus = this.curIndex === 0 ? true : false;
-				if (current === 0) this.headerScroll = false
-			},
-			footerChange(index){
-				console.log(index)
-				if (index === 1) {
-					this.goChatIm(false)
-				} else {
-					this.$refs.popup.open()
-				}
-			},
-			goChatIm(sendVideo, callType){
-				this.playStatus = false
-				let type = this.userDetail.distributorIsOpen ? 2 : 1
-				let url = "im-chat?type="+type+"&&id="+this.userDetail.imAccount 
-				if (sendVideo) {
-					url = url + "&&sendVideo=true&&callType="+callType
-				}
-				setTimeout(()=>{
-					uni.navigateTo({
-						url: url
-					})
-					this.closePopup()
-				}, 300)
-			},
-			closePopup(){
-				this.$refs.popup.close()
 			},
 			jumpToFollow(){
 				let data = {
 					nickname: this.userDetail.nickname,
-					id: this.userDetail.id
+					id: this.userDetail.id,
+					guanZhu: this.videoData.guanZhu,
+					xiHuan: this.videoData.xiHuan,
+					userFlag: this.userFlag
 				}
 				uni.navigateTo({
 					url: "/pages/video/followAndLike?data="+JSON.stringify(data)
 				})
 			},
-			jumpToGoodsDetail(item){
+			jumpToGoodsDetail(item) {
 				uni.navigateTo({
-					url: '/pages/home/details?id='+item.goodsId
+					url: "/pages/home/details?id="+item.goodsId
+				})
+			},
+			showErrMsg(msg){
+				if (!msg) return
+				uni.showModal({
+					content: msg,
+					showCancel: false
 				})
 			}
 		}
@@ -625,12 +401,8 @@
 
 <style scoped>
 	.page {
-		position: absolute;
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		background-color: #000000;
+		height: 100%;
+		overflow-y: scroll;
 	}
 	.woman{
 		background-color: #ff4d94 !important;
@@ -671,6 +443,11 @@
 		width: 750rpx;
 		height: 600rpx;
 		margin-bottom: 10rpx;
+		/* position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		z-index:9; */
 	}
 	.swiperImg{
 		width: 750rpx;
@@ -678,15 +455,15 @@
 	}
 	.wrap{
 		margin: 30rpx 20rpx 0;
+		/* position: absolute; */
+		/* top: 600rpx; */
+		/* z-index: 999; */
 	}
 	.wrap-box{
 		display: flex;
 		flex-direction: row;
 	}
-	.wrap-box-avatar{
-		position: relative;
-	}
-	.wrap-box-avatar-img{
+	.avatar{
 		border-style: solid;
 		border-width: 4rpx;
 		border-color: #FFFFFF;
@@ -695,29 +472,6 @@
 		/* margin-top: -50rpx; */
 		margin-right: 20rpx;
 		border-radius: 70rpx;
-	}
-	.wrap-box-avatar-online{
-		width: 80rpx;
-		position: absolute;
-		bottom: 16rpx;
-		left: 30rpx;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
-		border-radius: 20rpx;
-		background-color: rgba(0,0,0,0.5);
-		padding-top: 4rpx;
-		padding-bottom: 4rpx;
-	}
-	.wrap-box-avatar-online-yuan{
-		margin-right: 6rpx;
-		width: 10rpx;
-		height: 10rpx;
-	}
-	.wrap-box-avatar-online-txt{
-		font-size: 20rpx;
-		color: white;
 	}
 	.wrap-box-info{
 		width: 550rpx;
@@ -751,7 +505,6 @@
 		align-items: center;
 		justify-content: space-between;
 		margin-top: 10rpx;
-		height: 70rpx;
 	}
 	.addr-icon{
 		width: 40rpx;
@@ -768,10 +521,6 @@
 		font-size: 26rpx;
 		padding: 10rpx 30rpx;
 		border-radius: 10rpx;
-	}
-	.addr-btn-active{
-		color: #b2b3b5 !important;
-		background-image: linear-gradient(to bottom, #e9e7ea, #e9e7ea) !important;
 	}
 	.get{
 		display: flex;
@@ -879,7 +628,7 @@
 	}
 	.dynamic{
 		width: 710rpx;
-		padding: 0 20rpx;
+		/* padding: 0 20rpx; */
 		/* margin-top: 50rpx; */
 	}
 	.dynamic-item{
@@ -931,17 +680,19 @@
 	}
 	.dynamic-item-con-img-s{
 		margin-right: 6rpx;
-		width: 214rpx;
-		height: 214rpx;
+		width: 220rpx;
+		height: 220rpx;
 		margin-bottom: 6rpx;
 		border-radius: 10rpx;
 	}
+	
 	.dynamic-item-con-img-one{
 		width: 400rpx;
 		height: 400rpx;
 		border-radius: 10rpx;
 	}
 	.dynamic-item-option{
+		width: 710rpx;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -1001,13 +752,6 @@
 		font-weight: bold;
 		font-size: 32rpx;
 	}
-	.grid-item-del{
-		width: 50rpx;
-		height: 50rpx;
-		position: absolute;
-		right: 6rpx;
-		bottom: 10rpx;
-	}
 	.grid-item-status{
 		position: absolute;
 		left: 0;
@@ -1037,7 +781,7 @@
 		width: 710rpx;
 	}
 	.goods{
-		width: 350rpx;
+		width: 340rpx;
 		background-color: #FFFFFF;
 		border-radius: 10rpx;
 		overflow: hidden;
@@ -1057,7 +801,6 @@
 	}
 	.goods-wrap-title{
 		display: flex;
-		/* align-items: center; */
 		flex-direction: row;
 	}
 	.goods-wrap-title-name{
@@ -1103,29 +846,5 @@
 	.goods-wrap-price-txt{
 		font-weight: bold;
 		color: #381895;
-	}
-	.popup{
-		background-color: white;
-		border-top-left-radius: 20rpx;
-		border-top-right-radius: 20rpx;
-	}
-	.popup-item{
-		height: 110rpx;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-bottom-color: #EEEEEE;
-		border-bottom-width: 2rpx;
-	}
-	.popup-item-name{
-		font-size: 30rpx;
-	}
-	.popup-item-desc{
-		color: #999999;
-		font-size: 24rpx;
-	}
-	.popup-cancel{
-		border-top-color: #EEEEEE;
-		border-top-width: 10rpx;
 	}
 </style>

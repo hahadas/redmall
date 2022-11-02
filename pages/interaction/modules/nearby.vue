@@ -1,7 +1,6 @@
 <template>
 	<view style="height: 100%;">
 		<HMfilterDropdown
-			:menuTop="100+statusBarHeight*2"
 			:filterData="twoFilter" 
 			:defaultSelected ="twoDropdownIndex" 
 			@confirm="twoFilterConfirm">
@@ -13,10 +12,6 @@
 				<block v-for="(item, i) in penpleNearbyList" :key="i">
 					<view class="list-grid" @tap.stop="viewUser(item)">
 						<image :src="filterImg(item.headPortrait, 1)" lazy-load mode="aspectFill" class="img"></image>
-						<!-- <view class="six online">
-							<text class="iconfont yuan" :class="{'grey':!item.isOnline}">&#xe630;</text>
-							<text class="txt">{{item.isOnline?'在线':'离线'}}</text>
-						</view> -->
 						<view class="six" :class="{'woman':item.gender === 3}">
 							<text class="iconfont icon" v-if="item.gender === 2">&#xe621;</text>
 							<text class="iconfont icon" v-if="item.gender === 3">&#xe622;</text>
@@ -24,9 +19,7 @@
 						</view>
 						<view class="con">
 							<text class="name line">{{item.nickname}}</text>
-							<!-- <text class="addr">{{item.distance | distance}}</text> -->
 							<view class="flex flex-between">
-								<!-- <text class="signature line">{{item.personalSignature || "这家伙很懒，什么都没留下"}}</text> -->
 								<text class="signature line">{{item.constellation}}</text>
 								<text class="font28 color-b6">{{item.distance | distance}}</text>
 							</view>
@@ -71,29 +64,10 @@
 			wordKey(val){
 				this.keyWord = val
 			}
-			// interactionOnlineStatus(val){
-			// 	console.log("......interactionOnlineStatus.....11111.222222", val)
-			// 	let content = JSON.parse(val.content)
-			// 	let listIndex = content.index
-			// 	let type = content.type
-			// 	if (type === "nearby"){
-			// 		this.penpleNearbyList[listIndex].isOnline = val.isOnline
-			// 		this.$forceUpdate()
-			// 		console.log(listIndex, this.penpleNearbyList.length)
-			// 		if (listIndex < this.penpleNearbyList.length){
-			// 			listIndex++
-			// 			if (listIndex === this.penpleNearbyList.length) return
-			// 			let sendMsg = this.filterSendMsg(this.penpleNearbyList[listIndex].imAccount, listIndex)
-			// 			uni.setStorageSync("interactionSendMsg", sendMsg)
-			// 			getApp().globalData.socket.sendSocketMessage(sendMsg)
-			// 		}
-			// 	}
-			// }
 		},
 		methods:{
 			async loadData(done){
 				this.loading = "loading"
-				// let length = this.penpleNearbyList.length
 				if (this.oldKeyWord !== this.keyWord){
 					this.penpleNearbyList = []
 				}
@@ -111,12 +85,6 @@
 				let list = res.data
 				this.penpleNearbyList = [...this.penpleNearbyList ,...list];
 				this.loading = res.data.length < 12 ? 'nomore' : 'more'
-				// if (list.length > 0){
-				// 	let index = length > 0 ? length : 0
-				// 	let sendMsg = this.filterSendMsg(this.penpleNearbyList[index].imAccount, index)
-				// 	uni.setStorageSync("interactionSendMsg", sendMsg)
-				// 	getApp().globalData.socket.sendSocketMessage(sendMsg)
-				// }
 				if (typeof done === "function") done()
 			},
 			filterSendMsg(toImAccount, index){
@@ -130,7 +98,6 @@
 				}
 			},
 			twoFilterConfirm(e){
-				console.log("twoFilterConfirm--> ",e.index, e.value)
 				this.twoDropdownIndex = e.index
 				this.twoDropdownValue = e.value
 				this.penpleNearbyList = []
@@ -138,8 +105,6 @@
 			},
 			refresh(done){
 				this.penpleNearbyList = []
-				// this.twoDropdownIndex = null
-				// this.twoDropdownValue = null
 				this.loadData(done)
 			}
 		}
@@ -154,7 +119,7 @@
 	}
 	.list{
 		padding: 0 10rpx;
-		margin-top: 260rpx;
+		margin-top: 88rpx;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;

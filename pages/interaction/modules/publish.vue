@@ -1,6 +1,6 @@
 <template>
 	<view style="height: 100%;">
-		<view :style="{height: 50+statusBarHeight + 'px'}"></view>
+		<!-- <view :style="{height: 50+statusBarHeight + 'px'}"></view> -->
 		<v-tabs :tabs="tabs" :value="current" fontSize="30rpx" height="90rpx" :fixed="true" :scroll="false" @change="tabsChange"></v-tabs>
 		<scroll-view scroll-y="true" style="height: 100%;">
 			<view v-if="current === 0">

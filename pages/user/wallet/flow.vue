@@ -47,47 +47,6 @@
 		</view>
 		<uni-load-more :status="loading"></uni-load-more>
 		
-		<!-- <swiper class="swiper" style="overflow-y: scroll;" :style="{height: swiperHeight + 'px'}" @change='scollSwiper' :current='current' duration="300">
-			<swiper-item v-for="(tabItem, tabIndex) in tabs" :key="tabIndex" style="overflow-y: scroll;">
-				<you-scroll @onPullDown="refresh" @onLoadMore="loadData">
-					<view v-for="(order, index) in tabItem.orderList" :key="index" class="center-order" style="margin-bottom: 40upx;">
-						<view class="order-list flex">
-							<view class="order-left">
-								<text class="order-time" v-if="order.flowingType === 1" style="color: #df0d0d;">¥ -{{order.amount}}</text>
-								<text class="order-time" v-else style="color: #17ca03;">¥ +{{order.amount}}</text>
-							</view>
-							<view class="order-right">
-								<text class="order-price" v-if="order.flowingType === 1">支出</text>
-								<text class="order-price" v-else>收入</text>
-							</view>
-						</view>
-						<view class="order-store">
-							<view class="flex flex-between store-left">
-								<text class="store-name">单号: {{order.orderNumber}}</text>
-								<text class="font28 color-purple" @click="$onCopy(order.orderNumber)">复制</text>
-							</view>
-							<view class="store-address1">
-								类型: {{filterOperation(order.operationType)}}
-							</view>
-							<view class="store-address1">
-								钱包: {{order.walletType | filterWallet}}
-							</view>
-							<view class="store-address1">
-								余额: {{order.beforeOperationAmount}}
-							</view>
-							<view class="store-address1">
-								详情: {{order.details ? order.details:'无'}}
-							</view>
-							<view class="store-address1" style="padding: 20upx 0 20upx 0;text-align: right; margin-right: 30rpx;">
-								{{order.createTime}}
-							</view>
-						</view>
-					</view>
-					<uni-load-more :status="tabItem.loading"></uni-load-more>
-				</you-scroll>
-			</swiper-item>
-		</swiper> -->
-		
 		<!-- 左侧菜单 -->
 		<uni-drawer ref="drawer" mode="right" :width="320">
 		    <scroll-view scroll-y :style="{height: swiperHeight+'px'}">
@@ -152,27 +111,10 @@
 					{name: "积分充值话费", value: 11, isShow: true},
 					{name: "积分充值油卡", value: 12, isShow: true},
 					{name: "积分还信用卡", value: 13, isShow: true},
-					{name: "第三方充值推荐奖", value: 19, isShow: true},
 					{name: "消费卡奖励", value: 21, isShow: true},
-					{name: "存托资产转换积分", value: 33, isShow: true},
 					{name: "红包福利", value: 41, isShow: true},
 					{name: "提现", value: 51, isShow: true},
 					{name: "积分奖励", value: 70, isShow: true},
-					{name: "推荐奖励", value: 71, isShow: true},
-					// {name: "二代奖励", value: 72, isShow: true},
-					{name: "配送员推荐奖励", value: 73, isShow: true},
-					// {name: "配送员二代奖励", value: 74, isShow: true},
-					{name: "省代理奖励", value: 75, isShow: true},
-					{name: "市代理奖励", value: 76, isShow: true},
-					{name: "区代理奖励", value: 77, isShow: true},
-					{name: "普通掌柜奖励", value: 78, isShow: true},
-					{name: "中级掌柜奖励", value: 79, isShow: true},
-					{name: "高级掌柜奖励", value: 80, isShow: true},
-					{name: "初级达人奖励", value: 81, isShow: true},
-					{name: "中级达人奖励", value: 82, isShow: true},
-					{name: "高级达人奖励", value: 83, isShow: true},
-					{name: "至尊达人奖励", value: 84, isShow: true},
-					{name: "代理补贴", value: 85, isShow: true},
 					{name: "配送员收入", value: 86, isShow: true},
 					{name: "商家收入", value: 87, isShow: true},
 					{name: "平台操作", value: 99, isShow: true},
@@ -206,33 +148,6 @@
 		onLoad(opt) {
 			if (opt.type){
 				this.userType = parseInt(opt.type)
-			}
-			var changeShow = (value) => {
-				this.operationList.forEach(v => {
-					if (v.value === value) {
-						v.isShow = true
-						return
-					}
-				})
-			}
-			if (this.userType === 1) {
-				let noShowList = [86, 87]
-				this.operationList.map(v => {
-					if (noShowList.includes(v.value)){
-						v.isShow = false
-					}
-				})
-			} else {
-				this.operationList.map((v, i) => {
-					v.isShow = false
-				})
-				this.operationList[0].isShow = true
-				changeShow(51)
-				if (this.userType === 2) {
-					changeShow(86)
-				} else {
-					changeShow(87)
-				}
 			}
 			this.swiperHeight = uni.getSystemInfoSync().windowHeight
 			//获取订单信息

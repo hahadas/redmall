@@ -1272,7 +1272,7 @@
 	        "selectedIconPath": "/static/tabber/my_user2.png",
 	        "text": "我"
 	    }]
-		// #ifdef H5
+		// #ifdef APP-PLUS
 		,
 		"midButton": {
 			"height": "65px",

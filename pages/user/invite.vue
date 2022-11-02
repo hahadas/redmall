@@ -1,6 +1,5 @@
 <template>
 	<view class="content">
-		<image class="invite-bg" src="/static/user/invite-bg.png" mode=""></image>
 		<view class="invite-c">
 			<view class="invite-w">
 				<view class='invite-w-detail' style="font-size: 60upx;font-weight: bolder;line-height:60upx;">邀请好友领取红包</view>
@@ -42,6 +41,7 @@
 							<text class="share-text-two-text">生成邀请海报</text>	
 						</view>
 					</view>
+					<!-- #ifdef APP-PLUS -->
 					<view class='share btn' @click="onShare">
 						<view class="share-text-two">
 							<image src='/static/user/weact.png'></image>	
@@ -50,6 +50,7 @@
 							<text class="share-text-two-text">分享到微信</text>	
 						</view>
 					</view>
+					<!-- #endif -->
 				</view>
 			</view>
 			<view class="invite-w" style="opacity: 0;">
@@ -346,7 +347,6 @@
 		z-index: 67;
 		width: 750upx;
 		padding: 0 30upx;
-		top: 488upx;
 		background: linear-gradient(to right, #4c21d2, #4864f8);
 	}
 
@@ -359,7 +359,7 @@
 		border-radius: 30upx;
 		margin-bottom: 70upx;
 		position: relative;
-		top: -148upx;
+		top: 6vh
 	}
 
 	.invite-w-t {

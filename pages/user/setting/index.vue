@@ -52,12 +52,14 @@
 				<text class="cell-tit">联系客服</text>
 				<text class="cell-more iconfont">&#xe770;</text>
 			</view>
+			<!-- #ifdef APP-PLUS -->
 			<view class="b-b"></view>
 			<view class="list-cell" @click="versionApp">
 				<text class="cell-tit">检查更新</text>
 				<text class="cell-tip">当前版本 {{version}}</text>
 				<text class="cell-more iconfont">&#xe770;</text>
 			</view>
+			<!-- #endif -->
 		</view>
 		<view class="list-cell log-out-btn" @click="toLogout">
 			<text class="cell-tit">退出登录</text>

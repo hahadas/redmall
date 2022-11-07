@@ -324,7 +324,7 @@
 					pageNum: this.productList.length
 				};
 				sendRequest('GET', url.agent.getStockList, params).then(res =>{
-					this.cellTabs[2].total = res.data.stockAllCount
+					this.cellTabs[this.cellTabs.length - 1].total = res.data.stockAllCount
 					let list = res.data.stockList
 					this.productList = this.productList.concat(list)
 					this.productLoading = list.length < 12 ? 'nomore' : 'more'

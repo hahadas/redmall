@@ -134,15 +134,14 @@ export const isWeiXinBrowser = () => {
 */
 export const getMacAddress = () =>{
 	let mac = "xxx-xxx-xxx"
-	if(plus.os.name=="Android"){
+	if(uni.getSystemInfoSync().osName === "android"){
 		var Context = plus.android.importClass("android.content.Context");
 		var WifiManager = plus.android.importClass("android.net.wifi.WifiManager");
 		var wifiManager = plus.android.runtimeMainActivity().getSystemService(Context.WIFI_SERVICE);
 		var WifiInfo = plus.android.importClass("android.net.wifi.WifiInfo");
 		var wifiInfo = wifiManager.getConnectionInfo();
-		// mac = wifiInfo.getMacAddress()
 		mac = wifiInfo.getBSSID()
-	} else {
+	} else if (uni.getSystemInfoSync().osName === "ios") {
 		mac = plus.device.uuid // ios 获取不到，所以获取设备id
 	}
 	return mac

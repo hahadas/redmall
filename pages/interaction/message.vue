@@ -67,7 +67,15 @@
 	import url from "@/common/http/url.js"
 	import imUtils from "@/common/im/imTools.js"
 	import publics from "@/common/utils/public.js"
+	
+	// #ifdef APP-PLUS
 	import { selectInformationType, pullSQL, deleteInformationType, updateSessionInformation } from "@/common/im/db.js"
+	// #endif
+	
+	// #ifndef APP-PLUS
+	import { selectInformationType, pullSQL, deleteInformationType, updateSessionInformation } from "@/common/im/db-h5.js"
+	// #endif
+	
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 	import vTabs from "@/components/v-tabs/v-tabs.vue"
 	export default {
@@ -170,7 +178,6 @@
 			},
 			// 从本地数据库中获取会话列表，默认按照会话的最后一条消息的时间，降序排列
 			async getList() {
-				// #ifdef APP-PLUS
 				uni.stopPullDownRefresh();
 				let that = this
 				let res = await selectInformationType(null)
@@ -224,6 +231,7 @@
 				}
 				array.sort(function(a, b){return b.createTime - a.createTime}) // 时间排序
 				this.lists = array
+				// #ifdef APP-PLUS
 				plus.runtime.setBadgeNumber(localUnreadNumberTotal)
 				// #endif
 			},

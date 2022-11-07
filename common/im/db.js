@@ -164,10 +164,9 @@ function createSessionListSQL(callback){
  * @param {String}  db	表名
  * @param {Object}  data	插入的数据
  * */
-function addDataToChatTable(db, data, callback){
+function addDataToChatTable(data, callback){
 	if (!data || data.toString() === "{}") return
-	if (!db) db = chatList
-	let sqlInsert = "insert into "+(db+"_"+getUserId())+"(conversationId,uid,froms,tos,createTime,msgType,content) values('";  
+	let sqlInsert = "insert into "+(chatList+"_"+getUserId())+"(conversationId,uid,froms,tos,createTime,msgType,content) values('";  
 		sqlInsert += data.conversationId + "','";  
 		sqlInsert += data.uid + "','";  
 		sqlInsert += data["from"] + "','";  
@@ -195,10 +194,9 @@ function addDataToChatTable(db, data, callback){
  * @param {String}  db	表名
  * @param {Object}  data	插入的数据
  * */
-function addDataToSessionTable(db, data, callback){
+function addDataToSessionTable(data, callback){
 	if (!data || data.toString() === "{}") return
-	if (!db) db = sessionList
-	let sqlInsert = "insert into "+(db+"_"+getUserId())+" values('";  
+	let sqlInsert = "insert into "+(sessionList+"_"+getUserId())+" values('";  
 		sqlInsert += data.id + "','";  
 		sqlInsert += data.type + "','";  
 		sqlInsert += data.toType + "','";  

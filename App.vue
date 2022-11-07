@@ -2,10 +2,10 @@
 	import { mapMutations, mapState } from "vuex"
 	import url from "@/common/http/url.js"
 	import publics from "@/common/utils/public.js"
-	// #ifdef APP-PLUS
 	import UniSocket from "@i5920/uni-socket";
 	import { imUrl } from "@/common/http/index.js"
 	import { getUUID, versionCompare, getMacAddress } from "@/common/utils/index.js"
+	// #ifdef APP-PLUS
 	import { 
 		isOpenDB, 
 		openDB, 
@@ -23,6 +23,18 @@
 	const upDater=uni.requireNativePlugin("CL-UpDater"); // 版本升级
 	let shockTimer = null
 	let failNumber = 0
+	// #endif
+	
+	// #ifndef APP-PLUS
+	import {
+		tableIshas,
+		addDataToChatTable, 
+		addDataToSessionTable, 
+		selectInformationType,
+		updateSessionInformation,
+		updateInformation,
+		getUnReadTotal
+	} from "@/common/im/db.js"
 	// #endif
 	
 	// ---------------------------------------推送权限开启------------------------------------ //
@@ -95,7 +107,8 @@
 				token: "",
 				argsData: null,
 				isSynchroSuccess: false,
-				localUnReadNum: 0
+				localUnReadNum: 0,
+				globalData: {}
 			}
 		},
 		computed:{
@@ -112,20 +125,7 @@
 			this.$http("GET", url.common.getOssImageResize).then(res =>{
 				uni.setStorageSync("ossResizeData", res.data)
 			})
-			// 如果用户是配送员并且有待接订单则提示声音
-			this.agentShowMusic()
 			
-			// #ifdef APP-PLUS
-			// 中间按钮点击
-			uni.onTabBarMidButtonTap(function(e) {
-				let userInfo = uni.getStorageSync('userInfo');
-				uni.navigateTo({
-					url: '/pages/video/index?userId=' + userInfo.id
-				})
-			});
-			
-			// 检测推送权限
-			permissions()
 			// 判断用户信息时候完善
 			let userInfo = uni.getStorageSync("userInfo")
 			if (userInfo) {
@@ -144,11 +144,13 @@
 					this.$navigateTo("/pages/user/setting/personal")
 				}
 			}
+			
 			let token = uni.getStorageSync('token')
 			this.token = token
 			if (token) {
 				// 初始化webSocket数据
 				this.initIMClientText()
+				// #ifdef APP-PLUS
 				// 更新设备信息
 				this.updateDeviceInfo()
 				// 打开数据库,并创建表
@@ -159,7 +161,29 @@
 						_this.localUnReadNum = num
 					})
 				})
+				// #endif
+				
+				// #ifndef APP-PLUS
+				tableIshas()
+				_this.localUnReadNum = getUnReadTotal()
+				// #endif
 			}
+			
+			// #ifdef APP-PLUS
+			// 中间按钮点击
+			uni.onTabBarMidButtonTap(function(e) {
+				let userInfo = uni.getStorageSync('userInfo');
+				uni.navigateTo({
+					url: '/pages/video/index?userId=' + userInfo.id
+				})
+			});
+			
+			// 如果用户是配送员并且有待接订单则提示声音
+			this.agentShowMusic()
+			
+			// 检测推送权限
+			permissions()
+			
 			// 获取位置
 			this.openMap()
 			// 判断升级
@@ -262,7 +286,6 @@
 				}  
 			},
 			initIMClientText(){
-				// #ifdef APP-PLUS
 				let _this = this
 				this.globalData.socket = new UniSocket({
 					url: imUrl+uni.getStorageSync('token'),
@@ -302,7 +325,6 @@
 						}
 					}
 				});
-				// #endif
 			},
 			onlineStatusSendMsg(name, status){
 				let data = uni.getStorageSync(name)
@@ -327,7 +349,7 @@
 					let selectRes = await selectInformationType(null, 'id', obj.id)
 					if (selectRes.length === 0) {
 						obj.localUnreadNumber = obj.unreadNumber
-						await addDataToSessionTable(null, obj)
+						await addDataToSessionTable(obj)
 					} else {
 						obj.localUnreadNumber = selectRes[0].localUnreadNumber + obj.unreadNumber
 						await updateSessionInformation(obj, 'id', obj.id)
@@ -342,7 +364,7 @@
 							unReadData.from = obj.toImAccount
 							unReadData.to = obj.imAccount
 							unReadData.msgType = parseInt(unReadData.chatType)
-							await addDataToChatTable(null, unReadData)
+							await addDataToChatTable(unReadData)
 						}
 						if (parseInt(unReadData.chatType) === 6) {
 							let JSONContent = JSON.parse(unReadData.content)
@@ -417,6 +439,7 @@
 						let conversation = JSON.parse(JSON.stringify(res.data))
 						message.conversationId = conversation.id
 						message.uid = message.id
+						// #ifdef APP-PLUS
 						if (message.msgType === 5){
 							let videoCallMyStatus = uni.getStorageSync("VideoCallMyStatus");
 							if (content.text==="已挂断" || content.text==="忙线中"){
@@ -446,6 +469,7 @@
 								}
 							}
 						}
+						// #endif
 						if (message.msgType === 6) {
 							let list = await selectInformationType("chatList", "conversationId", conversation.id, "msgType", 6)
 							if (list.length > 0) {
@@ -461,7 +485,7 @@
 						}
 						
 						// 添加数据到聊天表
-						await addDataToChatTable(null, message)
+						await addDataToChatTable(message)
 						
 						// 设置当前会话未读消息数量进缓存
 						let cIdNum = publics.getConversationUnReadNum(conversation.id)
@@ -472,7 +496,7 @@
 						let doc = await selectInformationType(null, 'id', conversation.id)
 						if (doc.length === 0) {
 							conversation.localUnreadNumber = conversation.unreadNumber + 1
-							await addDataToSessionTable(null, conversation)
+							await addDataToSessionTable(conversation)
 						} else {
 							conversation.localUnreadNumber = doc[0].localUnreadNumber + 1
 							await updateSessionInformation(conversation, 'id', conversation.id)
@@ -510,7 +534,7 @@
 				};
 				params.uid = params.id
 				this.setReceiveMessage(params)
-				addDataToChatTable(null, params)
+				addDataToChatTable(params)
 				this.globalData.socket.sendSocketMessage(params)
 				this.$http("POST", url.im.submitMsg, {
 					conversationId: params.conversationId,

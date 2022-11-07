@@ -87,7 +87,6 @@
 				<view class="carousel" @click="toMerchants">
 					<image src="/static/user/merchants_use.png" v-if="userDetailInfo.storeIsOpen === 1" mode="scaleToFill" class="img"/>
 					<image src="/static/user/merchants.png" v-else mode="scaleToFill" class="img"/>
-					
 				</view>
 			</view>
 			<!-- 我的服务 -->

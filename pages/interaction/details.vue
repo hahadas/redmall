@@ -252,10 +252,16 @@
 				this.detailInfo = res.data[0]
 				// 如果是自己，则隐藏导航栏上的举报拉黑
 				if (this.detailInfo.userId === this.userId) {
+					// #ifdef APP-PLUS
 					let webView = this.$mp.page.$getAppWebview();  
 					webView.setTitleNViewButtonStyle(0,{  
 					    width: '0'  
 					}); 
+					// #endif
+					// #ifdef H5
+					let headerRight = document.getElementsByClassName("uni-page-head-ft")
+					headerRight[1].style.display = 'none'
+					// #endif
 				} else {
 					this.isUserBlock()
 				}

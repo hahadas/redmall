@@ -53,7 +53,7 @@ export default{
 					if (selectRes.length === 0) {
 						console.log("本地数据库无数据")
 						data.localUnreadNumber = data.unreadNumber || 0
-						addDataToSessionTable(null, data)
+						addDataToSessionTable(data)
 					} else {
 						console.log("本地数据库有数据")
 						data.localUnreadNumber = (data.localUnreadNumber || 0) + (data.unreadNumber || 0)
@@ -97,7 +97,7 @@ export default{
 					type: type
 				}
 				_this.$http("POST", url.im.submitMsg, submitParams).then(res =>{
-					addDataToChatTable(null, params)
+					addDataToChatTable(params)
 					if (callBack){
 						callBack()
 					}

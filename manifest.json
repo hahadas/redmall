@@ -243,6 +243,15 @@
     },
     "h5" : {
         "title" : "redMall",
-        "domain" : "http://hejiume-wap.hushuo.show"
+        "domain" : "http://hejiume-wap.hushuo.show",
+        "sdkConfigs" : {
+            "maps" : {
+                "amap" : {
+                    "key" : "2ceba3aa2fb89a9c56c55fab13c695d7",
+                    "securityJsCode" : "c5ce2bd6b62c9949a618507c542ff9f9",
+                    "serviceHost" : ""
+                }
+            }
+        }
     }
 }

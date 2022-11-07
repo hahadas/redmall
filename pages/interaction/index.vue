@@ -8,11 +8,13 @@
 				</view>
 			</view>
 			<view class="header" :style="{paddingTop: ((isOpenPosition ? statusBarHeight : 0) + 'px')}">
-				<scroller class="nav-area" :show-scrollbar="false" scroll-direction="horizontal">
-					<div class="nav-area-item" v-for="(item, index) in navList" :key="index" @tap="tapNav(index)">
-						<text class="nav-area-item-name" :class="{ 'nav-area-item-active': index === current }">{{ item }}</text>
-					</div>
-				</scroller>
+				<scroll-view scroll-x class="nav-area">
+					<view class="flex">
+						<view class="nav-area-item" v-for="(item, index) in navList" :key="index" @tap="tapNav(index)">
+							<text class="nav-area-item-name" :class="{ 'nav-area-item-active': index === current }">{{ item }}</text>
+						</view>
+					</view>
+				</scroll-view>
 				<view class="search" v-if="isSearch && (current === 1 || current === 2)">
 					<input type="text" v-model="wordKey" class="search-input" :maxlength="15" placeholder="用户昵称" @input="searchInput">
 					<text class="search-btn" @click="onSearch(current)">搜索</text>
@@ -43,7 +45,7 @@
 				<my ref="my"></my>
 			</swiper-item>
 			<swiper-item :style="{height: swiperHeight + 'px'}">
-				<comment ref="comment"></comment>
+				<comment ref="comment" :swiperHeight="swiperHeight"></comment>
 			</swiper-item>
 		</swiper>		
 		
@@ -97,7 +99,7 @@
 			return {
 				swiperHeight: 0,
 				statusBarHeight: uni.getSystemInfoSync().statusBarHeight,
-				navList: ["动态", "附近", "配送员", "发布", "我的", "评论"],
+				navList: ["动态", "附近", "配送", "发布", "我的", "评论"],
 				current: 0,
 				isSearch: false,
 				wordKey: "",
@@ -189,7 +191,9 @@
 						index: 2
 					})
 				}
+				// #ifdef APP-PLUS
 				plus.runtime.setBadgeNumber(unReadTotal)
+				// #endif
 				getApp().localUnReadNum = unReadTotal
 			},
 			// 红包福利
@@ -403,6 +407,7 @@
 		width: 600rpx;
 		height: 80rpx;
 		border-radius: 50rpx;
+		display: flex;
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;

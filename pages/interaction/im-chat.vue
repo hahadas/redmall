@@ -328,9 +328,11 @@
 					<view class="box" @tap="chooseVideo">
 						<view class="iconfont font60">&#xe604;</view>
 					</view>
+					<!-- #ifdef APP-PLUS -->
 					<view class="box" @tap="openVideoPopup">
 						<view class="iconfont font60">&#xe6db;</view>
 					</view>
+					<!-- #endif -->
 					<view class="box" @tap="chooseLocation">
 						<view class="iconfont location font60">&#xe646;</view>
 					</view>
@@ -413,14 +415,7 @@
 
 	// #ifdef APP-PLUS
 	import permision from "@/common/im/permission.js"
-	// #endif
-	
-	import url from "@/common/http/url.js"
-	import publics from "@/common/utils/public.js"
-	import imUtils from "@/common/im/imTools.js"
-	import upload from "@/common/http/upload.js"
-	import { getUUID, secondFormat } from "@/common/utils/index.js"
-	import { 
+	import {
 		addDataToChatTable, 
 		addDataToSessionTable, 
 		updateSessionInformation, 
@@ -429,6 +424,25 @@
 		deleteInformationType,
 		pullSQL
 	} from "@/common/im/db.js"
+	// #endif
+	
+	// #ifndef APP-PLUS
+		import {
+			addDataToChatTable, 
+			addDataToSessionTable, 
+			updateSessionInformation, 
+			updateInformation,
+			selectInformationType, 
+			deleteInformationType,
+			pullSQL
+		} from "@/common/im/db-h5.js"
+	// #endif
+	
+	import url from "@/common/http/url.js"
+	import publics from "@/common/utils/public.js"
+	import imUtils from "@/common/im/imTools.js"
+	import upload from "@/common/http/upload.js"
+	import { getUUID, secondFormat } from "@/common/utils/index.js"
 	
 	var _self;
 	export default {
@@ -591,7 +605,7 @@
 			if (selectRes.length === 0) {
 				console.log("本地数据库无数据")
 				data.localUnreadNumber = data.unreadNumber
-				await addDataToSessionTable(null, data)
+				await addDataToSessionTable(data)
 			} else {
 				console.log("本地数据库有数据")
 				data.localUnreadNumber = 0
@@ -887,7 +901,7 @@
 						let list = res.data
 						// 添加到数据库
 						list.map(v =>{
-							addDataToChatTable(null, v)
+							addDataToChatTable(v)
 						})
 						this.msgList = [...list, ...this.msgList]
 						let Viewid = 'scroll_'+res[0].uid;
@@ -1245,9 +1259,11 @@
 										};
 										let data = await upload.getOssSignature(msg.path, 6, 1)
 										let list = await upload.uploadImageOss(data, false)
-										msg.resourceTemporaryUUID = list[0].resourceTemporaryUUID
-										msg.url = list[0].url
-										_this.sendMsg(msg, 'image');
+										if (list) {
+											msg.resourceTemporaryUUID = list[0].resourceTemporaryUUID
+											msg.url = list[0].url
+											_this.sendMsg(msg, 'image');
+										}
 									}
 								});
 							}, 1000)
@@ -1507,6 +1523,7 @@
 				console.log("......发送的消息.....", params)
 				if (!testing) return
 				console.log("......//////...........//////ppppppppp", testing)
+				console.log(getApp())
 				getApp().globalData.socket.sendSocketMessage(params)
 				this.isSend = true
 				// 延迟500毫秒，为了避免发送消息给对方时获取对方是否在线状态不及时
@@ -1524,7 +1541,7 @@
 					}
 					this.$http("POST", url.im.submitMsg, submitParams)
 				}, 500)
-				addDataToChatTable(null, params)
+				addDataToChatTable(params)
 				if (params.msgType === 99){
 					let content = JSON.parse(params.content)
 					deleteInformationType(null, 'uid', content.id)

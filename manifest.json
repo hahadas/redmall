@@ -186,20 +186,6 @@
                     }
                 }
             },
-            "CL-UpDater" : {
-                "__plugin_info__" : {
-                    "name" : "app版本升级原生弹框和进度提示(包含wgt升级)",
-                    "description" : "app版本升级(包含热更新)弹框提示和进度显示，apk自动安装",
-                    "platforms" : "Android,iOS",
-                    "url" : "https://ext.dcloud.net.cn/plugin?id=1371",
-                    "android_package_name" : "uni.UNI7D57679",
-                    "ios_bundle_id" : "uni.UNI7D57679",
-                    "isCloud" : true,
-                    "bought" : 1,
-                    "pid" : "1371",
-                    "parameters" : {}
-                }
-            },
             "Html5app-VideoCrop" : {
                 "__plugin_info__" : {
                     "name" : "Android 和 IOS 视频裁剪、视频压缩插件",
@@ -211,6 +197,20 @@
                     "isCloud" : true,
                     "bought" : 1,
                     "pid" : "894",
+                    "parameters" : {}
+                }
+            },
+            "CL-UpDater" : {
+                "__plugin_info__" : {
+                    "name" : "app版本升级原生弹框和进度提示(包含wgt升级)",
+                    "description" : "app版本升级(包含热更新)弹框提示和进度显示，apk自动安装,跳转应用市场",
+                    "platforms" : "Android,iOS",
+                    "url" : "https://ext.dcloud.net.cn/plugin?id=1371",
+                    "android_package_name" : "uni.UNI7D57679",
+                    "ios_bundle_id" : "uni.UNI7D57679",
+                    "isCloud" : true,
+                    "bought" : 1,
+                    "pid" : "1371",
                     "parameters" : {}
                 }
             }

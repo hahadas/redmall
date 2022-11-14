@@ -1,6 +1,8 @@
 <template>
 	<view class="main">
 		<view class="header">
+			<view class="status-bar-height-height"></view>
+			<view :style="{height: navHeight + 'px'}"></view>
 			<view class="errMsg" v-if="form.errorMsg && form.status === 2">
 				<text class="txt">
 					<text class="iconfont icon">&#xe659;</text>
@@ -39,6 +41,7 @@
 		components: { one, two, three, four, avatar },
 		data(){
 			return {
+				navHeight: 0,
 				loading: false,
 				tabs: ["商品信息", "商品规格", "商品详情", "商品配送"],
 				current: 0,
@@ -62,6 +65,7 @@
 			return true
 		},
 		onLoad(opt) {
+			this.navHeight = uni.getSystemInfoSync().windowTop
 			if (opt.id) {
 				this.isEdit = true
 				uni.setNavigationBarTitle({
@@ -311,7 +315,7 @@
 				}
 			}
 			.tabs{
-				width: 750rpx;
+				width: 100%;
 				display: flex;
 				height: 150rpx;
 				align-items: center;

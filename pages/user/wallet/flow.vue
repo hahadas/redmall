@@ -115,9 +115,14 @@
 					{name: "红包福利", value: 41, isShow: true},
 					{name: "提现", value: 51, isShow: true},
 					{name: "积分奖励", value: 70, isShow: true},
+					{name: "一代奖励", value: 71, isShow: true},
+					{name: "二代奖励", value: 72, isShow: true},
 					{name: "配送员收入", value: 86, isShow: true},
 					{name: "商家收入", value: 87, isShow: true},
+					{name: "平台佣金", value: 89, isShow: true},
+					{name: "未分配奖励收入", value: 90, isShow: true},
 					{name: "平台操作", value: 99, isShow: true},
+					{name: "配送员交纳押金", value: 200, isShow: true},
 					{name: "扫码付款", value: 400, isShow: true},
 					{name: "店铺收款", value: 401, isShow: true}
 				]

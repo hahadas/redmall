@@ -259,18 +259,18 @@
 			},
 			getInfo(){
 				this.$http("GET", url.store.getStoreInfo).then(res=>{
-					this.storeInfo = res.data
+					this.storeInfo = res.data || {}
 					this.getOrderTotal()
 				})
 			},
 			getCollectionToday(){
 				this.$http("GET", url.store.getTodayCollectionTotal).then(res=>{
-					this.collectionData = res.data
+					this.collectionData = res.data || {}
 				})
 			},
 			getWallet(){
 				this.$http("GET", url.store.getWalletInfo).then(res=>{
-					this.walletData = res.data
+					this.walletData = res.data || {}
 				})
 			},
 			getOrderTotal(){

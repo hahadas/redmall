@@ -61,7 +61,6 @@
 					addStatus: this.position ? 0 : 1,
 					images: imgList ? imgList.join(","): ""
 				}
-				console.log("-----参数----", params)
 				let res = await this.$http('post', url.interaction.addDynamic, params);
 				this.loading = false
 				let data = res.data

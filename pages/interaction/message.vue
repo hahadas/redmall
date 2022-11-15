@@ -181,7 +181,6 @@
 				uni.stopPullDownRefresh();
 				let that = this
 				let res = await selectInformationType(null)
-				console.log("会话列表。。。", res)
 				if (res.length === 0) return
 				let data = JSON.parse(JSON.stringify(res))
 				let conversationUnReadData = publics.getConversationUnReadNum()
@@ -285,7 +284,6 @@
 			isHasUnSendMsg(id){
 				if (!id) return ""
 				let value = publics.getUnsendMsg(id)
-				console.log("unSendMsg......", value, id)
 				return value
 			}
 		}

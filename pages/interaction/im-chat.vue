@@ -358,16 +358,11 @@
 				 @touchmove.stop.prevent="voiceIng" @touchend="voiceEnd" @touchcancel="voiceCancel">{{voiceTis}}</view>
 				<view class="text-mode" :class="isVoice?'hidden':''">
 					<view class="box">
-						<!-- <textarea 
+						<textarea
 							auto-height="true" :focus="focus" 
 							:maxlength="1000" :adjust-position="false" 
 							cursor-spacing="10" v-model="textMsg"
-							@focus="textareaFocus" @input="textareaInput"/> -->
-							<textarea
-								auto-height="true" :focus="focus" 
-								:maxlength="1000" :adjust-position="false" 
-								cursor-spacing="10" v-model="textMsg"
-								@input="textareaInput"/>
+							@input="textareaInput"/>
 					</view>
 					<view class="em" @tap="chooseEmoji">
 						<view class="icon biaoqing"></view>
@@ -557,7 +552,6 @@
 			})
 			
 			let toUserInfo = await this.$http("GET", url.user.getUserInfoById, {toImAccount: option.id})
-			console.log("..............///////////////////===========", toUserInfo)
 			this.chatUser = toUserInfo.data
 			if (this.chatUser.distributorIsOpen && !this.isCustomer) {
 				this.getOrderList()
@@ -568,11 +562,6 @@
 			let conversationInfo = await this.$http("GET", url.im.createConversation, {toImAccount: option.id, type: this.type})
 			this.conversationInfo = conversationInfo.data
 			this.conversationId = conversationInfo.data.id
-			// let unSendTxt = publics.getUnsendMsg(this.conversationId)
-			// if (unSendTxt){
-			// 	this.textMsg = unSendTxt
-			// 	this.focus = true
-			// }
 			if (this.type === 3) {
 				this.title = this.conversationInfo.storeName || this.chatUser.nickname
 				this.chatUser.storeLogoImage = this.conversationInfo.storeLogoImage
@@ -583,7 +572,6 @@
 				title: this.title
 			});
 			
-			// #ifdef APP-PLUS
 			// 发送一条消息，判断对方是否在线
 			let sendParams = {
 				from: this.userInfo.imAccount,
@@ -595,19 +583,16 @@
 			}
 			uni.setStorageSync("imChatSendMsg", sendParams)
 			getApp().globalData.socket.sendSocketMessage(sendParams)
-			// #endif
 			
 			this.unreadNumber = this.conversationInfo.unreadNumber
 			// 会话表是否存在该会话，没有插入数据，有则更新数据
 			let selectRes = await selectInformationType(null, 'id', this.conversationId)
 			let data = conversationInfo.data
-			data.nickname = this.chatUser.nickname // 暂时性代码，对方修改昵称后用户获取会话信息时对方昵称没改变
+			data.nickname = this.chatUser.nickname
 			if (selectRes.length === 0) {
-				console.log("本地数据库无数据")
 				data.localUnreadNumber = data.unreadNumber
 				await addDataToSessionTable(data)
 			} else {
-				console.log("本地数据库有数据")
 				data.localUnreadNumber = 0
 				publics.setConversationUnReadNum(data.id, 0)
 				await updateSessionInformation(data, 'id', data.id)
@@ -617,7 +602,7 @@
 			if (option.sendVideo) {
 				this.videoCall(option.callType)
 			}
-
+			
 			//语音自然播放结束
 			this.AUDIO.onEnded((res) => {
 				console.log("语音播放结束。。。", res)
@@ -702,17 +687,11 @@
 				let content = JSON.parse(val.content)
 				if (content.type === "imChat"){
 					this.isOnline = val.isOnline
-					// uni.setNavigationBarTitle({
-					// 	title: (val.isOnline ? '(在线)':'(离线)')+this.title
-					// });
 				}
 			},
 			isOtherOnline(val){
 				console.log("isOnline......", val)
 				this.isOnline = val
-				// uni.setNavigationBarTitle({
-				// 	title: (val ? '(在线)':'(离线)')+this.title
-				// });
 			},
 			receiveMessage(message){
 				console.log("im-chat收到的消息--->>>", message)
@@ -744,12 +723,10 @@
 				}
 			},
 			msgList(val){
-				console.log("watch...msglist....", val)
 				if (!val || val.length === 0) return
 				let newList = JSON.parse(JSON.stringify(val))
 				this.msgList = this.formatMsgList(val)
 				console.log(".........msgList........", this.msgList)
-				
 			}
 		},
 		methods: {
@@ -773,15 +750,11 @@
 			},
 			// 进入对方主页
 			otherGoUser(){
-				// if (this.type) {
-				// 	this.$navigateBack()
-				// } else {
-					if (this.pages) {
-						this.$navigateTo("user?fromImChat=true&&userId="+this.chatUser.imAccount)
-					} else {
-						this.$navigateBack()
-					}
-				// }
+				if (this.pages) {
+					this.$navigateTo("user?fromImChat=true&&userId="+this.chatUser.imAccount)
+				} else {
+					this.$navigateBack()
+				}
 			},
 			hidePopup(){
 				this.msgList.map(v=>{
@@ -833,7 +806,6 @@
 							if (res.tapIndex === 1) {
 								deleteInformationType(null, 'uid', self.deleteIds[0].id)
 								self.msgList.splice(self.deleteIds[0].index, 1)
-								
 							}
 					    }
 					});
@@ -949,7 +921,6 @@
 					res = res.reverse()
 					let list = res
 					this.msgList = list
-					console.log("-----", this.msgList)
 					// 滚动到底部
 					this.$nextTick(function() {
 						//进入页面滚动到底部
@@ -978,26 +949,13 @@
 			selectPhoneNumber(str) {
 			    let regx = /(1[3|4|5|7|8][\d]{9}|0[\d]{2,3}-[\d]{7,8}|400[-]?[\d]{3}[-]?[\d]{4})/g;
 				let phoneNums = str.match(regx);
-				console.log("phoneNums", phoneNums)
 				return phoneNums
-				// if (phoneNums) {
-				// 	for (let i = 0; i < phoneNums.length; i++) {
-				// 		let temp = phoneNums[i]
-				// 		// str = str.replace(phoneNums[i], '<text @click="callPhone(temp)" style="text-decoration: underline;color: #2878FF;">' + temp + '</text>');
-				// 		str = str.replace(phoneNums[i], temp);
-				// 	}
-				// 	console.log("判断是否包含手机号。。。。", str)
-				// 	return str;
-				// } else {
-				// 	return null
-				// }
 			},
 			onCopy(msg){
 				this.$onCopy(msg)
 				this.hidePopup()
 			},
 			callPhone(temp){
-				console.log(".....手机号。。。。", temp)
 				this.hidePopup()
 				if (temp.length === 1) {
 					uni.makePhoneCall({
@@ -1208,11 +1166,6 @@
 				let _this = this
 				uni.chooseLocation({
 				    success: function (res) {
-				        console.log('chooseLocation：' + JSON.stringify(res));
-				        console.log('位置名称：' + res.name);
-				        console.log('详细地址：' + res.address);
-				        console.log('纬度：' + res.latitude);
-				        console.log('经度：' + res.longitude);
 						let msg = {
 							latitude: res.latitude,// 纬度信息
 							longitude: res.longitude, // 经度信息
@@ -1281,18 +1234,8 @@
 				this.hideDrawer();
 				uni.chooseVideo({
 					success(res){
-						// let msg = {
-						// 	path: res.tempFilePath,
-						// 	w: res.width,
-						// 	h: res.height,
-						// 	size: res.size,
-						// 	duration: res.duration,
-						// 	length: secondFormat(res.duration)
-						// };
-						
 						let path = res.tempFilePath
 						upload.getOssSignature(path, 8, 1).then(data=>{
-							console.log("data........", data)
 							let id = getUUID()+_this.userInfo.recommendCode
 							let params = {
 								conversationId: _this.conversationId,
@@ -1321,12 +1264,6 @@
 								_this.scrollToView = 'scroll_'+params.uid
 							});
 							_this.uploadVideo(data[0], params)
-							// upload.uploadImageOss(data).then(list=>{
-							// 	msg.resourceTemporaryUUID = list[0].resourceTemporaryUUID
-							// 	msg.url = list[0].url
-							// 	msg.ossTailoringUrl = list[0].ossTailoringUrl
-							// 	_this.sendMsg(msg, 'video');
-							// })
 						})
 					}
 				})
@@ -1522,8 +1459,6 @@
 				}
 				console.log("......发送的消息.....", params)
 				if (!testing) return
-				console.log("......//////...........//////ppppppppp", testing)
-				console.log(getApp())
 				getApp().globalData.socket.sendSocketMessage(params)
 				this.isSend = true
 				// 延迟500毫秒，为了避免发送消息给对方时获取对方是否在线状态不及时
@@ -1596,7 +1531,6 @@
 			fullscreenchange(e){
 				if (!e.detail.fullScreen){
 					this.createVideoContext.pause()
-					// this.videoObj = {}
 				}
 			},
 			// 录音开始
@@ -1615,7 +1549,7 @@
 				this.initPoint.Y = e.touches[0].clientY;
 				this.initPoint.identifier = e.touches[0].identifier;
 				this.RECORDER.start({
-					format: "mp3",//音频格式，有效值 aac/mp3，由于Android mp3似乎有点问题
+					format: "mp3",
 				}); //录音开始,
 			},
 			//录音开始UI效果
@@ -1671,7 +1605,6 @@
 					let msg = {
 						length: 0,
 						path: e.tempFilePath,
-						// url: e.tempFilePath,
 						duration: this.recordLength, // 【**必传】，语音内容的持续时长. 单位是秒
 					}
 					msg.length = secondFormat(this.recordLength);

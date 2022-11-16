@@ -2,8 +2,13 @@
 	<view class="page" v-if="isDone">
 		<uni-swiper :screenHeight="screenHeight" :leftHas="videoHas" @change="onchange" :current="curIndex">
 			<uni-push slot="left" v-if="videoHas" :screenHeight="screenHeight" :playStatus="playStatus" :list="videoObject"></uni-push>
-			<scroll-view :slot="videoHas?'right':'left'" scroll-y @scroll="onScroll" @scrolltolower="scrolltolower" class="swiper" :style="{height: screenHeight+'px'}">
-				<!-- <yy-refresh ref="refresh" @refresh="refresh()"></yy-refresh> -->
+			<scroll-view 
+				:slot="slot" 
+				scroll-y 
+				@scroll="onScroll" 
+				@scrolltolower="scrolltolower" 
+				class="swiper" 
+				:style="{height: screenHeight+'px'}">
 				<swiper class="swiperImgs" :indicator-dots="true" v-if="swiperList.length > 0">
 					<swiper-item v-for="(item, i) in swiperList" :key="i">
 						<image :src="item" mode="aspectFill" class="swiperImg" @click="previewImg($event, swiperList, i)"></image>
@@ -137,6 +142,7 @@
 						</view>
 						<uni-load-more :status="loadingType"></uni-load-more>
 					</block>
+					
 					<!-- #ifdef APP-PLUS -->
 					<block v-if="cellIndex === 1">
 						<view class="grid">
@@ -159,6 +165,7 @@
 						<uni-load-more :status="videoLoading"></uni-load-more>
 					</block>
 					<!-- #endif -->
+					
 					<block v-if="cellIndex === cellTabs.length - 1">
 						<view class="product">
 							<block v-for="(item, i) in productList" :key="i">
@@ -258,6 +265,7 @@
 				labelHobbyList: [],
 				labelPastOccupationList: [],
 				videoHas: false,
+				slot: 'left',
 				followStatus: false, // 关注
 				pageSize: 0,
 				videoList: [],
@@ -334,6 +342,7 @@
 						if (v.type === 2 && v.status === 1) {
 							this.videoObject = v
 							this.videoHas = true
+							this.slot = 'right'
 						}
 					})
 				}

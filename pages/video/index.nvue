@@ -1,3 +1,4 @@
+<!-- #ifdef APP-PLUS -->
 <template>
 	<div class="page" style="background-color: #000;" >
 		<cover-view class="cover-view-center">
@@ -1053,3 +1054,4 @@
 		color:#ff2400;
 	}
 </style>
+<!-- #endif -->

@@ -1,6 +1,8 @@
+// #ifdef APP-PLUS
 const BindingX = uni.requireNativePlugin('bindingx');
 const animation = weex.requireModule('animation');
 const modal = weex.requireModule('modal');
+// #endif
 export default {
 	data(){
 		return{

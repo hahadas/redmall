@@ -64,7 +64,9 @@
 <style scoped lang="scss">
 	.main{
 		// background: linear-gradient(to top, #0065cd 0%, #008bdb 100%);
-		background: url(../../static/login/bg.jpg) center center no-repeat;
+		// background: url(../../static/login/bg.jpg) center center no-repeat;
+		background-image: url('../../static/login/bg.jpg');
+		background-repeat: no-repeat;
 		background-size: 100% 100%;
 		min-height: 100vh;
 		.top{

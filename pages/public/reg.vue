@@ -1,5 +1,6 @@
 <template>
-	<view class="main">
+	<view class="main" :style="{backgroundImage: 'url('+ staticUrl + 'login/bg.jpg)'}">
+		<text class="color-w font60">Red Mall</text>
 		<view class="form">
 			<view class="form-item flex flex-align-end">
 				<input type="number" :maxlength="11" placeholder="请输入手机号" placeholder-class="placeholder" v-model="form.username" />
@@ -52,6 +53,7 @@
 		components: { sms },
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				confimpassword: "",
 				hasCode: false,
 				noticeId: ""
@@ -116,7 +118,7 @@
 <style scoped lang="scss">
 	.main{
 		min-height: 100vh;
-		background:url(../../static/login/register.png) center bottom no-repeat;
+		background-repeat: no-repeat;
 		background-size: cover;
 		padding: 0 30rpx;
 		display: flex;
@@ -128,7 +130,7 @@
 			background-color: white;
 			border-radius: 20rpx;
 			padding: 0 20rpx;
-			margin-top: 100rpx;
+			margin-top: 50rpx;
 			&-item{
 				border-bottom: 2rpx solid #eee;
 				height: 90rpx;

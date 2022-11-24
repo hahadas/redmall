@@ -15,7 +15,6 @@
 		<!-- #endif -->
 		
 		<!-- #ifndef APP-PLUS -->
-		<!-- <view style="height: 30rpx;"></view> -->
 		<send-dynamic></send-dynamic>
 		<!-- #endif -->
 	</view>
@@ -24,9 +23,17 @@
 <script>
 	import vTabs from "@/components/v-tabs/v-tabs.vue"
 	import sendDynamic from "../add.vue"
+	// #ifdef APP-PLUS
 	import sendVideo from "../../video/sendVideo.vue"
+	// #endif
 	export default{
-		components: { vTabs, sendVideo, sendDynamic },
+		components: { 
+			vTabs, 
+			// #ifdef APP-PLUS
+			sendVideo, 
+			// #endif
+			sendDynamic 
+		},
 		data(){
 			return {
 				statusBarHeight: uni.getSystemInfoSync().statusBarHeight, // 状态栏高度

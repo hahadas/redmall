@@ -19,8 +19,8 @@
 						<view class="list-item-bom-con">
 							<view class="list-item-bom-con-box">
 								<view class="left">
-									<image src="/static/video/man_color.png" mode="" class="six" v-if="item.gender === 2"></image>
-									<image src="/static/video/woman_color.png" mode="" class="six" v-if="item.gender === 3"></image>
+									<image :src="staticUrl + 'video/man_color.png'" mode="" class="six" v-if="item.gender === 2"></image>
+									<image :src="staticUrl + 'video/woman_color.png'" mode="" class="six" v-if="item.gender === 3"></image>
 									<text class="name">{{item.nickname}}</text>
 								</view>
 								<text class="right">{{item.constellation}}/{{item.age||0}}岁</text>

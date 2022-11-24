@@ -27,7 +27,7 @@
 				<view class='invite-btn' style="margin-top: 50upx;right: 35upx;">
 					<view class='share btn' @click="$onCopy(code||userDetailInfo.recommendCode)">
 						<view class="share-text-two">
-							<image src='/static/user/ic-link.png'></image>	
+							<image :src="staticUrl + 'user/ic-link.png'"></image>	
 						</view>
 						<view class="share-text-two">
 							<text class="share-text-two-text">复制邀请码</text>	
@@ -35,7 +35,7 @@
 					</view>
 					<view class='share btn' @click="createPoster()">
 						<view class="share-text-two">
-							<image src='/static/user/ic-img.png'></image>	
+							<image :src="staticUrl + 'user/ic-img.png'"></image>	
 						</view>
 						<view class="share-text-two">
 							<text class="share-text-two-text">生成邀请海报</text>	
@@ -44,7 +44,7 @@
 					<!-- #ifdef APP-PLUS -->
 					<view class='share btn' @click="onShare">
 						<view class="share-text-two">
-							<image src='/static/user/weact.png'></image>	
+							<image :src="staticUrl + 'user/weact.png'"></image>	
 						</view>
 						<view class="share-text-two">
 							<text class="share-text-two-text">分享到微信</text>	
@@ -87,7 +87,7 @@
 					<view class="invite-btn">
 						<view class='share btn' style="width: 345upx;" @click="onShareType(0)">
 							<view class="share-text-two">
-								<image src='/static/user/weact.png'></image>	
+								<image :src="staticUrl + 'user/weact.png'"></image>	
 							</view>
 							<view class="share-text-two">
 								<text class="share-text-two-text">分享到微信好友</text>	
@@ -95,7 +95,7 @@
 						</view>
 						<view class='share btn' style="width: 345upx;" @click="onShareType(1)">
 							<view class="share-text-two">
-								<image src='/static/user/wechat_frend.png'></image>	
+								<image :src="staticUrl + 'user/wechat_frend.png'"></image>	
 							</view>
 							<view class="share-text-two">
 								<text class="share-text-two-text">分享到微信朋友圈</text>	
@@ -121,6 +121,7 @@
 		components: { tkiQrcode },
 		data() {
 			return {
+				staticUrl: this.$staticUrl,
 				memberData:{},
 				modalName: null,
 				code: '',

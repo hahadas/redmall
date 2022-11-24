@@ -6,7 +6,7 @@
 				<text class="font30 color-b9">须为本人真实头像</text>
 			</view>
 			<view class="flex flex-align-center">
-				<image :src="userInfo.headPortrait||'/static/user/avatar.png'" mode="" class="avatar" @tap="selectImg"></image>
+				<image :src="userInfo.headPortrait||avatar" mode="" class="avatar" @tap="selectImg"></image>
 				<view class="examine avatar" style="margin-left: 20rpx;" v-if="examineAvatar.status === 2 || examineAvatar.status === 4" @tap="showPhoto(examineAvatar.ossUrl)">
 					<image :src="examineAvatar.ossUrl" mode="" class="avatar"></image>
 					<text class="status color-red" v-if="examineAvatar.status === 2">违规</text>
@@ -228,6 +228,7 @@
 		components: { wPicker, avatar, uniPopup, uniPopupDialog },
 		data(){
 			return {
+				avatar: this.$staticUrl + 'user/avatar.png',
 				dateVisible: false,
 				regionVisible: false,
 				userInfo: {},

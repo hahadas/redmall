@@ -3,13 +3,13 @@
 		<cover-view class="cover-view-center">
 			<div :style="{ height: `${sysheight-60}px`,width: width }" ref="touch" @click="clickVideo(index)" @touchstart="ListTouchStart" @touchmove="ListTouchMove">
 				<div class="nav">
-					<image class="img-icon" src="/static/video/video_fanhui.png" style="width: 64upx;" @click.stop="clickLeft"></image>
+					<image class="img-icon" :src="staticUrl + 'video/video_fanhui.png'" style="width: 64upx;" @click.stop="clickLeft"></image>
 					<div class="title-center">
 						<text class="title" :class="distanceX>0?'active-title':''" @click="click1"></text> &nbsp;
 						<text class="title" :class="distanceX==0?'active-title':''" @click="click0"></text> &nbsp; 
 						<text class="title" :class="distanceX<0?'active-title':''" @click="click_1"></text>
 					</div>
-					<image class="img-icon" src="/static/video/video_bianji.png" @click.stop="clickRight" v-if="videoByUserData.userFlag"></image>
+					<image class="img-icon" :src="staticUrl + 'video/video_bianji.png'" @click.stop="clickRight" v-if="videoByUserData.userFlag"></image>
 				</div>
 				<div class="cover-view-right" style="top: 380upx;">
 					<!-- 头像 -->
@@ -46,11 +46,11 @@
 						<cover-view class="cover-view-right">
 							<cover-image :src="videoByUserData.icon" class="avater img" @click.stop="tapAvater"></cover-image>
 							<text class="right-text"></text>
-							<cover-image :src="item.likeFlag && item.likeFlag >= 1?'/static/video/video_love.png':'/static/video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
+							<cover-image :src="item.likeFlag && item.likeFlag >= 1? staticUrl + 'video/video_love.png': staticUrl + 'video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
 							<text class="right-text">{{item.likes}}</text>
-							<cover-image src="/static/video/video_noties.png" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
+							<cover-image :src="staticUrl + 'video/video_noties.png'" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
 							<text class="right-text">{{item.evaluationQuantity}}</text>
-							<cover-image src="/static/video/video_share.png" class="img imgFenXiang" @click.stop="tapShare"></cover-image>
+							<cover-image :src="staticUrl + 'video/video_share.png'" class="img imgFenXiang" @click.stop="tapShare"></cover-image>
 							<text class="right-text">分享</text>
 						</cover-view>
 					</block>
@@ -76,11 +76,11 @@
 							<cover-image :src="item.avater" class="avater img" @click.stop="tapAvater"></cover-image>
 							<text class="right-text-avater">+</text>
 							<text class="right-text"></text>
-							<cover-image :src="item.check?'/static/video/video_love.png':'/static/video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
+							<cover-image :src="item.check?staticUrl + 'video/video_love.png':staticUrl + 'video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
 							<text class="right-text">{{item.like}}</text>
-							<cover-image src="/static/video/video_noties.png" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
+							<cover-image :src="staticUrl + 'video/video_noties.png'" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
 							<text class="right-text">{{item.comment}}</text>
-							<cover-image src="/static/video/video_share.png" class="img imgFenXiang" @click.stop="tapShare"></cover-image>
+							<cover-image :src="staticUrl + 'video/video_share.png'" class="img imgFenXiang" @click.stop="tapShare"></cover-image>
 							<text class="right-text">分享</text>
 						</cover-view>
 					</block>
@@ -105,11 +105,11 @@
 							<cover-image :src="item.avater" class="avater img" @click.stop="tapAvater"></cover-image>
 							<text class="right-text-avater">+</text>
 							<text class="right-text"></text>
-							<cover-image :src="item.check?'/static/video/video_love.png':'/static/video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
+							<cover-image :src="item.check? staticUrl + 'video/video_love.png': staticUrl + 'video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
 							<text class="right-text">{{item.like}}</text>
-							<cover-image src="/static/video/video_noties.png" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
+							<cover-image :src="staticUrl + 'video/video_noties.png'" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
 							<text class="right-text">{{item.comment}}</text>
-							<cover-image src="/static/video/video_share.png" class="img imgFenXiang" @click.stop="tapShare"></cover-image>
+							<cover-image :src="staticUrl + 'video/video_share.png'" class="img imgFenXiang" @click.stop="tapShare"></cover-image>
 							<text class="right-text">分享</text>
 						</cover-view>
 					</block>
@@ -138,6 +138,7 @@
 		},
 		data(){
 			return{
+				staticUrl: this.$staticUrl,
 				commentId:0,
 				videoNowIndex:0,//当前播放视频的下标
 				videoByUserData:{},

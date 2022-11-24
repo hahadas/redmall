@@ -1,7 +1,7 @@
 <template>
 	<view class="header" :class="{'scroll-bg': headerScroll}" :style="{marginTop:statusBarHeight+'px'}">
-		<image src="/static/video/back_black.png" mode="" class="header-left" v-if="headerScroll" @click="onBack"></image>
-		<image src="/static/video/back.png" mode="" class="header-left" v-else @click="onBack"></image>
+		<image :src="staticUrl + 'video/back_black.png'" mode="" class="header-left" v-if="headerScroll" @click="onBack"></image>
+		<image :src="staticUrl + 'video/back.png'" mode="" class="header-left" v-else @click="onBack"></image>
 		<view class="header-center">
 			<view class="header-item" v-if="videoHas">
 				<text class="header-item-title" :class="{'select-title': current === 0}" :style="{color: headerScroll?'#333333':'#FFFFFF'}">视频</text>
@@ -13,8 +13,8 @@
 			</view>
 		</view>
 		<block v-if="isShowMore">
-			<image src="/static/video/more_black.png" mode="" class="header-right" v-if="headerScroll" @click="onMore"></image>
-			<image src="/static/video/more.png" mode="" class="header-right" v-else @click="onMore"></image>
+			<image :src="staticUrl + 'video/more_black.png'" mode="" class="header-right" v-if="headerScroll" @click="onMore"></image>
+			<image :src="staticUrl + 'video/more.png'" mode="" class="header-right" v-else @click="onMore"></image>
 		</block>
 	</view>
 </template>
@@ -39,7 +39,7 @@
 		},
 		data() {
 			return {
-
+				staticUrl: getApp().staticUrl || this.$staticUrl
 			}
 		},
 		methods: {
@@ -61,8 +61,10 @@
 	}
 	.header {
 		position: absolute;
+		top: 0;
 		left: 0;
 		right: 0;
+		display: flex;
 		flex-direction: row;
 		height: 100rpx;
 		line-height: 100rpx;
@@ -74,6 +76,7 @@
 
 	.header-center {
 		flex: 1;
+		display: flex;
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
@@ -84,11 +87,14 @@
 		height: 60rpx;
 		width: 60rpx;
 		line-height: 100rpx;
+		display: flex;
 		align-items: flex-start;
 		justify-content: flex-end;
 	}
 
 	.header-item {
+		display: flex;
+		flex-direction: column;
 		align-items: center;
 	}
 

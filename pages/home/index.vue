@@ -1,6 +1,10 @@
 <template>
 	<view class="main">
 		<view class="header bg-base" :style="{'padding-top': statusBarHeight+'px'}">
+			<!-- <view class="status-bar-height-height"></view> -->
+			<!-- #ifdef MP-WEIXIN -->
+			<view :style="{height: wxBtnHeight + 'px'}"></view>
+			<!-- #endif -->
 			<view class="positionShow" v-if="!isOpenPosition" @click="goSet">
 				<view class="flex flex-align-center item">
 					<text class="iconfont icon">&#xe659;</text>
@@ -42,28 +46,16 @@
 			</view>
 		</view>
 		<!-- 轮播图 -->
-		<uni-swiper-dot 
-			class="swiper" 
-			mode="dot" 
-			:current="swiperCurrent" 
-			:info="swiperList" 
-			:dotsStyles="{
-				width: 6,
-				height: 6,
-				bottom: 5,
-				backgroundColor: '#8799a3',
-				border: '#8799a3',
-				selectedBackgroundColor: '#381895',
-				selectedBorder: '#381895'
-			}">
-			<swiper :autoplay="true" class="swiper-wrap" @change="change">
+		<view class="swiper">
+			<swiper :autoplay="true" indicator-dots class="swiper-wrap">
 				<swiper-item v-for="(item, i) in swiperList" :key="i">
 					<view class="swiper-box" @click="advertJump(item.operationCode, item.operationValue)">
 						<image :src="item.ossUrl" mode="" class="swiper-item" style="border-radius: 20rpx;"></image>
 					</view>
 				</swiper-item>
 			</swiper>
-		</uni-swiper-dot>
+		</view>
+		
 		<view class="content">
 			<!-- 品质好酒 -->
 			<view class="flex flex-between color-b6">
@@ -89,29 +81,29 @@
 			<view class="grid bg-w">
 				<view class="flex flex-align-center">
 					<view class="grid-item" @tap="jumpToNotice(2, '公告')">
-						<image src="/static/home/phone.png" mode="" class="icon"></image>
+						<image :src="staticUrl + 'home/phone.png'" mode="" class="icon"></image>
 						<text class="color-b6">使用教程</text>
 					</view>
 					<view class="grid-item" @tap="jumpToNew(1, '新人大礼')">
-						<image src="/static/home/gift.png" mode="" class="icon"></image>
+						<image :src="staticUrl + 'home/gift.png'" mode="" class="icon"></image>
 						<text class="color-b6">新人大礼</text>
 					</view>
 					<view class="grid-item" @tap="jumpToNew(2, '限时秒杀')">
-						<image src="/static/home/alarm.png" mode="" class="icon"></image>
+						<image :src="staticUrl + 'home/alarm.png'" mode="" class="icon"></image>
 						<text class="color-b6">限时秒杀</text>
 					</view>
 				</view>
 				<view class="flex flex-align-center" style="margin-top: 40rpx;">
 					<view class="grid-item" @tap="jumpToNew(5, '积分大送')">
-						<image src="/static/home/settled.png" mode="" class="icon"></image>
+						<image :src="staticUrl + 'home/settled.png'" mode="" class="icon"></image>
 						<text class="color-b6">积分大送</text>
 					</view>
 					<view class="grid-item" @tap="jumpToNew(3, '特价商品')">
-						<image src="/static/home/special.png" mode="" class="icon"></image>
+						<image :src="staticUrl + 'home/special.png'" mode="" class="icon"></image>
 						<text class="color-b6">特价商品</text>
 					</view>
 					<view class="grid-item" @tap="jumpToNew(4, '拼团')">
-						<image src="/static/home/team.png" mode="" class="icon"></image>
+						<image :src="staticUrl + 'home/team.png'" mode="" class="icon"></image>
 						<text class="color-b6">拼团</text>
 					</view>
 				</view>
@@ -151,7 +143,7 @@
 							</view>
 							<view class="flex flex-between bg-w title color-purple" @click="jumpToProduct('新品推荐', 1)">
 								<view class="flex flex-align-center">
-									<image src="/static/home/new.png" mode="" class="icon"></image>
+									<image :src="staticUrl + 'home/new.png'" mode="" class="icon"></image>
 									<text class="font32">更多推荐</text>
 								</view>
 								<text class="iconfont font48">&#xe713;</text>
@@ -170,7 +162,7 @@
 							</view>
 							<view class="flex flex-between bg-w title color-purple" @click="jumpToProduct('精品推荐', 2)">
 								<view class="flex flex-align-center">
-									<image src="/static/home/boutique.png" mode="" class="icon"></image>
+									<image :src="staticUrl + 'home/boutique.png'" mode="" class="icon"></image>
 									<text class="font32">金牌推荐</text>
 								</view>
 								<text class="iconfont font48">&#xe713;</text>
@@ -189,7 +181,7 @@
 							</view>
 							<view class="flex flex-between bg-w title color-purple" @click="jumpToStore(null)">
 								<view class="flex flex-align-center">
-									<image src="/static/home/nearby.png" mode="" class="icon"></image>
+									<image :src="staticUrl + 'home/nearby.png'" mode="" class="icon"></image>
 									<text class="font32">附近店铺</text>
 								</view>
 								<text class="iconfont font48">&#xe713;</text>
@@ -222,21 +214,15 @@
 	import modal from "@/components/modal.vue"
 	import redEnvelopes from "@/components/red-envelopes.vue"
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
-	import uniSwiperDot from "@/components/uni-swiper-dot/uni-swiper-dot.vue"
  
 	export default {
-		components: { uniLoadMore, product, shop, uniSwiperDot, modal, redEnvelopes },
+		components: { uniLoadMore, product, shop, modal, redEnvelopes },
 		data() {
 			return {
+				staticUrl: this.$staticUrl,
 				statusBarHeight: getApp().statusBarHeight,
 				swiperHeight: 0,
-				swiperCurrent: 0,
-				swiperList: [
-					{pic: "/static/swiper/1.jpeg"},
-					{pic: "/static/swiper/2.jpeg"},
-					{pic: "/static/swiper/3.png"},
-					{pic: "/static/swiper/4.jpeg"}
-				],
+				swiperList: [],
 				swiperCenterList: [],
 				searchList: ["商品", "店铺"],
 				searchIndex: 0,
@@ -266,10 +252,16 @@
 				advertData: {},
 				redList: [],
 				noticeTotal: 0,
-				isOpenPosition: true
+				isOpenPosition: true,
+				// #ifdef MP-WEIXIN
+				wxBtnHeight: 0,
+				// #endif
 			}
 		},
 		onLoad() {
+			// #ifdef MP-WEIXIN
+			this.wxBtnHeight = wx.getMenuButtonBoundingClientRect().height
+			// #endif
 			this.swiperHeight = uni.getSystemInfoSync().screenHeight
 			// 获取新品商品
 			this.getNewProductList('add')
@@ -520,9 +512,6 @@
 			swiperChange(e){
 				this.changeTab(e.detail.current)
 				this.currentLoadData()
-			},
-			change(e){
-				this.swiperCurrent = e.detail.current
 			},
 			openMap(){
 				let _this = this;

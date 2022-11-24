@@ -1,81 +1,54 @@
 <template>
 	<view class="category">
-		<view class="tabs flex" :style="{top: windowTop+'px'}">
-			<view class="flex flex-center tab" :class="{'active': current === i}" v-for="(item, i) in tabs" :key="i" @click="onClickItem(i)">
-				<text class="iconfont icon" :style="{color: item.color}">{{item.icon}}</text>
-				<text class="name">{{item.name}}</text>
-			</view>
-		</view>
-		<view :style="{height: '44px'}"></view>
-		<swiper class="swiper" duration="100" @change='scollSwiper' :current='current' :style="{height:swiperHeight+'px'}">
-			<swiper-item>
-				<view class="category-wrapper" v-if="oneList.length>0">
-					<!-- 左边导航 -->
-					<scroll-view scroll-y="true" class="left-wrapper" scroll-with-animation="true" :scroll-top="left_scroll">
-						<view class="left-content">
-							<view 
-								v-for="(title, index) in oneList" 
-								:key="index"
-								class="title-content" 
-								:class="select_index === index ? 'onSelected' : ''" 
-								@tap="choose(index)">
-								{{ title.name }}
-							</view>
-							<!-- <block v-for="(title, index) in catrgoryList" :key="index" >
-								<view class="title-content" :class="select_index === index ? 'onSelected' : ''" v-if="title.type === 1" @tap="choose(index)">
-									{{ title.name }}
+		<view class="category-wrapper" v-if="oneList.length>0">
+			<!-- 左边导航 -->
+			<scroll-view :style="{height:swiperHeight+'px'}" scroll-y="true" class="left-wrapper" scroll-with-animation="true" :scroll-top="left_scroll">
+				<view class="left-content">
+					<view 
+						v-for="(title, index) in oneList" 
+						:key="index"
+						class="title-content" 
+						:class="select_index === index ? 'onSelected' : ''" 
+						@tap="choose(index)">
+						{{ title.name }}
+					</view>
+				</view>
+			</scroll-view>
+			<!-- 右边内容 -->
+			<scroll-view :style="{height:swiperHeight+'px'}" scroll-y="true" class="right-wrapper" scroll-with-animation="true" :scroll-top="right_scroll" @scroll="myscroll">
+				<view class="right-content">
+					<view class="product-wrapper">
+						<block v-for="(a_item, a_index) in catrgoryList" :key="a_index">
+							<view class="category-item" :id="'list-' + a_item.id" v-if="a_item.type === 1">
+								<!-- banner区域 -->
+								<view class="banner" v-if="a_item.mainImage">
+									<image class="banner-img" :src="a_item.mainImage"></image>
 								</view>
-							</block> -->
-						</view>
-					</scroll-view>
-					<!-- 右边内容 -->
-					<scroll-view scroll-y="true" class="right-wrapper" scroll-with-animation="true" :scroll-top="right_scroll" @scroll="myscroll">
-						<view class="right-content">
-							<view class="product-wrapper">
-								<block v-for="(a_item, a_index) in catrgoryList" :key="a_index">
-									<view class="category-item" :id="'list-' + a_item.id" v-if="a_item.type === 1">
-										<!-- banner区域 -->
-										<view class="banner" v-if="a_item.mainImage">
-											<image class="banner-img" :src="a_item.mainImage"></image>
+								<!-- 产品区 -->
+								<block v-for="(b_item, b_index) in catrgoryList" :key="b_index">
+									<block v-if="b_item.type === 2 && b_item.pid === a_item.id">
+										<view class="flex flex-between" @click="twoJumpTo(a_item, b_item)">
+											<text class="blod" style="padding-left: 30rpx;">{{b_item.name}}</text>
+											<text class="iconfont color-9" style="padding-right: 30rpx;">&#xe770;</text>
 										</view>
-										<!-- 产品区 -->
-										<block v-for="(b_item, b_index) in catrgoryList" :key="b_index">
-											<block v-if="b_item.type === 2 && b_item.pid === a_item.id">
-												<view class="flex flex-between" @click="twoJumpTo(a_item, b_item)">
-													<text class="blod" style="padding-left: 30rpx;">{{b_item.name}}</text>
-													<text class="iconfont color-9" style="padding-right: 30rpx;">&#xe770;</text>
-												</view>
-												<view class="category-content">
-													<block v-for="(c_item, c_index) in catrgoryList" :key="c_index">
-														<view class="product-item" v-if="c_item.type === 3 && c_item.pid === b_item.id" @click="jumpTo(c_item)">
-															<image class="product-img" :src="c_item.mainImage"></image>
-															<text class="product-title">{{c_item.name}}</text>
-														</view>
-													</block>
+										<view class="category-content">
+											<block v-for="(c_item, c_index) in catrgoryList" :key="c_index">
+												<view class="product-item" v-if="c_item.type === 3 && c_item.pid === b_item.id" @click="jumpTo(c_item)">
+													<image class="product-img" :src="c_item.mainImage"></image>
+													<text class="product-title">{{c_item.name}}</text>
 												</view>
 											</block>
-										</block>
-									</view>
+										</view>
+									</block>
 								</block>
 							</view>
-							<view style="width: 100%;height: 180upx;"></view>
-						</view>
-					</scroll-view>
+						</block>
+					</view>
+					<view style="width: 100%;height: 180upx;"></view>
 				</view>
-			</swiper-item>
-			
-			<swiper-item>
-				<scroll-view scroll-y="true" :style="swiperHeight" style="margin-top: 110upx;" >
-					<empty textTitle="即将上线,敬请期待"></empty>
-				</scroll-view>
-			</swiper-item>
-			
-			<swiper-item>
-				<scroll-view scroll-y="true" :style="swiperHeight" style="margin-top: 110upx;" >
-					<empty textTitle="即将上线,敬请期待"></empty>
-				</scroll-view>
-			</swiper-item>
-		</swiper>
+			</scroll-view>
+		</view>
+		
 		<!-- 弹框 -->
 		<modal v-if="showModal">
 			<image :src="advertData.ossUrl" mode="widthFix" @click="imgJump"></image>
@@ -93,7 +66,6 @@
 		components: { empty, modal },
 		data() {
 			return {
-				windowTop: 0,
 				swiperHeight: "900",
 				windows_height: 0, //屏幕高度
 				swiperList: [],
@@ -105,24 +77,12 @@
 				left_height: 0, //左侧总高度
 				left_scroll: 0, //左侧滑动值
 				last: 0,
-				tabs: [
-					{name: "酒类", icon: "\ue61d", color: "#e24611"},
-					{name: "特产", icon: "\ue60c", color: "#02b440"},
-					{name: "惠拼", icon: "\ue635", color: "#2e47e8"}
-				],
-				current: 0,
 				showModal: false,
 				advertData: {}
 			}
 		},
 		onLoad() {
-			// // #ifdef APP-PLUS
-			// this.windowTop = 44
-			// // #endif
-			// #ifndef APP-PLUS
-			this.windowTop = uni.getSystemInfoSync().windowTop
-			// #endif
-			this.swiperHeight = uni.getSystemInfoSync().windowHeight - this.windowTop
+			this.swiperHeight = uni.getSystemInfoSync().windowHeight
 			this.windows_height = uni.getSystemInfoSync().windowHeight;
 			this.init();
 			// 广告弹框
@@ -147,7 +107,6 @@
 		},
 		// 点击搜索时触发事件
 		onNavigationBarSearchInputConfirmed(e){
-			console.log(e)
 			let value = e.text
 			this.$navigateTo(`../home/productList?goodsName=${value}`)
 		},
@@ -201,7 +160,6 @@
 					return;
 				}
 				let scroll_top = e.detail.scrollTop; //110是banner图的高度
-				console.log(scroll_top)
 				//判断当前的scrollTop在哪个区间内;
 				let now = +new Date();
 				if (now - this.last > 100) {		
@@ -214,7 +172,6 @@
 						} else {
 							return value <= scroll_top && scroll_top < arr[index+1]
 						}
-						// console.log(value, scroll_top, arr, index, arr[index+1])
 					});
 					let oldSelectIndex = this.select_index
 					if (active_index < 0) {
@@ -222,19 +179,12 @@
 					} else{
 						this.select_index = active_index;
 					}
-					console.log("........select_index.....", this.select_index)
 					if (this.left_height - this.windows_height) {
 						//如果有超出部分
 						let diff = this.left_height - this.windows_height
 						this.left_scroll = Math.round((active_index * diff) / (this.catrgoryList.length - 1))
 					}
 				}
-			},
-			onClickItem(val) {
-				this.current = val
-			},
-			scollSwiper(e) {
-				this.current = e.target.current
 			},
 			twoJumpTo(pRow, row){
 				this.$navigateTo("/pages/home/productClassList?pTitle="+pRow.name+"&&title="+row.name+"&&categoryTwoId="+row.id)

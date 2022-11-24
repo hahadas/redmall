@@ -7,16 +7,15 @@
 				:style="{width: (710 / navData.length) + 'rpx'}"
 				v-for="(item, index) in navData" :key="index" @click="navClick(index)">
 			   <text class="nav-txt" :class="{'actNav': index === actNav}" v-for="(child, childx) in item" :key="childx" v-if="child.select">{{ child.text }}</text>
-			   <image src="/static/video/down.png" mode="" class="icon-triangle" v-if="index === actNav"></image>
-			   <image src="/static/video/up.png" mode="" class="icon-triangle" v-else></image>
+			   <image :src="staticUrl + 'video/down.png'" mode="" class="icon-triangle" v-if="index === actNav"></image>
+			   <image :src="staticUrl + 'video/up.png'" mode="" class="icon-triangle" v-else></image>
 			</view>
 		</view>
 		<view class="popup popupShow" v-if="popupShow" :style="{top: statusBarHeight + 100 + 'px' }">
-		<!-- <view class="popup" :style="{top: statusBarHeight + 100 + 'px' }" :class="popupShow ? 'popupShow' : ''"> -->
 			<view class="item-opt" v-for="(item, index) in navData[actNav]" :key="index" @click="handleOpt(index)">
 				<view class="between">
 					<text :class="item.select ? 'actOpt' : 'item-opt-txt'">{{ item.text }}</text>
-					<image src="/static/video/select.png" v-if="item.select" class="item-opt-icon"></image>
+					<image :src="staticUrl + 'video/select.png'" v-if="item.select" class="item-opt-icon"></image>
 				</view>
 			</view>
 		</view>
@@ -48,6 +47,7 @@
 		},
 		data() {
 		    return {
+				staticUrl: this.$staticUrl,
 				swiperHeight: uni.getSystemInfoSync().windowHeight,
 		        navData: [],
 		        popupShow: false,

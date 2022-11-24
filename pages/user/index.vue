@@ -59,7 +59,7 @@
 				</view>
 				<view class="grod">
 					<view class="grod-item" style="width: 20%;" v-for="(item, i) in cuList" :key="i" @click="goOrder(item.status)">
-						<image :src="item.icon" mode="" class="img"></image>
+						<image :src="staticUrl + item.icon" mode="" class="img"></image>
 						<text class="color-b5 font26">{{item.name}}</text>
 						<text class="tips" v-if="item.tip">{{item.tip>99?'99+':item.tip}}</text>
 					</view>
@@ -69,7 +69,7 @@
 			<view class="list" @click="toNav('/pages/user/wallet/index')">
 				<view class="list-item flex flex-between bg-w">
 					<view class="flex flex-align-center">
-						<image src="/static/user/balance.png" mode="" class="icon"></image>
+						<image :src="staticUrl + 'user/balance.png'" mode="" class="icon"></image>
 						<text class="font30 blod">我的余额</text>
 					</view>
 					<view class="flex flex-align-center color-b6">
@@ -81,12 +81,12 @@
 			<!-- 图片 -->
 			<view class="carousel-section">
 				<view class="carousel" @click="toAgent">
-					<image src="/static/user/agent_use2.png" v-if="userDetailInfo.distributorIsOpen === 1" mode="scaleToFill" class="img"/>
-					<image src="/static/user/agent_2.png" v-else mode="scaleToFill" class="img"/>
+					<image :src="staticUrl + 'user/agent_use2.png'" v-if="userDetailInfo.distributorIsOpen === 1" mode="scaleToFill" class="img"/>
+					<image :src="staticUrl + 'user/agent_2.png'" v-else mode="scaleToFill" class="img"/>
 				</view>
 				<view class="carousel" @click="toMerchants">
-					<image src="/static/user/merchants_use.png" v-if="userDetailInfo.storeIsOpen === 1" mode="scaleToFill" class="img"/>
-					<image src="/static/user/merchants.png" v-else mode="scaleToFill" class="img"/>
+					<image :src="staticUrl + 'user/merchants_use.png'" v-if="userDetailInfo.storeIsOpen === 1" mode="scaleToFill" class="img"/>
+					<image :src="staticUrl + 'user/merchants.png'" v-else mode="scaleToFill" class="img"/>
 				</view>
 			</view>
 			<!-- 我的服务 -->
@@ -103,32 +103,32 @@
 						</view>
 						<!-- #endif -->
 						<view class="grod-item" @click="toNav('/pages/user/team')">
-							<image src="/static/user/share.png" mode="" class="img"></image>
+							<image :src="staticUrl + 'user/share.png'" mode="" class="img"></image>
 							<text class="color-b5 font26">我的分享</text>
 							<text class="tips" v-if="teamTotal">{{teamTotal>99?'99+':teamTotal}}</text>
 						</view>
 						<view class="grod-item" @click="toNav('/pages/user/invite')">
-							<image src="/static/user/invite.png" mode="" class="img"></image>
+							<image :src="staticUrl + 'user/invite.png'" mode="" class="img"></image>
 							<text class="color-b5 font26">邀请好友</text>
 						</view>
 						<view class="grod-item" @click="toNav('/pages/user/address/index?type=1')">
-							<image src="/static/user/address.png" mode="" class="img"></image>
+							<image :src="staticUrl + 'user/address.png'" mode="" class="img"></image>
 							<text class="color-b5 font26">地址管理</text>
 						</view>
 						<view class="grod-item" @click="toNav('/pages/user/setting/personal')">
-							<image src="/static/user/personal.png" mode="" class="img"></image>
+							<image :src="staticUrl + 'user/personal.png'" mode="" class="img"></image>
 							<text class="color-b5 font26">个人资料</text>
 						</view>
 						<view class="grod-item" @click="toNav('/pages/user/setting/index')">
-							<image src="/static/user/set.png" mode="" class="img"></image>
+							<image :src="staticUrl + 'user/set.png'" mode="" class="img"></image>
 							<text class="color-b5 font26">系统设置</text>
 						</view>
 						<view class="grod-item" v-if="userDetailInfo.roleAgentLevel" @click="toNav('/pages/user/region/index')">
-							<image src="/static/user/agent.png" mode="" class="img"></image>
+							<image :src="staticUrl + 'user/agent.png'" mode="" class="img"></image>
 							<text class="color-b5 font26">区域代理</text>
 						</view>
 						<view class="grod-item" @click="onContact">
-							<image src="/static/user/evaluate.png" mode="" class="img"></image>
+							<image :src="staticUrl + 'user/evaluate.png'" mode="" class="img"></image>
 							<text class="color-b5 font26">联系客服</text>
 						</view>
 					</view>
@@ -184,13 +184,14 @@
 		data(){
 			return {
 				userDetailInfo: {},
-				avatar: "/static/user/avatar.png",
+				staticUrl: this.$staticUrl,
+				avatar: this.$staticUrl + "user/avatar.png",
 				cuList:[
-					{name: "待付款", tip: 0, icon: "/static/user/payment.png", status: 2},
-					{name: "待收货", tip: 0, icon: "/static/user/harvest.png", status: 3},
-					{name: "评价", tip: 0, icon: "/static/user/evaluate.png", status: 4},
-					{name: "已完成", tip: 0, icon: "/static/user/harvest.png", status: 5},
-					{name: "退款/售后", tip: 0, icon: "/static/user/refund.png", status: 6}
+					{name: "待付款", tip: 0, icon: "user/payment.png", status: 2},
+					{name: "待收货", tip: 0, icon: "user/harvest.png", status: 3},
+					{name: "评价", tip: 0, icon: "user/evaluate.png", status: 4},
+					{name: "已完成", tip: 0, icon: "user/harvest.png", status: 5},
+					{name: "退款/售后", tip: 0, icon: "user/refund.png", status: 6}
 				],
 				servicePhone: "",
 				statusBarHeight: getApp().statusBarHeight,
@@ -464,7 +465,7 @@
 	.header{
 		height: 300rpx;
 		padding: 0 50rpx 150rpx;
-		background: url(../../static/user/header.png) center center no-repeat;
+		background: url(https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/user/header.png) center center no-repeat;
 		background-size: cover;
 		.avatar{
 			width: 150rpx;

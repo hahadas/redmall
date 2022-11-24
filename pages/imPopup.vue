@@ -8,13 +8,13 @@
 		<view class="bom">
 			<view class="flex flex-column flex-center">
 				<view class="icon" @click="cancel">
-					<image src="/static/hang_up.png" mode=""></image>
+					<image src="https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/hang_up.png" mode=""></image>
 				</view>
 				<text class="txt">取消</text>
 			</view>
 			<view class="flex flex-column flex-center">
 				<view class="icon" style="background-color: #0e841b;" @click="answer">
-					<image src="/static/answer.png" mode=""></image>
+					<image src="https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/answer.png" mode=""></image>
 				</view>
 				<text class="txt">接听</text>
 			</view>

@@ -1,19 +1,19 @@
 <template>
 	<view class="flex flex-column flex-center">
-		<image src="/static/merchants/top.png" mode="widthFix" class="top" @click="onClick()"></image>
+		<image :src="staticUrl + 'merchants/top.png'" mode="widthFix" class="top" @click="onClick()"></image>
 		<view class="con">
 			<view class="tabs bg-w">
 				<text class="font30" :class="[current === i?'color-purple':'color-b5']" v-for="(item, i) in tabs" @click="current = i">{{item}}</text>
 			</view>
 			<view class="about" v-if="current === 0">
 				<view class="about-item">
-					<image src="/static/merchants/introduce1.png" mode="widthFix"></image>
+					<image :src="staticUrl + 'merchants/introduce1.png'" mode="widthFix"></image>
 				</view>
 				<view class="about-item">
-					<image src="/static/merchants/introduce2.png" mode="widthFix"></image>
+					<image :src="staticUrl + 'merchants/introduce2.png'" mode="widthFix"></image>
 				</view>
 				<view class="about-item">
-					<image src="/static/merchants/introduce3.png" mode="widthFix"></image>
+					<image :src="staticUrl + 'merchants/introduce3.png'" mode="widthFix"></image>
 				</view>
 			</view>
 			<view class="procedure bg-w" v-if="current === 1">
@@ -43,12 +43,12 @@
 			</view>
 			<view class="demand" v-if="current === 2">
 				<view class="title">
-					<image src="/static/merchants/attestation.png" mode="" class="icon"></image>
+					<image :src="staticUrl + 'merchants/attestation.png'" mode="" class="icon"></image>
 					<text>经营资质</text>
 				</view>
 				<text class="font28 color-b9">申请开店过程中，需要您提供符合国家法律规定的经营许可证照，包括但不限于营业执照，各类许可证，特许证件。 </text>
 				<view class="title">
-					<image src="/static/merchants/class.png" mode="" class="icon"></image>
+					<image :src="staticUrl + 'merchants/class.png'" mode="" class="icon"></image>
 					<text>品类范围</text>
 				</view>
 				<text class="font28 color-b9">redMall支持一下经营项目</text>
@@ -78,6 +78,7 @@
 	export default{
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				tabs: ["平台介绍", "入驻流程", "入驻要求"],
 				current: 0,
 				noticeId: 0

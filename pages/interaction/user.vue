@@ -1,197 +1,200 @@
 <template>
 	<view class="page" v-if="isDone">
-		<uni-swiper :screenHeight="screenHeight" :leftHas="videoHas" @change="onchange" :current="curIndex">
-			<uni-push slot="left" v-if="videoHas" :screenHeight="screenHeight" :playStatus="playStatus" :list="videoObject"></uni-push>
-			<scroll-view 
-				:slot="slot" 
-				scroll-y 
-				@scroll="onScroll" 
-				@scrolltolower="scrolltolower" 
-				class="swiper" 
-				:style="{height: screenHeight+'px'}">
-				<swiper class="swiperImgs" :indicator-dots="true" v-if="swiperList.length > 0">
-					<swiper-item v-for="(item, i) in swiperList" :key="i">
-						<image :src="item" mode="aspectFill" class="swiperImg" @click="previewImg($event, swiperList, i)"></image>
-					</swiper-item>
-				</swiper>
-				<image v-else :src="userDetail.headPortrait" mode="aspectFill" class="swiperImg" @click="previewImg($event, [userDetail.headPortrait], 0)"></image>
-				<view class="wrap">
-					<view class="wrap-box">
-						<view class="wrap-box-avatar">
-							<image :src="filterImg(userDetail.headPortrait, 1)" mode="aspectFill" class="wrap-box-avatar-img" @click="previewImg($event, [userDetail.headPortrait], 0)"></image>
-						</view>
-						<view class="wrap-box-info">
-							<text class="wrap-box-info-name">{{userDetail.nickname}}</text>
-							<view class="wrap-box-info-basic">
-								<view class="six" :class="{'woman':userDetail.gender===3}">
-									<image src="/static/video/man.png" mode="" class="six-icon" v-if="userDetail.gender === 2"></image>
-									<image src="/static/video/woman.png" mode="" class="six-icon" v-if="userDetail.gender === 3"></image>
-									<text class="six-name">{{userDetail.age}}</text>
-								</view>
-								<text class="constellation">{{userDetail.constellation}}</text>
-								<text class="mark" v-if="userDetail.distributorIsOpen">配送员</text>
+		<swiper style="height: 100vh;" @change="onchange">
+			<swiper-item style="height: 100%;" v-if="videoHas">
+				<uni-push :screenHeight="screenHeight" :playStatus="playStatus" :list="videoObject"></uni-push>
+			</swiper-item>
+			<swiper-item style="height: 100%;">
+				<scroll-view
+					scroll-y 
+					@scroll="onScroll" 
+					@scrolltolower="scrolltolower" 
+					class="swiper" 
+					:style="{height: screenHeight+'px'}">
+					<swiper class="swiperImgs" :indicator-dots="true" v-if="swiperList.length > 0">
+						<swiper-item v-for="(item, i) in swiperList" :key="i">
+							<image :src="item" mode="aspectFill" class="swiperImg" @click="previewImg($event, swiperList, i)"></image>
+						</swiper-item>
+					</swiper>
+					<image v-else :src="userDetail.headPortrait" mode="aspectFill" class="swiperImg" @click="previewImg($event, [userDetail.headPortrait], 0)"></image>
+					<view class="wrap">
+						<view class="wrap-box">
+							<view class="wrap-box-avatar">
+								<image :src="filterImg(userDetail.headPortrait, 1)" mode="aspectFill" class="wrap-box-avatar-img" @click="previewImg($event, [userDetail.headPortrait], 0)"></image>
 							</view>
-							<view class="addr">
-								<view class="flex flex-align-center flex-row" style="width: 400rpx;" v-if="addressName">
-									<image src="/static/user/addr.png" mode="" class="addr-icon"></image>
-									<text class="addr-name">{{addressName || "未设置地区"}}</text>
-								</view>
-								<view v-else></view>
-								<text class="addr-btn" :class="{'addr-btn-active':followStatus}" v-if="localUserId !== id" @click="guanZhuByUser">{{followStatus?'取关':'关注'}}</text>
-							</view>
-						</view>
-					</view>
-					<view class="get" @click="jumpToFollow()">
-						<view class="get-item">
-							<text class="get-item-number">{{(videoData.dianZan || 0) + (videoData.commentDianZan || 0)}}</text>
-							<text class="get-item-txt">获赞·</text>
-						</view>
-						<view class="get-item">
-							<text class="get-item-number">{{videoData.fenSi}}</text>
-							<text class="get-item-txt">粉丝·</text>
-						</view>
-						<view class="get-item">
-							<text class="get-item-number">{{videoData.guanZhu}}</text>
-							<text class="get-item-txt">关注·</text>
-						</view>
-						<view class="get-item">
-							<text class="get-item-number">{{videoData.xiHuan}}</text>
-							<text class="get-item-txt">喜欢</text>
-						</view>
-					</view>
-					<view class="about">
-						<block>
-							<text class="about-title">个性签名</text>
-							<view class="about-textarea">
-								<text class="about-textarea-txt">{{userDetail.personalSignature||"这个家伙很懒，什么都没留下"}}</text>
-							</view>
-						</block>
-						<view class="about-cell" v-if="userDetail.alcoholConsumption">
-							<text class="about-title">我的酒量</text>
-							<view class="about-list">
-								<text class="about-list-tip">{{userDetail.alcoholConsumption}}</text>
-							</view>
-						</view>
-						<view class="about-cell" v-if="userDetail.labelPastOccupation">
-							<text class="about-title">过往职业</text>
-							<view class="about-list">
-								<text class="about-list-tip" v-for="(item, i) in labelPastOccupationList" :key="i">{{item}}</text>
-							</view>
-						</view>
-						<view class="about-cell" v-if="userDetail.labelHobby">
-							<text class="about-title">兴趣爱好</text>
-							<view class="about-list">
-								<text class="about-list-tip" v-for="(item, i) in labelHobbyList" :key="i">{{item}}</text>
-							</view>
-						</view>
-					</view>
-					<view class="cell">
-						<view class="cell-item" v-for="(item, i) in cellTabs" :key="i" @tap="cellIndex = i">
-							<text class="cell-item-name-action" v-if="cellIndex === i">{{item.name}} {{item.total?`(${item.total})`:''}}</text>
-							<text class="cell-item-name" v-else>{{item.name}} {{item.total?`(${item.total})`:''}}</text>
-							<text class="cell-item-xian-action" v-if="cellIndex === i"></text>
-							<text class="cell-item-xian" v-else></text>
-						</view>
-					</view>
-					
-					
-					<block v-if="cellIndex === 0">
-						<view class="dynamic">
-							<view class="dynamic-item" v-for="(item, i) in dynamicList" :key="i" @tap="goDetails(item, i)">
-								<view class="dynamic-item-top">
-									<view><image :src="filterImg(userDetail.headPortrait, 1)" mode="aspectFill" class="dynamic-item-top-img"></image></view>
-									<view style="flex-grow: 1;">
-										<view class="dynamic-item-top-column">
-											<text class="dynamic-item-top-column-name" style="margin-right: 10rpx;">{{userDetail.nickname}}</text>
-										</view>
-										<view class="dynamic-item-top-column" style="justify-content: flex-start;">
-											<view class="six" style="margin-right: 20rpx;" :class="{'woman':userDetail.gender===3}">
-												<image src="/static/video/man.png" mode="" class="six-icon" v-if="userDetail.gender === 2"></image>
-												<image src="/static/video/woman.png" mode="" class="six-icon" v-if="userDetail.gender === 3"></image>
-												<text class="six-name">{{userDetail.age||0}}</text>
-											</view>
-											<text class="mark" v-if="userDetail.distributorIsOpen">配送员</text>
-										</view>
+							<view class="wrap-box-info">
+								<text class="wrap-box-info-name">{{userDetail.nickname}}</text>
+								<view class="wrap-box-info-basic">
+									<view class="six" :class="{'woman':userDetail.gender===3}">
+										<image :src="staticUrl + 'video/man.png'" mode="" class="six-icon" v-if="userDetail.gender === 2"></image>
+										<image :src="staticUrl + 'video/woman.png'" mode="" class="six-icon" v-if="userDetail.gender === 3"></image>
+										<text class="six-name">{{userDetail.age}}</text>
 									</view>
+									<text class="constellation">{{userDetail.constellation}}</text>
+									<text class="mark" v-if="userDetail.distributorIsOpen">配送员</text>
 								</view>
-								<text class="dynamic-item-con">{{item.comment}}</text>
-								<view class="dynamic-item-con-img" v-if="item.images.length > 1">
-									<image :src="filterImg(url, 2)" mode="aspectFill" class="dynamic-item-con-img-s" v-for="(url, index) in item.images" :key="index" @tap.stop="previewImg($event, item.images, index)"></image>
-								</view>
-								<view class="dynamic-item-con-img" v-if="item.images.length === 1">
-									<image :src="filterImg(item.images[0], 4)" mode="aspectFill" class="dynamic-item-con-img-one" @tap.stop="previewImg($event, item.images, index)"></image>
-								</view>
-								<view class="dynamic-item-option" v-if="item.status !== 1">
-									<text class="dynamic-item-option-item-name" v-if="item.status === 0">当前视频正在审核中～</text>
-									<view class="dynamic-item-option-item" v-if="item.status === 2">
-										<text class="dynamic-item-option-item-name" style="color: #CA0400;">动态违规！原因：{{item.violationInformation}}</text>
+								<view class="addr">
+									<view class="flex flex-align-center flex-row" style="width: 400rpx;" v-if="addressName">
+										<image :src="staticUrl + 'user/addr.png'" mode="" class="addr-icon"></image>
+										<text class="addr-name">{{addressName || "未设置地区"}}</text>
 									</view>
-								</view>
-								<view class="dynamic-item-option">
-									<view class="dynamic-item-option-item">
-										<image src="/static/video/comment.png" mode="" class="dynamic-item-option-item-icon"></image>
-										<text class="dynamic-item-option-item-name">{{item.commentCount || 0}}条评论</text>
-									</view>
-									<view class="dynamic-item-option-item" @tap.stop="onLike($event, item, i)">
-										<image src="/static/video/love_grey.png" mode="" class="dynamic-item-option-item-icon" v-if="!item.isLike"></image>
-										<image src="/static/video/love_red.png" mode="" class="dynamic-item-option-item-icon" v-else></image>
-										<text class="dynamic-item-option-item-name">{{item.likeCount || 0}}点赞</text>
-									</view>
+									<view v-else></view>
+									<text class="addr-btn" :class="{'addr-btn-active':followStatus}" v-if="localUserId !== id" @click="guanZhuByUser">{{followStatus?'取关':'关注'}}</text>
 								</view>
 							</view>
 						</view>
-						<uni-load-more :status="loadingType"></uni-load-more>
-					</block>
-					
-					<!-- #ifdef APP-PLUS -->
-					<block v-if="cellIndex === 1">
-						<view class="grid">
-							<view class="grid-item" v-for="(item, i) in videoList" :key="i" @tap="showVideo(item)">
-								<image :src="item.image" mode="aspectFill" class="grid-item-img"></image>
-								<view class="grid-item-bom">
-									<image src="/static/video/video_love.png" mode="" class="grid-item-bom-icon"></image>
-									<text class="grid-item-bom-txt">{{item.likes}}</text>
-								</view>
-								<image src="/static/video/del.png" class="grid-item-del" v-if="localUserId === id" @tap.stop="delVideo($event, item)"></image>
-								<view class="grid-item-status" v-if="item.status !== 1">
-									<text class="grid-item-status-txt" v-if="item.status === 0">审核中</text>
-									<view class="grid-item-status-box" v-if="item.status === 2" @tap.stop="showErrMsg($event, item.violationInformation)">
-										<text class="grid-item-status-txt" style="color: #CA0400; margin-right: 10rpx;">视频违规</text>
-										<icon type="info" color="#CA0400" size="14" />
-									</view>
-								</view>
+						<view class="get" @click="jumpToFollow()">
+							<view class="get-item">
+								<text class="get-item-number">{{(videoData.dianZan || 0) + (videoData.commentDianZan || 0)}}</text>
+								<text class="get-item-txt">获赞·</text>
+							</view>
+							<view class="get-item">
+								<text class="get-item-number">{{videoData.fenSi}}</text>
+								<text class="get-item-txt">粉丝·</text>
+							</view>
+							<view class="get-item">
+								<text class="get-item-number">{{videoData.guanZhu}}</text>
+								<text class="get-item-txt">关注·</text>
+							</view>
+							<view class="get-item">
+								<text class="get-item-number">{{videoData.xiHuan}}</text>
+								<text class="get-item-txt">喜欢</text>
 							</view>
 						</view>
-						<uni-load-more :status="videoLoading"></uni-load-more>
-					</block>
-					<!-- #endif -->
-					
-					<block v-if="cellIndex === cellTabs.length - 1">
-						<view class="product">
-							<block v-for="(item, i) in productList" :key="i">
-								<view class="goods" v-if="item.status === 1" @tap="jumpToGoodsDetail(item)">
-									<image :src="filterImg(item.goodsInfo.mainImage, 3)" mode="aspectFill" class="goods-img" lazy-load></image>
-									<view class="goods-wrap">
-										<view class="goods-wrap-title">
-											<text class="goods-wrap-title-name">{{item.goodsInfo.titleName}}</text>
-										</view>
-										<view class="goods-wrap-tip">
-											<text class="goods-wrap-tip-left">库存{{item.stock}}</text>
-											<text class="goods-wrap-tip-right">月售{{item.sales}}件</text>
-										</view>
-										<view class="goods-wrap-price">
-											<text class="goods-wrap-price-txt">¥{{item.goodsInfo.wholesalePrice}}</text>
-										</view>
-									</view>
+						<view class="about">
+							<block>
+								<text class="about-title">个性签名</text>
+								<view class="about-textarea">
+									<text class="about-textarea-txt">{{userDetail.personalSignature||"这个家伙很懒，什么都没留下"}}</text>
 								</view>
 							</block>
+							<view class="about-cell" v-if="userDetail.alcoholConsumption">
+								<text class="about-title">我的酒量</text>
+								<view class="about-list">
+									<text class="about-list-tip">{{userDetail.alcoholConsumption}}</text>
+								</view>
+							</view>
+							<view class="about-cell" v-if="userDetail.labelPastOccupation">
+								<text class="about-title">过往职业</text>
+								<view class="about-list">
+									<text class="about-list-tip" v-for="(item, i) in labelPastOccupationList" :key="i">{{item}}</text>
+								</view>
+							</view>
+							<view class="about-cell" v-if="userDetail.labelHobby">
+								<text class="about-title">兴趣爱好</text>
+								<view class="about-list">
+									<text class="about-list-tip" v-for="(item, i) in labelHobbyList" :key="i">{{item}}</text>
+								</view>
+							</view>
 						</view>
-						<uni-load-more :status="productLoading"></uni-load-more>
-					</block>
-					<view style="height: 100rpx;"></view>
-				</view>
-			</scroll-view>
-		</uni-swiper>
+						<view class="cell">
+							<view class="cell-item" v-for="(item, i) in cellTabs" :key="i" @tap="cellIndex = i">
+								<text class="cell-item-name-action" v-if="cellIndex === i">{{item.name}} {{item.total?`(${item.total})`:''}}</text>
+								<text class="cell-item-name" v-else>{{item.name}} {{item.total?`(${item.total})`:''}}</text>
+								<text class="cell-item-xian-action" v-if="cellIndex === i"></text>
+								<text class="cell-item-xian" v-else></text>
+							</view>
+						</view>
+						
+						
+						<block v-if="cellIndex === 0">
+							<view class="dynamic">
+								<view class="dynamic-item" v-for="(item, i) in dynamicList" :key="i" @tap="goDetails(item, i)">
+									<view class="dynamic-item-top">
+										<view><image :src="filterImg(userDetail.headPortrait, 1)" mode="aspectFill" class="dynamic-item-top-img"></image></view>
+										<view style="flex-grow: 1;">
+											<view class="dynamic-item-top-column">
+												<text class="dynamic-item-top-column-name" style="margin-right: 10rpx;">{{userDetail.nickname}}</text>
+											</view>
+											<view class="dynamic-item-top-column" style="justify-content: flex-start;">
+												<view class="six" style="margin-right: 20rpx;" :class="{'woman':userDetail.gender===3}">
+													<image :src="staticUrl + 'video/man.png'" mode="" class="six-icon" v-if="userDetail.gender === 2"></image>
+													<image :src="staticUrl + 'video/woman.png'" mode="" class="six-icon" v-if="userDetail.gender === 3"></image>
+													<text class="six-name">{{userDetail.age||0}}</text>
+												</view>
+												<text class="mark" v-if="userDetail.distributorIsOpen">配送员</text>
+											</view>
+										</view>
+									</view>
+									<text class="dynamic-item-con">{{item.comment}}</text>
+									<view class="dynamic-item-con-img" v-if="item.images.length > 1">
+										<image :src="filterImg(url, 2)" mode="aspectFill" class="dynamic-item-con-img-s" v-for="(url, index) in item.images" :key="index" @tap.stop="previewImg($event, item.images, index)"></image>
+									</view>
+									<view class="dynamic-item-con-img" v-if="item.images.length === 1">
+										<image :src="filterImg(item.images[0], 4)" mode="aspectFill" class="dynamic-item-con-img-one" @tap.stop="previewImg($event, item.images, index)"></image>
+									</view>
+									<view class="dynamic-item-option" v-if="item.status !== 1">
+										<text class="dynamic-item-option-item-name" v-if="item.status === 0">当前视频正在审核中～</text>
+										<view class="dynamic-item-option-item" v-if="item.status === 2">
+											<text class="dynamic-item-option-item-name" style="color: #CA0400;">动态违规！原因：{{item.violationInformation}}</text>
+										</view>
+									</view>
+									<view class="dynamic-item-option">
+										<view class="dynamic-item-option-item">
+											<image :src="staticUrl + 'video/comment.png'" mode="" class="dynamic-item-option-item-icon"></image>
+											<text class="dynamic-item-option-item-name">{{item.commentCount || 0}}条评论</text>
+										</view>
+										<view class="dynamic-item-option-item" @tap.stop="onLike($event, item, i)">
+											<image :src="staticUrl + 'video/love_grey.png'" mode="" class="dynamic-item-option-item-icon" v-if="!item.isLike"></image>
+											<image :src="staticUrl + 'video/love_red.png'" mode="" class="dynamic-item-option-item-icon" v-else></image>
+											<text class="dynamic-item-option-item-name">{{item.likeCount || 0}}点赞</text>
+										</view>
+									</view>
+								</view>
+							</view>
+							<uni-load-more :status="loadingType"></uni-load-more>
+						</block>
+						
+						<!-- #ifdef APP-PLUS -->
+						<block v-if="cellIndex === 1">
+							<view class="grid">
+								<view class="grid-item" v-for="(item, i) in videoList" :key="i" @tap="showVideo(item)">
+									<image :src="item.image" mode="aspectFill" class="grid-item-img"></image>
+									<view class="grid-item-bom">
+										<image :src="staticUrl + 'video/video_love.png'" mode="" class="grid-item-bom-icon"></image>
+										<text class="grid-item-bom-txt">{{item.likes}}</text>
+									</view>
+									<image :src="staticUrl + 'video/del.png'" class="grid-item-del" v-if="localUserId === id" @tap.stop="delVideo($event, item)"></image>
+									<view class="grid-item-status" v-if="item.status !== 1">
+										<text class="grid-item-status-txt" v-if="item.status === 0">审核中</text>
+										<view class="grid-item-status-box" v-if="item.status === 2" @tap.stop="showErrMsg($event, item.violationInformation)">
+											<text class="grid-item-status-txt" style="color: #CA0400; margin-right: 10rpx;">视频违规</text>
+											<icon type="info" color="#CA0400" size="14" />
+										</view>
+									</view>
+								</view>
+							</view>
+							<uni-load-more :status="videoLoading"></uni-load-more>
+						</block>
+						<!-- #endif -->
+						
+						<block v-if="cellIndex === cellTabs.length - 1">
+							<view class="product">
+								<block v-for="(item, i) in productList" :key="i">
+									<view class="goods" v-if="item.status === 1" @tap="jumpToGoodsDetail(item)">
+										<image :src="filterImg(item.goodsInfo.mainImage, 3)" mode="aspectFill" class="goods-img" lazy-load></image>
+										<view class="goods-wrap">
+											<view class="goods-wrap-title">
+												<text class="goods-wrap-title-name">{{item.goodsInfo.titleName}}</text>
+											</view>
+											<view class="goods-wrap-tip">
+												<text class="goods-wrap-tip-left">库存{{item.stock}}</text>
+												<text class="goods-wrap-tip-right">月售{{item.sales}}件</text>
+											</view>
+											<view class="goods-wrap-price">
+												<text class="goods-wrap-price-txt">¥{{item.goodsInfo.wholesalePrice}}</text>
+											</view>
+										</view>
+									</view>
+								</block>
+							</view>
+							<uni-load-more :status="productLoading"></uni-load-more>
+						</block>
+						<view style="height: 100rpx;"></view>
+					</view>
+				</scroll-view>
+			</swiper-item>
+		</swiper>
 		
 		<uni-header
 			:statusBarHeight="statusBarHeight" :current="curIndex" 
@@ -223,7 +226,9 @@
 	import publics from "@/common/utils/public.js"
 	var system = uni.getSystemInfoSync();
 	import uniHeader from './components/header';
+	// #ifdef APP-PLUS
 	import uniFooter from './components/footer';
+	// #endif
 	import uniSwiper from './components/swiper';
 	import uniPush from './components/push';
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
@@ -231,7 +236,9 @@
 	export default {
 		components: {
 			uniHeader,
+			// #ifdef APP-PLUS
 			uniFooter,
+			// #endif
 			uniSwiper,
 			uniPush,
 			uniLoadMore,
@@ -239,6 +246,7 @@
 		},
 		data() {
 			return {
+				staticUrl: this.$staticUrl,
 				isDone: false,
 				statusBarHeight: system.statusBarHeight,
 				screenHeight: system.screenHeight,
@@ -265,7 +273,6 @@
 				labelHobbyList: [],
 				labelPastOccupationList: [],
 				videoHas: false,
-				slot: 'left',
 				followStatus: false, // 关注
 				pageSize: 0,
 				videoList: [],
@@ -342,19 +349,21 @@
 						if (v.type === 2 && v.status === 1) {
 							this.videoObject = v
 							this.videoHas = true
-							this.slot = 'right'
 						}
 					})
 				}
 				this.isDone = true
 				uni.hideLoading()
 				this.getList()
+				
+				// #ifdef APP-PLUS
 				this.getVideoInit()
+				// #endif
+				
 				if (this.userDetail.distributorIsOpen){
 					this.cellTabs.push({name:"配送员库存", total:0})
 					this.getProductList()
 				}
-				this.$refs.refresh.finish()
 			},
 			filterImg(img, type){
 				return publics.filterImgUrl(img, type)
@@ -363,7 +372,15 @@
 				if (this.cellIndex === 0) {
 					this.getList()
 				} else if (this.cellIndex === 1) {
+					// #ifdef APP-PLUS
 					this.getVideoList()
+					// #endif
+					
+					// #ifndef APP-PLUS
+					if (this.userDetail.distributorIsOpen){
+						this.getProductList()
+					}
+					// #endif
 				} else {
 					if (this.userDetail.distributorIsOpen){
 						this.getProductList()
@@ -427,7 +444,7 @@
 					pageNum: this.productList.length
 				};
 				sendRequest('GET', url.agent.getStockList, params).then(res =>{
-					this.cellTabs[2].total = res.data.stockCount
+					this.cellTabs[this.cellTabs.length - 1].total = res.data.stockCount
 					let list = res.data.stockList
 					this.productList = this.productList.concat(list)
 					this.productLoading = list.length < 12 ? 'nomore' : 'more'
@@ -564,10 +581,10 @@
 					this.headerScroll = false
 				}
 			},
-			onchange: function(current) {
-				this.curIndex = current;
+			onchange: function(e) {
+				this.curIndex = e.detail.current;
 				this.playStatus = this.curIndex === 0 ? true : false;
-				if (current === 0) this.headerScroll = false
+				if (this.current === 0) this.headerScroll = false
 			},
 			footerChange(index){
 				console.log(index)
@@ -614,11 +631,11 @@
 
 <style scoped>
 	.page {
-		position: absolute;
+		/* position: absolute;
 		left: 0;
 		right: 0;
 		top: 0;
-		bottom: 0;
+		bottom: 0; */
 		background-color: #000000;
 	}
 	.woman{

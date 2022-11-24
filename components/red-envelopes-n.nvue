@@ -3,12 +3,12 @@
 		<image 
 			v-if="data.show && data.pageThatAppears === type && !rbagmodelshow && !openrbagmodelshow"
 			:style="{bottom: bottom+'px'}"
-			src="/static/home/redBag.png" 
+			:src="staticUrl + 'home/redBag.png'"
 			:ref="'redBag'+data.id" class="redBag" @click="openrbagbtn"></image>
 		
 		<div class="mark" v-if="rbagmodelshow" @touchmove.prevent.stop>
 			<div class="mark-wrapper" ref="wrapper">
-				<image src="/static/home/redBagClose.png" mode="widthFix" class="mark-wrapper-img"></image>
+				<image :src="staticUrl + 'home/redBagClose.png'" mode="widthFix" class="mark-wrapper-img"></image>
 				<div class="mark-wrapper-con">
 					<div class="mark-wrapper-con-txt">
 						<text class="mark-wrapper-title">{{data.titleName}}</text>
@@ -24,7 +24,7 @@
 		
 		<div class="mark" v-if="openrbagmodelshow" @touchmove.prevent.stop>
 			<div class="mark-wrapper" ref="wrapperOpen">
-				<image src="/static/home/redBagOpen.png" mode="widthFix" class="mark-wrapper-img"></image>
+				<image :src="staticUrl + 'home/redBagOpen.png'" mode="widthFix" class="mark-wrapper-img"></image>
 				<div class="mark-wrapper-con" style="top: 400rpx; height: 380rpx;">
 					<div class="mark-wrapper-con-txt" v-if="!isTake">
 						<text class="mark-wrapper-title">恭喜您获得</text>

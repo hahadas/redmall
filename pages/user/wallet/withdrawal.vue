@@ -18,10 +18,16 @@
 					<input type="text" class="font40 input" v-model="money" placeholder="0.00" />
 				</view>
 			</view>
-			<view class="money flex flex-align-center font26">
-				<text class="color-red">可提现余额¥{{balance||0}}，</text>
-				<text class="color-purple" @tap="money = balance">全部提现</text>
+			<view class="flex flex-between">
+				<view class="money flex flex-align-center font26">
+					<text class="color-red">可提现余额¥{{balance||0}}，</text>
+					<text class="color-purple" @tap="money = balance">全部提现</text>
+				</view>
+				<!-- #ifdef MP-WEIXIN -->
+				<text class="color-b9 font30" @click="$navigateTo('creditCardRecord')">提现记录</text>
+				<!-- #endif -->
 			</view>
+			
 			<button type="primary" class="bg-base" :loading="loading" :disabled="loading" @click="onSave">确认提现</button>
 			<view class="flex flex-column font32 tips color-red">
 				<text>*提示：</text>

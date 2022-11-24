@@ -17,9 +17,9 @@
 				<text class="search-btn" @click="onSearch(current)">搜索</text>
 			</view>
 			<view class="nav-right">
-				<image src="/static/video/search.png" class="nav-right-icon" @click="showSearch"></image>
+				<image :src="staticUrl + 'video/search.png'" class="nav-right-icon" @click="showSearch"></image>
 				<view class="nav-right-message" @tap="jumpTo('message')">
-					<image src="/static/video/message.png" class="nav-right-icon"></image>
+					<image :src="staticUrl + 'video/message.png'" class="nav-right-icon"></image>
 					<text class="nav-right-message-dian" :style="{top: statusBarHeight + 5 + 'px'}" v-if="unReadTotal">{{unReadTotal>99?'99+':unReadTotal}}</text>
 				</view>
 			</view>
@@ -50,19 +50,19 @@
 		<modal v-if="advertDataOne.showModal && current===0">
 			<image :src="advertDataOne.ossUrl" mode="widthFix" @click="imgJump('advertDataOne')"></image>
 			<view class="img-wrap" @click="advertDataOne.showModal = false">
-				<image src="/static/video/video_close.png" class="img-wrap-icon"></image>
+				<image :src="staticUrl + 'video/video_close.png'" class="img-wrap-icon"></image>
 			</view>
 		</modal>
 		<modal v-if="advertDataTwo.showModal && current===1">
 			<image :src="advertDataTwo.ossUrl" mode="widthFix" @click="imgJump('advertDataTwo')"></image>
 			<view class="img-wrap" @click="advertDataTwo.showModal = false">
-				<image src="/static/video/video_close.png" class="img-wrap-icon"></image>
+				<image :src="staticUrl + 'video/video_close.png'" class="img-wrap-icon"></image>
 			</view>
 		</modal>
 		<modal v-if="advertDataThree.showModal && current===2">
 			<image :src="advertDataThree.ossUrl" mode="widthFix" @click="imgJump('advertDataThree')"></image>
 			<view class="img-wrap" @click="advertDataThree.showModal = false">
-				<image src="/static/video/video_close.png" class="img-wrap-icon"></image>
+				<image :src="staticUrl + 'video/video_close.png'" class="img-wrap-icon"></image>
 			</view>
 		</modal>
 		
@@ -93,6 +93,7 @@
 		},
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				swiperHeight: uni.getSystemInfoSync().windowHeight,
 				statusBarHeight: uni.getSystemInfoSync().statusBarHeight,
 				navList: ["动态", "附近", "配送员", "发布", "我的", "评论"],

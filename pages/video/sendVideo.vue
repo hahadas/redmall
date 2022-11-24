@@ -20,35 +20,6 @@
 				</view>
 			</view>
 			
-			<!-- <view class="cu-bar bg-white margin-top" v-if="videoType.store || videoType.product || videoType.dkUser">
-				<view class="action">
-					<text class='iconfont' style="margin-right: 10upx;font-size: 34upx;">&#xe601;</text>
-					视频类型
-				</view>
-			</view>
-			<view class="cu-form-group" v-if="videoType.store || videoType.product || videoType.dkUser">
-				<view class="grid col-1 grid-square flex-sub">
-					<radio-group class="block" style="text-align: left;padding-left: 30upx;padding-bottom: 10upx;" @change="RadioChangeByUserType">
-						<radio class='blue radio radio-my' :class="videoDate.userType=='0'?'checked':''" :checked="videoDate.userType=='0'?true:false" value="0">
-							<text style="padding-left: 10upx;">普通</text>	
-						</radio>
-						<radio v-if="videoType.dkUser" class='blue radio radio-my' :class="videoDate.userType=='1'?'checked':''" :checked="videoDate.userType=='1'?true:false" value="1">
-							<text style="padding-left: 10upx;">配送员(品酒师)主页</text>	
-						</radio>
-						<radio v-if="videoType.store" class='blue radio radio-my' :class="videoDate.userType=='2'?'checked':''" :checked="videoDate.userType=='2'?true:false" value="2">
-							<text style="padding-left: 10upx;">商家店铺主页</text>	
-						</radio>
-						<radio v-if="videoType.store" class='blue radio radio-my' :class="videoDate.userType=='3'?'checked':''" :checked="videoDate.userType=='3'?true:false" value="3">
-							<text style="padding-left: 10upx;">商品详情,输入商品编号</text>	
-						</radio>
-					</radio-group>
-				</view>
-			</view>
-			<view class="cu-form-group" v-if="videoDate.userType == 3">
-				<view class="title">商品编号</view>
-				<input placeholder="商品编号" style="text-align: left;padding-left: 30upx" name="input" v-model="videoDate.productId" type="number" maxlength="20"></input>
-			</view> -->
-			
 			<view class="cu-bar bg-white margin-top">
 				<view class="action">
 					<text class='iconfont' style="margin-right: 10upx;font-size: 38upx;">&#xe640;</text>
@@ -74,10 +45,8 @@
 						<view class="bg-img" @click="viewVideo(videoDate.url)">
 							<image :src="videoDate.imageOssUrl" mode="" style="width: 100%;" :style="{height:videoHeight+'px'}"></image>
 							<text class="iconfont icon">&#xe601;</text>
-							<!-- <video :src="videoDate.url" :poster="videoDate.imageOssUrl" style="width: 100%;" :style="{height:videoHeight+'px'}"></video> -->
 						</view>
 						
-						<!-- <button @tap.stop="videoCrop()" class="cu-btn bg-blue margin-tb-sm lg" style="margin-left: 20upx;">重新裁剪视频</button> -->
 						<button @tap.stop="ChooseVideo()" class="cu-btn bg-red margin-tb-sm lg" style="width: 50%;margin-left: 25%;">重新选择视频</button>
 					</view>
 					<view class="solids" @tap="ChooseVideo" v-if="!videoDate.url || videoDate.url.trim() == ''">

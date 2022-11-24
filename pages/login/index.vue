@@ -1,7 +1,7 @@
 <template>
-	<view class="main">
+	<view class="main" :style="{backgroundImage: 'url('+ staticUrl + 'login/bg.jpg)'}">
 		<view class="flex flex-column flex-center">
-			<image src="/static/login/top.png" mode="widthFix" class="top"></image>
+			<image :src="staticUrl + 'login/top.png'" mode="widthFix" class="top"></image>
 		</view>
 		<view class="flex flex-center flex-column fixed">
 			<view class="flex flex-between btn color-purple">
@@ -24,7 +24,8 @@
 	export default{
 		data(){
 			return {
-				noticeId: ""
+				noticeId: "",
+				staticUrl: this.$staticUrl
 			}
 		},
 		onLoad() {
@@ -63,9 +64,6 @@
 
 <style scoped lang="scss">
 	.main{
-		// background: linear-gradient(to top, #0065cd 0%, #008bdb 100%);
-		// background: url(../../static/login/bg.jpg) center center no-repeat;
-		background-image: url('../../static/login/bg.jpg');
 		background-repeat: no-repeat;
 		background-size: 100% 100%;
 		min-height: 100vh;

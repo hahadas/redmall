@@ -9,7 +9,8 @@
 			</view>
 			<view class="form-item flex flex-align-end">
 				<input :password="!showPassword" placeholder="请输入登录密码" placeholder-class="placeholder" class="flex-grow" v-model="password" />
-				<text class="iconfont font40 eye" @tap="showPassword = !showPassword">{{showPassword?'\ue7c0':'\ue7bf'}}</text>
+				<text class="iconfont font40 eye" @tap="showPassword = !showPassword" v-if="showPassword">&#xe7c0;</text>
+				<text class="iconfont font40 eye" @tap="showPassword = !showPassword" v-else>&#xe7bf;</text>
 			</view>
 			<view class="btn flex flex-center flex-column">
 				<button type="primary" class="bg-base btn-item" :loading="loading" :disabled="loading" @tap="onSumbit">登录</button>

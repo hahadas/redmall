@@ -1,7 +1,24 @@
 <template>
 	<view>
-		<video ref="myVideo" id="myVideo" :src="src" :controls="false" loop autoplay style="width: 750rpx;" :style="{height: screenHeight + 'px'}"
-		 @play="onplay" @error="onerror" @timeupdate="timeupdate" :show-play-btn="false" :show-center-play-btn="false" :enable-progress-gesture="false" :enable-play-gesture="false" :vslide-gesture="false" :vslide-gesture-in-fullscreen="false"></video>
+		<video 
+			ref="myVideo" 
+			id="myVideo" 
+			:src="src" 
+			:controls="false" 
+			loop 
+			autoplay 
+			style="width: 750rpx;" 
+			:style="{height: screenHeight + 'px'}"
+			@play="onplay" 
+			@error="onerror" 
+			@timeupdate="timeupdate" 
+			:show-play-btn="true" 
+			:show-center-play-btn="false" 
+			:enable-progress-gesture="false" 
+			:enable-play-gesture="false" 
+			:vslide-gesture="false" 
+			:vslide-gesture-in-fullscreen="false">
+		</video>
 	</view>
 </template>
 
@@ -24,12 +41,8 @@
 
 			}
 		},
-		created() {
-
-		},
 		watch: {
-			playStatus: function(val) {
-				console.log("playStatus", val);
+			playStatus(val) {
 				if (!val) {
 					uni.createVideoContext('myVideo').pause();
 				} else {

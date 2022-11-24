@@ -1,10 +1,7 @@
 import Request from './request.js'
 import { throttle } from './throttle.js'
 
-//服务端请求地址 和 im聊天
-// export const baseUrl = "http://192.168.0.188:6001/api/"
-// export const imUrl = "ws://192.168.0.188:6000?imToken="
-
+export const staticUrl = "https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/"
 export const baseUrl = "http://redmall-app-api.hushuo.show/api/"
 export const imUrl = "ws://redmall-im.hushuo.show?imToken="
 

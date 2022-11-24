@@ -1,6 +1,6 @@
 <template>
 	<view class="main">
-		<image src="/static/user/oil.jpg" mode="widthFix" class="banner"></image>
+		<image :src="staticUrl + 'user/oil.jpg'" mode="widthFix" class="banner"></image>
 		<view class="con">
 			<view class="flex flex-between">
 				<view class="tab flex flex-center" :class="{'active' : i === current}" v-for="(tab, i) in tabs" :key="i" @click="tabChange(i)">
@@ -37,6 +37,12 @@
 				<view class="flex flex-center" v-else>
 					<text class="color-b9 font30">{{selecData.remarks}}</text>
 				</view>
+				
+				<!-- #ifdef MP-WEIXIN -->
+				<view class="flex flex-center" style="padding: 30rpx 0;">
+					<text class="color-b9 font34" @click="$navigateTo('oilCardRecord')">充值记录</text>
+				</view>
+				<!-- #endif -->
 				<!-- <view class="flex flex-column font32" style="margin-top: 20rpx;">
 					<text class="color-b6">*提示：</text>
 					<text class="color-b9">1、{{remarks}}</text>
@@ -54,6 +60,7 @@
 	export default{
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				loading: false,
 				tabs: [
 					{name: "中国石化", value: 1},

@@ -29,7 +29,7 @@
 						<view class="grid-item" v-for="(item, i) in likeList" :key="i" @click="showVideo(item, i)">
 							<image :src="item.image" mode="aspectFill" class="grid-item-img"></image>
 							<view class="grid-item-bom">
-								<image src="/static/video/video_love.png" mode="" class="grid-item-bom-icon"></image>
+								<image src="https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/video/video_love.png" mode="" class="grid-item-bom-icon"></image>
 								<text class="grid-item-bom-txt">{{item.likes}}</text>
 							</view>
 						</view>

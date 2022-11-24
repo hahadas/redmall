@@ -24,7 +24,7 @@
 				<text class="time">入驻时间: {{item.createTime}}</text>
 			</view> -->
 			<view class="goods-box-single" @tap="jumpTo(item)">
-				<image class="goods-img" :src="item.headPortrait||'/static/user/avatar.png'" mode="aspectFill"></image>
+				<image class="goods-img" :src="item.headPortrait||avatar" mode="aspectFill"></image>
 				<view class="right">
 					<view class="flex flex-align-center">
 						<text class="iconfont font28" style="color: #1995fc; margin-bottom: 4rpx;" v-if="item.gender === 2">&#xe621;</text>
@@ -56,6 +56,7 @@
 		},
 		data() {
 			return {
+				avatar: this.$staticUrl + 'user/avatar.png',
 				isDone: false,
 				current: 0,
 				tabs: [],
@@ -91,13 +92,15 @@
 								return
 							}
 						})
+						if (!allObject) {
+							this.loading = 'nomore'
+							return
+						}
 						array.unshift(allObject)
 						this.tabs = array
 						this.isDone = true
+						this.loadData(type);
 					}
-					this.loadData(type);
-				}).catch(()=>{
-					this.loadData(type);
 				})
 			},
 			//获取订单列表

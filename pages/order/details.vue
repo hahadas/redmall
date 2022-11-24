@@ -19,7 +19,7 @@
 		<!-- 用户的收货地址，用户自提时不显示 -->
 		<view class="address-section" v-if="orderInfo.deliveryMethod !== 3">
 			<view class="order-content">
-				<image src="/static/user/addr.png" mode="" class="img"></image>
+				<image :src="staticUrl + 'user/addr.png'" mode="" class="img"></image>
 				<view class="cen">
 					<view class="flex flex-between">
 						<view class="top">
@@ -31,7 +31,7 @@
 					<text class="address">{{ orderInfo.userThreeAdcode | filterAddr}}{{ orderInfo.userAddressDetails }}{{ orderInfo.userAddressSupplement }}</text>
 				</view>
 			</view>
-			<image class="a-bg" src="/static/user/addr_bg.png"></image>
+			<image class="a-bg" :src="staticUrl + 'user/addr_bg.png'"></image>
 		</view>
 		<!-- 配送信息 -->
 		<view class="distribution" v-if="orderInfo.status === 3 || orderInfo.status === 4 || orderInfo.status === 5">
@@ -65,7 +65,7 @@
 					latitude: storeInfo.lat,
 					longitude: storeInfo.lng,
 					id: 2,
-					iconPath: '/static/icon_position.png'
+					iconPath: staticUrl + 'icon_position.png'
 				}]"></map>
 			</block>
 			<block v-if="orderInfo.deliveryMethod === 3">
@@ -87,7 +87,7 @@
 					latitude: storeInfo.lat,
 					longitude: storeInfo.lng,
 					id: 2,
-					iconPath: '/static/icon_position.png'
+					iconPath: staticUrl + 'icon_position.png'
 				}]"></map>
 			</block>
 			<block v-if="orderInfo.deliveryMethod === 4">
@@ -116,7 +116,7 @@
 					latitude: deliveryUserInfo.showLat,
 					longitude: deliveryUserInfo.showLng,
 					id: 2,
-					iconPath: '/static/icon_position.png'
+					iconPath: staticUrl + 'icon_position.png'
 				}]"></map>
 				<view class="flex flex-center" style="margin-top: 20rpx;" v-if="orderInfo.orderType === 2">
 					<button type="primary" size="mini" class="bg-base" v-if="orderInfo.deliveryPlatformStatus === 1" @click="selectAgent()">选择配送员</button>
@@ -197,12 +197,12 @@
 			<view class="flex flex-between li">
 				<text class="label">订单编号：</text>
 				<text class="flex-grow">{{orderInfo.orderNumber}}</text>
-				<text class="color-purple" @click="$onCopy(orderInfo.orderNumber.toString())">复制</text>
+				<text class="color-purple" @click="$onCopy(orderInfo.orderNumber)">复制</text>
 			</view>
 			<view class="flex flex-align-center li" v-if="orderInfo.rmbPayOrderNumber">
 				<text class="label">商户单号：</text>
 				<text class="flex-grow">{{orderInfo.rmbPayOrderNumber}}</text>
-				<text class="color-purple" @click="$onCopy(orderInfo.rmbPayOrderNumber.toString())">复制</text>
+				<text class="color-purple" @click="$onCopy(orderInfo.rmbPayOrderNumber)">复制</text>
 			</view>
 			<view class="flex flex-align-center li">
 				<text class="label">支付方式：</text>
@@ -294,6 +294,7 @@
 		mixins: [mix, imMix],
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				btnLoading: false,
 				id: "",
 				orderInfo: {},

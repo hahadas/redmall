@@ -18,8 +18,8 @@
 							</div>
 							<div class="dynamic-item-top-column" style="justify-content: flex-start;">
 								<div class="six" style="margin-right: 20rpx;" :class="{'woman':item.gender===3}">
-									<image src="/static/video/man.png" mode="" class="six-icon" v-if="item.gender === 2"></image>
-									<image src="/static/video/woman.png" mode="" class="six-icon" v-if="item.gender === 3"></image>
+									<image :src="staticUrl + 'video/man.png'" mode="" class="six-icon" v-if="item.gender === 2"></image>
+									<image :src="staticUrl + 'video/woman.png'" mode="" class="six-icon" v-if="item.gender === 3"></image>
 									<text class="six-name">{{item.age||0}}</text>
 								</div>
 								<text class="mark" v-if="item.distributorIsOpen">配送员</text>
@@ -39,12 +39,12 @@
 					</div>
 					<div class="dynamic-item-option">
 						<div class="dynamic-item-option-item">
-							<image src="/static/video/comment.png" mode="" class="dynamic-item-option-item-icon"></image>
+							<image :src="staticUrl + 'video/comment.png'" mode="" class="dynamic-item-option-item-icon"></image>
 							<text class="dynamic-item-option-item-name">{{item.commentCount || 0}}条评论</text>
 						</div>
 						<div class="dynamic-item-option-item" @tap.stop="onLike($event, item, i)">
-							<image src="/static/video/love_grey.png" mode="" class="dynamic-item-option-item-icon" v-if="!item.isLike"></image>
-							<image src="/static/video/love_red.png" mode="" class="dynamic-item-option-item-icon" v-else></image>
+							<image :src="staticUrl + 'video/love_grey.png'" mode="" class="dynamic-item-option-item-icon" v-if="!item.isLike"></image>
+							<image :src="staticUrl + 'video/love_red.png'" mode="" class="dynamic-item-option-item-icon" v-else></image>
 							<text class="dynamic-item-option-item-name">{{item.likeCount || 0}}点赞</text>
 						</div>
 					</div>

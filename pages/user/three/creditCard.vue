@@ -54,6 +54,11 @@
 		<view class="btn">
 			<button type="primary" :loading="loading" :disabled="!open" class="bg-base" @click="onConfirm">还款</button>
 		</view>
+		<!-- #ifdef MP-WEIXIN -->
+		<view class="flex flex-center">
+			<text class="color-b9 font34" @click="$navigateTo('creditCardRecord')">还款记录</text>
+		</view>
+		<!-- #endif -->
 	</view>
 </template>
 

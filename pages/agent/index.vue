@@ -15,7 +15,7 @@
 				<you-scroll @onPullDown="onPullDown" @onLoadMore="loadMore">
 					<view class="scroll">
 						<view class="flex flex-center flex-column work" v-if="!checked">
-							<image src="/static/agent/work.png" mode="" class="img"></image>
+							<image src="https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/work.png" mode="" class="img"></image>
 							<text class="color-b9 font28">休息中，开启工作后可接单</text>
 							<button type="primary" class="btn" @click="switchChange(null)">开始工作</button>
 						</view>

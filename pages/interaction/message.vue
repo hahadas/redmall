@@ -278,7 +278,7 @@
 				if (img) {
 					return publics.filterImgUrl(img, 1)
 				} else {
-					return "/static/user/avatar.png"
+					return this.$staticUrl + "user/avatar.png"
 				}
 			},
 			isHasUnSendMsg(id){

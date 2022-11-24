@@ -935,7 +935,7 @@ module.exports = {
 						//在线表情路径，图文混排必须使用网络路径，请上传一份表情到你的服务器后再替换此路径 
 						//比如你上传服务器后，你的100.gif路径为https://www.xxx.com/emoji/100.gif 则替换onlinePath填写为https://www.xxx.com/emoji/
 						// let onlinePath = '/static/emoji/'
-						let onlinePath = 'https://yunjulai-oss.oss-cn-shenzhen.aliyuncs.com/emojiNewTwo/'
+						let onlinePath = 'https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/emojiNewTwo/'
 						let imgstr = '<img style="width:24px;height:24px;margin-bottom:-5px" src="' + onlinePath + EM.url + '">';
 						// console.log("imgstr: " + imgstr);
 						return imgstr;

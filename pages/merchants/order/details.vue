@@ -15,7 +15,7 @@
 			</view>
 			<view class="address-section">
 				<view class="order-content">
-					<image src="/static/user/addr.png" mode="" class="img"></image>
+					<image :src="staticUrl + 'user/addr.png'" mode="" class="img"></image>
 					<view class="cen">
 						<view class="flex flex-between">
 							<view class="top">
@@ -27,7 +27,7 @@
 						<text class="address">{{ orderInfo.userThreeAdcode | filterAddr}}{{ orderInfo.userAddressDetails }}{{ orderInfo.userAddressSupplement }}</text>
 					</view>
 				</view>
-				<image class="a-bg" src="/static/user/addr_bg.png"></image>
+				<image class="a-bg" :src="staticUrl + 'user/addr_bg.png'"></image>
 			</view>
 			<view class="goods bg-w">
 				<view class="goods-item">
@@ -151,123 +151,6 @@
 				<text>{{orderInfo.goodsEvaluate.createTime}}</text>
 			</view>
 		</view>
-		
-		<!-- <block v-if="!showMore">
-			<view class="flex flex-center" style="margin-top: 20rpx;">
-				<text class="color-b9 font28" @click="showMore = true">点击加载相同订单</text>
-			</view>
-		</block>
-		<block v-else>
-			<view class="bg-w" style="margin-top: 20rpx;" v-for="(item,i) in list" :key="i">
-				<view class="bg-base flex flex-center flex-column header">
-					<block v-if="item.status === 10">
-						<text class="font30">已退款</text>
-						<text class="font24" v-if="item.refundList">{{item.refundList[0].identityType === 1 ? '用户' : '您'}}已操作退款</text>
-					</block>
-					<text v-if="item.status === 1">待付款</text>
-					<text v-if="item.status === 2">未支付完成</text>
-					<text v-if="item.status === 3">{{deliveryStatus(item)}}</text>
-					<text v-if="item.status === 4">待评价</text>
-					<text v-if="item.status === 5">已完成</text>
-					<text v-if="item.status === 11">已关闭</text>
-				</view>
-				<view class="address-section">
-					<view class="order-content">
-						<image src="/static/user/addr.png" mode="" class="img"></image>
-						<view class="cen">
-							<view class="top">
-								<text class="name">{{ item.userFullName }}</text>
-								<text class="mobile">{{ item.userMobile }}</text>
-							</view>
-							<text class="address">{{ item.userThreeAdcode | filterAddr}}{{ item.userAddressDetails }}{{ item.userAddressSupplement }}</text>
-						</view>
-					</view>
-					<image class="a-bg" src="/static/user/addr_bg.png"></image>
-				</view>
-				<view class="goods bg-w">
-					<view class="goods-item">
-						<view class="flex cen" @click="jumpTo('details', item.goodsId)">
-							<view><image :src="filterImg(item.skuImage || item.goodsImage)" mode="" class="pic"></image></view>
-							<view class="flex flex-column flex-grow">
-								<text class="color-b3 line line-2 font32">{{item.goodsName}}</text>
-								<text class="spec">{{item.skuName}}</text>
-							</view>
-							<view class="flex flex-column flex-align-end" style="margin-left: 10rpx;">
-								<text class="color-b3 font32">¥{{item.unitPrice}}</text>
-								<text class="color-b9 font26">x{{item.number}}</text>
-							</view>
-						</view>
-						<view class="grid">
-							<text class="label">商品类型</text>
-							<text class="color-b9" v-if="item.orderType === 1">普通商品</text>
-							<text class="color-b9" v-if="item.orderType === 2">精品商品</text>
-							<text class="color-b9" v-if="item.orderType === 3">进货商品</text>
-						</view>
-						<view class="grid" v-if="item.paymentCombination === 2">
-							<text class="label">组合支付</text>
-							<text class="color-b9">人民币{{item.paymentRmb}}%，积分{{item.paymentIntegral}}</text>
-						</view>
-						<view class="grid">
-							<text class="label">配送方式</text>
-							<text class="color-b9">{{item.deliveryMethod | filterDelivery}}</text>
-						</view>
-						<view class="grid" v-if="item.orderType === 1 && item.bonusIntegral">
-							<text class="label">赠送积分</text>
-							<text class="color-b9">{{item.bonusIntegral}}%-{{(item.bonusIntegral*item.totalPrice).toFixed(2)}}积分</text>
-						</view>
-					</view>
-					<view class="flex flex-between cell font26 color-b9">
-						<text>商品总价</text>
-						<text>¥{{item.totalPrice}}</text>
-					</view>
-					<view class="flex flex-between cell font26 color-b9" v-if="item.orderType === 3">
-						<text>进价百分比</text>
-						<text>{{item.boutiqueBuying}}%</text>
-					</view>
-					<view class="flex flex-between cell font26 color-b9" v-if="item.payIntegralAmount">
-						<text>积分</text>
-						<text>{{item.payIntegralAmount}}</text>
-					</view>
-					<view class="flex flex-between cell font26 color-b9" v-if="item.couponStatus === 2">
-						<text>优惠券</text>
-						<text>¥{{item.couponAmount}}</text>
-					</view>
-					<view class="flex flex-between cell font32">
-						<text>实付款</text>
-						<text class="color-purple">¥{{item.payRmbAmount}}</text>
-					</view>
-					<view class="flex flex-between cell font26 color-b9">
-						<text>支付方式</text>
-						<text>{{item.rmbPayType | filterPayType}}</text>
-					</view>
-					<view class="flex flex-between cell font26 color-b9">
-						<text>订单编号</text>
-						<text>{{item.orderNumber}}</text>
-					</view>
-					<view class="flex flex-between cell font26 color-b9" v-if="item.rmbPayOrderNumber">
-						<text>商户单号</text>
-						<text>{{item.rmbPayOrderNumber}}</text>
-					</view>
-					<view class="flex flex-between cell font26 color-b9">
-						<text>创建时间</text>
-						<text>{{item.createTime}}</text>
-					</view>
-					<view class="flex flex-between cell font26 color-b9" v-if="item.rmbPayTime">
-						<text>支付时间</text>
-						<text>{{item.rmbPayTime}}</text>
-					</view>
-					<view class="flex flex-between cell font26 color-b9" v-if="item.refundList">
-						<text>退款原因</text>
-						<text>{{item.refundList[0].reasonContent}}</text>
-					</view>
-					<view class="flex flex-between cell font26 color-b9" v-if="item.refundList">
-						<text>退款时间</text>
-						<text>{{item.refundList[0].createTime}}</text>
-					</view>
-				</view>
-			</view>
-			<uni-load-more :status="loading"></uni-load-more>
-		</block> -->
 		<view class="fixed flex flex-space-end">
 			<!-- 申请退款/退货 -->
 			<text class="btn" v-if="orderInfo.status === 3 && judgeRefund(orderInfo)" @click="afterSales(orderInfo)">退款</text>
@@ -361,6 +244,7 @@
 		components: { uniPopup, uniLoadMore },
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				id: "",
 				orderInfo: {},
 				pageSize: 1,

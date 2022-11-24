@@ -91,7 +91,7 @@
 						if (res.data && res.data.collectionStatus) {
 							_this.clearInter()
 							music.loop = false; //循环播放
-							music.src = "static/music/collection.mp3"; // 收款成功提示
+							music.src = this.$staticUrl + "music/collection.mp3"; // 收款成功提示
 							music.play(); //执行播放
 							setTimeout(()=>{
 								uni.redirectTo({

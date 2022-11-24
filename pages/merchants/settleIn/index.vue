@@ -49,56 +49,56 @@
 		<view class="grid flex flex-between" @click="uplodingImg('businessLicenseImg')">
 			<text><text class="color-red">*</text>营业执照：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/business.png" mode="" class="img" v-if="!businessLicenseImg"></image>
+				<image :src="businessImg" mode="" class="img" v-if="!businessLicenseImg"></image>
 				<image :src="businessLicenseImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('foodBusinessLicenseImg')">
 			<text><text class="color-red">*</text>食品经营许可证：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!foodBusinessLicenseImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!foodBusinessLicenseImg"></image>
 				<image :src="foodBusinessLicenseImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('legalIdNumberJustImg')">
 			<text><text class="color-red">*</text>法人身份证正面：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!legalIdNumberJustImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!legalIdNumberJustImg"></image>
 				<image :src="legalIdNumberJustImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('legalIdNumberBackImg')">
 			<text><text class="color-red">*</text>法人身份证反面：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!legalIdNumberBackImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!legalIdNumberBackImg"></image>
 				<image :src="legalIdNumberBackImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('legalHealthCertificateImg')">
 			<text>法人健康证：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!legalHealthCertificateImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!legalHealthCertificateImg"></image>
 				<image :src="legalHealthCertificateImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('othreOneImg')">
 			<text>其他证照：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!othreOneImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!othreOneImg"></image>
 				<image :src="othreOneImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('othreTwoImg')">
 			<text>其他证照：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!othreTwoImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!othreTwoImg"></image>
 				<image :src="othreTwoImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('othreThreeImg')">
 			<text>其他证照：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!othreThreeImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!othreThreeImg"></image>
 				<image :src="othreThreeImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
@@ -131,6 +131,8 @@
 		components: { wPicker, avatar },
 		data(){
 			return {
+				licenseImg: this.$staticUrl + 'merchants/license.png',
+				businessImg: this.$staticUrl + 'merchants/business.png',
 				visible:false,
 				loading: false,
 				positionValue: [],

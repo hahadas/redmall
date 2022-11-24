@@ -1,6 +1,6 @@
 <template>
 	<view class="main">
-		<image src="/static/user/bill.png" mode="" class="banner"></image>
+		<image :src="staticUrl + 'user/bill.png'" mode="" class="banner"></image>
 		<view class="box">
 			<input type="number" v-model="phone" :maxlength="11" placeholder="请输入手机号码" class="input" />
 			<text class="iconfont del" @click="phone=''" v-if="phone">&#xe638;</text>
@@ -19,7 +19,11 @@
 		<view class="grid" v-else>
 			<text class="grid-item" v-for="(item, i) in config.children" :key="i" @click="recharge(item)">{{item.name}}</text>
 		</view>
-		<!-- <text class="color-red bom" v-if="remarks">{{remarks}}!</text> -->
+		<!-- #ifdef MP-WEIXIN -->
+		<view class="flex flex-center" style="padding-bottom: 30rpx;">
+			<text class="color-b9 font34" @click="$navigateTo('phoneBillRecord')">充值记录</text>
+		</view>
+		<!-- #endif -->
 	</view>
 </template>
 
@@ -29,6 +33,7 @@
 	export default{
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				phone: "",
 				integral: 0,
 				config: {},

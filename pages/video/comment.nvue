@@ -7,13 +7,13 @@
 		<div class="content flex" ref="content" style="background-color: #191919;opacity: 0.85;">
 			<div class="top flex" @click="hide()" >
 				<div class="hideBtn flex">
-					<image src="/static/video/video_close.png" style="width: 30upx;height: 30upx;opacity: 0;"></image>
+					<image :src="staticUrl + 'video/video_close.png'" style="width: 30upx;height: 30upx;opacity: 0;"></image>
 				</div>
 				<div class="title">
 					<text style="color: #ffffff;font-size: 25upx;">{{count}}条评论</text>
 				</div>
 				<div class="hideBtn flex">
-					<image src="/static/video/video_close.png" style="width: 30upx;height: 30upx;"></image>
+					<image :src="staticUrl + 'video/video_close.png'" style="width: 30upx;height: 30upx;"></image>
 				</div>
 			</div>
 			<scroll-view scroll-y class="srcoll-view">
@@ -50,8 +50,8 @@
 								<div class="card-right" style="right:5rpx;" @click="likeByComment(itemTwo)">
 									<text v-if="itemTwo.commentLike > 0" class="color-gray" style="color: #ed1549;font-size: 28upx;">{{itemTwo.likes}}</text>
 									<text v-if="itemTwo.commentLike <= 0" class="color-gray" style="color: #bdbdbd;font-size: 28upx;">{{itemTwo.likes}}</text>
-									<image v-if="itemTwo.commentLike > 0" src="/static/video/love_red.png" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
-									<image v-if="itemTwo.commentLike <= 0" src="/static/video/love_grey.png" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
+									<image v-if="itemTwo.commentLike > 0" :src="staticUrl + 'video/love_red.png'" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
+									<image v-if="itemTwo.commentLike <= 0" :src="staticUrl + 'video/love_grey.png'" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
 								</div>
 							</div>
 							<div class="card-bottom" @click="commentsDatas(item.id,1)"
@@ -64,8 +64,8 @@
 					<div class="card-right" @click="likeByComment(item)">
 						<text v-if="item.commentLike > 0" class="color-gray" style="color: #ed1549;font-size: 28upx;">{{item.likes}}</text>
 						<text v-if="item.commentLike <= 0" class="color-gray" style="color: #bdbdbd;font-size: 28upx;">{{item.likes}}</text>
-						<image v-if="item.commentLike > 0" src="/static/video/love_red.png" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
-						<image v-if="item.commentLike <= 0" src="/static/video/love_grey.png" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
+						<image v-if="item.commentLike > 0" :src="staticUrl + 'video/love_red.png'" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
+						<image v-if="item.commentLike <= 0" :src="staticUrl + 'video/love_grey.png'" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
 					</div>
 				</div>
 				<div class="card" @click="commentsDatas(0,0)"
@@ -81,10 +81,6 @@
 			</scroll-view>
 			
 			<div class="bottom" :style="inputClassParent">
-				<!-- hold-keyboard="true" -->
-				<!-- <textarea class="input" :style="inputClass" :focus="focusTextarea" 
-				:adjust-position="false" cursor-spacing="10" maxlength="100" 
-				v-model="message" :placeholder="placeholder" @focus="textareaFocus" @blur="textareaBlur"/> -->
 				<textarea class="input" :style="inputClass" :focus="focusTextarea"
 				:adjust-position="false" cursor-spacing="10" maxlength="100" 
 				v-model="message" :placeholder="placeholder" @focus="textareaFocus" @blur="textareaBlur"/>
@@ -118,6 +114,7 @@
 		},
 		data() {
 			return {
+				staticUrl: this.$staticUrl,
 				jianPanHeight:0,
 				commentType:0,
 				commentId:0,
@@ -272,6 +269,7 @@
 					return;
 				}
 				if(!this.message || this.message.trim() == ''){
+					this.hide()
 					return;
 				}
 				let type = this.type;

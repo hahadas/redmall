@@ -759,24 +759,6 @@
 			}
 		},
 		{
-			"path": "pages/order/cart",
-			"style": {
-				"navigationBarTitleText": "购物车" ,// 购物车
-				"navigationBarBackgroundColor":"#FFFFFF",
-				"app-plus":{
-					"titleNView":{
-						"buttons":[
-							{
-								"text": "管理",
-								"width": "50px",
-								"fontSize": "16px"
-							}
-						]
-					}
-				}
-			}
-		},
-		{
 			"path": "pages/order/createOrder",
 			"style": {
 				"navigationBarTitleText": "创建订单" // 创建订单
@@ -866,6 +848,7 @@
 				}
 			}
 		},
+		// #ifdef APP-PLUS
 		{
 			"path": "pages/video/index",
 			"style": {
@@ -978,6 +961,7 @@
 				"navigationBarTitleText": "发布视频"
 			}
 		},
+		// #endif
 		{
 			"path": "pages/agent/index",
 			"style": {

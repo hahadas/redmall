@@ -66,7 +66,7 @@
 											<text class="txt" @tap.stop="selectAll">多选</text>
 											<text class="txt" @tap.stop="onRecall(row.uid, index)">撤回</text>
 										</view>
-										<image src="/static/down.png" class="icon" mode=""></image>
+										<image :src="staticUrl + 'down.png'" class="icon" mode=""></image>
 									</view>
 								</view>
 								<!-- <view class="flex flex-align-end flex-space-end" style="margin-right: 10rpx;" @click="repeatSend(row, index)">
@@ -94,8 +94,8 @@
 											<text class="city line">{{row.content.address}}</text>
 										</view>
 										<view class="map">
-											<image src="/static/map.png" mode="" class="mapIcon"></image>
-											<image src="/static/icon_position.png" mode="" class="markers"></image>
+											<image :src="staticUrl + 'map.png'" mode="" class="mapIcon"></image>
+											<image :src="staticUrl + 'icon_position.png'" mode="" class="markers"></image>
 										</view>
 									</view>
 									<!-- 视频消息 -->
@@ -172,7 +172,7 @@
 								</view>
 								<!-- 右-头像 -->
 								<view class="right" @tap="goUser(userInfo.imAccount)">
-									<image mode="aspectFill" :src="filterImg(headPortrait, 1) || '/static/user/avatar.png'"></image>
+									<image mode="aspectFill" :src="filterImg(headPortrait, 1) || avatar"></image>
 								</view>
 							</view>
 							<!-- 别人发出的消息 -->
@@ -186,13 +186,13 @@
 											<text class="txt" @tap.stop="delMsg(true)">删除</text>
 											<text class="txt" @tap.stop="selectAll">多选</text>
 										</view>
-										<image src="/static/down.png" class="icon" mode=""></image>
+										<image :src="staticUrl + 'down.png'" class="icon" mode=""></image>
 									</view>
 								</view>
 								
 								<!-- 左-头像 -->
 								<view class="left" @click="otherGoUser">
-									<image mode="aspectFill" :src="filterImg((type === 3 ? (chatUser.storeLogoImage || chatUser.headPortrait) : chatUser.headPortrait), 1) || '/static/user/avatar.png'"></image>
+									<image mode="aspectFill" :src="filterImg((type === 3 ? (chatUser.storeLogoImage || chatUser.headPortrait) : chatUser.headPortrait), 1) || avatar"></image>
 								</view>
 								<!-- 右-用户名称-时间-消息 -->
 								<view class="right" @longtap="longtap(row, index)">
@@ -216,8 +216,8 @@
 											<text class="city line">{{row.content.address}}</text>
 										</view>
 										<view class="map">
-											<image src="/static/map.png" mode="" class="mapIcon"></image>
-											<image src="/static/icon_position.png" mode="" class="markers"></image>
+											<image :src="staticUrl + 'map.png'" mode="" class="mapIcon"></image>
+											<image :src="staticUrl + 'icon_position.png'" mode="" class="markers"></image>
 										</view>
 									</view>
 									<!-- 视频消息 -->
@@ -301,7 +301,7 @@
 		<!-- 全选删除 -->
 		<view class="input-box" style="width: 100%; z-index: 99;" @touchmove.stop.prevent="discard" v-if="isAllSelect">
 			<view class="flex flex-align-center flex-space-around" style="width: 690upx;">
-				<image src="/static/del.png" mode="" style="width: 56rpx; height: 56rpx;" @tap.stop="delMsg(false)"></image>
+				<image :src="staticUrl + 'del.png'" mode="" style="width: 56rpx; height: 56rpx;" @tap.stop="delMsg(false)"></image>
 				<text class="font30 color-b6" @tap.stop="cancelAllSelect">取消</text>
 			</view>
 		</view>
@@ -312,7 +312,7 @@
 			<swiper class="emoji-swiper" :class="{hidden:hideEmoji}" indicator-dots="true" duration="150">
 				<swiper-item v-for="(page,pid) in emojiList" :key="pid">
 					<view v-for="(em,eid) in page" :key="eid" @tap="addEmoji(em)">
-						<image mode="widthFix" :src="'/static/emojiNewTwo/'+em.url"></image>
+						<image mode="widthFix" :src="staticUrl + 'emojiNewTwo/'+em.url"></image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -455,6 +455,8 @@
 		},
 		data() {
 			return {
+				staticUrl: this.$staticUrl,
+				avatar: this.$staticUrl + 'user/avatar.png',
 				headPortrait: "",
 				conversationId: "", // 会话id
 				conversationInfo: {}, // 当前会话信息

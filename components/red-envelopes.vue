@@ -6,12 +6,12 @@
 				class="bag1 animated tada infinite" 
 				:style="{bottom: bottom+'px'}"
 				v-if="!rbagmodelshow && !openrbagmodelshow" 
-				src="/static/home/redBag.png" mode="" @click="openrbagbtn()"></image>
+				:src="staticUrl + 'home/redBag.png'" mode="" @click="openrbagbtn()"></image>
 		</view>
 		<!-- 红包封面 -->
 		<view class="rbag_model" v-if="rbagmodelshow" @touchmove.prevent.stop>
 			<view class="close animated rubberBand">
-				<image class="redBag" src="/static/home/redBagClose.png" mode="widthFix"></image>
+				<image class="redBag" :src="staticUrl + 'home/redBagClose.png'" mode="widthFix"></image>
 				<view class="redBag-word">
 					<view class="subTit">{{data.titleName}}</view>
 					<view class="tips">{{data.describeDetails}}</view>
@@ -28,7 +28,7 @@
 		<!-- 打开红包 -->
 		<view class="open_rbag_model" v-if="openrbagmodelshow" @touchmove.prevent.stop>
 			<view class="close animated rubberBand">
-				<image class="redBag" src="/static/home/redBagOpen.png" mode="widthFix"></image>
+				<image class="redBag" :src="staticUrl + 'home/redBagOpen.png'" mode="widthFix"></image>
 				<view v-if="!isTake">
 					<view class="youhuiTip">
 						<text>{{data.receiveDetails}}</text>
@@ -80,6 +80,7 @@
 		},
 		data(){
 			return{
+				staticUrl: this.$staticUrl,
 				rbagmodelshow: false,
 				openrbagmodelshow: false,
 				isTake: false, // 是否已领取过了

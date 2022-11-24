@@ -17,7 +17,7 @@
 			</text>
 			<view class="flex flex-column flex-align-end">
 				<view class="flex flex-align-center" style="margin-bottom: 6rpx;">
-					<image src="/static/home/boutique.png" mode="" class="icon"></image>
+					<image :src="staticUrl + 'home/boutique.png'" mode="" class="icon"></image>
 					<text class="font38 blod color-yellow">精 品 推 荐</text>
 				</view>
 				<view class="flex flex-align-center color-w">
@@ -266,6 +266,7 @@
 		components: { vTabs, uniGoodsNav, uniPopup, uniNumberBox },
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				isDone: false,
 				statusBarHeight: getApp().statusBarHeight,
 				current: 0,

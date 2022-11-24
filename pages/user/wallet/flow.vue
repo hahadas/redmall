@@ -47,6 +47,12 @@
 		</view>
 		<uni-load-more :status="loading"></uni-load-more>
 		
+		<!-- #ifdef MP-WEIXIN -->
+		<view class="flex flex-center more" @click="openMore">
+			<text class="iconfont font40">&#xe60b;</text>
+		</view>
+		<!-- #endif -->
+		
 		<!-- 左侧菜单 -->
 		<uni-drawer ref="drawer" mode="right" :width="320">
 		    <scroll-view scroll-y :style="{height: swiperHeight+'px'}">
@@ -66,7 +72,7 @@
 						</view>
 				   </view>
 				   <view class="flex flex-between btns">
-					   <view class="btn" @click="onReset">重置</view>
+					   <view class="btn" @click="onCancel">取消</view>
 					   <view class="btn right" @click="onSave">确定</view>
 				   </view>
 			   </view>
@@ -142,7 +148,7 @@
 			},
 		},
 		onNavigationBarButtonTap(){
-			this.$refs.drawer.open()
+			this.openMore()
 		},
 		onReachBottom() {
 			this.loadData(false);
@@ -234,9 +240,15 @@
 					v.select = i === 0 ? true : false
 				})
 			},
-			onSave(){
+			onCancel(){
 				this.$refs.drawer.close()
+			},
+			onSave(){
+				this.onCancel()
 				this.loadData(true)
+			},
+			openMore(){
+				this.$refs.drawer.open()
 			}
 		}
 	}
@@ -293,6 +305,17 @@
 		-webkit-line-clamp: 10;
 		overflow: hidden;
 		padding-top: 10rpx;
+	}
+	
+	.more{
+		background-color: white;
+		width: 80rpx;
+		height: 80rpx;
+		border-radius: 50%;
+		box-shadow: 0rpx 0rpx 20rpx rgba(0, 0, 0, 0.1);
+		position: fixed;
+		right: 20rpx;
+		bottom: 20rpx;
 	}
 	
 	.drawer{

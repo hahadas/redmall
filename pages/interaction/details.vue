@@ -85,8 +85,8 @@
 									<div class="card-right" @click="likeByComment(itemTwo)">
 										<text v-if="itemTwo.commentLike > 0" class="color-gray" style="color: #ed1549;font-size: 28upx;">{{itemTwo.commentLike}}</text>
 										<text v-else class="color-gray" style="color: #bdbdbd;font-size: 28upx;">{{itemTwo.commentLike}}</text>
-										<image v-if="itemTwo.commentLike > 0" src="/static/video/love_red.png" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
-										<image v-else src="/static/video/love_grey.png" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
+										<image v-if="itemTwo.commentLike > 0" :src="staticUrl + 'video/love_red.png'" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
+										<image v-else :src="staticUrl + 'video/love_grey.png'" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
 									</div>
 								</div>
 								<div class="card-bottom" @click="commentsDatas(item.id,1)"
@@ -99,8 +99,8 @@
 						<div class="card-right" @click="likeByComment(item)">
 							<text v-if="item.commentLike > 0" class="color-gray" style="color: #ed1549;font-size: 28upx;">{{item.commentLike}}</text>
 							<text v-else class="color-gray" style="color: #bdbdbd;font-size: 28upx;">{{item.commentLike}}</text>
-							<image v-if="item.commentLike > 0" src="/static/video/love_red.png" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
-							<image v-else src="/static/video/love_grey.png" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
+							<image v-if="item.commentLike > 0" :src="staticUrl + 'video/love_red.png'" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
+							<image v-else :src="staticUrl + 'video/love_grey.png'" style="width: 35upx;height: 35upx;margin-left: 10upx;"></image>
 						</div>
 					</div>
 					<div class="card" @click="commentsDatas(0,0)"
@@ -135,6 +135,7 @@
 	export default{
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				id: "",
 				commentId: 0,
 				userId: "",

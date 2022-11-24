@@ -1,21 +1,19 @@
-<!-- #ifdef APP-PLUS -->
 <template>
 	<div class="page" style="background-color: #000;" >
 		<cover-view class="cover-view-center">
 			<div :style="{ height: `${sysheight-60}px`,width: width }" ref="touch" @click="clickVideo(index)" @touchstart="ListTouchStart" @touchmove="ListTouchMove">
 				<div class="nav">
-					<image class="img-icon" src="/static/video/video_index_home.png" @click="clickLeft"></image> 
+					<image class="img-icon" :src="staticUrl + 'video/video_index_home.png'" @click="clickLeft"></image> 
 					<div class="title-center">
-						<text class="title" :class="distanceX>0?'active-title':''" @click="click1" v-if="isShowLocal">{{areaCode}}</text> &nbsp;
-						<text class="title" :class="distanceX==0?'active-title':''" @click="click0">推荐</text> &nbsp; 
+						<text class="title" :class="distanceX>0?'active-title':''" @click="click1" v-if="isShowLocal">{{areaCode}}</text>
+						<text class="title" style="margin: 0 20rpx;" :class="distanceX==0?'active-title':''" @click="click0">推荐</text>
 						<text class="title" :class="distanceX<0?'active-title':''" @click="click_1">关注</text>
 					</div>
-					<image class="img-icon" src="/static/video/release.png" @click.stop="clickRight"></image>
+					<image class="img-icon" :src="staticUrl + 'video/release.png'" @click.stop="clickRight"></image>
 				</div>
 				<div class="cover-view-right" style="top: 380upx;">
 					<!-- 头像 -->
 					<image class="img" style="height: 100upx;" @click.stop="tapAvater"></image>
-					<!-- <text class="right-text" style="background-color: #bb6c6c;opacity: 0.5;height: 40upx;"> </text> -->
 					<!-- 关注 -->
 					<image class="img" style="height: 50upx;" @click.stop="tapAvaterLikes"></image>
 					<text class="right-text" style="margin-bottom: 10upx;"> </text>
@@ -54,16 +52,16 @@
 							<cover-image :src="filterImg(item.icon)" class="avater img" @click.stop="tapAvater"></cover-image>
 							<text class="right-text-avater" @click.stop="tapAvaterLikes" v-if="myUserId!=item.userId && (item.likeCheck <= 0)">+</text>
 							<text class="right-text"></text>
-							<cover-image :src="item.likeFlag && item.likeFlag >= 1?'/static/video/video_love.png':'/static/video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
+							<cover-image :src="item.likeFlag && item.likeFlag >= 1?staticUrl + 'video/video_love.png':staticUrl + 'video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
 							<text class="right-text">{{item.likes}}</text>
-							<cover-image src="/static/video/video_noties.png" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
+							<cover-image :src="staticUrl + 'video/video_noties.png'" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
 							<text class="right-text">{{item.evaluationQuantity}}</text>
 							<block v-if="myUserId!==item.userId">
-								<cover-image src="/static/video/report.png" class="img imgPinLun" @click.stop="tapReport"></cover-image>
+								<cover-image :src="staticUrl + 'video/report.png'" class="img imgPinLun" @click.stop="tapReport"></cover-image>
 								<text class="right-text">举报</text>
 							</block>
-							<cover-image src="/static/home/redBag.png" class="img imgRedBag" v-if="redData.show" @click.stop="openRedBag"></cover-image>
-							<cover-image src="/static/video/video_share.png" class="img imgFenXiang" style="opacity: 0;" @click.stop="tapShare"></cover-image>
+							<cover-image :src="staticUrl + 'home/redBag.png'" class="img imgRedBag" v-if="redData.show" @click.stop="openRedBag"></cover-image>
+							<cover-image :src="staticUrl + 'video/video_share.png'" class="img imgFenXiang" style="opacity: 0;" @click.stop="tapShare"></cover-image>
 							<text class="right-text" style="opacity: 0;">分享</text>
 						</cover-view>
 					</block>
@@ -88,16 +86,16 @@
 							<cover-image :src="filterImg(item.icon)" class="avater img" @click.stop="tapAvater"></cover-image>
 							<text class="right-text-avater" @click.stop="tapAvaterLikes" v-if="myUserId!=item.userId && (item.likeCheck <= 0)">+</text>
 							<text class="right-text"></text>
-							<cover-image :src="item.likeFlag && item.likeFlag >= 1?'/static/video/video_love.png':'/static/video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
+							<cover-image :src="item.likeFlag && item.likeFlag >= 1?staticUrl + 'video/video_love.png':staticUrl + 'video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
 							<text class="right-text">{{item.likes}}</text>
-							<cover-image src="/static/video/video_noties.png" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
+							<cover-image :src="staticUrl + 'video/video_noties.png'" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
 							<text class="right-text">{{item.evaluationQuantity}}</text>
 							<block v-if="myUserId!==item.userId">
-								<cover-image src="/static/video/report.png" class="img imgPinLun" @click.stop="tapReport"></cover-image>
+								<cover-image :src="staticUrl + 'video/report.png'" class="img imgPinLun" @click.stop="tapReport"></cover-image>
 								<text class="right-text">举报</text>
 							</block>
-							<cover-image src="/static/home/redBag.png" class="img imgRedBag" v-if="redData.show"@click.stop="openRedBag"></cover-image>
-							<cover-image src="/static/video/video_share.png" class="img imgFenXiang" @click.stop="tapShare" style="opacity: 0;"></cover-image>
+							<cover-image :src="staticUrl + 'home/redBag.png'" class="img imgRedBag" v-if="redData.show"@click.stop="openRedBag"></cover-image>
+							<cover-image :src="staticUrl + 'video/video_share.png'" class="img imgFenXiang" style="opacity: 0;" @click.stop="tapShare"></cover-image>
 							<text class="right-text" style="opacity: 0;">分享</text>
 						</cover-view>
 					</block>
@@ -121,16 +119,16 @@
 							<cover-image :src="filterImg(item.icon)" class="avater img" @click.stop="tapAvater"></cover-image>
 							<text class="right-text-avater" @click.stop="tapAvaterLikes" v-if="myUserId!=item.userId && (item.likeCheck <= 0)">+</text>
 							<text class="right-text"></text>
-							<cover-image :src="item.likeFlag && item.likeFlag >= 1?'/static/video/video_love.png':'/static/video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
+							<cover-image :src="item.likeFlag && item.likeFlag >= 1?staticUrl + 'video/video_love.png':staticUrl + 'video/video_love_n.png'" class="img imgDianZan" @click.stop="tapLove"></cover-image>
 							<text class="right-text">{{item.likes}}</text>
-							<cover-image src="/static/video/video_noties.png" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
+							<cover-image :src="staticUrl + 'video/video_noties.png'" class="img imgPinLun" @click.stop="tapMsg"></cover-image>
 							<text class="right-text">{{item.evaluationQuantity}}</text>
 							<block v-if="myUserId!==item.userId">
-								<cover-image src="/static/video/report.png" class="img imgPinLun" @click.stop="tapReport"></cover-image>
+								<cover-image :src="staticUrl + 'video/report.png'" class="img imgPinLun" @click.stop="tapReport"></cover-image>
 								<text class="right-text">举报</text>
 							</block>
-							<cover-image src="/static/home/redBag.png" class="img imgRedBag" v-if="redData.show" @click.stop="openRedBag"></cover-image>
-							<cover-image src="/static/video/video_share.png" class="img imgFenXiang" @click.stop="tapShare" style="opacity: 0;"></cover-image>
+							<cover-image :src="staticUrl + 'home/redBag.png'" class="img imgRedBag" v-if="redData.show" @click.stop="openRedBag"></cover-image>
+							<cover-image :src="staticUrl + 'video/video_share.png'" class="img imgFenXiang" style="opacity: 0;" @click.stop="tapShare"></cover-image>
 							<text class="right-text" style="opacity: 0;">分享</text>
 						</cover-view>
 					</block>
@@ -141,7 +139,7 @@
 		
 		<div class="mark" v-if="rbagmodelshow" @touchmove.prevent.stop>
 			<div class="mark-wrapper" ref="wrapper">
-				<image src="/static/home/redBagClose.png" mode="widthFix" class="mark-wrapper-img"></image>
+				<image :src="staticUrl + 'home/redBagClose.png'" mode="widthFix" class="mark-wrapper-img"></image>
 				<div class="mark-wrapper-con">
 					<div class="mark-wrapper-con-txt">
 						<text class="mark-wrapper-title">{{redData.titleName}}</text>
@@ -156,7 +154,7 @@
 		</div>
 		<div class="mark" v-if="openrbagmodelshow" @touchmove.prevent.stop>
 			<div class="mark-wrapper" ref="wrapperOpen">
-				<image src="/static/home/redBagOpen.png" mode="widthFix" class="mark-wrapper-img"></image>
+				<image :src="staticUrl + 'home/redBagOpen.png'" mode="widthFix" class="mark-wrapper-img"></image>
 				<div class="mark-wrapper-con" style="top: 400rpx; height: 380rpx;">
 					<div class="mark-wrapper-con-txt" v-if="!isTake">
 						<text class="mark-wrapper-title">恭喜您获得</text>
@@ -199,6 +197,7 @@
 		},
 		data(){
 			return{
+				staticUrl: getApp().staticUrl,
 				myUserId:0,
 				videoNowIndex:0,//当前播放视频的下标
 				cityCode:'--',
@@ -261,9 +260,10 @@
 			let that = this;
 			//判断是否设置地址
 			uni.getLocation({
-				type: 'wgs84',
+				type: 'gcj02',
 				geocode: true,
-				success: async function(res) {
+				success: function(res) {
+					console.log("getLocation...", res)
 					//设置地址
 					publics.setMyaddressLngLat(JSON.stringify(res));
 					that.lngLatByCityName(res);
@@ -272,15 +272,6 @@
 					that.inintIndexVideoData()
 				}
 			});
-			// let addressLngLat = publics.getMyaddressLngLat();
-			// if(addressLngLat){
-			// 	//设置地址
-			// 	let myAddressData = JSON.parse(addressLngLat);
-			// 	console.log("......缓存的地址。。。。", myAddressData)
-			// 	that.lngLatByCityName(myAddressData);
-			// }else{
-			// 	that.inintIndexVideoData()
-			// }
 		},
 		onHide(){
 			this.videoNoPay();
@@ -737,7 +728,6 @@
 			},
 			//获取视频数据
 			async pushVideoList(){
-				console.log("pushVideoList================")
 				let that = this;
 				let par = {};
 				let typeOrIndex = 0;
@@ -805,8 +795,6 @@
 					this.isShowLocal = true
 					this.cityCode = data.address.city
 					this.areaCode = data.address.district
-				} else {
-					// this.openMap()
 				}
 				this.inintIndexVideoData();//初始化数据
 			}
@@ -1054,4 +1042,3 @@
 		color:#ff2400;
 	}
 </style>
-<!-- #endif -->

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<video ref="myVideo" id="myVideo" :src="src" :controls="false" loop autoplay class="video">
-			<cover-image src="/static/video/back.png" mode="" class="header-left" @click="onBack"></cover-image>
+			<cover-image src="https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/video/back.png" mode="" class="header-left" @click="onBack"></cover-image>
 		</video>
 	</view>
 </template>

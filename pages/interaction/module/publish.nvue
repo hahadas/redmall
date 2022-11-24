@@ -10,7 +10,7 @@
 				<div class="pad">
 					<div class="title">
 						<div class="title-left">
-							<image src="/static/video/notice.png" class="title-left-icon"></image>
+							<image :src="staticUrl + 'video/notice.png'" class="title-left-icon"></image>
 							<text class="title-left-txt">发布状态</text>
 						</div>
 					</div>
@@ -28,7 +28,7 @@
 				<div class="pad">
 					<div class="title">
 						<div class="title-left">
-							<image src="/static/video/describe.png" class="title-left-icon"></image>
+							<image :src="staticUrl + 'video/describe.png'" class="title-left-icon"></image>
 							<text class="title-left-txt">视频描述</text>
 						</div>
 						<text class="title-left-txt">{{videoDate.note.length}}/50</text>
@@ -38,7 +38,7 @@
 				<div class="pad">
 					<div class="title">
 						<div class="title-left">
-							<image src="/static/video/camera.png" class="title-left-icon"></image>
+							<image :src="staticUrl + 'video/camera.png'" class="title-left-icon"></image>
 							<text class="title-left-txt">选择视频(视频大小不超过{{videoSize}}M)</text>
 						</div>
 					</div>
@@ -46,14 +46,14 @@
 						<div v-if="videoDate.url && videoDate.url.trim() != ''">
 							<view class="bg-img" @click="viewVideo(videoDate.url)">
 								<image :src="videoDate.imageOssUrl" mode="widthFix" style="width: 710rpx;" :style="{height:videoHeight+'px'}"></image>
-								<image src="/static/video/play.png" class="bg-img-icon"></image>
+								<image :src="staticUrl + 'video/play.png'" class="bg-img-icon"></image>
 							</view>
 							<button class="redBtn" @tap.stop="ChooseVideo()">
 								<text class="redBtn-txt">重新选择视频</text>
 							</button>
 						</div>
 						<div class="solids" v-if="!videoDate.url || videoDate.url.trim() == ''">
-							<image src="/static/video/camera.png" class="solids-icon" @tap="ChooseVideo"></image>
+							<image :src="staticUrl + 'video/camera.png'" class="solids-icon" @tap="ChooseVideo"></image>
 						</div>
 					</view>
 					<button class="bg" type="primary" @click="sendVideo">{{videoBtnTitle}}</button>
@@ -68,7 +68,7 @@
 						<icon type="clear" color="#fa2d43" size="18" class="list-del" @tap="onDel(i)" />
 					</view>
 					<div class="list-add-box" v-if="list.length < 9" @tap="onAdd">
-						<image class="list-add-icon" src="/static/video/add.png" mode=""></image>
+						<image class="list-add-icon" :src="staticUrl + 'video/add.png'" mode=""></image>
 					</div>
 				</div>
 				<div class="position">
@@ -92,6 +92,7 @@
 	export default {
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				swiperHeight: uni.getSystemInfoSync().windowHeight,
 				tabs: ["发布视频", "发布动态"],
 				current: 0,

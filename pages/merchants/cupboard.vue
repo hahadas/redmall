@@ -36,7 +36,7 @@
 		},
 		methods:{
 			onAdd(){
-				this.$navigateTo("allGoods?cupboard=true")
+				this.$navigateTo("goods/list?cupboard=true")
 			},
 			onDel(i){
 				this.list.splice(i, 1)

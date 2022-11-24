@@ -65,7 +65,7 @@
 		
 		<!-- 广告 -->
 		<view class="adv flex flex-center">
-			<image src="/static/video/adv.png" mode="widthFix"></image>
+			<image :src="staticUrl + 'video/adv.png'" mode="widthFix"></image>
 			<!-- <image v-else :src="subjectByKey.pic" @click="navByNotices(subjectByKey.id)" mode="widthFix"></image> -->
 		</view>
 		
@@ -85,7 +85,7 @@
 							<view @click="showVideo(tabItem.type,index)" class="grid-item" :style="{height:videoHeight+'px'}">
 								<image :src="item.image" mode="heightFix" class="img"></image>
 								<view style="position: relative;left: 20upx;bottom: 70upx;">
-									<image src="/static/video/video_love.png" style="width: 50upx;height: 50upx;"></image>
+									<image :src="staticUrl + 'video/video_love.png'" style="width: 50upx;height: 50upx;"></image>
 									<text style="color: #ffffff;font-weight: bold;font-size: 32upx;">{{item.likes}}</text>
 								</view>
 							</view>
@@ -141,6 +141,7 @@
 		},
 		data() {
 			return {
+				staticUrl: this.$staticUrl,
 				subjectByKey:null,
 				myImUtils:imUtils,
 				avatarFlag:'display: none;',

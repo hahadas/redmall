@@ -7,23 +7,28 @@
 					<text class="positionShow-txt">您未开启位置服务，距离计算不准确，请点击前往开启位置服务</text>
 				</view>
 			</view>
-			<view class="header" :style="{paddingTop: ((isOpenPosition ? statusBarHeight : 0) + 'px')}">
-				<scroll-view scroll-x class="nav-area">
-					<view class="flex">
-						<view class="nav-area-item" v-for="(item, index) in navList" :key="index" @tap="tapNav(index)">
-							<text class="nav-area-item-name" :class="{ 'nav-area-item-active': index === current }">{{ item }}</text>
+			<view class="top" :style="{paddingTop: ((isOpenPosition ? statusBarHeight : 0) + 'px')}">
+				<!-- #ifdef MP-WEIXIN -->
+				<view :style="{height: wxBtnHeight + 'px'}"></view>
+				<!-- #endif -->
+				<view class="header">
+					<scroll-view scroll-x class="nav-area">
+						<view class="flex">
+							<view class="nav-area-item" v-for="(item, index) in navList" :key="index" @tap="tapNav(index)">
+								<text class="nav-area-item-name" :class="{ 'nav-area-item-active': index === current }">{{ item }}</text>
+							</view>
 						</view>
+					</scroll-view>
+					<view class="search" v-if="isSearch && (current === 1 || current === 2)">
+						<input type="text" v-model="wordKey" class="search-input" :maxlength="15" placeholder="用户昵称" @input="searchInput">
+						<text class="search-btn" @click="onSearch(current)">搜索</text>
 					</view>
-				</scroll-view>
-				<view class="search" v-if="isSearch && (current === 1 || current === 2)">
-					<input type="text" v-model="wordKey" class="search-input" :maxlength="15" placeholder="用户昵称" @input="searchInput">
-					<text class="search-btn" @click="onSearch(current)">搜索</text>
-				</view>
-				<view class="nav-right">
-					<image src="/static/video/search.png" class="nav-right-icon" @click="showSearch"></image>
-					<view class="nav-right-message" @tap="jumpTo('message')">
-						<image src="/static/video/message.png" class="nav-right-icon"></image>
-						<text class="nav-right-message-dian" :style="{top: statusBarHeight + 5 + 'px'}" v-if="unReadTotal">{{unReadTotal>99?'99+':unReadTotal}}</text>
+					<view class="nav-right">
+						<image :src="staticUrl + 'video/search.png'" class="nav-right-icon" @click="showSearch"></image>
+						<view class="nav-right-message" @tap="jumpTo('message')">
+							<image :src="staticUrl + 'video/message.png'" class="nav-right-icon"></image>
+							<text class="nav-right-message-dian" :style="{top: statusBarHeight + 5 + 'px'}" v-if="unReadTotal">{{unReadTotal>99?'99+':unReadTotal}}</text>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -53,19 +58,19 @@
 		<modal v-if="advertDataOne.showModal && current===0">
 			<image :src="advertDataOne.ossUrl" mode="widthFix" @click="imgJump('advertDataOne')"></image>
 			<view class="img-wrap" @click="advertDataOne.showModal = false">
-				<image src="/static/video/video_close.png" class="img-wrap-icon"></image>
+				<image :src="staticUrl + 'video/video_close.png'" class="img-wrap-icon"></image>
 			</view>
 		</modal>
 		<modal v-if="advertDataTwo.showModal && current===1">
 			<image :src="advertDataTwo.ossUrl" mode="widthFix" @click="imgJump('advertDataTwo')"></image>
 			<view class="img-wrap" @click="advertDataTwo.showModal = false">
-				<image src="/static/video/video_close.png" class="img-wrap-icon"></image>
+				<image :src="staticUrl + 'video/video_close.png'" class="img-wrap-icon"></image>
 			</view>
 		</modal>
 		<modal v-if="advertDataThree.showModal && current===2">
 			<image :src="advertDataThree.ossUrl" mode="widthFix" @click="imgJump('advertDataThree')"></image>
 			<view class="img-wrap" @click="advertDataThree.showModal = false">
-				<image src="/static/video/video_close.png" class="img-wrap-icon"></image>
+				<image :src="staticUrl + 'video/video_close.png'" class="img-wrap-icon"></image>
 			</view>
 		</modal>
 		
@@ -97,6 +102,7 @@
 		},
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				swiperHeight: 0,
 				statusBarHeight: uni.getSystemInfoSync().statusBarHeight,
 				navList: ["动态", "附近", "配送", "发布", "我的", "评论"],
@@ -111,7 +117,10 @@
 				advertDataOne: {},
 				advertDataTwo: {},
 				advertDataThree: {},
-				isOpenPosition: true
+				isOpenPosition: true,
+				// #ifdef MP-WEIXIN
+				wxBtnHeight: 0,
+				// #endif
 			}
 		},
 		computed: {
@@ -131,6 +140,9 @@
 			return true;
 		},
 		onLoad() {
+			// #ifdef MP-WEIXIN
+			this.wxBtnHeight = wx.getMenuButtonBoundingClientRect().height
+			// #endif
 			this.swiperHeight = uni.getSystemInfoSync().screenHeight - 94
 			this.getLocation()
 		},
@@ -372,13 +384,16 @@
 		font-size: 40rpx;
 		margin-right: 20rpx;
 	}
+	.top{
+		width: 100%;
+		background-image: linear-gradient(to bottom, #381895, #865afd);
+	}
 	.header{
 		width: 750rpx;
 		padding: 0 20rpx;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		background-image: linear-gradient(to bottom, #381895, #865afd);
 	}
 	.nav-area{
 		height: 100rpx;

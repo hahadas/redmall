@@ -3,7 +3,7 @@
 	import url from "@/common/http/url.js"
 	import publics from "@/common/utils/public.js"
 	import UniSocket from "@i5920/uni-socket";
-	import { imUrl } from "@/common/http/index.js"
+	import { imUrl, staticUrl } from "@/common/http/index.js"
 	import { getUUID, versionCompare, getMacAddress } from "@/common/utils/index.js"
 	// #ifdef APP-PLUS
 	import { 
@@ -34,7 +34,7 @@
 		updateSessionInformation,
 		updateInformation,
 		getUnReadTotal
-	} from "@/common/im/db.js"
+	} from "@/common/im/db-h5.js"
 	// #endif
 	
 	// ---------------------------------------推送权限开启------------------------------------ //
@@ -108,7 +108,8 @@
 				argsData: null,
 				isSynchroSuccess: false,
 				localUnReadNum: 0,
-				globalData: {}
+				globalData: {},
+				staticUrl: staticUrl
 			}
 		},
 		computed:{
@@ -682,16 +683,16 @@
 				if (reminderStatus.length === 0) return
 				if (type == 1) {
 					music.loop = false; //循环播放
-					music.src = "static/music/msg.mp3"; // 新消息提示
+					music.src = this.$staticUrl + "music/msg.mp3"; // 新消息提示
 				} else if (type == 2) {
 					music.loop = true; //循环播放
-					music.src = "static/music/video.mp3"; // 视频语音通话
+					music.src = this.$staticUrl + "music/video.mp3"; // 视频语音通话
 				} else if (type === 3) {
 					music.loop = false; //循环播放
-					music.src = "static/music/order.mp3"; // 订单提示
+					music.src = this.$staticUrl + "music/order.mp3"; // 订单提示
 				} else if (type === 4) {
 					music.loop = false; //循环播放
-					music.src = "static/music/store.mp3"; // 用户下单商家提示
+					music.src = this.$staticUrl + "music/store.mp3"; // 用户下单商家提示
 				}
 				if (reminderStatus.indexOf("voice") !== -1){ // 是否开启声音
 					music.play(); //执行播放

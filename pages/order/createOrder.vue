@@ -2,7 +2,7 @@
 	<view>
 		<view class="address-section" @click="selectAddr">
 			<view class="order-content">
-				<image src="/static/user/addr.png" mode="" class="img"></image>
+				<image :src="staticUrl + 'user/addr.png'" mode="" class="img"></image>
 				<view class="cen" v-if="addressData.fullName">
 					<view class="top">
 						<text class="name">{{ addressData.fullName }}</text>
@@ -15,7 +15,7 @@
 				</view>
 				<text class="iconfont icon-right">&#xe770;</text>
 			</view>
-			<image class="a-bg" src="/static/user/addr_bg.png"></image>
+			<image class="a-bg" :src="staticUrl + 'user/addr_bg.png'"></image>
 		</view>
 		
 		<view class="goods-section bg-w">
@@ -154,6 +154,7 @@
 		components: { uniPopup },
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				addressData: {},
 				orderInfo: [],
 				totalPayAmount: 0,

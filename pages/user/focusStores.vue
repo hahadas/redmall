@@ -50,7 +50,7 @@
 				this.$navigateTo("../home/store?id="+id)
 			},
 			imgError(index) {
-				this.$set(this.list[index], 'icon', '/static/no-existent.png')
+				this.$set(this.list[index], 'icon', this.$staticUrl + 'no-existent.png')
 			}
 		}
 	}

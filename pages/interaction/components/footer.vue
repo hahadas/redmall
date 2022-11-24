@@ -1,24 +1,13 @@
 <template>
 	<view class="footer">
 		<view class="footer-item bg1" @tap="goPath" :data-index="1">
-			<image src="/static/video/chat.png" mode="" class="footer-item-img"></image>
+			<image :src="staticUrl + 'video/chat.png'" mode="" class="footer-item-img"></image>
 			<text class="footer-item-title">聊天</text>
-			<!-- <view class="footer-item-line" :class="{'activate-line': current === 1}"></view> -->
 		</view>
-		<!-- <view class="footer-item bg2" @tap="goPath" :data-index="2">
-			<image src="/static/video/tel.png" mode="" class="footer-item-img"></image>
-			<text class="footer-item-title">语音</text>
-			<view class="footer-item-line" :class="{'activate-line': current === 2}"></view>
-		</view> -->
 		<view class="footer-item bg3" @tap="goPath" :data-index="3">
-			<image src="/static/video/video.png" mode="" class="footer-item-img"></image>
+			<image :src="staticUrl + 'video/video.png'" mode="" class="footer-item-img"></image>
 			<text class="footer-item-title">语音视频</text>
-			<!-- <view class="footer-item-line" :class="{'activate-line': current === 3}"></view> -->
 		</view>
-		<!-- <view class="footer-item">
-			<text class="footer-item-title" style="color: #999;">我的</text>
-			<view class="footer-item-line" :class="{'activate-line': current === 4}"></view>
-		</view> -->
 	</view>
 </template>
 
@@ -26,12 +15,12 @@
 	export default {
 		props: {
 			current: {
-				default: 1
+				default: 1,
 			}
 		},
 		data() {
 			return {
-
+				staticUrl: getApp().staticUrl,
 			}
 		},
 		methods: {
@@ -45,22 +34,20 @@
 <style scoped>
 	.footer {
 		position: absolute;
-		left: 0;
-		right: 0;
+		left: 20rpx;
+		right: 20rpx;
 		bottom: 20rpx;
+		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		/* border-top-width: 1rpx; */
-		/* border-color: rgba(255, 255, 255, 0.1); */
 		flex-direction: row;
-		width: 750rpx;
-		padding: 0 20rpx;
 	}
 
 	.footer-item {
 		position: relative;
 		height: 80rpx;
 		line-height: 80rpx;
+		display: flex;
 		align-items: center;
 		justify-content: center;
 		text-align: center;

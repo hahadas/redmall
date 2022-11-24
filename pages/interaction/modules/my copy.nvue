@@ -18,15 +18,15 @@
 							<text class="wrap-box-info-name">{{userDetail.nickname}}</text>
 							<view class="wrap-box-info-basic">
 								<view class="six" :class="{'woman':userDetail.gender===3}">
-									<image src="/static/video/man.png" mode="" class="six-icon" v-if="userDetail.gender === 2"></image>
-									<image src="/static/video/woman.png" mode="" class="six-icon" v-if="userDetail.gender === 3"></image>
+									<image :src="staticUrl + 'video/man.png'" mode="" class="six-icon" v-if="userDetail.gender === 2"></image>
+									<image :src="staticUrl + 'video/woman.png'" mode="" class="six-icon" v-if="userDetail.gender === 3"></image>
 									<text class="six-name">{{userDetail.age}}</text>
 								</view>
 								<text class="constellation">{{userDetail.constellation}}</text>
 								<text class="mark" v-if="userDetail.distributorIsOpen">配送员</text>
 							</view>
 							<view class="addr" v-if="addressName">
-								<image src="/static/user/addr.png" mode="" class="addr-icon"></image>
+								<image :src="staticUrl + 'user/addr.png'" mode="" class="addr-icon"></image>
 								<text class="addr-name">{{addressName}}</text>
 							</view>
 						</view>
@@ -100,8 +100,8 @@
 										</view>
 										<view class="dynamic-item-top-column" style="justify-content: flex-start;">
 											<view class="six" style="margin-right: 20rpx;" :class="{'woman':userDetail.gender===3}">
-												<image src="/static/video/man.png" mode="" class="six-icon" v-if="userDetail.gender === 2"></image>
-												<image src="/static/video/woman.png" mode="" class="six-icon" v-if="userDetail.gender === 3"></image>
+												<image :src="staticUrl + 'video/man.png'" mode="" class="six-icon" v-if="userDetail.gender === 2"></image>
+												<image :src="staticUrl + 'video/woman.png'" mode="" class="six-icon" v-if="userDetail.gender === 3"></image>
 												<text class="six-name">{{userDetail.age||0}}</text>
 											</view>
 											<text class="mark" v-if="userDetail.dkUserId">配送员</text>
@@ -123,12 +123,12 @@
 								</view>
 								<view class="dynamic-item-option">
 									<view class="dynamic-item-option-item">
-										<image src="/static/video/comment.png" mode="" class="dynamic-item-option-item-icon"></image>
+										<image :src="staticUrl + 'video/comment.png'" mode="" class="dynamic-item-option-item-icon"></image>
 										<text class="dynamic-item-option-item-name">{{item.commentCount || 0}}条评论</text>
 									</view>
 									<view class="dynamic-item-option-item" @tap.stop="onLike(item, i)">
-										<image src="/static/video/love_grey.png" mode="" class="dynamic-item-option-item-icon" v-if="!item.isLike"></image>
-										<image src="/static/video/love_red.png" mode="" class="dynamic-item-option-item-icon" v-else></image>
+										<image :src="staticUrl + 'video/love_grey.png'" mode="" class="dynamic-item-option-item-icon" v-if="!item.isLike"></image>
+										<image :src="staticUrl + 'video/love_red.png'" mode="" class="dynamic-item-option-item-icon" v-else></image>
 										<text class="dynamic-item-option-item-name">{{item.likeCount || 0}}点赞</text>
 									</view>
 								</view>
@@ -141,7 +141,7 @@
 							<view class="grid-item" v-for="(item, i) in videoList" :key="i" @click="showVideo(item)">
 								<image :src="item.image" mode="aspectFill" class="grid-item-img"></image>
 								<view class="grid-item-bom">
-									<image src="/static/video/video_love.png" mode="" class="grid-item-bom-icon"></image>
+									<image :src="staticUrl + 'video/video_love.png'" mode="" class="grid-item-bom-icon"></image>
 									<text class="grid-item-bom-txt">{{item.likes}}</text>
 								</view>
 								<view class="grid-item-status" v-if="item.status !== 1">
@@ -161,8 +161,6 @@
 								<image :src="filterImg(item.goodsInfo.mainImage, 3)" mode="aspectFill" class="goods-img" lazy-load></image>
 								<view class="goods-wrap">
 									<view class="goods-wrap-title">
-										<!-- <text class="goods-wrap-title-mark" v-if="item.isNewProducts == 2">新品</text> -->
-										<!-- <text class="goods-wrap-title-mark" v-else-if="item.goodsType == 2">精品</text> -->
 										<text class="goods-wrap-title-name">{{item.goodsInfo.titleName}}</text>
 									</view>
 									<view class="goods-wrap-tip">

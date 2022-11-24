@@ -13,11 +13,13 @@
 			</view>
 			<view class="form-item flex flex-align-end">
 				<input :password="!showPassword" placeholder="新密码（长度为6-24位字母和数字组合）" placeholder-class="placeholder" class="flex-grow" v-model="password" />
-				<text class="iconfont font40 eye" @tap="showPassword = !showPassword">{{showPassword?'\ue7c0':'\ue7bf'}}</text>
+				<text class="iconfont font40 eye" @tap="showPassword = !showPassword" v-if="showPassword">&#xe7c0;</text>
+				<text class="iconfont font40 eye" @tap="showPassword = !showPassword" v-else>&#xe7bf;</text>
 			</view>
 			<view class="form-item flex flex-align-end">
 				<input :password="!confirmPwd" placeholder="确认密码（长度为6-24位字母和数字组合）" placeholder-class="placeholder" class="flex-grow" v-model="confimpassword" />
-				<text class="iconfont font40 eye" @tap="confirmPwd = !confirmPwd">{{confirmPwd?'\ue7c0':'\ue7bf'}}</text>
+				<text class="iconfont font40 eye" @tap="confirmPwd = !confirmPwd" v-if="confirmPwd">&#xe7c0;</text>
+				<text class="iconfont font40 eye" @tap="confirmPwd = !confirmPwd" v-else>&#xe7bf;</text>
 			</view>
 			<view class="btn flex flex-center flex-column">
 				<button type="primary" class="bg-base btn-item" :loading="loading" :disabled="loading" @tap="onSave">重置密码</button>

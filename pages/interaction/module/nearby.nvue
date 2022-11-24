@@ -8,13 +8,9 @@
 			<cell class="list">
 				<view class="list-grid" @tap.stop="viewUser(item)" v-for="(item, i) in penpleNearbyList" :key="i">
 					<image :src="filterImg(item.headPortrait, 1)" lazy-load mode="aspectFill" class="list-grid-img"></image>
-					<!-- <view class="six online">
-						<text class="iconfont yuan" :class="{'grey':!item.isOnline}">&#xe630;</text>
-						<text class="txt">{{item.isOnline?'在线':'离线'}}</text>
-					</view> -->
 					<div class="six" :class="{'woman':item.gender===3}">
-						<image src="/static/video/man.png" mode="" class="six-icon" v-if="item.gender === 2"></image>
-						<image src="/static/video/woman.png" mode="" class="six-icon" v-if="item.gender === 3"></image>
+						<image :src="staticUrl + 'video/man.png'" mode="" class="six-icon" v-if="item.gender === 2"></image>
+						<image :src="staticUrl + 'video/woman.png'" mode="" class="six-icon" v-if="item.gender === 3"></image>
 						<text class="six-name">{{item.age||0}}</text>
 					</div>
 					

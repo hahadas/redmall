@@ -20,42 +20,42 @@
 		<view class="grid flex flex-between" @click="uplodingImg('idNumberJustImg')">
 			<text><text class="color-red">*</text>身份证正面：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!idNumberJustImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!idNumberJustImg"></image>
 				<image :src="idNumberJustImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('idNumberBackImg')">
 			<text><text class="color-red">*</text>身份证反面：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!idNumberBackImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!idNumberBackImg"></image>
 				<image :src="idNumberBackImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('healthCertificateImg')">
 			<text>健康证：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!healthCertificateImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!healthCertificateImg"></image>
 				<image :src="healthCertificateImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('othreOneImg')">
 			<text>其他证照：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!othreOneImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!othreOneImg"></image>
 				<image :src="othreOneImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('othreTwoImg')">
 			<text>其他证照：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!othreTwoImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!othreTwoImg"></image>
 				<image :src="othreTwoImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('othreThreeImg')">
 			<text>其他证照：</text>
 			<view class="flex flex-center box">
-				<image src="/static/merchants/license.png" mode="" class="img" v-if="!othreThreeImg"></image>
+				<image :src="licenseImg" mode="" class="img" v-if="!othreThreeImg"></image>
 				<image :src="othreThreeImg" mode="" class="image" v-else></image>
 			</view>
 		</view>
@@ -80,6 +80,7 @@
 		components:{ avatar },
 		data(){
 			return {
+				licenseImg: this.$staticUrl + 'merchants/license.png',
 				loading: false,
 				infor: {},
 				isEdit: false,

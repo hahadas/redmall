@@ -16,6 +16,7 @@ export default{
 	},
 	data(){
 		return {
+			staticUrl: this.$staticUrl,
 			statusBarHeight: uni.getSystemInfoSync().statusBarHeight, // 状态栏高度
 		}
 	},

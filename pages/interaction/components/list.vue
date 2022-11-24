@@ -2,7 +2,6 @@
 	<list :pagingEnabled="true" :show-scrollbar="false" @scrollend="scroll" :scrollable="true">
 		<slot />
 	</list>
-	
 </template>
 
 <script>

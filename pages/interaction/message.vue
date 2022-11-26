@@ -181,6 +181,7 @@
 				uni.stopPullDownRefresh();
 				let that = this
 				let res = await selectInformationType(null)
+				console.log(".....res", res)
 				if (res.length === 0) return
 				let data = JSON.parse(JSON.stringify(res))
 				let conversationUnReadData = publics.getConversationUnReadNum()

@@ -78,9 +78,11 @@
 			"style": {
 				"navigationBarTitleText": "" ,// 新人大礼 / 今日特价
 				"enablePullDownRefresh": true,
+				"navigationBarBackgroundColor": "#865afd",
+				"navigationBarTextStyle": "white",
 				"app-plus": {
 					"pullToRefresh": {
-						"color": "#381895"
+						"color": "#865afd"
 					}
 				}
 			}
@@ -866,7 +868,6 @@
 							"bottom":"0",
 							"background":"transparent",
 							"zindex":1
-							
 						}
 					}]
 				}
@@ -1239,30 +1240,30 @@
 		"spacing": "5px",
 	    "list": [{
 	        "pagePath": "pages/home/index",
-	        "iconPath": "/static/tabber/home2.png",
-	        "selectedIconPath": "/static/tabber/home_user2.png",
+	        "iconPath": "/static/tabber/home.png",
+	        "selectedIconPath": "/static/tabber/home_use.png",
 	        "text": "首页"
 	    },{
 	        "pagePath": "pages/class/index",
-	        "iconPath": "/static/tabber/class2.png",
-	        "selectedIconPath": "/static/tabber/class_user2.png",
+	        "iconPath": "/static/tabber/class.png",
+	        "selectedIconPath": "/static/tabber/class_use.png",
 	        "text": "分类"
 	    },{
 	        "pagePath": "pages/interaction/index",
-	        "iconPath": "/static/tabber/interact2.png",
-	        "selectedIconPath": "/static/tabber/interact_user2.png",
+	        "iconPath": "/static/tabber/interact.png",
+	        "selectedIconPath": "/static/tabber/interact_use.png",
 	        "text": "互动"
 	    }, {
 	        "pagePath": "pages/user/index",
-	        "iconPath": "/static/tabber/my2.png",
-	        "selectedIconPath": "/static/tabber/my_user2.png",
+	        "iconPath": "/static/tabber/my.png",
+	        "selectedIconPath": "/static/tabber/my_use.png",
 	        "text": "我"
 	    }]
 		// #ifdef APP-PLUS
 		,
 		"midButton": {
 			"height": "65px",
-			"iconPath": "static/tabber/jy2.png",
+			"iconPath": "static/tabber/video.png",
 			"iconWidth": "60px"
 		}
 		// #endif

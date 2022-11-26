@@ -14,7 +14,7 @@
 							<view class="six" v-if="userDetailInfo.distributorIsOpen === 1">
 								<text class="font24">配送员</text>
 							</view>
-							<view class="redd six" v-if="userDetailInfo.storeIsOpen === 1">
+							<view class="six" v-if="userDetailInfo.storeIsOpen === 1">
 								<text class="font24">商家</text>
 							</view>
 						</view>
@@ -81,8 +81,8 @@
 			<!-- 图片 -->
 			<view class="carousel-section">
 				<view class="carousel" @click="toAgent">
-					<image :src="staticUrl + 'user/agent_use2.png'" v-if="userDetailInfo.distributorIsOpen === 1" mode="scaleToFill" class="img"/>
-					<image :src="staticUrl + 'user/agent_2.png'" v-else mode="scaleToFill" class="img"/>
+					<image :src="staticUrl + 'user/agent_use1.png'" v-if="userDetailInfo.distributorIsOpen === 1" mode="scaleToFill" class="img"/>
+					<image :src="staticUrl + 'user/agent_1.png'" v-else mode="scaleToFill" class="img"/>
 				</view>
 				<view class="carousel" @click="toMerchants">
 					<image :src="staticUrl + 'user/merchants_use.png'" v-if="userDetailInfo.storeIsOpen === 1" mode="scaleToFill" class="img"/>
@@ -480,7 +480,8 @@
 			border-radius: 10rpx;
 			padding: 0 10rpx 10rpx;
 			line-height: 28rpx;
-			background: linear-gradient(to bottom, #a60ab8 0%, #5c04c3 100%);
+			// background: linear-gradient(to bottom, #a60ab8 0%, #5c04c3 100%);
+			border: 2rpx solid white;
 		}
 		.yellow{
 			background: linear-gradient(to bottom, #b69700 0%, #c66d00 100%);

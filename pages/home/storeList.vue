@@ -26,8 +26,8 @@
 			let myAddressData = publics.getMyaddressLngLat()
 			if (myAddressData) {
 				this.myAddressData = JSON.parse(myAddressData)
-				this.getList()
 			}
+			this.getList()
 		},
 		onPullDownRefresh(){
 			this.list = []

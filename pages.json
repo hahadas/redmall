@@ -56,13 +56,14 @@
 		{
 			"path": "pages/home/index",
 			"style": {
-				"navigationBarTitleText": "redMall",
+				"navigationBarTitleText": "RedMall",
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
 				"app-plus": {
 					"pullToRefresh": {
 						"color": "#381895"
-					}
+					},
+					"scrollIndicator": "none"
 				}
 			}
 		},
@@ -207,7 +208,7 @@
 		{
 			"path": "pages/user/index",
 			"style": {
-				"navigationBarTitleText": "redMall",
+				"navigationBarTitleText": "RedMall",
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
 				"app-plus": {
@@ -324,20 +325,6 @@
 			"path": "pages/user/setting/signature",
 			"style": {
 				"navigationBarTitleText": "个性签名",
-				"navigationBarBackgroundColor":"#FFFFFF"
-			}
-		},
-		{
-			"path": "pages/user/setting/capacity",
-			"style": {
-				"navigationBarTitleText": "我的酒量",
-				"navigationBarBackgroundColor":"#FFFFFF"
-			}
-		},
-		{
-			"path": "pages/user/setting/occupation",
-			"style": {
-				"navigationBarTitleText": "过往职业",
 				"navigationBarBackgroundColor":"#FFFFFF"
 			}
 		},
@@ -1048,9 +1035,17 @@
 			"style": {
 				"navigationBarTitleText": "" ,// 商家首页
 				"enablePullDownRefresh": true,
+				"navigationStyle": "custom",
 				"app-plus":{
 					"pullToRefresh": {
 						"color": "#381895"
+					},
+					"titleNView": {
+						"splitLine": { //原生导航栏加下边框
+							"color": "#F5F5F5",
+							"height": "1px"
+						},
+						"type": "transparent"
 					}
 				}
 			}
@@ -1270,7 +1265,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "redMall",
+		"navigationBarTitleText": "RedMall",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	}

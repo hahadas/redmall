@@ -651,7 +651,7 @@
 								adcode: e.result['ad_info'].adcode,
 								showLng: res.longitude,
 								showLat: res.latitude,
-								showAddress: address.province+address.city+address.district+address.street+address.streetNum,
+								showAddress: address.province+address.city+address.district+address.street+address.streetNum||'',
 								showAdname: address.poiName,
 								deviceId: plus.device.uuid,	// 设备id
 								deviceMac: getMacAddress(),	// 设备mac地址
@@ -993,5 +993,16 @@
 	page{
 		background-color: #F8F8F8;
 	}
+	
+	/* #ifdef MP-WEIXIN || APP-PLUS */
+	::-webkit-scrollbar {
+		display: none;
+		width: 0 !important;
+		height: 0 !important;
+		-webkit-appearance: none;
+		background: transparent;
+		color: transparent;
+	}
+	/* #endif */
 </style>
 

@@ -1,33 +1,27 @@
 <template>
 	<view>
-		<view class="header flex flex-between" @click="toNav('view')">
-			<view class="flex flex-grow" style="justify-content: space-between;">
-				<view class="flex flex-align-center">
-					<view>
-						<image :src="storeInfo.logoImage" mode="" class="avatar"></image>
-					</view>
-					<view class="flex flex-column">
-						<view class="flex flex-align-center">
-							<text class="font38 line">{{storeInfo.name}}</text>
+		<view :style="{paddingTop: statusBarHeight + 'px'}" class="top-bg">
+			<image :src="storeInfo.backgroundImage" mode="aspectFill" class="bj"></image>
+			<view class="mask bj"></view>
+			<view
+				class="header flex flex-between" 
+				@click="toNav('view')">
+				<view class="flex flex-grow" style="justify-content: space-between;">
+					<view class="flex flex-align-center">
+						<view>
+							<image :src="storeInfo.logoImage" mode="" class="avatar"></image>
 						</view>
-						<text class="font26 line">{{storeInfo.introduce}}</text>
+						<view class="flex flex-column">
+							<view class="flex flex-align-center">
+								<text class="font38 line">{{storeInfo.name}}</text>
+							</view>
+							<text class="font26 line">{{storeInfo.introduce}}</text>
+						</view>
 					</view>
 				</view>
+				<text class="iconfont blod font48">&#xe770;</text>
 			</view>
-			<text class="iconfont blod font48">&#xe770;</text>
 		</view>
-		
-		<!-- <view class="list">
-			<view class="list-item flex flex-between bg-w" @click="toNav('collection/index')">
-				<view class="flex flex-align-center">
-					<text class="font30 blod">收款</text>
-				</view>
-				<view class="flex flex-align-center color-b6">
-					<text class="font30">今日收款：{{ collection || 0 }}元</text>
-					<text class="iconfont font40">&#xe770;</text>
-				</view>
-			</view>
-		</view> -->
 		
 		<view class="list">
 			<view class="list-item flex flex-between bg-w" @click="toNav('/pages/user/wallet/index?type=3')">
@@ -224,6 +218,7 @@
 	export default{
 		data(){
 			return {
+				statusBarHeight: getApp().statusBarHeight,
 				storeInfo: {},
 				// 物流
 				logisticsList: options.logisticsList,
@@ -344,9 +339,33 @@
 </script>
 
 <style scoped lang="scss">
+	.top-bg{
+		// background-repeat: no-repeat;
+		// background-size: 100% 100%;
+		// padding: 80rpx 50rpx 0;
+		background-color: white;
+		position: relative;
+		width: 750rpx;
+		height: 300rpx;
+		.bj{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+		}
+		.mask{
+			background: linear-gradient(to top, #ffffff 0%, rgba($color: #ffffff, $alpha: .2) 100%);
+		}
+	}
 	.header{
 		height: 200rpx;
-		padding: 0 50rpx 0rpx;
+		position: absolute;
+		bottom: 0rpx;
+		left: 30rpx;
+		right: 30rpx;
 		.avatar{
 			width: 150rpx;
 			height: 150rpx;

@@ -103,7 +103,7 @@
 				<swiper :current="current" @change="swiperChange" :style="{'height': swiperHeight+statusBarHeight+'px'}">
 					<!-- 新品推荐 -->
 					<swiper-item style="height: 100%;">
-						<scroll-view :scroll-y="tabsFixed" class="new" @scrolltolower="currentLoadData()">
+						<scroll-view :show-scrollbar="false" :scroll-y="tabsFixed" class="new" @scrolltolower="currentLoadData()">
 							<view class="flex flex-center mark">
 								<text class="iconfont color-w font34">&#xe617;</text>
 							</view>
@@ -122,7 +122,7 @@
 					</swiper-item>
 					<!-- 精品推荐 -->
 					<swiper-item style="height: 100%;">
-						<scroll-view :scroll-y="tabsFixed" class="new" @scrolltolower="currentLoadData()">
+						<scroll-view :show-scrollbar="false" :scroll-y="tabsFixed" class="new" @scrolltolower="currentLoadData()">
 							<view class="flex flex-center mark" style="margin-left: 118px;">
 								<text class="iconfont color-w font34">&#xe617;</text>
 							</view>
@@ -141,7 +141,7 @@
 					</swiper-item>
 					<!-- 附近店铺 -->
 					<swiper-item style="height: 100%;">
-						<scroll-view :scroll-y="tabsFixed" class="shop" @scrolltolower="currentLoadData()">
+						<scroll-view :show-scrollbar="false" :scroll-y="tabsFixed" class="shop" @scrolltolower="currentLoadData()">
 							<view class="flex flex-center mark" style="margin-left: 236px;">
 								<text class="iconfont color-w font34">&#xe617;</text>
 							</view>
@@ -269,7 +269,6 @@
 			return true;
 		},
 		onPageScroll(e){
-			console.log(e.scrollTop, this.tabsTop)
 			// 滑动到tabs是固定在顶部
 			if (e.scrollTop > this.tabsTop) {
 				this.tabsFixed = true

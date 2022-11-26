@@ -118,23 +118,6 @@
 				<text class="font32 color-b6">我的标签</text>
 				<text class="xian">———————————</text>
 			</view>
-			<view class="flex flex-between list" @click="$navigateTo('capacity?labels='+JSON.stringify(labels))">
-				<text class="font32 color-b3">我的酒量</text>
-				<view class="flex flex-align-center">
-					<text class="font28 color-b9" v-if="!userInfo.alcoholConsumption">请选择</text>
-					<text class="iconfont font34 icon">&#xe770;</text>
-				</view>
-			</view>
-			<view class="cell" v-if="userInfo.alcoholConsumption">
-				<view class="item">{{userInfo.alcoholConsumption}}</view>
-			</view>
-			<view class="flex flex-between list" @click="$navigateTo('occupation?labels='+JSON.stringify(labels))">
-				<text class="font32 color-b3">过往职业</text>
-				<view class="flex flex-align-center">
-					<text class="font28 color-b9" v-if="!userInfo.labelPastOccupation">请选择</text>
-					<text class="iconfont font34 icon">&#xe770;</text>
-				</view>
-			</view>
 			<view class="cell" v-if="labelPastOccupationList.length > 0">
 				<view class="item" v-for="(item, i) in labelPastOccupationList" :key="i">{{item}}</view>
 			</view>

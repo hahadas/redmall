@@ -217,7 +217,7 @@
 									{
 										type: 'text',
 										fontStyle: 'italic',
-										text: 'redMall',
+										text: 'RedMall',
 										fontWeight: 'bold',
 										size: fontSize+10,
 										color: 'white',

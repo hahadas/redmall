@@ -31,7 +31,6 @@
 			</view>
 		</view>
 		
-		
 		<view id="tabs" :class="{'fixed':fixed}" :style="{top:statusBarHeight+44 + 'px'}">
 			<view class="tabs">
 				<view class="tab" v-for="(item, i) in tabs" @click="tabsChange(i)">
@@ -307,7 +306,7 @@
 		background-color: white;
 		position: relative;
 		width: 750rpx;
-		height: 250rpx;
+		height: 300rpx;
 		margin-bottom: 20rpx;
 		.bj{
 			width: 100%;
@@ -319,7 +318,7 @@
 			left: 0;
 		}
 		.mask{
-			background: linear-gradient(to top, #ffffff 0%, rgba($color: #ffffff, $alpha: .3) 100%);
+			background: linear-gradient(to top, #ffffff 0%, rgba($color: #ffffff, $alpha: .2) 100%);
 		}
 	}
 	.header{

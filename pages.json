@@ -343,6 +343,14 @@
 			}
 		},
 		{
+			"path": "pages/user/setting/payPwd",
+			"style": {
+				"navigationBarTitleText": "支付密码",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor":"#FFFFFF"
+			}
+		},
+		{
 			"path": "pages/user/setting/updateMobile",
 			"style": {
 				"navigationBarTitleText": "修改手机号",

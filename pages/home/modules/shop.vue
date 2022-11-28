@@ -48,8 +48,8 @@
 			goStore(item){
 				this.$navigateTo("store?id="+item.id)
 			},
-			jumpGoodsDetail(row){
-				console.log(row)
+			jumpGoodsDetail(item){
+				this.$navigateTo('details?id='+item.id)
 			}
 		}
 	}

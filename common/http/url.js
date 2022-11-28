@@ -46,6 +46,7 @@ export default{
 		register: "user/register", // 注册
 		login: "user/login", // 账号密码登录
 		editPasswordByCode: "user/retrievePassword", // 通过短信验证码修改密码
+		payPasswordByCode: "user/retrievePayPassword", // 通过短信验证码设置/修改支付密码
 		getPublicKey: "user/publicKey", // 获取加密公钥
 		logout: "user/logOut" // 退出登录
 	},

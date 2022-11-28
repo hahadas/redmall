@@ -446,7 +446,11 @@
 							if (content.text==="已挂断" || content.text==="忙线中"){
 								this.closeCall()
 								if (videoCallMyStatus === 0 && content.text==="已挂断"){
-									uni.navigateBack()
+									let routes = getCurrentPages();
+									let curRoute = routes[routes.length - 1].route
+									if(curRoute.indexOf('imPopup') > -1){
+										uni.navigateBack()	
+									}
 								}
 							}
 							if (content.text==="视频通话" || content.text==="语音通话"){

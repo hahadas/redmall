@@ -8,7 +8,7 @@
 			<view class="bom">
 				<text class="font28 color-b9" v-if="bonusPoints">商家赠送积分数量：{{bonusPoints}}</text>
 				<view class="flex flex-column btn">
-					<view class="item" @click="showPopup()">
+					<view class="item" @click="openModal">
 						<text class="iconfont icon" style="color: #de421b;">&#xe61c;</text>
 						<text>余额支付</text>
 					</view>
@@ -24,39 +24,37 @@
 			</view>
 		</view>
 		
-		<uni-popup ref="popup" type="bottom">
-			<view class="popup">
-				<text class="title">登入密码</text>
-				<view class="form">
-					<text>登入密码</text>
-					<input type="password" v-model="password" placeholder="请输入登入密码" class="flex-wrap color-b6 flex-1" style="margin-left: 20rpx;">
-				</view>
-				<view class="flex flex-align-center flex-space-around">
-					<button type="default" class="btn" @click="closePopup">取消</button>
-					<button type="primary" :loading="loading" :disabled="loading" class="btn bg-base" @click="balancePay">确认</button>
-				</view>
-			</view>
-		</uni-popup>
+		<key-words
+			:mix="true" 
+			:show_key="show" 
+			:show_forgetFuc="true"
+			@closeFuc="show = false" 
+			@getPassword="balancePay">
+		</key-words>
+		
 	</view>
 </template>
 
 <script>
+	import { mapState } from "vuex"
 	import url from "@/common/http/url.js"
 	import publics from "@/common/utils/public.js"
-	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	import keyWords from "@/components/bian-keywords/index.vue"
 	export default{
-		components: { uniPopup },
+		components: { keyWords },
 		data(){
 			return {
-				loading: false,
 				codeResultData: {},
 				storeInfo: {},
 				amount: "",
 				bonusPoints: "",
 				payData: null,
-				password: "",
-				rsaKey: ""
+				rsaKey: "",
+				show: false
 			}
+		},
+		computed: {
+			...mapState(["userInfo"])
 		},
 		onLoad() {
 			let codeResultData = uni.getStorageSync("codeResultData")
@@ -73,24 +71,26 @@
 			})
 		},
 		methods:{
-			showPopup(){
-				this.$refs.popup.open()
-			},
-			closePopup(){
-				this.$refs.popup.close()
+			openModal(){
+				if (!this.userInfo.isSetPayPwd) {
+					this.$showModal('您未设置支付密码,请先去设置', null, res =>{
+						if (res.confirm) {
+							this.$navigateTo('/pages/user/setting/payPwd')
+						}
+					})
+					return
+				}
+				this.show = true
 			},
 			// 余额支付
-			async balancePay(){
-				if (!this.password) return this.$msg("请输入登入密码")
-				if (this.loading) return
-				this.loading = true
+			async balancePay(msg){
 				uni.showLoading({
 					mask:true
 				})
 				let params = {
 					type: this.codeResultData.type,
 					payData: this.payData,
-					loginPwd: await publics.passwordEncryption(this.rsaKey, this.password)
+					payPwd: await publics.passwordEncryption(this.rsaKey, msg)
 				}
 				this.$http("POST", url.user.scanBalancePay, params).then(res =>{
 					this.$msg(res.data)
@@ -98,7 +98,6 @@
 					this.$navigateBack(1, 500)
 					uni.hideLoading()
 				}).catch(()=>{
-					this.loading = false
 					uni.hideLoading()
 				})
 			},

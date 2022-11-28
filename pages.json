@@ -56,13 +56,14 @@
 		{
 			"path": "pages/home/index",
 			"style": {
-				"navigationBarTitleText": "redMall",
+				"navigationBarTitleText": "RedMall",
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
 				"app-plus": {
 					"pullToRefresh": {
 						"color": "#381895"
-					}
+					},
+					"scrollIndicator": "none"
 				}
 			}
 		},
@@ -78,9 +79,11 @@
 			"style": {
 				"navigationBarTitleText": "" ,// 新人大礼 / 今日特价
 				"enablePullDownRefresh": true,
+				"navigationBarBackgroundColor": "#865afd",
+				"navigationBarTextStyle": "white",
 				"app-plus": {
 					"pullToRefresh": {
-						"color": "#381895"
+						"color": "#865afd"
 					}
 				}
 			}
@@ -205,7 +208,7 @@
 		{
 			"path": "pages/user/index",
 			"style": {
-				"navigationBarTitleText": "redMall",
+				"navigationBarTitleText": "RedMall",
 				"navigationStyle": "custom",
 				"enablePullDownRefresh": true,
 				"app-plus": {
@@ -326,20 +329,6 @@
 			}
 		},
 		{
-			"path": "pages/user/setting/capacity",
-			"style": {
-				"navigationBarTitleText": "我的酒量",
-				"navigationBarBackgroundColor":"#FFFFFF"
-			}
-		},
-		{
-			"path": "pages/user/setting/occupation",
-			"style": {
-				"navigationBarTitleText": "过往职业",
-				"navigationBarBackgroundColor":"#FFFFFF"
-			}
-		},
-		{
 			"path": "pages/user/setting/hobby",
 			"style": {
 				"navigationBarTitleText": "兴趣爱好",
@@ -350,6 +339,14 @@
 			"path": "pages/user/setting/editPassword",
 			"style": {
 				"navigationBarTitleText": "修改密码",
+				"navigationBarBackgroundColor":"#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/user/setting/payPwd",
+			"style": {
+				"navigationBarTitleText": "支付密码",
+				"navigationStyle": "custom",
 				"navigationBarBackgroundColor":"#FFFFFF"
 			}
 		},
@@ -866,7 +863,6 @@
 							"bottom":"0",
 							"background":"transparent",
 							"zindex":1
-							
 						}
 					}]
 				}
@@ -1047,9 +1043,17 @@
 			"style": {
 				"navigationBarTitleText": "" ,// 商家首页
 				"enablePullDownRefresh": true,
+				"navigationStyle": "custom",
 				"app-plus":{
 					"pullToRefresh": {
 						"color": "#381895"
+					},
+					"titleNView": {
+						"splitLine": { //原生导航栏加下边框
+							"color": "#F5F5F5",
+							"height": "1px"
+						},
+						"type": "transparent"
 					}
 				}
 			}
@@ -1239,37 +1243,37 @@
 		"spacing": "5px",
 	    "list": [{
 	        "pagePath": "pages/home/index",
-	        "iconPath": "/static/tabber/home2.png",
-	        "selectedIconPath": "/static/tabber/home_user2.png",
+	        "iconPath": "/static/tabber/home.png",
+	        "selectedIconPath": "/static/tabber/home_use.png",
 	        "text": "首页"
 	    },{
 	        "pagePath": "pages/class/index",
-	        "iconPath": "/static/tabber/class2.png",
-	        "selectedIconPath": "/static/tabber/class_user2.png",
+	        "iconPath": "/static/tabber/class.png",
+	        "selectedIconPath": "/static/tabber/class_use.png",
 	        "text": "分类"
 	    },{
 	        "pagePath": "pages/interaction/index",
-	        "iconPath": "/static/tabber/interact2.png",
-	        "selectedIconPath": "/static/tabber/interact_user2.png",
+	        "iconPath": "/static/tabber/interact.png",
+	        "selectedIconPath": "/static/tabber/interact_use.png",
 	        "text": "互动"
 	    }, {
 	        "pagePath": "pages/user/index",
-	        "iconPath": "/static/tabber/my2.png",
-	        "selectedIconPath": "/static/tabber/my_user2.png",
+	        "iconPath": "/static/tabber/my.png",
+	        "selectedIconPath": "/static/tabber/my_use.png",
 	        "text": "我"
 	    }]
 		// #ifdef APP-PLUS
 		,
 		"midButton": {
 			"height": "65px",
-			"iconPath": "static/tabber/jy2.png",
+			"iconPath": "static/tabber/video.png",
 			"iconWidth": "60px"
 		}
 		// #endif
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "redMall",
+		"navigationBarTitleText": "RedMall",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	}

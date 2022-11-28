@@ -1,5 +1,5 @@
 <template>
-	<view class="content">
+	<view class="content" :style="{backgroundImage: 'url('+ staticUrl + 'user/invite_bg.png)'}">
 		<view class="invite-c">
 			<view class="invite-w">
 				<view class='invite-w-detail' style="font-size: 60upx;font-weight: bolder;line-height:60upx;">邀请好友领取红包</view>
@@ -52,13 +52,6 @@
 					</view>
 					<!-- #endif -->
 				</view>
-			</view>
-			<view class="invite-w" style="opacity: 0;">
-				<view class='invite-w-btn' style="opacity: 0;"></view>
-			</view>
-			<view class="invite-w" style="opacity: 0;" v-if="invitecode">
-				<text class='invite-w-t-blue'></text>
-				<view class='invite-w-btn'></view>
 			</view>
 		</view>
 		
@@ -224,7 +217,7 @@
 									{
 										type: 'text',
 										fontStyle: 'italic',
-										text: 'redMall',
+										text: 'RedMall',
 										fontWeight: 'bold',
 										size: fontSize+10,
 										color: 'white',
@@ -329,11 +322,12 @@
 		width: 750rpx;
 		min-height: 100vh;
 		overflow: hidden;
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
 	}
 	.invite {
 		width: 100%;
 		height: 100%;
-		background: linear-gradient(to right, #4c21d2, #4864f8);
 	}
 
 	.invite-bg {
@@ -348,7 +342,6 @@
 		z-index: 67;
 		width: 750upx;
 		padding: 0 30upx;
-		background: linear-gradient(to right, #4c21d2, #4864f8);
 	}
 
 	.invite-w {
@@ -360,7 +353,7 @@
 		border-radius: 30upx;
 		margin-bottom: 70upx;
 		position: relative;
-		top: 6vh
+		margin-top: 35vh;
 	}
 
 	.invite-w-t {

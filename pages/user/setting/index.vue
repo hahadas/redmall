@@ -32,6 +32,11 @@
 				<text class="cell-more iconfont">&#xe770;</text>
 			</view>
 			<view class="b-b"></view>
+			<view class="list-cell" hover-class="cell-hover" :hover-stay-time="50" @click="navTo('payPwd')">
+				<text class="cell-tit">支付密码</text>
+				<text class="cell-more iconfont">&#xe770;</text>
+			</view>
+			<view class="b-b"></view>
 			<view class="list-cell" hover-class="cell-hover" :hover-stay-time="50" @click="navTo('/pages/login/forget')">
 				<text class="cell-tit">忘记密码？找回密码</text>
 				<text class="cell-more iconfont">&#xe770;</text>

@@ -273,7 +273,7 @@
 				tabs: ["商品", "评论", "详情"],
 				options: [
 					{text: "店铺", icon: "\ue616", iconColor: "#381895"},
-					{text: "客服", icon: "\ue608", iconColor: "#666"},
+					{text: "客服", icon: "\ue608", iconColor: "#381895"},
 					{text: "收藏", icon: "\ue615", iconColor: "#381895"}
 				],
 				buttonGroup: [

@@ -1,7 +1,6 @@
 <template>
 	<view class="main">
 		<view class="header bg-base" :style="{'padding-top': statusBarHeight+'px'}">
-			<!-- <view class="status-bar-height-height"></view> -->
 			<!-- #ifdef MP-WEIXIN -->
 			<view :style="{height: wxBtnHeight + 'px'}"></view>
 			<!-- #endif -->
@@ -78,49 +77,15 @@
 			</view>
 			
 			<!-- 分类 -->
-			<view class="grid bg-w">
-				<view class="flex flex-align-center">
-					<view class="grid-item" @tap="jumpToNotice(2, '公告')">
-						<image :src="staticUrl + 'home/phone.png'" mode="" class="icon"></image>
-						<text class="color-b6">使用教程</text>
-					</view>
-					<view class="grid-item" @tap="jumpToNew(1, '新人大礼')">
-						<image :src="staticUrl + 'home/gift.png'" mode="" class="icon"></image>
-						<text class="color-b6">新人大礼</text>
-					</view>
-					<view class="grid-item" @tap="jumpToNew(2, '限时秒杀')">
-						<image :src="staticUrl + 'home/alarm.png'" mode="" class="icon"></image>
-						<text class="color-b6">限时秒杀</text>
-					</view>
-				</view>
-				<view class="flex flex-align-center" style="margin-top: 40rpx;">
-					<view class="grid-item" @tap="jumpToNew(5, '积分大送')">
-						<image :src="staticUrl + 'home/settled.png'" mode="" class="icon"></image>
-						<text class="color-b6">积分大送</text>
-					</view>
-					<view class="grid-item" @tap="jumpToNew(3, '特价商品')">
-						<image :src="staticUrl + 'home/special.png'" mode="" class="icon"></image>
-						<text class="color-b6">特价商品</text>
-					</view>
-					<view class="grid-item" @tap="jumpToNew(4, '拼团')">
-						<image :src="staticUrl + 'home/team.png'" mode="" class="icon"></image>
-						<text class="color-b6">拼团</text>
-					</view>
-				</view>
-			</view>
-			
-			<!-- 中间广告图 -->
-			<view class="centreSwiper">
-				<view class="wrap" v-if="swiperCenterList.length === 1" @click="advertJump(swiperCenterList[0].operationCode, swiperCenterList[0].operationValue)">
-					<image :src="swiperCenterList[0].ossUrl" mode="scaleToFill" class="wrap-item"></image>
-				</view>
-				<swiper class="wrap" :autoplay="true" v-else>
-					<swiper-item v-for="(item, i) in swiperCenterList" :key="i">
-						<view class="wrap" @click="advertJump(item.operationCode, item.operationValue)">
-							<image :src="item.ossUrl" mode="scaleToFill" class="wrap-item"></image>
-						</view>
-					</swiper-item>
-				</swiper>
+			<view class="clas">
+				<image :src="staticUrl + 'home/class/notice.jpg'" mode="widthFix" class="img" @tap="jumpToNotice(2, '公告')"></image>
+				<image :src="staticUrl + 'home/class/gift.jpg'" mode="widthFix" class="img" @tap="jumpToNew(1, '新人大礼')"></image>
+				<image :src="staticUrl + 'home/class/alarm.jpg'" mode="widthFix" class="img" @tap="jumpToNew(2, '限时秒杀')"></image>
+				<image :src="staticUrl + 'home/class/settled.jpg'" mode="widthFix" class="img" @tap="jumpToNew(5, '积分大送')"></image>
+				<image :src="staticUrl + 'home/class/special.jpg'" mode="widthFix" class="img" @tap="jumpToNew(3, '特价商品')"></image>
+				<image :src="staticUrl + 'home/class/team.jpg'" mode="widthFix" class="img" @tap="jumpToNew(4, '拼团')"></image>
+				<image :src="staticUrl + 'home/class/dispatcher.jpg'" mode="widthFix" class="max-img" @tap="$navigateTo('/pages/agent/apply')"></image>
+				<image :src="staticUrl + 'home/class/business.jpg'" mode="widthFix" class="max-img" @tap="$navigateTo('/pages/merchants/settleIn/step')"></image>
 			</view>
 			
 			<!-- tabs -->
@@ -130,20 +95,21 @@
 				:style="{'padding-top': tabsFixed ? (statusBarHeight+'px') : 0}"
 				id="tabs">
 				<view class="tab flex flex-center" v-for="(item, i) in tabs" :key="i" @click="changeTab(i)">
-					<text :class="[current === i ? 'active':'color-b3', 'txt']">{{item}}</text>
+					<image mode="widthFix" v-if="current === i" :src="staticUrl + 'home/tabs/' + item.img + '_use.png'"></image>
+					<image mode="widthFix" v-else :src="staticUrl + 'home/tabs/' + item.img + '.png'"></image>
 				</view>
 			</view>
 			<view class="list">
 				<swiper :current="current" @change="swiperChange" :style="{'height': swiperHeight+statusBarHeight+'px'}">
 					<!-- 新品推荐 -->
 					<swiper-item style="height: 100%;">
-						<scroll-view :scroll-y="tabsFixed" class="new" @scrolltolower="currentLoadData()">
+						<scroll-view :show-scrollbar="false" :scroll-y="tabsFixed" class="new" @scrolltolower="currentLoadData()">
 							<view class="flex flex-center mark">
 								<text class="iconfont color-w font34">&#xe617;</text>
 							</view>
 							<view class="flex flex-between bg-w title color-purple" @click="jumpToProduct('新品推荐', 1)">
 								<view class="flex flex-align-center">
-									<image :src="staticUrl + 'home/new.png'" mode="" class="icon"></image>
+									<image :src="staticUrl + 'home/tabs/news_icon.png'" mode="" class="icon"></image>
 									<text class="font32">更多推荐</text>
 								</view>
 								<text class="iconfont font48">&#xe713;</text>
@@ -156,13 +122,13 @@
 					</swiper-item>
 					<!-- 精品推荐 -->
 					<swiper-item style="height: 100%;">
-						<scroll-view :scroll-y="tabsFixed" class="new" @scrolltolower="currentLoadData()">
+						<scroll-view :show-scrollbar="false" :scroll-y="tabsFixed" class="new" @scrolltolower="currentLoadData()">
 							<view class="flex flex-center mark" style="margin-left: 118px;">
 								<text class="iconfont color-w font34">&#xe617;</text>
 							</view>
 							<view class="flex flex-between bg-w title color-purple" @click="jumpToProduct('精品推荐', 2)">
 								<view class="flex flex-align-center">
-									<image :src="staticUrl + 'home/boutique.png'" mode="" class="icon"></image>
+									<image :src="staticUrl + 'home/tabs/boutique_icon.png'" mode="" class="icon"></image>
 									<text class="font32">金牌推荐</text>
 								</view>
 								<text class="iconfont font48">&#xe713;</text>
@@ -175,13 +141,13 @@
 					</swiper-item>
 					<!-- 附近店铺 -->
 					<swiper-item style="height: 100%;">
-						<scroll-view :scroll-y="tabsFixed" class="shop" @scrolltolower="currentLoadData()">
+						<scroll-view :show-scrollbar="false" :scroll-y="tabsFixed" class="shop" @scrolltolower="currentLoadData()">
 							<view class="flex flex-center mark" style="margin-left: 236px;">
 								<text class="iconfont color-w font34">&#xe617;</text>
 							</view>
 							<view class="flex flex-between bg-w title color-purple" @click="jumpToStore(null)">
 								<view class="flex flex-align-center">
-									<image :src="staticUrl + 'home/nearby.png'" mode="" class="icon"></image>
+									<image :src="staticUrl + 'home/tabs/nearby_icon.png'" mode="" class="icon"></image>
 									<text class="font32">附近店铺</text>
 								</view>
 								<text class="iconfont font48">&#xe713;</text>
@@ -230,7 +196,11 @@
 				keyWord: "",
 				centreSwiperList: [],
 				current: 0,
-				tabs: ["新品推荐", "精品推荐", "附近店铺"],
+				tabs: [
+					{name: '新品推荐', img: 'news'},
+					{name: '精品推荐', img: 'boutique'},
+					{name: '附近店铺', img: 'nearby'}
+				],
 				tabsTop: 0,
 				tabsFixed: false,
 				myAddressData: { // 默认北京
@@ -286,9 +256,11 @@
 			this.getNoticeTotal()
 		},
 		mounted() {
-			this.$getRect("#tabs").then(res =>{
-				this.tabsTop = res.top - 50
-			})
+			setTimeout(()=>{
+				this.$getRect("#tabs").then(res =>{
+					this.tabsTop = res.top - 50
+				})
+			}, 500)
 		},
 		onBackPress(){
 			//隐藏到后台，不退出app
@@ -487,7 +459,7 @@
 						_this.myAddressData = res;
 						//设置当前位置名称
 						if (res.address){
-							_this.addressName = res.address.district+res.address.poiName;
+							_this.addressName = res.address.district+(res.address.poiName||res.address.street);
 						} else {
 							let r = await publics.getPositionToLngAndLat(res.longitude, res.latitude)
 							_this.addressName = r.result.address
@@ -711,6 +683,22 @@
 				}
 			}
 		}
+		.clas{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			margin-top: 20rpx;
+			margin-bottom: 20rpx;
+			.img{
+				border-radius: 20rpx;
+				margin-bottom: 10rpx;
+				width: 230rpx;
+			}
+			.max-img{
+				width: 350rpx;
+			}
+		}
 		.centreSwiper{
 			margin-bottom: 26rpx;
 			.wrap{
@@ -726,14 +714,11 @@
 		.tabs{
 			margin-bottom: 6rpx;
 			transform: 0.5s;
+			display: flex;
 			.tab{
 				width: 33.33%;
-				text-align: center;
-				display: inline-block;
-				font-size: 32rpx;
 				.txt{
 					padding-bottom: 4rpx;
-					// border-bottom: 8rpx solid #f4f5f6;
 				}
 			}
 			.active{
@@ -767,8 +752,8 @@
 				height: 90rpx;
 				box-shadow: 0 0px 10px rgba(0,0,0,0.1);
 				.icon{
-					width: 50rpx;
-					height: 50rpx;
+					width: 40rpx;
+					height: 40rpx;
 					margin-right: 10rpx;
 				}
 			}

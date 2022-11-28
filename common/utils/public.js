@@ -15,8 +15,8 @@ let publics = {
 			scene: "WXSceneSession",
 			type: 0,
 			href: inviteUrl + id, //这地址太长了，就省略了
-			title: "redMall",
-			summary: nickname + " 邀请您加入redMall,各种福利等您来拿~~~",
+			title: "RedMall",
+			summary: nickname + " 邀请您加入RedMall,各种福利等您来拿~~~",
 			imageUrl: icon,
 			success: function(res) {
 			},
@@ -31,8 +31,8 @@ let publics = {
 			scene: "WXSenceTimeline",
 			type: 0,
 			href: inviteUrl + id, //这地址太长了，就省略了
-			title: "redMall",
-			summary: nickname + " 邀请您加入redMall,各种福利等您来拿~~~",
+			title: "RedMall",
+			summary: nickname + " 邀请您加入RedMall,各种福利等您来拿~~~",
 			imageUrl: icon,
 			success: function(res) {
 			},

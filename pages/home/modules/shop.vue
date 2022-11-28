@@ -16,7 +16,7 @@
 				<text class="color-purple btn font32" @click="goStore(item)">进店</text>
 			</view>
 			<view class="flex flex-align-center b-b" v-if="item.cupboardGoodsJSONArray">
-				<view class="imgs" v-for="(cupboard, index) in item.cupboardGoodsJSONArray" :key="index">
+				<view class="imgs" v-for="(cupboard, index) in item.cupboardGoodsJSONArray" :key="index" @tap="jumpGoodsDetail(cupboard)">
 					<image :src="filterImg(cupboard.mainImage)" mode="aspectFill" class="pic"></image>
 					<text class="name line">{{cupboard.titleName}}</text>
 					<text class="price color-red">¥{{cupboard.wholesalePrice}}</text>
@@ -47,6 +47,9 @@
 			},
 			goStore(item){
 				this.$navigateTo("store?id="+item.id)
+			},
+			jumpGoodsDetail(item){
+				this.$navigateTo('details?id='+item.id)
 			}
 		}
 	}

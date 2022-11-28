@@ -40,9 +40,7 @@
 				</view>
 			</view>
 			<view class="type-item" v-for="item in cards" :key="item.id" @click="cardPay(item.id)">
-				<!-- <text class="icon iconfont" style="color: #21ac82; font-size: 54rpx;">&#xe61e;</text> -->
 				<text class="icon iconfont" style="color: #de421b; font-size: 54rpx;">&#xe637;</text>
-				<!-- <text v-if=" item.code == 'applepay'" class="icon iconfont" style="color: #000000;">&#xe600;</text> -->
 				<view class="con">
 					<text class="tit">{{ item.name }}{{item.amount}}元</text>
 					<text>{{ item.tdescribe }}</text>
@@ -50,20 +48,14 @@
 			</view>
 		</view>
 		
-		<uni-popup ref="popup" type="bottom">
-			<view class="popup">
-				<text class="title">登入密码</text>
-				<view class="form">
-					<text>登入密码</text>
-					<input type="password" v-model="password" placeholder="请输入登入密码" class="flex-wrap color-b6 flex-1" style="margin-left: 20rpx;">
-				</view>
-				<view class="flex flex-align-center flex-space-around">
-					<button type="default" class="btn" @click="closePopup">取消</button>
-					<button type="primary" :loading="loading" :disabled="loading" class="btn bg-base" @click="onConfirm">确认</button>
-				</view>
-			</view>
-		</uni-popup>
-		
+		<key-words 
+			:mix="true" 
+			:show_key="show" 
+			:show_forgetFuc="true"
+			@closeFuc="show = false" 
+			@getPassword="onConfirm">
+		</key-words>
+
 	</view>
 </template>
 
@@ -71,14 +63,14 @@
 	import imMix from "../../order/imMix.js"
 	import url from '@/common/http/url.js';
 	import publics from "@/common/utils/public.js"
-	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	import keyWords from "@/components/bian-keywords/index.vue"
+
 	let timer = null
     export default {
-		components: { uniPopup },
+		components: { keyWords },
 		mixins:[imMix],
         data () {
             return {
-				loading: false,
                 orderId: 0,
                 orderInfo: {}, // 订单详情
 				walletInfo: {},
@@ -92,7 +84,7 @@
 				cards: [],
 				orderData: {},
 				rsaKey: "",
-				password: ""
+				show: false
             }
         },
         onLoad (opt) {
@@ -149,29 +141,29 @@
 					this.walletInfo = res.data
 				})
 			},
-			closePopup(){
-				this.$refs.popup.close()
-			},
-			async onConfirm(){
-				if (!this.password) return this.$msg("请输入登入密码")
-				if (this.loading) return
-				this.loading = true
+			async onConfirm(msg){
+				this.show = false
 				uni.showLoading({
 					mask:true
 				})
-				let password = await publics.passwordEncryption(this.rsaKey, this.password)
-				console.log("余额支付参数。。。。", this.orderId, password)
-				this.$http("POST", url.pay.balancePay, {orderId: this.orderId, loginPwd: password}).then(res =>{
-					console.log("支付成功。。。。。。", res.data)
+				let password = await publics.passwordEncryption(this.rsaKey, msg)
+				this.$http("POST", url.pay.balancePay, {orderId: this.orderId, payPwd: password}).then(res =>{
 					this.requestPayment(null, res.data)
 				}).catch(()=>{
-					this.loading = false
 					uni.hideLoading()
 				})
 			},
 			toPayHandler(code){
 				if (code === "balance") {
-					this.$refs.popup.open()
+					if (!this.userInfo.isSetPayPwd) {
+						this.$showModal('您未设置支付密码,请先去设置', null, res =>{
+							if (res.confirm) {
+								this.$navigateTo('/pages/user/setting/payPwd')
+							}
+						})
+						return
+					}
+					this.show = true
 					return
 				}
 				let _this = this

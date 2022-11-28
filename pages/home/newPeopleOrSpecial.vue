@@ -1,5 +1,6 @@
 <template>
 	<view class="main">
+		<image mode="widthFix" class="top" :src="staticUrl + 'home/class/' + type + '.png'"></image>
 		<view class="list">
 			<view class="list-item" v-for="(item, i) in list" :key="i" @click="jumpTo(item)">
 				<block v-if="item.goodsInfo">
@@ -22,7 +23,7 @@
 				</block>
 			</view>
 		</view>
-		<uni-load-more :status="loading"></uni-load-more>
+		<uni-load-more color="#ffffff" :status="loading"></uni-load-more>
 	</view>
 </template>
 
@@ -33,6 +34,7 @@
 		components: { uniLoadMore },
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				type: 1, // 1-新人大礼、2-限时秒杀、3-今日特价、4-拼团、5-积分大送
 				loading: "nomore",
 				list: []
@@ -135,8 +137,13 @@
 
 <style scoped lang="scss">
 	.main{
-		padding: 20rpx;
+		background-color: #865afd;
+		min-height: 100vh;
+		.top{
+			width: 100%;
+		}
 		.list{
+			margin: 0 20rpx;
 			&-item{
 				background-color: white;
 				border-radius: 20rpx;

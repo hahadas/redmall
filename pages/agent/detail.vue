@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<text class="tips" v-if="orderInfo.orderType === 2">该商品自己提供，商品以及配送收益都归自己</text>
-		<view class="list" v-if="orderInfo.orderType === 1">
+		<view class="list" v-if="orderInfo.orderType != 2">
 			<text class="title">商家地址</text>
 			<view class="flex flex-between">
 				<view class="flex flex-column font32">
@@ -125,11 +125,10 @@
 		<view style="height: 120rpx;"></view>
 		<!-- 操作按钮 -->
 		<view class="fixed flex flex-space-end">
-			<text class="btn" @click="confirmOrder()" v-if="orderInfo.deliveryPlatformStatus === 1">确认接单</text>
-			<text 
-				class="btn" @click="openModal()" 
-				v-if="orderInfo.deliveryPlatformStatus !== 5 && orderInfo.deliveryPlatformStatus !== 1">
-				取消配送</text>
+			<text class="btn" @click="confirmOrder()" v-if="orderInfo.deliveryPlatformStatus === 1 || orderInfo.deliveryPlatformStatus === 2">确认接单</text>
+			<text class="btn" @click="openModal()" v-if="orderInfo.deliveryPlatformStatus !== 5 && orderInfo.deliveryPlatformStatus !== 1">
+				取消配送
+			</text>
 			<text class="btn" @click="confirmPickup()" v-if="orderInfo.deliveryPlatformStatus === 3">确认取货</text>
 			<text class="btn" @click="showPopup()" v-if="orderInfo.deliveryPlatformStatus === 4">确认送达</text>
 		</view>

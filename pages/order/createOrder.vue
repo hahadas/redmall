@@ -253,6 +253,7 @@
 					orderType: this.orderInfo.orderType,
 					goodsId: this.orderInfo.goodsId,
 					goodsSkuId: this.orderInfo.goodsSkuId,
+					groupParentId: this.orderInfo.groupParentId,
 					number: this.orderInfo.number,
 					receivingAddressId: this.addressData.id,
 					couponStatus: this.orderInfo.discountId ? 2 : 1, // 是否使用优惠券 1-未使用 2-使用

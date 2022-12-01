@@ -29,8 +29,8 @@
 								<view class="cell">
 									<text class="font30 line">
 										<text class="color-purple iconfont font24 icon">&#xe630;</text>
-										<text class="color-b9" v-if="item.orderType === 1">{{item.storeAddressDetails}}{{item.storeAddressSupplement}}</text>
-										<text class="color-purple" v-else>精品商品请自身供货</text>
+										<text class="color-purple" v-if="item.orderType === 2">精品商品请自身供货</text>
+										<text class="color-b9" v-else>{{item.storeAddressDetails}}{{item.storeAddressSupplement}}</text>
 									</text>
 								</view>
 								<view class="cell">
@@ -45,8 +45,8 @@
 										@tap.stop="confirmOrder(item)">确认接单</button>
 									<button type="primary" size="mini" class="bg-base" v-if="item.deliveryPlatformStatus === 3"
 										@tap.stop="confirmPickup(item.id)">确认取货</button>
-									<button type="primary" size="mini" class="bg-base" v-if="item.deliveryPlatformStatus !== 5 && item.deliveryPlatformStatus !== 1" 
-										@tap.stop="openModal(item)">取消配送</button>
+									<!-- <button type="primary" size="mini" class="bg-base" v-if="item.deliveryPlatformStatus !== 5 && item.deliveryPlatformStatus !== 1" 
+										@tap.stop="openModal(item)">取消配送</button> -->
 								</view>
 							</view>
 							<uni-load-more :status="tab.loading"></uni-load-more>

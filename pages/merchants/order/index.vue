@@ -115,6 +115,9 @@
 				} else if (this.deliveryMethod === 4){
 					title = "平台配送订单"
 					this.tabs = options.platformList
+				} else if (this.deliveryMethod === 6) {
+					title = "拼团订单"
+					this.tabs = options.collateList
 				}
 				uni.setNavigationBarTitle({
 					title: title
@@ -141,41 +144,27 @@
 						this.tabs[0].name = filterTabName(this.tabs[0].name, data.logisticsToBeDelivered)
 						this.tabs[1].name = filterTabName(this.tabs[1].name, data.logisticsDelivered)
 						this.tabs[2].name = filterTabName(this.tabs[2].name, data.logisticsConfirmed)
-						// this.tabs[0].name = data.logisticsToBeDelivered ? `${this.tabs[0].name}(${data.logisticsToBeDelivered})` : this.tabs[0].name
-						// this.tabs[1].name = data.logisticsDelivered ? `${this.tabs[1].name}(${data.logisticsDelivered})` : this.tabs[1].name
-						// this.tabs[2].name = data.logisticsConfirmed ? `${this.tabs[2].name}(${data.logisticsConfirmed})` : this.tabs[2].name
 					} else if (type === 2) {// 商家
 						this.tabs[0].name = filterTabName(this.tabs[0].name, data.businessToBeDelivered)
 						this.tabs[1].name = filterTabName(this.tabs[1].name, data.businessDelivery)
 						this.tabs[2].name = filterTabName(this.tabs[2].name, data.businessDelivered)
-						// this.tabs[0].name = data.businessToBeDelivered ? `${this.tabs[0].name}(${data.businessToBeDelivered})` : this.tabs[0].name
-						// this.tabs[1].name = data.businessDelivery ? `${this.tabs[1].name}(${data.businessDelivery})` : this.tabs[1].name
-						// this.tabs[2].name = data.businessDelivered ? `${this.tabs[2].name}(${data.businessDelivered})` : this.tabs[2].name
 					} else if (type === 3) { // 自提
 						this.tabs[0].name = filterTabName(this.tabs[0].name, data.raisingToBePickedUp)
 						this.tabs[1].name = filterTabName(this.tabs[1].name, data.raisingPickedUp)
-						// this.tabs[0].name = data.raisingToBePickedUp ? `${this.tabs[0].name}(${data.raisingToBePickedUp})` : this.tabs[0].name
-						// this.tabs[1].name = data.raisingPickedUp ? `${this.tabs[1].name}(${data.raisingPickedUp})` : this.tabs[1].name
 					} else if (type === 4) {// 平台
 						this.tabs[0].name = filterTabName(this.tabs[0].name, data.platformWaitingForDelivery)
 						this.tabs[1].name = filterTabName(this.tabs[1].name, data.platformPickingUp)
 						this.tabs[2].name = filterTabName(this.tabs[2].name, data.platformPickedUp)
 						this.tabs[3].name = filterTabName(this.tabs[3].name, data.platformDelivered)
-						// this.tabs[0].name = data.platformWaitingForDelivery ? `${this.tabs[0].name}(${data.platformWaitingForDelivery})` : this.tabs[0].name
-						// this.tabs[1].name = data.platformPickingUp ? `${this.tabs[1].name}(${data.platformPickingUp})` : this.tabs[1].name
-						// this.tabs[2].name = data.platformPickedUp ? `${this.tabs[2].name}(${data.platformPickedUp})` : this.tabs[2].name
-						// this.tabs[3].name = data.platformDelivered ? `${this.tabs[3].name}(${data.platformDelivered})` : this.tabs[3].name
+					} else if (type === 6) { //拼团
+						this.tabs[0].name = filterTabName(this.tabs[0].name, data.platformWaitingForDelivery)
+						this.tabs[1].name = filterTabName(this.tabs[1].name, data.platformPickingUp)
 					} else { // 订单
 						this.tabs[0].name = filterTabName(this.tabs[0].name, data.waitingForPayment)
 						this.tabs[1].name = filterTabName(this.tabs[1].name, data.toBeEvaluated)
 						this.tabs[2].name = filterTabName(this.tabs[2].name, data.completed)
 						this.tabs[3].name = filterTabName(this.tabs[3].name, data.refunded)
 						this.tabs[4].name = filterTabName(this.tabs[4].name, data.overtimeClosing)
-						// this.tabs[0].name = data.waitingForPayment ? `${this.tabs[0].name}(${data.waitingForPayment})` : this.tabs[0].name
-						// this.tabs[1].name = data.toBeEvaluated ? `${this.tabs[1].name}(${data.toBeEvaluated})` : this.tabs[1].name
-						// this.tabs[2].name = data.completed ? `${this.tabs[2].name}(${data.completed})` : this.tabs[2].name
-						// this.tabs[3].name = data.refunded ? `${this.tabs[3].name}(${data.refunded})` : this.tabs[3].name
-						// this.tabs[4].name = data.overtimeClosing ? `${this.tabs[4].name}(${data.overtimeClosing})` : this.tabs[4].name
 					}
 					if (this.deliveryMethod === 5) {
 						this.showTabs = false

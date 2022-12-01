@@ -318,7 +318,7 @@
 			},
 			settingMsg(){
 				this.showOnByStatus = true;
-				this.$navigateTo("/pages/user/setting/personal");
+				this.$navigateTo("/pages/setting/personal");
 			},
 			tabSelect(e) {
 				this.tabCurrentIndex = e.currentTarget.dataset.id;

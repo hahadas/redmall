@@ -216,7 +216,7 @@
 			},
 			viewVideo(url){
 				uni.setStorageSync('sendVideoUrl', url)
-				this.$navigateTo("../user/setting/video?sendVideo=true")
+				this.$navigateTo("../setting/video?sendVideo=true")
 			},
 			ChooseVideo() {
 				let that = this;

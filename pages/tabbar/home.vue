@@ -175,8 +175,8 @@
 	import url from "@/common/http/url.js"
 	import publics from "@/common/utils/public.js"
 	import { checkOpenGPSService } from "@/common/utils/index.js"
-	import product from "./modules/product.vue"
-	import shop from "./modules/shop.vue"
+	import product from "../home/modules/product.vue"
+	import shop from "../home/modules/shop.vue"
 	import modal from "@/components/modal.vue"
 	import redEnvelopes from "@/components/red-envelopes.vue"
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
@@ -518,13 +518,13 @@
 				this.$navigateTo(`/pages/notice/index?type=${key}&title=${title}`)
 			},
 			jumpToProduct(title, goodsType, goodsName) {
-				this.$navigateTo(`productList?title=${title}&goodsType=${goodsType}&goodsName=${goodsName}`)
+				this.$navigateTo(`/pages/home/productList?title=${title}&goodsType=${goodsType}&goodsName=${goodsName}`)
 			},
 			jumpToNew(type, title){
-				this.$navigateTo(`newPeopleOrSpecial?type=${type}&title=${title}`)
+				this.$navigateTo(`/pages/home/newPeopleOrSpecial?type=${type}&title=${title}`)
 			},
 			jumpToStore(keyWord){
-				let path = "storeList"
+				let path = "/pages/home/storeList"
 				if (keyWord) {
 					path = path + "?storeName=" + keyWord
 				}

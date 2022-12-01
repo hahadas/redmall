@@ -2,7 +2,7 @@
 	<view class="main">
 		<view class="header flex flex-align-center color-w" :style="{'padding-top': statusBarHeight+'px'}">
 			<view class="flex flex-grow" style="justify-content: space-between;">
-				<view class="flex flex-align-center" @click="toNav('/pages/user/setting/personal')">
+				<view class="flex flex-align-center" @click="toNav('/pages/setting/personal')">
 					<view>
 						<image :src="filterImg(avatar)" mode="aspectFill" class="avatar"></image>
 					</view>
@@ -20,7 +20,7 @@
 						</view>
 					</view>
 				</view>
-				<text class="iconfont blod font48" @click="toNav('/pages/user/setting/index')">&#xe62a;</text>
+				<text class="iconfont blod font48" @click="toNav('/pages/setting/index')">&#xe62a;</text>
 			</view>
 		</view>
 		<view class="con">
@@ -115,17 +115,13 @@
 							<image :src="staticUrl + 'user/address.png'" mode="" class="img"></image>
 							<text class="color-b5 font26">地址管理</text>
 						</view>
-						<view class="grod-item" @click="toNav('/pages/user/setting/personal')">
+						<view class="grod-item" @click="toNav('/pages/setting/personal')">
 							<image :src="staticUrl + 'user/personal.png'" mode="" class="img"></image>
 							<text class="color-b5 font26">个人资料</text>
 						</view>
-						<view class="grod-item" @click="toNav('/pages/user/setting/index')">
+						<view class="grod-item" @click="toNav('/pages/setting/index')">
 							<image :src="staticUrl + 'user/set.png'" mode="" class="img"></image>
 							<text class="color-b5 font26">系统设置</text>
-						</view>
-						<view class="grod-item" v-if="userDetailInfo.roleAgentLevel" @click="toNav('/pages/user/region/index')">
-							<image :src="staticUrl + 'user/agent.png'" mode="" class="img"></image>
-							<text class="color-b5 font26">区域代理</text>
 						</view>
 						<view class="grod-item" @click="onContact">
 							<image :src="staticUrl + 'user/evaluate.png'" mode="" class="img"></image>

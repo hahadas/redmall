@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="bg-w">
-			<view class="list-cell m-t" @click="navTo('/pages/user/setting/personal')" hover-class="cell-hover" :hover-stay-time="50">
+			<view class="list-cell m-t" @click="navTo('/pages/setting/personal')" hover-class="cell-hover" :hover-stay-time="50">
 				<text class="cell-tit">个人资料</text>
 				<text class="cell-more iconfont">&#xe770;</text>
 			</view>

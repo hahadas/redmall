@@ -142,7 +142,7 @@
 				// 如果用户没上传头像/没有审核中的头像、性别、昵称、出生年月则去个人中心完善信息
 				if ((!userInfo.headPortrait && !examineAvatar) || !userInfo.gender || !userInfo.birthDate || !userInfo.nickname){
 					this.$msg("您的信息未完善，请先完善信息")
-					this.$navigateTo("/pages/user/setting/personal")
+					this.$navigateTo("/pages/setting/personal")
 				}
 			}
 			
@@ -200,7 +200,7 @@
 			let isAgree = uni.getStorageSync("agreePrivacy")
 			if (!isAgree) {
 				uni.navigateTo({
-					url: "/pages/user/setting/privacy"
+					url: "/pages/setting/privacy"
 				})
 			}
 			

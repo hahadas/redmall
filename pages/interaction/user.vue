@@ -229,7 +229,6 @@
 	// #ifdef APP-PLUS
 	import uniFooter from './components/footer';
 	// #endif
-	import uniSwiper from './components/swiper';
 	import uniPush from './components/push';
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
@@ -239,7 +238,6 @@
 			// #ifdef APP-PLUS
 			uniFooter,
 			// #endif
-			uniSwiper,
 			uniPush,
 			uniLoadMore,
 			uniPopup,

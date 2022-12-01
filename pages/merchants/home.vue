@@ -68,7 +68,6 @@
 				<view class="flex flex-column pad">
 					<view class="grod">
 						<view class="grod-item" v-for="(item, i) in orderList" :key="i" style="width: 20%;" @click="jumpToOrder(item, null)">
-							<!-- <image src="/static/user/payment.png" mode="" class="img"></image> -->
 							<text class="iconfont icon" v-if="i === 0">&#xe68f;</text>
 							<text class="iconfont icon" v-if="i === 1">&#xe62e;</text>
 							<text class="iconfont icon" v-if="i === 2">&#xe651;</text>
@@ -80,6 +79,23 @@
 					</view>
 				</view>
 			</view>
+			
+			<view class="culist">
+				<view class="title flex flex-between">
+					<text class="blod font32">拼团订单</text>
+				</view>
+				<view class="flex flex-column pad">
+					<view class="grod">
+						<view class="grod-item" v-for="(item, i) in collateList" :key="i" style="width: 50%;" @click="jumpToOrder(item, 6)">
+							<text class="iconfont icon" v-if="i === 0">&#xe68f;</text>
+							<text class="iconfont icon" v-if="i === 1">&#xe62e;</text>
+							<text class="color-b5 font26">{{item.name}}</text>
+							<text class="tips" v-if="item.total" style="left: 180rpx">{{item.total>99?'99+':item.total}}</text>
+						</view>
+					</view>
+				</view>
+			</view>
+			
 			<view class="culist">
 				<view class="title flex flex-between">
 					<text class="blod font32">物流配送订单</text>
@@ -87,7 +103,6 @@
 				<view class="flex flex-column pad">
 					<view class="grod">
 						<view class="grod-item" v-for="(item, i) in logisticsList" :key="i" @click="jumpToOrder(item, 1)">
-							<!-- <image src="/static/user/payment.png" mode="" class="img"></image> -->
 							<text class="iconfont icon" v-if="i === 0">&#xe63a;</text>
 							<text class="iconfont icon" v-if="i === 1">&#xe636;</text>
 							<text class="iconfont icon" v-if="i === 2">&#xe71a;</text>
@@ -104,7 +119,6 @@
 				<view class="flex flex-column pad">
 					<view class="grod">
 						<view class="grod-item" v-for="(item, i) in businessList" :key="i" @click="jumpToOrder(item, 2)">
-							<!-- <image src="/static/user/payment.png" mode="" class="img"></image> -->
 							<text class="iconfont icon" v-if="i === 0">&#xe633;</text>
 							<text class="iconfont icon" v-if="i === 1">&#xe632;</text>
 							<text class="iconfont icon" v-if="i === 2">&#xe634;</text>
@@ -121,7 +135,6 @@
 				<view class="flex flex-column pad">
 					<view class="grod">
 						<view class="grod-item" v-for="(item, i) in platformList" :key="i" style="width: 25%;" @click="jumpToOrder(item, 4)">
-							<!-- <image src="/static/user/payment.png" mode="" class="img"></image> -->
 							<text class="iconfont icon" v-if="i === 0">&#xe629;</text>
 							<text class="iconfont icon" v-if="i === 1">&#xe610;</text>
 							<text class="iconfont icon" v-if="i === 2">&#xe632;</text>
@@ -139,7 +152,6 @@
 				<view class="flex flex-column pad">
 					<view class="grod">
 						<view class="grod-item" v-for="(item, i) in extractionList" :key="i" style="width: 50%;" @click="jumpToOrder(item, 3)">
-							<!-- <image src="/static/user/payment.png" mode="" class="img"></image> -->
 							<text class="iconfont icon" v-if="i === 0">&#xe612;</text>
 							<text class="iconfont icon" v-if="i === 1">&#xe6e8;</text>
 							<text class="color-b5 font26">{{item.name}}</text>
@@ -155,7 +167,6 @@
 					<text class="font30 blod">无需配送订单<text v-if="noDeliveryRequired">({{noDeliveryRequired}})</text></text>
 				</view>
 				<view class="flex flex-align-center color-b6">
-					<!-- <text class="font30">{{ userDetailInfo.blance || 0 }}</text> -->
 					<text class="iconfont font40">&#xe770;</text>
 				</view>
 			</view>
@@ -234,6 +245,7 @@
 				noDeliveryRequired: 0,
 				// 商品
 				goodsList: options.goodsStatusList,
+				collateList: options.collateList,
 				walletData: {},
 				goodsTotalInfo: {},
 				collectionData: {}
@@ -296,6 +308,9 @@
 					this.orderList[2].total = data.completed
 					this.orderList[3].total = data.refunded
 					this.orderList[4].total = data.overtimeClosing
+					// 拼团
+					this.collateList[0].total = data.inAGroupOrder
+					this.collateList[1].total = data.successAGroupOrder
 					this.$forceUpdate()
 				})
 			},

@@ -1,6 +1,6 @@
 <template>
 	<view style="flex: 1;">
-		<!-- #ifdef APP-NVUE -->
+		<!-- #ifdef APP-PLUS -->
 		<uni-list @change="onchange" :num="playerList.length">
 			<cell :recycle="false" v-for="(item, index) in playerList" :key="index" :data-index="index" :style="{'height': screenHeight + 'px'}">
 				<uni-video 
@@ -16,7 +16,7 @@
 		</uni-list>
 		<!-- #endif -->
 		
-		<!-- #ifndef APP-NVUE -->
+		<!-- #ifndef APP-PLUS -->
 		<video
 			ref="myVideo" 
 			id="myVideo" 
@@ -50,12 +50,18 @@
 </template>
 
 <script>
+	// #ifdef APP-PLUS
 	import uniList from './list'
 	import uniVideo from './video';
+	// #endif	
+
 	export default {
+		// #ifdef APP-PLUS
 		components: {
-			uniVideo, uniList
+			uniVideo,
+			uniList
 		},
+		// #endif
 		props: {
 			screenHeight: {
 				default: 0

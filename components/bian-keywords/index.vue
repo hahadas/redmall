@@ -93,7 +93,7 @@
 			// 找回密码
 			forgetFuc () {
 				uni.navigateTo({
-					url:'/pages/user/setting/payPwd'
+					url:'/pages/setting/payPwd'
 				})
 			}
 		}

@@ -71,6 +71,11 @@ export default{
 		{name: "已退款", value: 10},
 		{name: "已关闭", value: 11}
 	],
+	// 拼团订单类型
+	collateList: [
+		{name: "拼团中", value: 1},
+		{name: "拼团成功", value: 2}
+	],
 	// 用户钱包类型
 	walletType: [
 		{name: "余额钱包", value: 1},

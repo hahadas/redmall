@@ -33,7 +33,7 @@
 			
 		</view>
 		<view class="flex flex-center flex-column fixed">
-			<text class="color-b9 font24" @tap="jumpTo('/pages/user/setting/privacy?status=hide')">登录注册即表示同意《用户协议及隐私策略》</text>
+			<text class="color-b9 font24" @tap="jumpTo('/pages/setting/privacy?status=hide')">登录注册即表示同意《用户协议及隐私策略》</text>
 		</view>
 	</view>
 </template>

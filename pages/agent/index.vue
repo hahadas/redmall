@@ -59,7 +59,7 @@
 		<uni-drawer ref="drawer" mode="left">
 		    <scroll-view scroll-y class="drawer" :style="{height: scrollHeight+'px'}">
 		        <view class="top">
-					<view class="flex flex-between" @tap="jumpTo('/pages/user/setting/personal')">
+					<view class="flex flex-between" @tap="jumpTo('/pages/setting/personal')">
 						<view><image :src="userData.headPortrait" mode="" class="avatar"></image></view>
 						<view class="flex flex-column flex-grow">
 							<text class="font30 line">{{userData.nickname}}</text>
@@ -96,7 +96,7 @@
 						<text class="iconfont icon">&#xe603;</text>
 						<text class="name">库存管理</text>
 					</view>
-					<view class="list-item" @tap="jumpTo('/pages/user/setting/personal')">
+					<view class="list-item" @tap="jumpTo('/pages/setting/personal')">
 						<text class="iconfont icon">&#xe60e;</text>
 						<text class="name">个人信息</text>
 					</view>

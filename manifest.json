@@ -16,6 +16,11 @@
             "autoclose" : true,
             "delay" : 0
         },
+		// 开启分包
+		"optimization": {
+			"subPackages": true,
+			"runmode" : "liberate"
+		},
 		// 去掉安全区IOS 底部空白区域
 		// "safearea": {
 		// 	"bottom": {
@@ -236,12 +241,16 @@
             "postcss" : true,
             "minified" : true
         },
+		"optimization": {
+		    "subPackages": true
+		},
         "usingComponents" : true,
         "permission" : {
             "scope.userLocation" : {
                 "desc" : "获取当前位置"
             }
-        }
+        },
+		"lazyCodeLoading": "requiredComponents"
     },
     "mp-alipay" : {
         "usingComponents" : true

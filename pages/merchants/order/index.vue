@@ -157,8 +157,8 @@
 						this.tabs[2].name = filterTabName(this.tabs[2].name, data.platformPickedUp)
 						this.tabs[3].name = filterTabName(this.tabs[3].name, data.platformDelivered)
 					} else if (type === 6) { //拼团
-						this.tabs[0].name = filterTabName(this.tabs[0].name, data.platformWaitingForDelivery)
-						this.tabs[1].name = filterTabName(this.tabs[1].name, data.platformPickingUp)
+						this.tabs[0].name = filterTabName(this.tabs[0].name, data.inAGroupOrder)
+						this.tabs[1].name = filterTabName(this.tabs[1].name, data.successAGroupOrder)
 					} else { // 订单
 						this.tabs[0].name = filterTabName(this.tabs[0].name, data.waitingForPayment)
 						this.tabs[1].name = filterTabName(this.tabs[1].name, data.toBeEvaluated)
@@ -191,10 +191,15 @@
 					pageSize: this.pageSize,
 					deliveryMethod: this.deliveryMethod
 				}
-				if (this.dStatus){
-					params.deliveryStatus = this.tabs[this.current].value
+				if (this.deliveryMethod === 6){ // 拼团
+					params.groupOrderStatus = this.tabs[this.current].value
 				} else {
-					params.status = this.tabs[this.current].value
+					// params.deliveryMethod = this.deliveryMethod
+					if (this.dStatus){
+						params.deliveryStatus = this.tabs[this.current].value
+					} else {
+						params.status = this.tabs[this.current].value
+					}	
 				}
 				this.$http("GET", url.store.getOrderList, params).then(res =>{
 					this.list = this.list.concat(res.data.records)

@@ -36,7 +36,6 @@
 </template>
 
 <script>
-	import { mapState } from "vuex"
 	import url from "@/common/http/url.js"
 	import publics from "@/common/utils/public.js"
 	import keyWords from "@/components/bian-keywords/index.vue"
@@ -50,11 +49,9 @@
 				bonusPoints: "",
 				payData: null,
 				rsaKey: "",
-				show: false
+				show: false,
+				userInfo: {}
 			}
-		},
-		computed: {
-			...mapState(["userInfo"])
 		},
 		onLoad() {
 			let codeResultData = uni.getStorageSync("codeResultData")
@@ -68,6 +65,11 @@
 			})
 			this.$http("GET", url.login.getPublicKey).then(res => {
 				this.rsaKey = res.data
+			})
+		},
+		onShow(){
+			this.$http("GET", url.user.getUserInfoBasic).then(res =>{
+				this.userInfo = res.data
 			})
 		},
 		methods:{

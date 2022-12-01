@@ -54,7 +54,7 @@
 			}
 		},
 		{
-			"path": "pages/tabbar/home",
+			"path": "pages/home/index",
 			"style": {
 				"navigationBarTitleText": "RedMall",
 				"navigationStyle": "custom",
@@ -68,7 +68,108 @@
 			}
 		},
 		{
-			"path": "pages/tabbar/user",
+			"path": "pages/home/details",
+			"style": {
+				"navigationBarTitleText": "商品详情",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/home/newPeopleOrSpecial",
+			"style": {
+				"navigationBarTitleText": "" ,// 新人大礼 / 今日特价
+				"enablePullDownRefresh": true,
+				"navigationBarBackgroundColor": "#865afd",
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					"pullToRefresh": {
+						"color": "#865afd"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/home/evaluate",
+			"style": {
+				"navigationBarTitleText": "评论列表",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"color": "#381895"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/home/productList",
+			"style": {
+				"navigationBarTitleText": "商品列表",	// 商品列表
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"color": "#381895"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/home/productClassList",
+			"style": {
+				"navigationBarTitleText": "",	// 商家分类商品列表
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"color": "#381895"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/home/store",
+			"style": {
+				"navigationBarTitleText": "" ,// 店铺详情
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"color": "#381895"
+					},
+					"titleNView": {
+						"splitLine": { //原生导航栏加下边框
+							"color": "#F5F5F5",
+							"height": "1px"
+						},
+						"type": "transparent"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/home/storeList",
+			"style": {
+				"navigationBarTitleText": "附近的店铺",	// 附近的店铺
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"color": "#381895"
+					}
+				}
+			}
+		},
+		{
+			"path":"pages/home/webview",
+			"style": {
+				"navigationBarTitleText": "",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/tabbarList/user",
 			"style": {
 				"navigationBarTitleText": "RedMall",
 				"navigationStyle": "custom",
@@ -333,112 +434,6 @@
 							"pullToRefresh": {
 								"color": "#381895"
 							}
-						}
-					}
-				}
-			]
-		},
-		{
-			"root": "pages/home",
-			"pages": [
-				{
-					"path": "details",
-					"style": {
-						"navigationBarTitleText": "商品详情",
-						"navigationStyle": "custom"
-					}
-				},
-				{
-					"path": "newPeopleOrSpecial",
-					"style": {
-						"navigationBarTitleText": "" ,// 新人大礼 / 今日特价
-						"enablePullDownRefresh": true,
-						"navigationBarBackgroundColor": "#865afd",
-						"navigationBarTextStyle": "white",
-						"app-plus": {
-							"pullToRefresh": {
-								"color": "#865afd"
-							}
-						}
-					}
-				},
-				{
-					"path": "evaluate",
-					"style": {
-						"navigationBarTitleText": "评论列表",
-						"enablePullDownRefresh": true,
-						"app-plus": {
-							"pullToRefresh": {
-								"color": "#381895"
-							}
-						}
-					}
-				},
-				{
-					"path": "productList",
-					"style": {
-						"navigationBarTitleText": "商品列表",	// 商品列表
-						"navigationBarBackgroundColor":"#FFFFFF",
-						"enablePullDownRefresh": true,
-						"app-plus": {
-							"pullToRefresh": {
-								"color": "#381895"
-							}
-						}
-					}
-				},
-				{
-					"path": "productClassList",
-					"style": {
-						"navigationBarTitleText": "",	// 商家分类商品列表
-						"navigationBarBackgroundColor":"#FFFFFF",
-						"enablePullDownRefresh": true,
-						"app-plus": {
-							"pullToRefresh": {
-								"color": "#381895"
-							}
-						}
-					}
-				},
-				{
-					"path": "store",
-					"style": {
-						"navigationBarTitleText": "" ,// 店铺详情
-						"navigationBarBackgroundColor":"#FFFFFF",
-						"enablePullDownRefresh": true,
-						"app-plus": {
-							"pullToRefresh": {
-								"color": "#381895"
-							},
-							"titleNView": {
-								"splitLine": { //原生导航栏加下边框
-									"color": "#F5F5F5",
-									"height": "1px"
-								},
-								"type": "transparent"
-							}
-						}
-					}
-				},
-				{
-					"path": "storeList",
-					"style": {
-						"navigationBarTitleText": "附近的店铺",	// 附近的店铺
-						"navigationBarBackgroundColor":"#FFFFFF",
-						"enablePullDownRefresh": true,
-						"app-plus": {
-							"pullToRefresh": {
-								"color": "#381895"
-							}
-						}
-					}
-				},
-				{
-					"path":"webview",
-					"style": {
-						"navigationBarTitleText": "",
-						"app-plus": {
-							"titleNView": false
 						}
 					}
 				}
@@ -885,7 +880,7 @@
 							},
 							"subNVues":[{  
 								"id": "popup", // 唯一标识  
-								"path": "pages/order/popup", // 页面路径  
+								"path": "popup", // 页面路径  
 								"type": "popup",  //原生子窗口内置样式，可取值：'popup',弹出层；"navigationBar",导航栏
 								"style": {
 									"margin":"auto",
@@ -1232,7 +1227,7 @@
 		"iconWidth": "22px",
 		"spacing": "5px",
 	    "list": [{
-	        "pagePath": "pages/tabbar/home",
+	        "pagePath": "pages/home/index",
 	        "iconPath": "/static/tabber/home.png",
 	        "selectedIconPath": "/static/tabber/home_use.png",
 	        "text": "首页"
@@ -1247,7 +1242,7 @@
 	        "selectedIconPath": "/static/tabber/interact_use.png",
 	        "text": "互动"
 	    }, {
-	        "pagePath": "pages/tabbar/user",
+	        "pagePath": "pages/tabbarList/user",
 	        "iconPath": "/static/tabber/my.png",
 	        "selectedIconPath": "/static/tabber/my_use.png",
 	        "text": "我"

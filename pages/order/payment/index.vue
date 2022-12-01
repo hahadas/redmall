@@ -84,9 +84,15 @@
 				cards: [],
 				orderData: {},
 				rsaKey: "",
-				show: false
+				show: false,
+				userInfo: {}
             }
         },
+		onShow(){
+			this.$http("GET", url.user.getUserInfoBasic).then(res =>{
+				this.userInfo = res.data
+			})
+		},
         onLoad (opt) {
 			let orderData = uni.getStorageSync("orderData")
 			if (orderData) {

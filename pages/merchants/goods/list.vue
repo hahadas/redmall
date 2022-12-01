@@ -46,7 +46,7 @@
 		<uni-load-more :status="loading"></uni-load-more>
 		
 		<!-- 左侧菜单 -->
-		<uni-drawer ref="drawer" mode="right" :width="260">
+		<uni-drawer ref="drawer" mode="right" :width="280">
 		    <scroll-view scroll-y :style="{height: scrollHeight+'px'}">
 		       <view class="drawer">
 				   <view class="title">商品状态</view>

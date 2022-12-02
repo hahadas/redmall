@@ -15,13 +15,18 @@
 			<view class="list-item bg-w" v-for="(item, i) in list" :key="i" @tap="goDetails(item)">
 				<view class="flex flex-between font30 color-b6 title">
 					<text>{{item.createTime}}</text>
-					<text class="color-purple font28" v-if="item.status === 1">待付款</text>
-					<text class="color-purple font28" v-if="item.status === 2">未支付完成</text>
-					<text class="color-purple font28" v-if="item.status === 3">{{deliveryStatus(item)}}</text>
-					<text class="color-purple font28" v-if="item.status === 4">待评价</text>
-					<text class="color-b9 font28" v-if="item.status === 5">已完成</text>
-					<text class="color-b9 font28" v-if="item.status === 10">已退款</text>
-					<text class="color-b9 font28" v-if="item.status === 11">已关闭</text>
+					<view class="flex flex-align-center">
+						<text class="color-purple font28" v-if="item.status === 1">待付款</text>
+						<text class="color-purple font28" v-if="item.status === 2">未支付完成</text>
+						<text class="color-purple font28" v-if="item.status === 3">{{deliveryStatus(item)}}</text>
+						<text class="color-purple font28" v-if="item.status === 4">待评价</text>
+						<text class="color-b9 font28" v-if="item.status === 5">已完成</text>
+						<text class="color-b9 font28" v-if="item.status === 10">已退款</text>
+						<text class="color-b9 font28" v-if="item.status === 11">已关闭</text>
+						<text class="color-purple font28" v-if="item.orderType === 14">
+							-{{item.groupStatus === 2 ? '拼团中' :'拼团成功'}}{{item.groupTrueNumber}}/{{item.groupNumber}}
+						</text>
+					</view>
 				</view>
 				<view class="flex">
 					<view><image :src="filterImg(item.skuImage || item.goodsImage)" mode="aspectFit" class="img"></image></view>

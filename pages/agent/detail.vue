@@ -8,9 +8,10 @@
 					<text class="color-b5">{{orderInfo.storeFullName || orderInfo.storeInfo.name}} {{orderInfo.storeMobile || orderInfo.storeInfo.mobile}}</text>
 					<text>{{orderInfo.storeThreeAdcode | filterAddr}}{{orderInfo.storeAddressDetails}}{{orderInfo.storeAddressSupplement}}</text>
 				</view>
-				<view @click="goMap(orderInfo,'business')"><image src="/static/user/addr.png" mode="" class="addr"></image></view>
+				<view @click="goMap(orderInfo,'business')"><image :src="staticUrl+'user/addr.png'" mode="" class="addr"></image></view>
 			</view>
 		</view>
+		
 		<view class="list">
 			<text class="title">配送地址</text>
 			<view class="flex flex-between">
@@ -18,7 +19,7 @@
 					<text class="color-b5">{{orderInfo.userFullName}} {{orderInfo.userMobile}}</text>
 					<text>{{orderInfo.userThreeAdcode | filterAddr}}{{orderInfo.userAddressDetails}}{{orderInfo.userAddressSupplement}}</text>
 				</view>
-				<view @click="goMap(orderInfo,'user')"><image src="/static/user/addr.png" mode="" class="addr"></image></view>
+				<view @click="goMap(orderInfo,'user')"><image :src="staticUrl+'user/addr.png'" mode="" class="addr"></image></view>
 			</view>
 		</view>
 		<view class="list">
@@ -171,6 +172,7 @@
 		},
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				isHistory: false,
 				id: "",
 				orderUserId: "",

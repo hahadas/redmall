@@ -161,6 +161,7 @@
 			},
 			toPayHandler(code){
 				if (code === "balance") {
+					console.log(this.userInfo.isSetPayPwd)
 					if (!this.userInfo.isSetPayPwd) {
 						this.$showModal('您未设置支付密码,请先去设置', null, res =>{
 							if (res.confirm) {

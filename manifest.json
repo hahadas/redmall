@@ -17,10 +17,10 @@
             "delay" : 0
         },
 		// 开启分包
-		"optimization": {
-			"subPackages": true,
-			"runmode" : "liberate"
-		},
+		// "optimization": {
+		// 	"subPackages": true,
+		// 	"runmode" : "liberate"
+		// },
 		// 去掉安全区IOS 底部空白区域
 		// "safearea": {
 		// 	"bottom": {

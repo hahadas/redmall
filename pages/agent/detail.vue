@@ -10,6 +10,21 @@
 				</view>
 				<view @click="goMap(orderInfo,'business')"><image :src="staticUrl+'user/addr.png'" mode="" class="addr"></image></view>
 			</view>
+			<view class="flex flex-between icons">
+				<view class="flex icons-item">
+					<text class="iconfont icon">&#xe690;</text>
+					<text class="font26 color-b6">联系商家</text>
+				</view>
+				<view class="flex icons-item">
+					<text class="iconfont icon">&#xe64f;</text>
+					<text class="font26 color-b6">致电商家</text>
+				</view>
+				<view class="flex icons-item">
+					<text class="iconfont icon">&#xe62f;</text>
+					<text class="font26 color-b6">导航路线</text>
+				</view>
+			</view>
+			<image class="a-bg" :src="staticUrl + 'user/addr_bg.png'"></image>
 		</view>
 		
 		<view class="list">
@@ -395,6 +410,7 @@
 		padding: 30rpx;
 		margin-bottom: 20rpx;
 		border-radius: 20rpx;
+		position: relative;
 		.title{
 			color: #333333;
 			font-size: 32rpx;
@@ -403,6 +419,27 @@
 			padding-left: 20rpx;
 			margin-bottom: 20rpx;
 			display: block;
+		}
+		.a-bg {
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			display: block;
+			width: 100%;
+			height: 5upx;
+		}
+		.icons{
+			margin-top: 20rpx;
+			&-item{
+				align-items: center;
+				justify-content: center;
+				flex-direction: column;
+				.icon{
+					margin-bottom: 10rpx;
+					font-size: 46rpx;
+					color: #381895;
+				}
+			}
 		}
 	}
 	.addr{

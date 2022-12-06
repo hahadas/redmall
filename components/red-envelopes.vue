@@ -164,6 +164,7 @@
 						chatType: 2,
 						msgType: 77,
 						content: JSON.stringify({
+							conversationId: conversationId,
 							type: 1,
 							musicUrl: this.data.directPushRewardAudioUrl
 						})

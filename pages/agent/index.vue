@@ -45,6 +45,8 @@
 										@tap.stop="confirmOrder(item)">确认接单</button>
 									<button type="primary" size="mini" class="bg-base" v-if="item.deliveryPlatformStatus === 3"
 										@tap.stop="confirmPickup(item.id)">确认取货</button>
+									<button type="primary" size="mini" class="bg-base" v-if="item.deliveryPlatformStatus === 4"
+										@tap.stop="showPopup(item.id)">确认送达</button>
 									<!-- <button type="primary" size="mini" class="bg-base" v-if="item.deliveryPlatformStatus !== 5 && item.deliveryPlatformStatus !== 1" 
 										@tap.stop="openModal(item)">取消配送</button> -->
 								</view>
@@ -108,8 +110,23 @@
 		    </scroll-view>
 		</uni-drawer>
 		
+		<!-- 确认送达 -->
+		<uni-popup ref="popup" type="bottom">
+			<view class="popup">
+				<text class="title">确认送达</text>
+				<view class="form">
+					<text>确认码</text>
+					<input type="number" :maxlength="6" v-model="deliveryPlatformServiceCode" placeholder="请输入" class="flex-wrap color-b6 flex-1" style="margin-left: 20rpx;">
+				</view>
+				<view class="flex flex-align-center flex-space-around">
+					<button type="default" class="btn" @click="closePopup">取消</button>
+					<button type="primary" class="btn bg-base" @click="onConfirm">确认</button>
+				</view>
+			</view>
+		</uni-popup>
+		
 		<!-- 取消配送弹框 -->
-		<uni-popup ref="popup" type="dialog">
+		<uni-popup ref="canCelPopup" type="dialog">
 		    <uni-popup-dialog 
 				mode="input" 
 				title="取消配送"
@@ -160,7 +177,9 @@
 				showModal: false,
 				balance: 0,
 				orderInfo: {},
-				depositTitle: "配送定金"
+				depositTitle: "配送定金",
+				orderId: null,
+				deliveryPlatformServiceCode: ""
 			}
 		},
 		onShow() {
@@ -267,73 +286,105 @@
 					this.getList('add', null)
 				}
 			},
+			//获取订单中的用户会话信息
+			getOrderUserConversationInfo(orderInfo, callBack){
+				let params = {
+					orderId: orderInfo.id, 
+					orderUserId: orderInfo.userId
+				}
+				this.$http("GET", url.distributor.getOrderDetailsById, params).then(res =>{
+					if (res.data.toUserConversation) {
+						callBack(res.data.toUserConversation)
+					}else{
+						callBack(null)
+					}
+				}).catch(()=>{
+					callBack(null)
+				})
+			},
 			// 确认接单, 普通订单接单时暂不发送消息给对方
 			confirmOrder(row){
-				if (this.current !== 2) {
-					this.sessionOperation(row.userOrderImAccount, 1)
-				}
-				this.$http("POST", url.distributor.confirmReceiptOrder, {orderId: row.id}).then((res)=>{
-					this.$msg(res.data)
-					// #ifdef APP-PLUS
-					if (this.current !== 2){
-						// 发送一条消息，判断对方是否在线
-						this.isOtherOnline(row.userOrderImAccount, "agentConfirm")
-						
-						// 发送消息给对方，邀请对方接单
-						let goodsInfo = {
-							orderId: row.id,
-							goodsId: row.goodsId,
-							goodsImage: row.skuImage || row.goodsImage,
-							goodsName: row.goodsName,
-							skuName: row.skuName,
-							price: row.totalPrice,
-							number: row.number,
-							status: 4 ,// 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
-							identity: this.userData.imAccount, // 配送配送员的imAccount
-						}
-						this.sendMsgToOther(row.userOrderImAccount, goodsInfo, 6, 1, ()=>{
-							this.editDBData(goodsInfo.orderId, goodsInfo.status)
-						})
+				//获取订单中的用户会话信息
+				this.getOrderUserConversationInfo(row,(userConversation)=>{
+					//设置会话,加判断是防止自己给自己发信息，是不允许的
+					if(userConversation){
+						this.setSessionOperation(userConversation)
 					}
-					// #endif
-					this.onPullDown(false)
+					
+					this.$http("POST", url.distributor.confirmReceiptOrder, {orderId: row.id}).then((res)=>{
+						this.$msg(res.data)
+						// #ifdef APP-PLUS
+						if (userConversation){//(this.current !== 2)，加判断是防止自己给自己发信息，是不允许的
+							// 发送一条消息，判断对方是否在线
+							this.isOtherOnline(row.userOrderImAccount, "agentConfirm")
+							
+							// 发送消息给对方，邀请对方接单
+							let goodsInfo = {
+								orderId: row.id,
+								goodsId: row.goodsId,
+								goodsImage: row.skuImage || row.goodsImage,
+								goodsName: row.goodsName,
+								skuName: row.skuName,
+								price: row.totalPrice,
+								number: row.number,
+								status: 4 ,// 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
+								identity: this.userData.imAccount, // 配送配送员的imAccount
+							}
+							this.sendMsgToOther(row.userOrderImAccount, goodsInfo, 6, 2, ()=>{
+								this.editDBData(goodsInfo.orderId, goodsInfo.status)
+							})
+						}
+						// #endif
+						this.onPullDown(false)
+					})
 				})
 			},
 			// 显示取消配送弹框
 			openModal(row){
 				this.orderInfo = row
-				this.$refs.popup.open()
+				this.$refs.canCelPopup.open()
 			},
 			// 取消配送
 			cancelOrder(done, value){
 				if (!value) return this.$msg("请输入取消配送理由")
 				let row = this.orderInfo
 				let toImAccount = row.userOrderImAccount
-				this.sessionOperation(toImAccount, 1)
-				this.$http("POST", url.distributor.cancelReceiptOrder, {orderId: row.id}).then((res)=>{
-					done()
-					this.$msg(res.data)
-					// #ifdef APP-PLUS
-					// 发送一条消息，判断对方是否在线
-					this.isOtherOnline(toImAccount, "agentCancel")
-					// 发送消息给对方
-					let goodsInfo = {
-						orderId: row.id,
-						goodsId: row.goodsId,
-						goodsImage: row.skuImage || row.goodsImage,
-						goodsName: row.goodsName,
-						skuName: row.skuName,
-						price: row.totalPrice,
-						number: row.number,
-						status: 3, // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
-						identity: this.userData.imAccount, // 配送配送员的imAccount
-						reason: value
+				
+				//获取订单中的用户会话信息
+				this.getOrderUserConversationInfo(row,(userConversation)=>{
+					//设置会话,加判断是防止自己给自己发信息，是不允许的
+					if(userConversation){
+						this.setSessionOperation(userConversation)
 					}
-					this.sendMsgToOther(toImAccount, goodsInfo, 6, 1, ()=>{
-						this.editDBData(goodsInfo.orderId, goodsInfo.status)
+					
+					this.$http("POST", url.distributor.cancelReceiptOrder, {orderId: row.id}).then((res)=>{
+						done()
+						this.$msg(res.data)
+						// #ifdef APP-PLUS
+						//加判断是防止自己给自己发信息，是不允许的
+						if(userConversation){
+							// 发送一条消息，判断对方是否在线
+							this.isOtherOnline(toImAccount, "agentCancel")
+							// 发送消息给对方
+							let goodsInfo = {
+								orderId: row.id,
+								goodsId: row.goodsId,
+								goodsImage: row.skuImage || row.goodsImage,
+								goodsName: row.goodsName,
+								skuName: row.skuName,
+								price: row.totalPrice,
+								number: row.number,
+								status: 3, // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
+								identity: this.userData.imAccount, // 配送配送员的imAccount
+								reason: value
+							}
+							this.sendMsgToOther(toImAccount, goodsInfo, 6, 2, ()=>{
+								this.editDBData(goodsInfo.orderId, goodsInfo.status)
+							})
+						}
+						// #endif
+						this.getList('refresh', null)
 					})
-					// #endif
-					this.getList('refresh', null)
 				})
 			},
 			// 确认取货
@@ -346,6 +397,33 @@
 						})
 					}
 				})
+			},
+			// 确认送达
+			onConfirm(){
+				let _this = this
+				
+				this.closePopup()
+				uni.showLoading({
+					mask:true
+				})
+				let params = {
+					orderId: this.orderId,
+					deliveryPlatformServiceCode: this.deliveryPlatformServiceCode
+				}
+				this.$http("POST", url.distributor.confirmService, params).then(res =>{
+					uni.hideLoading()
+					_this.deliveryPlatformServiceCode = ''
+					_this.getList('refresh', null)
+				}).catch(()=>{
+					uni.hideLoading()
+				})
+			},
+			showPopup(orderId){
+				this.orderId = orderId
+				this.$refs.popup.open()
+			},
+			closePopup(){
+				this.$refs.popup.close()
 			},
 			goDetail(row){
 				this.$navigateTo('detail?id='+row.id+'&orderUserId='+row.userId)
@@ -385,7 +463,7 @@
 				this.showModal = false
 				this.$http("POST", url.cms.clickAdvertisingMap, {id: this.advertData.id})
 				publics.advertOption(this.advertData.operationCode, this.advertData.operationValue)
-			}
+			},
 		}
 	}
 </script>
@@ -514,6 +592,31 @@
 					color: #333333;
 				}
 			}
+		}
+	}
+	.popup{
+		background-color: white;
+		border-radius: 20rpx 20rpx 0 0;
+		padding: 20rpx;
+		.title{
+			display: block;
+			width: 100%;
+			text-align: center;
+			font-size: 32rpx;
+			padding-bottom: 20rpx;
+			margin-bottom: 20rpx;
+		}
+		.form{
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: 40rpx;
+			border-bottom: 2rpx solid #EEEEEE;
+			padding-bottom: 20rpx;
+			color: #333333;
+		}
+		.btn{
+			width: 40%;
 		}
 	}
 </style>

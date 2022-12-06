@@ -426,7 +426,8 @@
 					return false
 				}
 				if (message.msgType !== undefined && message.msgType !== 88) {
-					let res = await this.$http("GET", url.im.getConversationItExist, {toImAccount: message.from, type: content.type})
+					//let res = await this.$http("GET", url.im.getConversationItExist, {toImAccount: message.from, type: content.type}) 
+					let res = await this.$http("GET", url.im.getConversationItExist, {toConversationId: content.conversationId})
 					if (res.data) {
 						if (message.msgType !== 5 && message.msgType !== 8 || (message.msgType === 6 && content.status !== 1)) {
 							_this.msgOrderPromptTone(1)
@@ -534,7 +535,7 @@
 					cmd:11,
 					createTime: new Date().getTime(),
 					chatType: 2,
-					content: JSON.stringify({...content, type: con.type, callType: con.callType}),
+					content: JSON.stringify({...content, conversationId: message.conversationId, type: con.type, callType: con.callType}),
 					msgType: 5
 				};
 				params.uid = params.id

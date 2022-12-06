@@ -5,21 +5,21 @@
 			<text class="title">商家地址</text>
 			<view class="flex flex-between">
 				<view class="flex flex-column font32">
-					<text class="color-b5">{{orderInfo.storeFullName || orderInfo.storeInfo.name}} {{orderInfo.storeMobile || orderInfo.storeInfo.mobile}}</text>
+					<text class="color-b5">{{orderInfo.storeFullName || storeInfo.name}} {{orderInfo.storeMobile || storeInfo.mobile}}</text>
 					<text>{{orderInfo.storeThreeAdcode | filterAddr}}{{orderInfo.storeAddressDetails}}{{orderInfo.storeAddressSupplement}}</text>
 				</view>
 				<view @click="goMap(orderInfo,'business')"><image :src="staticUrl+'user/addr.png'" mode="" class="addr"></image></view>
 			</view>
 			<view class="flex flex-between icons">
-				<view class="flex icons-item">
+				<view class="flex icons-item" @click="skipToSingleChat(toStoreConversation,3)">
 					<text class="iconfont icon">&#xe690;</text>
 					<text class="font26 color-b6">联系商家</text>
 				</view>
-				<view class="flex icons-item">
+				<view class="flex icons-item" @click="makePhoneCall(orderInfo.storeMobile || storeInfo.mobile)">
 					<text class="iconfont icon">&#xe64f;</text>
 					<text class="font26 color-b6">致电商家</text>
 				</view>
-				<view class="flex icons-item">
+				<view class="flex icons-item" @click="goMap(orderInfo,'business')">
 					<text class="iconfont icon">&#xe62f;</text>
 					<text class="font26 color-b6">导航路线</text>
 				</view>
@@ -36,6 +36,21 @@
 				</view>
 				<view @click="goMap(orderInfo,'user')"><image :src="staticUrl+'user/addr.png'" mode="" class="addr"></image></view>
 			</view>
+			<view class="flex flex-between icons">
+				<view class="flex icons-item" @click="skipToSingleChat(toUserConversation,2)">
+					<text class="iconfont icon">&#xe690;</text>
+					<text class="font26 color-b6">联系客户</text>
+				</view>
+				<view class="flex icons-item" @click="makePhoneCall(orderInfo.userMobile)">
+					<text class="iconfont icon">&#xe64f;</text>
+					<text class="font26 color-b6">致电客户</text>
+				</view>
+				<view class="flex icons-item" @click="goMap(orderInfo,'user')">
+					<text class="iconfont icon">&#xe62f;</text>
+					<text class="font26 color-b6">导航路线</text>
+				</view>
+			</view>
+			<image class="a-bg" :src="staticUrl + 'user/addr_bg.png'"></image>
 		</view>
 		<view class="list">
 			<text class="title">商品信息</text>
@@ -148,6 +163,7 @@
 			<text class="btn" @click="confirmPickup()" v-if="orderInfo.deliveryPlatformStatus === 3">确认取货</text>
 			<text class="btn" @click="showPopup()" v-if="orderInfo.deliveryPlatformStatus === 4">确认送达</text>
 		</view>
+		
 		<!-- 确认送达 -->
 		<uni-popup ref="popup" type="bottom">
 			<view class="popup">
@@ -181,10 +197,12 @@
 	import uniRate from "@/components/uni-rate/uni-rate.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import uniPopupDialog from "@/components/uni-popup/uni-popup-dialog.vue"
+	import imMix from "../order/imMix.js"
 	export default{
 		components: {
 			uniRate, uniPopup, uniPopupDialog
 		},
+		mixins: [imMix],
 		data(){
 			return {
 				staticUrl: this.$staticUrl,
@@ -192,7 +210,10 @@
 				id: "",
 				orderUserId: "",
 				orderInfo: {},
+				storeInfo: {},
 				toUserInfo: {},
+				toStoreConversation: null,
+				toUserConversation: null,
 				deliveryPlatformServiceCode: ""
 			}
 		},
@@ -257,8 +278,17 @@
 				}
 				this.$http("GET", path, params).then(res =>{
 					this.orderInfo = res.data.order || res.data
+					if (res.data.storeInfo) {
+						this.storeInfo = res.data.storeInfo
+					}
 					if (res.data.toUserInfo) {
 						this.toUserInfo = res.data.toUserInfo
+					}
+					if (res.data.toStoreConversation) {
+						this.toStoreConversation = res.data.toStoreConversation
+					}
+					if (res.data.toUserConversation) {
+						this.toUserConversation = res.data.toUserConversation
 					}
 					uni.stopPullDownRefresh()
 				}).catch(()=>{
@@ -268,14 +298,17 @@
 			// 确认接单
 			confirmOrder(){
 				let toImAccount = this.toUserInfo.imAccount
-				if (this.orderInfo.orderType === 2) {
-					this.sessionOperation(toImAccount, 0)
+				
+				//设置会话,加判断是防止自己给自己发信息，是不允许的
+				if(this.toUserConversation){
+					this.setSessionOperation(this.toUserConversation)
 				}
-				this.$http("POST", url.distributor.confirmReceiptOrder, {orderId: this.id}).then(()=>{
+				
+				this.$http("POST", url.distributor.confirmReceiptOrder, {orderId: this.id}).then((res)=>{
 					this.$msg(res.data)
 					
 					// #ifdef APP-PLUS
-					if (this.orderInfo.orderType === 2) {
+					if(this.toUserConversation){//加判断是防止自己给自己发信息，是不允许的
 						// 发送一条消息，判断对方是否在线
 						this.isOtherOnline(toImAccount, "agentConfirm")
 						// 发送消息给对方
@@ -290,7 +323,7 @@
 							status: 4, // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
 							identity: this.userInfo.imAccount, // 配送配送员的imAccount
 						}
-						this.sendMsgToOther(toImAccount, goodsInfo, 6, 0, ()=>{
+						this.sendMsgToOther(toImAccount, goodsInfo, 6, 2, ()=>{
 							this.editDBData(goodsInfo.orderId, goodsInfo.status)
 						})
 					}
@@ -307,29 +340,38 @@
 			cancelOrder(done, value){
 				if (!value) return this.$msg("请输入取消配送理由")
 				let toImAccount = this.toUserInfo.imAccount
-				this.sessionOperation(toImAccount, 0)
-				this.$http("POST", url.distributor.cancelReceiptOrder, {orderId: this.id}).then(()=>{
-					this.$msg(res.data)
+				
+				//设置会话，加判断是防止自己给自己发信息，是不允许的
+				if(this.toUserConversation){
+					this.setSessionOperation(this.toUserConversation)	
+				}
+				
+				this.$http("POST", url.distributor.cancelReceiptOrder, {orderId: this.id}).then((res)=>{
 					done()
+					this.$msg(res.data)
 					// #ifdef APP-PLUS
-					// 发送一条消息，判断对方是否在线
-					this.isOtherOnline(toImAccount, "agentCancel")
-					// 发送消息给对方
-					let goodsInfo = {
-						orderId: this.orderInfo.id,
-						goodsId: this.orderInfo.goodsId,
-						goodsImage: this.orderInfo.skuImage || this.orderInfo.goodsImage,
-						goodsName: this.orderInfo.goodsName,
-						skuName: this.orderInfo.skuName,
-						price: this.orderInfo.totalPrice,
-						number: this.orderInfo.number,
-						status: 3, // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
-						identity: this.userInfo.imAccount, // 配送配送员的imAccount
-						reason: value
+					if(this.toUserConversation){//加判断是防止自己给自己发信息，是不允许的
+						// 发送一条消息，判断对方是否在线
+						this.isOtherOnline(toImAccount, "agentCancel")
+						// 发送消息给对方
+						let goodsInfo = {
+							orderId: this.orderInfo.id,
+							goodsId: this.orderInfo.goodsId,
+							goodsImage: this.orderInfo.skuImage || this.orderInfo.goodsImage,
+							goodsName: this.orderInfo.goodsName,
+							skuName: this.orderInfo.skuName,
+							price: this.orderInfo.totalPrice,
+							number: this.orderInfo.number,
+							status: 3, // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
+							identity: this.userInfo.imAccount, // 配送配送员的imAccount
+							reason: value
+						}
+						console.log("goodsInfo==============")
+						console.log(goodsInfo)
+						this.sendMsgToOther(toImAccount, goodsInfo, 6, 2, ()=>{
+							this.editDBData(goodsInfo.orderId, goodsInfo.status)
+						})
 					}
-					this.sendMsgToOther(toImAccount, goodsInfo, 6, 0, ()=>{
-						this.editDBData(goodsInfo.orderId, goodsInfo.status)
-					})
 					// #endif
 					
 					this.getInfo()
@@ -370,6 +412,9 @@
 			closePopup(){
 				this.$refs.popup.close()
 			},
+			makePhoneCall(mobile){
+				uni.makePhoneCall({phoneNumber: mobile});
+			},
 			goMap(row, type){
 				let lat = row.storeLat
 				let lng = row.storeLng
@@ -390,7 +435,22 @@
 					urls: list,
 					current:img
 				})
-			}
+			},
+			/**
+			 * 创建会话，并且存储会话到本地后，最后进入会话
+			 * @param {String} conversation 会话信息
+			 * @param {Number} type 会话类型 1-用户 2-配送员 3-商家
+			 * */
+			skipToSingleChat(conversation, type) {
+				if(conversation){
+					//设置会话
+					this.setSessionOperation(conversation)
+					//进入会话
+					this.$navigateTo('/pages/interaction/im-chat?pages=message&&id='+conversation.toImAccount+"&&type="+type+"&&isCustomer=false&&listIndex=0&&toConversationId="+conversation.toConversationId)
+				}else{
+					this.$msg("不允许自己与自己发送消息")
+				}
+			},
 		}
 	}
 </script>

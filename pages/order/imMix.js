@@ -43,7 +43,7 @@ export default{
 			getApp().globalData.socket.sendSocketMessage(sendParams)
 			// #endif
 		},
-		// 获取会话消息
+		// 获取会话消息,以及把会话存储到本地type:会话类型：1=用户，2=配送员，3=商家
 		sessionOperation(toImAccount, type, callBack){
 			// #ifdef APP-PLUS
 			this.$http("GET", url.im.createConversation, {toImAccount: toImAccount, type: type}).then(doc =>{
@@ -64,6 +64,24 @@ export default{
 			})
 			// #endif
 		},
+		// 设置当前会话,以及把会话存储到本地,设置完了即可发送消息
+		setSessionOperation(conversation){
+			// #ifdef APP-PLUS
+			this.conversationId = conversation.id
+			selectInformationType(null, 'id', this.conversationId).then(selectRes=>{
+				let data = conversation
+				if (selectRes.length === 0) {
+					console.log("本地数据库无数据")
+					data.localUnreadNumber = data.unreadNumber || 0
+					addDataToSessionTable(data)
+				} else {
+					console.log("本地数据库有数据")
+					data.localUnreadNumber = (data.localUnreadNumber || 0) + (data.unreadNumber || 0)
+					updateSessionInformation(data, 'id', data.id)
+				}
+			})
+			// #endif
+		},
 		// 发送消息
 		sendMsgToOther(toImAccount, goodsInfo, msgType, type, callBack){
 			if (!toImAccount || !msgType || !type) return
@@ -80,6 +98,7 @@ export default{
 				chatType: 2,
 				msgType: msgType,
 				content: JSON.stringify({
+					conversationId: this.conversationId,
 					type: type,
 					...goodsInfo
 				})

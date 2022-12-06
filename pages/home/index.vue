@@ -84,8 +84,8 @@
 				<image :src="staticUrl + 'home/class/settled.jpg'" mode="widthFix" class="img" @tap="jumpToNew(5, '积分大送')"></image>
 				<image :src="staticUrl + 'home/class/special.jpg'" mode="widthFix" class="img" @tap="jumpToNew(3, '特价商品')"></image>
 				<image :src="staticUrl + 'home/class/team.jpg'" mode="widthFix" class="img" @tap="jumpToNew(4, '拼团')"></image>
-				<image :src="staticUrl + 'home/class/dispatcher.jpg'" mode="widthFix" class="max-img" @tap="$navigateTo('/pages/agent/apply')"></image>
-				<image :src="staticUrl + 'home/class/business.jpg'" mode="widthFix" class="max-img" @tap="$navigateTo('/pages/merchants/settleIn/step')"></image>
+				<!-- <image :src="staticUrl + 'home/class/dispatcher.jpg'" mode="widthFix" class="max-img" @tap="$navigateTo('/pages/agent/apply')"></image>
+				<image :src="staticUrl + 'home/class/business.jpg'" mode="widthFix" class="max-img" @tap="$navigateTo('/pages/merchants/settleIn/step')"></image> -->
 			</view>
 			
 			<!-- tabs -->

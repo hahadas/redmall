@@ -113,6 +113,7 @@ function createChatListSQL(callback){
  *  toUserId	 		对方用户id
  *  imAccount			我的im账号
 	toImAccount			对方im账号
+	toConversationId	对方会话ID
 	nickname			对方昵称
 	headPortrait		对方头像
 	storeLogoImage		对方店铺Id
@@ -134,6 +135,7 @@ function createSessionListSQL(callback){
 		sql += "'toUserId' TEXT,"; 
 		sql += "'imAccount' TEXT,"; 
 		sql += "'toImAccount' TEXT,"; 
+		sql += "'toConversationId' TEXT,"; 
 		sql += "'nickname' TEXT,"; 
 		sql += "'headPortrait' TEXT,"; 
 		sql += "'storeLogoImage' TEXT,"; 
@@ -204,6 +206,7 @@ function addDataToSessionTable(data, callback){
 		sqlInsert += data.toUserId + "','";  
 		sqlInsert += data.imAccount + "','";  
 		sqlInsert += data.toImAccount + "','";  
+		sqlInsert += data.toConversationId + "','";
 		sqlInsert += data.nickname + "','";  
 		sqlInsert += data.headPortrait + "','";  
 		sqlInsert += data.storeLogoImage + "','";  

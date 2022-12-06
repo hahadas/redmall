@@ -561,7 +561,13 @@
 			this.channelId = toUserInfo.data.imAccount
 			this.getVideoKey()
 			// 获取（创建）会话信息
-			let conversationInfo = await this.$http("GET", url.im.createConversation, {toImAccount: option.id, type: this.type})
+			let conversationInfo = {}
+			if(option.toConversationId){//存在对方会话id，则直接根据自身id+对方会话id获取自己对应的会话信息
+				conversationInfo = await this.$http("GET", url.im.getConversationItExist, {toConversationId: option.toConversationId})
+			}else{//不存在会话id，则根据自身用户id+对方im账号+会话类型进行创建会话并且获取会话信息
+				conversationInfo = await this.$http("GET", url.im.createConversation, {toImAccount: option.id, type: this.type})
+			}
+			
 			this.conversationInfo = conversationInfo.data
 			this.conversationId = conversationInfo.data.id
 			if (this.type === 3) {
@@ -576,12 +582,13 @@
 			
 			// 发送一条消息，判断对方是否在线
 			let sendParams = {
+				conversationId: this.conversationId,
 				from: this.userInfo.imAccount,
 				to: this.channelId,
 				cmd:11,
 				chatType: 2,
 				msgType: 88,
-				content: JSON.stringify({type: "imChat"})
+				content: JSON.stringify({type: "imChat",conversationId: this.conversationId,})
 			}
 			uni.setStorageSync("imChatSendMsg", sendParams)
 			getApp().globalData.socket.sendSocketMessage(sendParams)
@@ -1006,7 +1013,7 @@
 							goodsName: row.goodsName,
 							skuName: row.skuName,
 							price: row.totalPrice,
-							status: 1 , // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
+							status: type , // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
 							identity: this.chatUser.imAccount, // 配送员的imAccount
 						}
 						this.onCloseOrder(index)
@@ -1380,6 +1387,7 @@
 					createTime: new Date().getTime(),
 					chatType: 2,
 					content: {
+						conversationId: this.conversationId,
 						type: this.type
 					}
 				};

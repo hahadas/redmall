@@ -7,7 +7,7 @@
 				<block v-if="customerList.length > 0">
 					<text class="title">平台客服</text>
 					<block v-for="(item, index) in customerList" :key="index+99">
-						<view class="cu-item" @click="skipToSingleChat(item.imAccount, 1, true, index, item.toConversationId)" v-if="userInfo.imAccount !== item.imAccount">
+						<view class="cu-item" @click="skipToSingleChat(item.imAccount, 1, true, index, null)" v-if="userInfo.imAccount !== item.imAccount">
 							<image :src="filterImg(item.headPortrait)" class="cu-avatar round lg" mode=""></image>
 							<view class="content" style="background-color: #ffffff;padding-top: 0upx;">
 								<view class="text-grey">{{item.nickname}}</view>
@@ -268,7 +268,7 @@
 			 * @@param {Number} toConversationId 对方会话ID
 			 * */
 			skipToSingleChat(imAccount, type, isCustomer, index, toConversationId) {
-				this.$navigateTo('im-chat?pages=message&&id='+imAccount+"&&type="+type+"&&isCustomer="+isCustomer+"&&listIndex="+index+"&&toConversationId="+toConversationId)
+				this.$navigateTo('im-chat?pages=message&&id='+imAccount+"&&type="+type+"&&isCustomer="+isCustomer+"&&listIndex="+index+(isCustomer?"":"&&toConversationId="+toConversationId))
 				if (isCustomer) {
 					this.customerList[index].localUnreadNumber = 0
 				} else {

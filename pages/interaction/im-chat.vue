@@ -1015,10 +1015,12 @@
 							price: row.totalPrice,
 							status: type , // 1-邀请对方接单，用户和配送员都可操作取消 2-用户取消配送 3-配送员取消接单 4-配送员接单
 							identity: this.chatUser.imAccount, // 配送员的imAccount
+							conversationId: this.conversationId,//自己的会话id
 						}
 						this.onCloseOrder(index)
 					} else {
 						content = row.content
+						content.conversationId = this.conversationId //设置自己的会话id
 						content.status = type
 					}
 					this.updateDBData(content)

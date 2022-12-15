@@ -252,6 +252,16 @@ function addDataToSessionTable(data, callback){
 			//一个检索条件
 			sql = `select * from ${db} where ${aa}='${bb}'`
 		}
+		if(aa !== undefined && bb == undefined){
+			//固定条件类型查询
+			if(aa == "user"){//查询toType为：1=用户，2=配送员，3=商家
+				sql = `select * from ${db} where toType in(1,2,3)`
+			}else if(aa == "distributor"){//查询toType为：4=配送员客户
+				sql = `select * from ${db} where toType=4`
+			}else if(aa == "store"){//查询toType为：5=店铺客户
+				sql = `select * from ${db} where toType=5`
+			}
+		}
 		if(aa == undefined){
 			sql = `select * from ${db}`
 		}

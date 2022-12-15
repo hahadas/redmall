@@ -136,11 +136,11 @@
 				</view>
 			</view>
 			<view class="flex flex-align-center cell" v-if="orderInfo.goodsEvaluate.evaluateDistributionScore">
-				<text class="label">配送员评分：</text>
+				<text class="label">配送评分：</text>
 				<uni-rate :size="15" :margin="4" :value="orderInfo.goodsEvaluate.evaluateDistributionScore" readonly></uni-rate>
 			</view>
 			<view class="flex cell" v-if="orderInfo.goodsEvaluate.evaluateDistributionComment">
-				<text><text class="label">评价配送员：</text>{{orderInfo.goodsEvaluate.evaluateDistributionComment}}</text>
+				<text><text class="label">评价配送：</text>{{orderInfo.goodsEvaluate.evaluateDistributionComment}}</text>
 			</view>
 			<view class="flex flex-align-center cell" v-if="orderInfo.goodsEvaluate.evaluateDistributionImages">
 				<view class="imgs">
@@ -269,6 +269,7 @@
 					orderId: this.id, 
 					orderUserId: this.orderUserId
 				}
+				//历生订单详情
 				if (this.isHistory){
 					path = url.distributor.historyOrderDetails
 					params = {

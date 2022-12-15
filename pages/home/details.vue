@@ -557,7 +557,8 @@
 					goodsId: this.id,
 					number: this.number,
 					goodsSkuId: this.skuObj.id,
-					orderType: index === 0 ? this.goodsInfo.goodsType : 3 // 订单类型 1-普通 2-精品 3-进货
+					orderType: index === 0 ? this.goodsInfo.goodsType : 3, // 订单类型 1-普通 2-精品 3-进货
+					groupParentId: 0 //默认拼团id为0，防止传null后台报错
 				}
 				if (this.goodsInfo.goodsType === 14){
 					params.orderType = this.goodsInfo.goodsType

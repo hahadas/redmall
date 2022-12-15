@@ -57,6 +57,7 @@
 						<text class="label">获得积分</text>
 						<text class="txt">{{((parseInt(((orderInfo.goodsInfo.bonusIntegral/100*orderInfo.goodsSku.skuPrice * orderInfo.number))*100)/100).toFixed(2))*orderInfo.number}}</text>
 					</view>
+					<!-- 普通商品才可以使用支付组合 -->
 					<view class="g-cell" v-if="orderInfo.orderType === 1">
 						<text class="label">支付组合</text>
 						<block v-if="orderInfo.goodsInfo.paymentCombination === 1">
@@ -83,7 +84,8 @@
 						<text class="txt" v-else>无需配送</text>
 					</view>
 				</view>
-				<view class="other" v-if="orderInfo.discountUserList && orderInfo.discountUserList.length > 0">
+				<!-- 普通商品才可以使用优惠券 -->
+				<view class="other" v-if="orderInfo.orderType == 1 && orderInfo.discountUserList && orderInfo.discountUserList.length > 0">
 					<view class="g-cell" @click="showDiscountPopup()">
 						<text class="label">店铺优惠</text>
 						<text class="txt">{{orderInfo.discountName}}</text>

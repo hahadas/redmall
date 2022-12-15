@@ -44,7 +44,8 @@
 				<!-- <text class="text-del color-b9 font26" style="margin-left: 10rpx;">¥{{goodsInfo.originalPrice}}</text> -->
 			</text>
 		</view>
-		<view class="flex flex-between d-list" v-if="goodsInfo.discountList&&goodsInfo.discountList.length > 0" @click="collectCoupons(goodsInfo.discountList)">
+		<!-- 普通商品才可以使用优惠券 -->
+		<view class="flex flex-between d-list" v-if="goodsInfo.goodsType == 1 && goodsInfo.discountList&&goodsInfo.discountList.length > 0" @click="collectCoupons(goodsInfo.discountList)">
 			<view class="flex flex-align-center">
 				<block v-for="(d, i) in goodsInfo.discountList" :key="i">
 					<text class="d-item" v-if="i<3">满{{d.useStandardAmount}}减{{d.discountAmount}}</text>

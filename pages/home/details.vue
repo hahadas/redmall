@@ -74,7 +74,7 @@
 			<view class="flex flex-between color-b9 font28 other">
 				<!-- <text>积分：{{ (parseInt((goodsInfo.bonusIntegral/100*goodsInfo.wholesalePrice)*100)/100).toFixed(2) }}</text> -->
 				<text>积分：{{ goodsInfo.bonusIntegral }}%</text>
-				<text>月售：{{goodsInfo.totalSales}}</text>
+				<text>已售：{{goodsInfo.totalSales}}</text>
 				<!-- <text v-if="dkUserFlag">附近的配送员：{{ dkUserSize }}</text> -->
 				<text>浏览：{{goodsInfo.visitBrowse}}</text>
 			</view>

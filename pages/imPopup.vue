@@ -68,15 +68,14 @@
 				newMessage.to = this.message.from
 				newMessage.from = this.message.to
 				getApp().callVideo(newMessage, ret=>{
-					if ((ret.code === 1)) {
-						//发送取消通话的消息
-						let msg = {
-							text: '通话时长',
-							time: ret.time
-						}
-						getApp().sendVideoMsg(_this.message, msg)
-						
-					}
+					// if ((ret.code === 1)) {
+					// 	//发送取消通话的消息
+					// 	let msg = {
+					// 		text: '通话时长',
+					// 		time: ret.time
+					// 	}
+					// 	getApp().sendVideoMsg(_this.message, msg)
+					// }
 				});
 				this.$navigateBack()
 			},

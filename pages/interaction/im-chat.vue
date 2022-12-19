@@ -1145,12 +1145,12 @@
 							if ((ret.time && ret.time === "00:00") || !ret.time){
 								msg = {text:'已挂断'}
 							}
-							if (ret.time && ret.time !== "00:00"){
-								msg = {
-									text:'通话时长',
-									time: ret.time
-								}
-							}
+							// if (ret.time && ret.time !== "00:00"){
+							// 	msg = {
+							// 		text:'通话时长',
+							// 		time: ret.time
+							// 	}
+							// }
 						} else if (ret.code === 5) {
 							console.log("............对方接听，关闭声音。。。。。。。")
 							getApp().musicStop()

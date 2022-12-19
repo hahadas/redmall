@@ -562,8 +562,9 @@
 				let res = await this.$http("GET", url.im.getVideoKey, {toImAccount: message.to})
 				let data = res.data
 				if (data) {
-					call.openCall({
-						"type": 1, //1 代表对一对一界面,0 代表默认界面  
+					let openCallData = {
+						"type": 2, //1 代表对一对一界面,0 代表默认界面
+						"isEnableVideo": true,
 						"callType": message.content.callType, // video 是视频，voice 是语音通话
 						"roomid": message.content.roomId, //房间号, 数字
 						"username": data.toInfo.nickname, //对方的用户昵称
@@ -572,7 +573,8 @@
 						"myavatar": data.myInfo.headPortrait, //我的头像
 						"userid": data.myInfo.tenCentUserId, // 我的腾讯云通话用户id
 						"usersig": data.myInfo.tenCentUserSig //用户名加密串
-					}, ret => {
+					}
+					call.openCall(openCallData, ret => {
 						console.log("腾讯视频通话================================");
 						console.log(JSON.stringify(ret));
 						if (callback) callback(ret)

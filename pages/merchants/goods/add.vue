@@ -1,8 +1,8 @@
 <template>
 	<view class="main">
 		<view class="header">
-			<view class="status-bar-height-height"></view>
-			<view :style="{height: navHeight + 'px'}"></view>
+			<!-- <view class="status-bar-height-height"></view> -->
+			<!-- <view :style="{height: navHeight + 'px'}"></view> -->
 			<view class="errMsg" v-if="form.errorMsg && form.status === 2">
 				<text class="txt">
 					<text class="iconfont icon">&#xe659;</text>

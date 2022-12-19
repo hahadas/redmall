@@ -16,17 +16,17 @@
             "autoclose" : true,
             "delay" : 0
         },
-		// 开启分包
-		// "optimization": {
-		// 	"subPackages": true,
-		// 	"runmode" : "liberate"
-		// },
-		// 去掉安全区IOS 底部空白区域
-		// "safearea": {
-		// 	"bottom": {
-		// 		"offset": "none"
-		// 	}
-		// },
+        // 开启分包
+        // "optimization": {
+        // 	"subPackages": true,
+        // 	"runmode" : "liberate"
+        // },
+        // 去掉安全区IOS 底部空白区域
+        // "safearea": {
+        // 	"bottom": {
+        // 		"offset": "none"
+        // 	}
+        // },
         /* 取消弹出Html5+ Runtime 的弹框 */
         "compatible" : {
             "ignoreVersion" : true
@@ -38,7 +38,10 @@
             "Payment" : {},
             "Share" : {},
             "Push" : {},
-            "SQLite" : {}
+            "SQLite" : {},
+            "Camera" : {},
+            "Barcode" : {},
+            "Record" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -176,27 +179,6 @@
             }
         },
         "nativePlugins" : {
-            "Html5App-TencentCall" : {
-                "sdkAppId" : "1400751450",
-                "__plugin_info__" : {
-                    "name" : "腾讯云 视频通话插件 Andord 和 IOS 支持多人通话 直播",
-                    "description" : "支持视频,语音电话、视频直播、连麦互动、语音聊天室等功能 ： Android 和 IOS QQ交流群：891416757",
-                    "platforms" : "Android,iOS",
-                    "url" : "https://ext.dcloud.net.cn/plugin?id=493",
-                    "android_package_name" : "uni.UNI7D57679",
-                    "ios_bundle_id" : "uni.UNI7D57679",
-                    "isCloud" : true,
-                    "bought" : 1,
-                    "pid" : "493",
-                    "parameters" : {
-                        "sdkAppId" : {
-                            "des" : "腾讯云视频通话sdkAppId",
-                            "key" : "tencenttrtc:appid",
-                            "value" : ""
-                        }
-                    }
-                }
-            },
             "Html5app-VideoCrop" : {
                 "__plugin_info__" : {
                     "name" : "Android 和 IOS 视频裁剪、视频压缩插件",
@@ -224,6 +206,27 @@
                     "pid" : "1371",
                     "parameters" : {}
                 }
+            },
+            "Html5App-TencentCall" : {
+                "sdkAppId" : "1400751450",
+                "__plugin_info__" : {
+                    "name" : "腾讯云 视频通话插件 Andord 和 IOS 支持多人通话 直播",
+                    "description" : "支持视频,语音电话、视频直播、连麦互动、语音聊天室等功能 ： Android 和 IOS QQ交流群：891416757",
+                    "platforms" : "Android,iOS",
+                    "url" : "https://ext.dcloud.net.cn/plugin?id=493",
+                    "android_package_name" : "uni.UNI7D57679",
+                    "ios_bundle_id" : "uni.UNI7D57679",
+                    "isCloud" : true,
+                    "bought" : 1,
+                    "pid" : "493",
+                    "parameters" : {
+                        "sdkAppId" : {
+                            "des" : "腾讯云视频通话sdkAppId",
+                            "key" : "tencenttrtc:appid",
+                            "value" : ""
+                        }
+                    }
+                }
             }
         },
         "uniStatistics" : {
@@ -241,16 +244,16 @@
             "postcss" : true,
             "minified" : true
         },
-		"optimization": {
-		    "subPackages": true
-		},
+        "optimization" : {
+            "subPackages" : true
+        },
         "usingComponents" : true,
         "permission" : {
             "scope.userLocation" : {
                 "desc" : "获取当前位置"
             }
         },
-		"lazyCodeLoading": "requiredComponents"
+        "lazyCodeLoading" : "requiredComponents"
     },
     "mp-alipay" : {
         "usingComponents" : true

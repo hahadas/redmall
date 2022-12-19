@@ -5,7 +5,7 @@ export const staticUrl = "https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app
 // export const baseUrl = "http://redmall-app-api.hushuo.show/api/"
 // export const baseUrl = "http://192.168.1.188:6001/api/"
 export const baseUrl = "http://47.109.18.227:6001/api/"
-//export const imUrl = "ws://redmall-im.hushuo.show?imToken="
+// export const imUrl = "ws://redmall-im.hushuo.show?imToken="
 export const imUrl = "ws://47.109.18.227:6000?imToken="
 
 export const inviteUrl = "https://redmall-register.hushuo.show/#/pages/public/reg?code="

@@ -192,7 +192,7 @@
 			</view>
 			<view class="flex flex-align-center li" v-if="orderInfo.orderType === 1 && orderInfo.bonusIntegral">
 				<text class="label">赠送积分：</text>
-				<text>{{orderInfo.bonusIntegral}}%-{{(orderInfo.bonusIntegral*orderInfo.totalPrice).toFixed(2)}}积分</text>
+				<text>{{orderInfo.bonusIntegral}}%-{{((orderInfo.bonusIntegral/100)*orderInfo.totalPrice).toFixed(2)}}积分</text>
 			</view>
 			<view class="flex flex-between li">
 				<text class="label">订单编号：</text>

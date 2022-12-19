@@ -57,6 +57,7 @@
 						<text class="label">获得积分</text>
 						<text class="txt">{{((parseInt(((orderInfo.goodsInfo.bonusIntegral/100*orderInfo.goodsSku.skuPrice * orderInfo.number))*100)/100).toFixed(2))*orderInfo.number}}</text>
 					</view>
+					<!-- 普通商品才可以使用支付组合 -->
 					<view class="g-cell" v-if="orderInfo.orderType === 1">
 						<text class="label">支付组合</text>
 						<block v-if="orderInfo.goodsInfo.paymentCombination === 1">
@@ -83,7 +84,8 @@
 						<text class="txt" v-else>无需配送</text>
 					</view>
 				</view>
-				<view class="other" v-if="orderInfo.discountUserList && orderInfo.discountUserList.length > 0">
+				<!-- 普通商品才可以使用优惠券 -->
+				<view class="other" v-if="orderInfo.orderType == 1 && orderInfo.discountUserList && orderInfo.discountUserList.length > 0">
 					<view class="g-cell" @click="showDiscountPopup()">
 						<text class="label">店铺优惠</text>
 						<text class="txt">{{orderInfo.discountName}}</text>
@@ -222,8 +224,15 @@
 					let maxArray = commitOrderData.discountUserList.sort((a,b)=>{
 						return b.discountAmount - a.discountAmount
 					})
+					//是否使用优惠券：1=未使用，2=使用
+					commitOrderData.couponStatus = 2
+					//使用的用户优惠券ID
+					commitOrderData.couponUserId = maxArray[0].id
 					commitOrderData.discountName = maxArray[0].titleName
 					commitOrderData.discountAmount = maxArray[0].discountAmount
+					
+					//减去优惠券则扣
+					this.totalPayAmount = commitOrderData.totalMoney - commitOrderData.discountAmount
 				}
 				this.orderInfo = commitOrderData
 			}
@@ -256,8 +265,8 @@
 					groupParentId: this.orderInfo.groupParentId,
 					number: this.orderInfo.number,
 					receivingAddressId: this.addressData.id,
-					couponStatus: this.orderInfo.discountId ? 2 : 1, // 是否使用优惠券 1-未使用 2-使用
-					couponUserId: this.orderInfo.discountId || 0,
+					couponStatus: this.orderInfo.couponUserId ? 2 : 1, // 是否使用优惠券 1-未使用 2-使用
+					couponUserId: this.orderInfo.couponUserId || 0,
 					paymentCombination: this.orderInfo.payComposeType || 1, // 支付组合 1-关闭 2-使用
 					deliveryMethod: this.orderInfo.deliveryId || 5 // 配送方式
 				}
@@ -330,7 +339,7 @@
 				this.$refs.popup.close()
 			},
 			// 显示优惠券modal
-			showDiscountPopup() {
+			showDiscountPopup(discountPopupOpen) {
 				this.discountList = []
 				let discountUserList = JSON.parse(JSON.stringify(this.orderInfo.discountUserList))
 				let discountName = this.orderInfo.discountName
@@ -350,16 +359,19 @@
 			},
 			// 选择优惠券
 			radioChangeDiscount(e){
-				this.orderInfo.discountId = parseInt(e.detail.value)
+				this.orderInfo.couponUserId = parseInt(e.detail.value)
 			},
 			// 优惠券modal确认按钮
 			confirmDiscount(){
-				let discountId = this.orderInfo.discountId
+				let couponUserId = this.orderInfo.couponUserId
 				this.discountList.forEach(v =>{
-					if (v.id === discountId){
+					if (v.id === couponUserId){
 						this.orderInfo.discountName = v.titleName
 						this.orderInfo.discountAmount = v.discountAmount
-						this.orderInfo.discountId = v.id
+						//使用的用户优惠券ID
+						this.orderInfo.couponUserId = v.id
+						//是否使用优惠券：1=未使用，2=使用
+						this.orderInfo.couponStatus = 2
 						return false
 					}
 				})

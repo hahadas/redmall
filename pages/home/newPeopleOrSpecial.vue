@@ -7,7 +7,7 @@
 					<view><image :src="item.goodsInfo.mainImage" mode="" class="img"></image></view>
 					<view class="flex flex-column flex-wrap" style="width: 100%;">
 						<text class="line">{{item.goodsInfo.titleName}}</text>
-						<text class="font30 color-purple" style="margin-top: 10rpx;">¥{{item.goodsInfo.wholesalePrice}} - 月售{{item.goodsInfo.totalSales}}件</text>
+						<text class="font30 color-purple" style="margin-top: 10rpx;">¥{{item.goodsInfo.wholesalePrice}} - 已售{{item.goodsInfo.totalSales}}件</text>
 						<view class="btn" v-if="type === 4">
 							<text class="left">{{item.groupNumber}}人拼团</text>
 							<text class="color-w flex-1">去拼团 ></text>

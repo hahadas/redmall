@@ -167,7 +167,7 @@
 									</view>
 									<view class="goods-wrap-tip">
 										<text class="goods-wrap-tip-left">库存{{item.stock}}</text>
-										<text class="goods-wrap-tip-right">月售{{item.sales}}件</text>
+										<text class="goods-wrap-tip-right">已售{{item.sales}}件</text>
 									</view>
 									<view class="goods-wrap-price">
 										<text class="goods-wrap-price-txt">¥{{item.goodsInfo.wholesalePrice}}</text>

@@ -9,7 +9,7 @@
 					<text class="font30 color-purple">¥{{item.goodsSku.skuPrice}}</text>
 					<view class="flex flex-between font28 color-b6">
 						<text class="">库存: {{item.stock}}</text>
-						<text class="">月售: {{item.sales}}</text>
+						<text class="">已售: {{item.sales}}</text>
 						<text class="">评价: {{item.evaluate}}</text>
 					</view>
 				</view>

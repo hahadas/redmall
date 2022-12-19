@@ -13,7 +13,7 @@
 				<view class="goods-wrap-tip">
 					<!-- <text class="color-b9 font24 text-del">¥{{item.wholesalePrice}}</text> -->
 					<text class="goods-wrap-tip-left">{{(parseInt((item.bonusIntegral/100*item.wholesalePrice)*100)/100).toFixed(2)}}积分</text>
-					<text class="goods-wrap-tip-right">月售{{item.totalSales}}件</text>
+					<text class="goods-wrap-tip-right">已售{{item.totalSales}}件</text>
 				</view>
 				<view class="goods-wrap-price">
 					<text class="goods-wrap-price-txt">¥{{item.wholesalePrice}}</text>

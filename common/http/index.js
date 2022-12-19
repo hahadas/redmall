@@ -19,8 +19,8 @@ const reqInterceptor = async (options) => {
 	let token = uni.getStorageSync("token");
 	options.header = Object.assign({}, options.header, {
 		"Authorization": token
-	}) 
-	
+	})
+
 	_requestLog(options, "成功通过")
 	// return false will abort the request, and then reject a blank object {}
 	return options
@@ -80,7 +80,7 @@ const resInterceptor = (response, conf = {}) => {
 	} else {
 		_responseLog(response, conf, "response 300-499")
 		// 为了对reject的内容更加可控，我们增加了一个控制字段 wakaryReqToReject
-		
+
 		return {
 			// 根据当前字段来判断是否reject
 			wakaryReqToReject: true,
@@ -103,7 +103,7 @@ function _requestLog(req, describe = null) {
 	// 	}
 	// 	console.log("详细：" + JSON.stringify(req))
 	// }
-	
+
 	//TODO into log server
 }
 
@@ -158,7 +158,7 @@ function _responseLog(res, conf = {}, describe = null) {
 			title: res.data.msg,
 			icon: "none"
 		})
-	} 
+	}
 }
 
 export default req

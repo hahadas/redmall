@@ -446,31 +446,48 @@
 							let videoCallMyStatus = uni.getStorageSync("VideoCallMyStatus");
 							if (content.text==="已挂断" || content.text==="忙线中"){
 								this.closeCall()
-								if (videoCallMyStatus === 0 && content.text==="已挂断"){
-									let routes = getCurrentPages();
-									let curRoute = routes[routes.length - 1].route
-									if(curRoute.indexOf('imPopup') > -1){
-										uni.navigateBack()	
-									}
-								}
+								// if (videoCallMyStatus === 0 && content.text==="已挂断"){
+								// 	let routes = getCurrentPages();
+								// 	let curRoute = routes[routes.length - 1].route
+								// 	if(curRoute.indexOf('imPopup') > -1){
+								// 		uni.navigateBack()	
+								// 	}
+								// }
 							}
 							if (content.text==="视频通话" || content.text==="语音通话"){
 								if(videoCallMyStatus === 1){//通话中，告诉对方忙线
 									this.sendVideoMsg(message, {text: "忙线中"})
 								} else { //空闲
-									this.msgOrderPromptTone(2)
-									setTimeout(function() {
-										music.stop();//定时25秒关闭停止铃声
-									}, 1000*25);
-									let data = {
-										nickname: content.type ? conversation.storeName : conversation.nickname,
-										avatar: conversation.headPortrait,
-										message: message
-									}
-									uni.setStorageSync("callVideoData", JSON.stringify(data))
-									uni.navigateTo({
-										url: "/pages/imPopup",
-										animationType: "fade-in"
+									// this.msgOrderPromptTone(2)
+									// setTimeout(function() {
+									// 	music.stop();//定时25秒关闭停止铃声
+									// }, 1000*25);
+									// let data = {
+									// 	nickname: content.type ? conversation.storeName : conversation.nickname,
+									// 	avatar: conversation.headPortrait,
+									// 	message: message
+									// }
+									// uni.setStorageSync("callVideoData", JSON.stringify(data))
+									// uni.navigateTo({
+									// 	url: "/pages/imPopup",
+									// 	animationType: "fade-in"
+									// })
+									this.callVideo({
+										to: message.from,
+										from: message.to,
+										content: {
+											...content,
+											isCall: true
+										}
+									}, ret => {
+										if ((ret.code === 1)) {
+											//发送取消通话的消息
+											let msg = {
+												text: '通话时长',
+												time: ret.time
+											}
+											this.sendVideoMsg(message, msg)
+										}
 									})
 								}
 							}
@@ -565,6 +582,7 @@
 					let openCallData = {
 						"type": 2, //1 代表对一对一界面,0 代表默认界面
 						"isEnableVideo": true,
+						"isCall": message.content.isCall || false, // true 代表是接听模式， false 是呼叫，默认是呼叫.
 						"callType": message.content.callType, // video 是视频，voice 是语音通话
 						"roomid": message.content.roomId, //房间号, 数字
 						"username": data.toInfo.nickname, //对方的用户昵称

@@ -44,11 +44,11 @@
 				uni.removeStorageSync("callVideoData")
 				this.user = data
 				this.message = data.message
-				let content = data.message.content
-				if (typeof content === "string"){
-					content = JSON.parse(content)
+				// let content = data.message.content
+				if (typeof this.message.content === "string"){
+					this.message.content = JSON.parse(this.message.content)
 				}
-				this.callType = content.callType
+				this.callType = this.message.content.callType
 			}
 		},
 		methods:{
@@ -67,15 +67,16 @@
 				let newMessage = JSON.parse(JSON.stringify(this.message))
 				newMessage.to = this.message.from
 				newMessage.from = this.message.to
+				newMessage.content.isCall = true
 				getApp().callVideo(newMessage, ret=>{
-					// if ((ret.code === 1)) {
-					// 	//发送取消通话的消息
-					// 	let msg = {
-					// 		text: '通话时长',
-					// 		time: ret.time
-					// 	}
-					// 	getApp().sendVideoMsg(_this.message, msg)
-					// }
+					if ((ret.code === 1)) {
+						//发送取消通话的消息
+						let msg = {
+							text: '通话时长',
+							time: ret.time
+						}
+						getApp().sendVideoMsg(_this.message, msg)
+					}
 				});
 				this.$navigateBack()
 			},

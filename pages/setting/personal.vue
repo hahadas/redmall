@@ -280,7 +280,7 @@
 					}
 					if (res.data.userResources.length > 0){
 						res.data.userResources.forEach(v=>{
-							if (v.type === 0){
+							if (v.type === 0 && v.status === 4){
 								this.examineAvatar = v
 							}
 							if (v.type === 1){

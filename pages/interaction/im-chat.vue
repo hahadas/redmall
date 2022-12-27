@@ -1128,7 +1128,8 @@
 						to: this.channelId,
 						content: {
 							roomId: this.videoKeyObj.roomId,
-							callType: callType
+							callType: callType,
+							isCall: false
 						}
 					}
 					getApp().callVideo(message, ret =>{

@@ -235,7 +235,7 @@ export default{
 		inintIndexVideo: 'single/home/inintIndexVideoData', //视频：附近、推荐、关注数据初始化
 		indexVideoDates: 'single/home/indexVideoDates', //视频：附近、推荐、关注
 		userVideoType: 'single/home/userVideoType', //用户主页作品、关注、喜欢数据
-		getVideoDetailById: "single/home/findByJiuYinId", // 根据id获取视频
+		getVideoDetailById: "single/home/findByVideoId", // 根据id获取视频
 		followByUserId: 'single/home/followByUserId', //关注、取关
 		likeByVideo: 'single/home/likeByVideo', //点赞、取消点赞视频
 		comments: 'single/home/comments', //获取评论、回复

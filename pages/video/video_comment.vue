@@ -52,6 +52,7 @@
 		components: { youScroll },
 		data() {
 			return {
+				staticUrl: getApp().staticUrl,
 				loadingType: 'nomore',
 				count:0,
 				list:[]

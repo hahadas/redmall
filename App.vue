@@ -662,6 +662,7 @@
 				let _this = this
 				_this.closeInterval()
 				uni.getLocation({
+					//type: 'gcj02',
 					type: 'wgs84',
 					geocode: true,
 					success: async function(res) {
@@ -676,7 +677,7 @@
 								adcode: e.result['ad_info'].adcode,
 								showLng: res.longitude,
 								showLat: res.latitude,
-								showAddress: address.province+address.city+address.district+address.street+address.streetNum||'',
+								showAddress: address.province+address.city+address.district+(address.street ? address.street:'')+(address.streetNum ? address.streetNum:'')||'',
 								showAdname: address.poiName,
 								deviceId: plus.device.uuid,	// 设备id
 								deviceMac: getMacAddress(),	// 设备mac地址

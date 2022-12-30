@@ -1,7 +1,7 @@
 <template>
 	<view class="main">
 		<view class="header flex flex-align-center color-w" :style="{'padding-top': statusBarHeight+'px'}">
-			<view class="flex flex-grow" style="justify-content: space-between;">
+			<view class="flex flex-grow" style="justify-content: space-between;" v-if="userDetailInfo.username">
 				<view class="flex flex-align-center" @click="toNav('/pages/setting/personal')">
 					<view>
 						<image :src="filterImg(avatar)" mode="aspectFill" class="avatar"></image>
@@ -21,6 +21,18 @@
 					</view>
 				</view>
 				<text class="iconfont blod font48" @click="toNav('/pages/setting/index')">&#xe62a;</text>
+			</view>
+			<view class="flex flex-grow" style="justify-content: space-between;" v-else>
+				<view class="flex flex-align-center" @click="toNav('/pages/login/index')">
+					<view>
+						<image :src="filterImg(avatar)" mode="aspectFill" class="avatar"></image>
+					</view>
+					<view>
+						<view class="flex flex-align-center">
+							<text class="font38 line">登入/注册</text>
+						</view>
+					</view>
+				</view>
 			</view>
 		</view>
 		<view class="con">

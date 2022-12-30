@@ -331,8 +331,8 @@
 			if (addressData) {
 				this.myAddressData = JSON.parse(addressData)
 			} else {
-				this.$msg("请先设置您当前的位置")
-				this.openMap()
+				/* this.$msg("请先设置您当前的位置")
+				this.openMap() */
 			}
 			let id = opt.id
 			this.id = id

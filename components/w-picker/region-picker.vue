@@ -15,7 +15,8 @@
 </template>
 
 <script>
-	import areaData from "./areadata/areadata.js"
+	import url from "@/common/http/url.js"
+	/* import areaData from "./areadata/areadata.js" */
 	export default {
 		data() {
 			return {
@@ -25,7 +26,8 @@
 					citys:[],
 					areas:[]
 				},
-				checkObj:{}
+				checkObj:{},
+				areaData: []
 			};
 		},
 		props:{
@@ -55,85 +57,115 @@
 			this.initData();
 		},
 		methods:{
-			getData(){
-				//用来处理初始化数据
-				let provinces=areaData;
-				let dVal=[];
-				let value=this.value;
-				let a1=value[0];//默认值省
-				let a2=value[1];//默认值市
-				let a3=value[2];//默认值区、县
-				let province,city,area;
-				let provinceIndex=provinces.findIndex((v)=>{
-					return v[this.defaultType]==a1
-				});
-				provinceIndex=value?(provinceIndex!=-1?provinceIndex:0):0;
-				let citys=provinces[provinceIndex].children;
-				let cityIndex=citys.findIndex((v)=>{
-					return v[this.defaultType]==a2
-				});
-				cityIndex=value?(cityIndex!=-1?cityIndex:0):0;
-				let areas=citys[cityIndex].children;
-				let areaIndex=areas.findIndex((v)=>{
-					return v[this.defaultType]==a3;
-				});
-				areaIndex=value?(areaIndex!=-1?areaIndex:0):0;
-				dVal=this.hideArea?[provinceIndex,cityIndex]:[provinceIndex,cityIndex,areaIndex];
-				province=provinces[provinceIndex];
-				city=citys[cityIndex];
-				area=areas[areaIndex];
-				let obj=this.hideArea?{
-					province,
-					city
-				}:{
-					province,
-					city,
-					area
+			async getExternalSources(callback){
+				let key = 'EXTERNAL_SOURCES';
+				//先从缓存获取，如果缓存不存在，则请求数据后存入缓存中
+				let externalSources = uni.getStorageSync(key);
+				if(externalSources){
+					callback(externalSources);
+				}else{
+					await uni.request({
+						url: url.externalSources.areadataJson,
+						method: 'GET',
+						header:{
+							'Content-Type' : 'application/json',
+							'Access-Control-Allow-Origin': '*'
+						},
+						success: res => {
+							uni.setStorageSync(key, res.data)
+							callback(res.data);
+						},
+						fail: () => {},
+						complete: () => {}
+					});
 				}
-				return this.hideArea?{
-					provinces,
-					citys,
-					dVal,
-					obj
-				}:{
-					provinces,
-					citys,
-					areas,
-					dVal,
-					obj
-				}
+				
 			},
-			initData(){
-				let dataData=this.getData();
-				let provinces=dataData.provinces;
-				let citys=dataData.citys;
-				let areas=this.hideArea?[]:dataData.areas;
-				let obj=dataData.obj;
-				let province=obj.province,city=obj.city,area=this.hideArea?{}:obj.area;
-				let value=this.hideArea?[province.value,city.value]:[province.value,city.value,area.value];
-				let result=this.hideArea?`${province.label+city.label}`:`${province.label+city.label+area.label}`;
-				this.range=this.hideArea?{
-					provinces,
-					citys,
-				}:{
-					provinces,
-					citys,
-					areas
-				};
-				this.checkObj=obj;
-				this.$nextTick(()=>{
-					this.pickVal=dataData.dVal;
+			async getData(callback){
+				let that = this
+				await this.getExternalSources(areaData => {
+					that.areaData = areaData
+					//用来处理初始化数据
+					let provinces=areaData;
+					let dVal=[];
+					let value=that.value;
+					let a1=value[0];//默认值省
+					let a2=value[1];//默认值市
+					let a3=value[2];//默认值区、县
+					let province,city,area;
+					let provinceIndex=provinces.findIndex((v)=>{
+						return v[that.defaultType]==a1
+					});
+					provinceIndex=value?(provinceIndex!=-1?provinceIndex:0):0;
+					let citys=provinces[provinceIndex].children;
+					let cityIndex=citys.findIndex((v)=>{
+						return v[that.defaultType]==a2
+					});
+					cityIndex=value?(cityIndex!=-1?cityIndex:0):0;
+					let areas=citys[cityIndex].children;
+					let areaIndex=areas.findIndex((v)=>{
+						return v[that.defaultType]==a3;
+					});
+					areaIndex=value?(areaIndex!=-1?areaIndex:0):0;
+					dVal=that.hideArea?[provinceIndex,cityIndex]:[provinceIndex,cityIndex,areaIndex];
+					province=provinces[provinceIndex];
+					city=citys[cityIndex];
+					area=areas[areaIndex];
+					let obj=that.hideArea?{
+						province,
+						city
+					}:{
+						province,
+						city,
+						area
+					}
+					callback(that.hideArea?{
+						provinces,
+						citys,
+						dVal,
+						obj
+					}:{
+						provinces,
+						citys,
+						areas,
+						dVal,
+						obj
+					})
 				});
-				this.$emit("change",{
-					result:result,
-					value:value,
-					obj:obj
-				})
+			},
+			async initData(){
+				let that = this
+				await this.getData(dataData => {
+					let provinces=dataData.provinces;
+					let citys=dataData.citys;
+					let areas=that.hideArea?[]:dataData.areas;
+					let obj=dataData.obj;
+					let province=obj.province,city=obj.city,area=that.hideArea?{}:obj.area;
+					let value=that.hideArea?[province.value,city.value]:[province.value,city.value,area.value];
+					let result=that.hideArea?`${province.label+city.label}`:`${province.label+city.label+area.label}`;
+					that.range=that.hideArea?{
+						provinces,
+						citys,
+					}:{
+						provinces,
+						citys,
+						areas
+					};
+					that.checkObj=obj;
+					that.$nextTick(()=>{
+						that.pickVal=dataData.dVal;
+					});
+					that.$emit("change",{
+						result:result,
+						value:value,
+						obj:obj
+					})
+				});
 			},
 			handlerChange(e){
 				let arr=[...e.detail.value];
 				let provinceIndex=arr[0],cityIndex=arr[1],areaIndex=this.hideArea?0:arr[2];
-				let provinces=areaData;
+				let provinces=this.areaData;
 				let citys=(provinces[provinceIndex]&&provinces[provinceIndex].children)||provinces[provinces.length-1].children||[];
 				let areas=this.hideArea?[]:((citys[cityIndex]&&citys[cityIndex].children)||citys[citys.length-1].children||[]);
 				let province=provinces[provinceIndex]||provinces[provinces.length-1],

@@ -1,4 +1,8 @@
 export default{
+	// 外部资源请求地址
+	externalSources: {
+		areadataJson: 'https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/js/areadata.json'
+	},
 	// 公共
 	common: {
 		getCaptcha: "captcha/get", // 获取滑动图片验证码

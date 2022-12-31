@@ -109,7 +109,8 @@
 				isSynchroSuccess: false,
 				localUnReadNum: 0,
 				globalData: {},
-				staticUrl: staticUrl
+				staticUrl: staticUrl,
+				sysAddress: [],
 			}
 		},
 		computed:{
@@ -191,6 +192,8 @@
 			this.versionApp()
 			// #endif
 			
+			//获取三级地址数据
+			this.initSysAddressSources();
 		},
 		onShow: function() {
 			console.log('App Show')
@@ -998,8 +1001,33 @@
 					});
 					uni.setStorageSync("AndroidCheckUpdate", "false");
 				}
-			}
+			},
 			// #endif
+			initSysAddressSources(){
+				console.log("initSysAddressSources=====")
+				let that = this;
+				let key = 'SYSADDRESS_SOURCES';
+				//先从缓存获取，如果缓存不存在，则请求数据后存入缓存中
+				let externalSources = uni.getStorageSync(key);
+				if(externalSources){
+					that.sysAddress = externalSources
+				}else{
+					uni.request({
+						url: url.externalSources.sysAddressJson,
+						method: 'GET',
+						header:{
+							'Content-Type' : 'application/json',
+							'Access-Control-Allow-Origin': '*'
+						},
+						success: res => {
+							uni.setStorageSync(key, res.data)
+							that.sysAddress = res.data
+						},
+						fail: () => {},
+						complete: () => {}
+					});
+				}
+			},
 		}
 	}
 
@@ -1009,7 +1037,9 @@
 
 <style>
 	@import url("/common/fonts/iconfont.css");
+	/* @import url("https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/resources/fonts/iconfont.css"); */
 	@import "./common/animate.css";
+	/* @import url("https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/resources/animate.css"); */
 </style>
 
 <style lang="scss">

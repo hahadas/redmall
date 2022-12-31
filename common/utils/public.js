@@ -2,7 +2,7 @@ import url from "../http/url.js"
 import { inviteUrl } from "@/common/http/index.js"
 import { sendRequest } from "@/common/http/api.js" 
 import JSEncrypt from "@/js_sdk/jsencrypt-Rsa/jsencrypt/jsencrypt.min.js"
-import sysAddress from "@/common/utils/sysAddress.js"
+/* import sysAddress from "@/common/utils/sysAddress.js" */
 var QQMapWX = require('@/libs/qqmap-wx-jssdk.min.js')
 var qqmapsdk = new QQMapWX({
 	key: 'BJVBZ-UWBR6-DCZSL-E6DJE-AXQGZ-O5BMI'
@@ -368,12 +368,37 @@ let publics = {
 		let passwordEncryp = encryptor.encrypt(password)  // 对密码进行加密
 		return passwordEncryp
 	},
+	async getExternalSources(callback){
+		let key = 'SYSADDRESS_SOURCES';
+		//先从缓存获取，如果缓存不存在，则请求数据后存入缓存中
+		let externalSources = uni.getStorageSync(key);
+		if(externalSources){
+			callback(externalSources);
+		}else{
+			await uni.request({
+				url: url.externalSources.sysAddressJson,
+				method: 'GET',
+				header:{
+					'Content-Type' : 'application/json',
+					'Access-Control-Allow-Origin': '*'
+				},
+				success: res => {
+					uni.setStorageSync(key, res.data)
+					callback(res.data);
+				},
+				fail: () => {},
+				complete: () => {}
+			});
+		}
+	},
 	/**
 	 * 根据code获取当前城市数据
 	 * 数据格式：
 	 * {"id":1,"adcode":110000,"name":"北京市","level":1,"centerLng":116.405285000000000,"centerLat":39.904989000000000,"padcode":0}
 	 * */
 	getLngAndLatByCode(code){
+		let sysAddress = getApp().sysAddress;
+		
 		if (!code) return
 		if (typeof code === "string") {
 			code = parseInt(code)
@@ -390,12 +415,13 @@ let publics = {
 			return arrRes
 		}
 		arrRes = rev(sysAddress, code)
-		return arrRes
+		
+		return arrRes;
 	},
 	// 根据三级地区code获取省市区
-	getAddressByThreeCode(code){
+	getAddressByThreeCode(code,callback){
 		if (!code) return
-		let addrObj = publics.getLngAndLatByCode(code)
+		let addrObj = publics.getLngAndLatByCode(code);
 		let addressName = ""
 		if (addrObj) {
 			addrObj.map(v =>{

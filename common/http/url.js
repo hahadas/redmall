@@ -1,7 +1,8 @@
 export default{
 	// 外部资源请求地址
 	externalSources: {
-		areadataJson: 'https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/js/areadata.json'
+		areadataJson: 'https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/resources/areadata.json',
+		sysAddressJson: 'https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/resources/sysAddress.json',
 	},
 	// 公共
 	common: {

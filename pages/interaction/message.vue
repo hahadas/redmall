@@ -374,5 +374,6 @@
 
 <style scoped lang="scss">
 	@import "../../common/main.css";
+	/* @import url('https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/resources/main.css'); */
 </style>
 

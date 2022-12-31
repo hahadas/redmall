@@ -227,13 +227,15 @@
 				})
 			},
 			getDetailInfo(){
+				let that = this
 				this.$http("GET", url.store.getStoreInfoById, {storeId: this.id}).then(res =>{
-					this.info = res.data
-					let city = this.filterAddr(res.data.threeAdcode)
+					that.info = res.data
+					let city = that.filterAddr(res.data.threeAdcode)
+					
 					if (res.data.addressDetails.indexOf(city) > -1){
-						this.addressName = res.data.addressDetails + res.data.addressSupplement
+						that.addressName = res.data.addressDetails + res.data.addressSupplement
 					} else {
-						this.addressName = city + res.data.addressDetails + res.data.addressSupplement
+						that.addressName = city + res.data.addressDetails + res.data.addressSupplement
 					}
 					uni.setNavigationBarTitle({
 						title: res.data.name
@@ -285,9 +287,10 @@
 					}
 				})
 			},
-			filterAddr(code) {
+			filterAddr(code,callback) {
 				if (!code) return
 				let addrObj = publics.getLngAndLatByCode(code)
+				
 				let addrName = ""
 				if (addrObj){
 					console.log(".....", addrObj)
@@ -295,7 +298,7 @@
 						addrName = addrName + v.name
 					})
 				}
-				return addrName
+				return addrName;
 			}
 		}
 	}

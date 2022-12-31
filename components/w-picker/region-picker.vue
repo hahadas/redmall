@@ -79,7 +79,6 @@
 						complete: () => {}
 					});
 				}
-				
 			},
 			async getData(callback){
 				let that = this

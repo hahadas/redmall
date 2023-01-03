@@ -91,7 +91,7 @@
 				</view>
 			</view>
 			<!-- 图片 -->
-			<view class="carousel-section">
+			<view class="carousel-section" v-if="configAppstoreHidePage">
 				<view class="carousel" @click="toAgent">
 					<image :src="staticUrl + 'user/agent_use1.png'" v-if="userDetailInfo.distributorIsOpen === 1" mode="scaleToFill" class="img"/>
 					<image :src="staticUrl + 'user/agent_1.png'" v-else mode="scaleToFill" class="img"/>
@@ -143,7 +143,7 @@
 				</view>
 			</view>
 			<!-- 第三方 -->
-			<view class="culist">
+			<view class="culist" v-if="configAppstoreHidePage">
 				<view class="title flex flex-between">
 					<text class="blod font32">第三方服务</text>
 				</view>
@@ -212,6 +212,8 @@
 				redList: [],
 				mobileList: [],
 				threeData: [],
+				platform: uni.getSystemInfoSync().platform,
+				configAppstoreHidePage: false,
 			}
 		},
 		onPullDownRefresh() {
@@ -235,6 +237,18 @@
 		onShow() {
 			this.init()
 			this.getRedBagList()
+			
+			// 获取 苹果应用商店需要隐藏的页面和功能模块 配置
+			if (this.platform === "ios") {
+				this.$http("GET", url.common.appstoreHidePage).then(res => {
+					console.log(this.platform)
+					if(res.data){
+						this.configAppstoreHidePage = res.data.keyValue === "1" ? false : true
+					}
+				})
+			}else{//其它设备则显示
+				this.configAppstoreHidePage = true
+			}
 		},
 		onBackPress(){
 			//隐藏到后台，不退出app

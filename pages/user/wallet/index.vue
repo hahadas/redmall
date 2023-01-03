@@ -11,7 +11,7 @@
 				<text class="font46">{{walletInfo.integral||0}}</text>
 			</view>
 		</view>
-		<view class="cell bg-w">
+		<view class="cell bg-w" v-if="configAppstoreHidePage">
 			<view class="flex flex-between cell-item" @tap="jumpTo('withdrawal')">
 				<text class="font30 color-b3">提现</text>
 				<text class="iconfont color-b9 font38">&#xe770;</text>
@@ -23,11 +23,11 @@
 			</view> -->
 		</view>
 		<view class="cell bg-w">
-			<view class="flex flex-between cell-item" @tap="jumpTo('withdrawalRecord')">
+			<view class="flex flex-between cell-item" @tap="jumpTo('withdrawalRecord')" v-if="configAppstoreHidePage">
 				<text class="font30 color-b3">提现记录</text>
 				<text class="iconfont color-b9 font38">&#xe770;</text>
 			</view>
-			<block v-if="type === 3">
+			<block v-if="type === 3 && configAppstoreHidePage">
 				<view class="b-l-20"></view>
 				<view class="flex flex-between cell-item" @tap="jumpTo('/pages/merchants/collection/list')">
 					<text class="font30 color-b3">收款记录</text>
@@ -53,7 +53,9 @@
 				// integralMoney:0.00,//积分余额
 				// xiaofeiMoney: 0.00,//消费券余额
 				type: 1, // 1-用户， 2-配送员， 3-用户, 4-存托
-				walletInfo: {}
+				walletInfo: {},
+				platform: uni.getSystemInfoSync().platform,
+				configAppstoreHidePage: false,
 			}
 		},
 		onLoad(opt) {
@@ -76,6 +78,19 @@
 						this.walletInfo = res.data
 					})
 				}
+				
+				// 获取 苹果应用商店需要隐藏的页面和功能模块 配置
+				if (this.platform === "ios") {
+					this.$http("GET", url.common.appstoreHidePage).then(res => {
+						console.log(this.platform)
+						if(res.data){
+							this.configAppstoreHidePage = res.data.keyValue === "1" ? false : true
+						}
+					})
+				}else{//其它设备则显示
+					this.configAppstoreHidePage = true
+				}
+				
 				uni.stopPullDownRefresh()
 			},
 			jumpTo(path) {

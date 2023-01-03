@@ -20,6 +20,7 @@ export default{
 		getImChatWarning: "sys/config/imChatWarning", // 获取聊天框中大警示语
 		threeProportion: "sys/config/thirdPartyServicesProportion", // 第三方服务比例
 		distributorDepositConfig: "sys/config/distributorDepositConfig", // 配送员押金协议
+		appstoreHidePage: "sys/config/appstoreHidePage", // 苹果应用商店需要隐藏的页面和功能模块
 	},
 	// 聚合相关
 	juhe:{

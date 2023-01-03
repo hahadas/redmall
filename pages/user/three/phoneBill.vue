@@ -6,7 +6,7 @@
 			<text class="iconfont del" @click="phone=''" v-if="phone">&#xe638;</text>
 		</view>
 		<view class="box">
-			<input type="password" v-model="password" placeholder="请输入登入密码" class="input" />
+			<input type="password" v-model="password" placeholder="请输入登录密码" class="input" />
 			<text class="iconfont del" @click="password=''" v-if="password">&#xe638;</text>
 		</view>
 		<text class="color-red font32 describe" v-if="describe">{{describe}}</text>
@@ -71,7 +71,7 @@
 		methods:{
 			recharge(row){
 				if (!this.phone) return this.$msg("请输入充值的手机号码")
-				if (!this.password) return this.$msg("请输入登入密码")
+				if (!this.password) return this.$msg("请输入登录密码")
 				let _this = this
 				this.$showModal("是否确认充值", "提示", async r => {
 					if (r.confirm) {

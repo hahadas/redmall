@@ -41,6 +41,11 @@
 				<text class="cell-tit">忘记密码？找回密码</text>
 				<text class="cell-more iconfont">&#xe770;</text>
 			</view>
+			<view class="b-b"></view>
+			<view class="list-cell" hover-class="cell-hover" :hover-stay-time="50" @click="navTo('delMyUserInfo')">
+				<text class="cell-tit">删除我的账户</text>
+				<text class="cell-more iconfont">&#xe770;</text>
+			</view>
 		</view>
 		<view class="bg-w">
 			<view class="list-cell m-t" @click="navTo('blackList')" hover-class="cell-hover" :hover-stay-time="50">

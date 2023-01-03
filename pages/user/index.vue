@@ -29,7 +29,7 @@
 					</view>
 					<view>
 						<view class="flex flex-align-center">
-							<text class="font38 line">登入/注册</text>
+							<text class="font38 line">登录/注册</text>
 						</view>
 					</view>
 				</view>

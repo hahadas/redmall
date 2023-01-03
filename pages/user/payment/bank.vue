@@ -26,8 +26,8 @@
 				<input type="number" placeholder="预留号码" :disabled="isView" :maxlength="11" v-model="paymentInfo.phone">
 			</view>
 			<view class="form-item flex flex-align-center" v-if="!isView">
-				<text class="label font32">登入密码：</text>
-				<input type="password" placeholder="登入密码" v-model="password">
+				<text class="label font32">登录密码：</text>
+				<input type="password" placeholder="登录密码" v-model="password">
 			</view>
 		</view>
 		<button type="primary" class="bg-base" v-if="!isView" :loading="loading" :disabled="loading" @tap="onSave()">确定</button>

@@ -1,14 +1,14 @@
 import Request from './request.js'
 import { throttle } from './throttle.js'
 
-export const staticUrl = "https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/"
+export const staticUrl = "https://redmall-public.oss-cn-shenzhen.aliyuncs.com/static_resources/"
 export const baseUrl = "http://redmall-app-api.nnwqkj.com/api/"
 // export const baseUrl = "http://192.168.1.188:6001/api/"
 // export const baseUrl = "http://47.109.18.227:6001/api/"
 export const imUrl = "ws://redmall-im.nnwqkj.com?imToken="
 // export const imUrl = "ws://47.109.18.227:6000?imToken="
 
-export const inviteUrl = "https://redmall-register.hushuo.show/#/pages/public/reg?code="
+export const inviteUrl = "https://redmall-register.nnwqkj.com/#/pages/public/reg?code="
 
 const config = {
 	baseUrl: baseUrl
@@ -142,14 +142,29 @@ function _responseLog(res, conf = {}, describe = null) {
 				uni.removeStorageSync("token")
 				let routes = getCurrentPages()
 				let curRoute = routes[routes.length - 1].route
-				if (curRoute.indexOf("login/index") < 0) { // 如果不在登录页面
-					uni.showToast({
+				//排除的路径
+				let excludeRoutes = "pages/login/index,pages/login/login,pages/login/register,pages/public/reg,pages/login/forget";
+				if (excludeRoutes.indexOf(curRoute) < 0) { // 如果不在登录页面，账号密码登录页面、注册页面、忘记密码页面
+					uni.showModal({
+						content: '该功能需要登录后才能访问哟~',
+						confirmText: '马上登录',
+						success: function (res) {
+							if (res.confirm) {
+								uni.reLaunch({
+									url: "/pages/login/index"
+								})
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
+					});
+					/* uni.showToast({
 						title: '请登录',
 						icon: "none"
 					})
 					uni.reLaunch({
 						url: "/pages/login/index"
-					})
+					}) */
 				}
 			}
 		})

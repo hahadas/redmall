@@ -21,7 +21,7 @@
 					<input type="number" :maxlength="11" placeholder="请输入持卡人手机号" v-model="form.gasCardTel" class="input" />
 				</view>
 				<view class="form-item">
-					<input type="password" placeholder="请输入登入密码" v-model="password" class="input" />
+					<input type="password" placeholder="请输入登录密码" v-model="password" class="input" />
 				</view>
 				<view v-if="describe1 || describe2" class="describe">
 					<text class="color-red" v-if="current === 0 && describe1">{{describe1}}</text>
@@ -113,7 +113,7 @@
 				if (!this.form.gameUserid) return this.$msg("请输入充值的卡号")
 				if (!this.form.gasCardName) return this.$msg("请输入持卡人姓名")
 				if (!this.form.gasCardTel) return this.$msg("请输入持卡人手机号")
-				if (!this.password) return this.$msg("请输入登入密码")
+				if (!this.password) return this.$msg("请输入登录密码")
 				let _this = this
 				this.$showModal("是否确认充值", "提示", async r => {
 					if (r.confirm) {

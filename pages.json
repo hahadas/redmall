@@ -477,6 +477,13 @@
 			}
 		},
 		{
+			"path": "pages/setting/delMyUserInfo",
+			"style": {
+				"navigationBarTitleText": "删除我的账户",
+				"navigationBarBackgroundColor":"#FFFFFF"
+			}
+		},
+		{
 			"path": "pages/user/address/index",
 			"style": {
 				"navigationBarTitleText": "我的地址",

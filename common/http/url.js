@@ -63,6 +63,7 @@ export default{
 		editUserInfo: "user/updateInfo", // 修改个人信息
 		editPassword: "user/updatePassword", // 修改密码，原密码+新密码
 		updateMobile: "user/updateMobile", // 修改手机号
+		delMyUserInfo: "user/delMyUserInfo", // 删除自身账户并退出登入
 		updateAddress: "user/updateAddress", // 更新个人位置信息
 		updateUniappClientInfo: "user/updateUniappClientInfo", // 更新设备信息
 		getLabels: "user/labels", // 获取酒量、过往职业、兴趣爱好标签

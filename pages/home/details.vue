@@ -258,7 +258,7 @@
 	import url from "@/common/http/url.js"
 	import publics from "@/common/utils/public.js"
 	import { sendRequestJson } from "@/common/http/api.js"
-	import uniGoodsNav from '@/components/uni-goods-nav/uni-goods-nav.vue'
+	import uniGoodsNav from './components/uni-goods-nav/uni-goods-nav.vue'
 	import vTabs from "@/components/v-tabs/v-tabs.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import uniNumberBox from "@/components/uni-number-box/uni-number-box.vue"

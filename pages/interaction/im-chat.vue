@@ -406,7 +406,7 @@
 <script>
 	import { mapState, mapMutations } from 'vuex'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
-	import cmdProgress from "@/components/cmd-progress/cmd-progress.vue"
+	import cmdProgress from "./components/cmd-progress/cmd-progress.vue"
 
 	// #ifdef APP-PLUS
 	import permision from "@/common/im/permission.js"

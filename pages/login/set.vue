@@ -104,7 +104,7 @@
 				this.loading = true
 				this.$http("POST", url.user.editUserInfo, this.form).then(res => {
 					uni.switchTab({
-						url:"../home/index"
+						url:"/pages/tabbar/home"
 					})
 				}).catch(()=>{
 					this.loading = false

@@ -162,7 +162,7 @@ export default{
 						this.$navigateTo("/pages/login/set")
 					} else {
 						uni.switchTab({
-							url: "/pages/interaction/index"
+							url: "/pages/tabbar/interaction"
 						})
 					}
 					this.loading = false

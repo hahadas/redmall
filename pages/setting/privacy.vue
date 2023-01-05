@@ -93,7 +93,7 @@
 			onAgree(){
 				uni.setStorageSync("agreePrivacy", true)
 				uni.switchTab({
-					url: '/pages/interaction/index'
+					url: '/pages/tabbar/interaction'
 				});
 			}
 		}

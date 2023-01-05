@@ -771,13 +771,13 @@
 				// 跳转发布视频
 				uni.setStorageSync("interactionCurrent", 3)
 				uni.switchTab({
-					url:'/pages/interaction/index'
+					url:'/pages/tabbar/interaction'
 				})
 			},
 			clickLeft(){
 				//视频会自动暂停，不进入onHide()方法
 				uni.switchTab({
-					url: '/pages/home/index'
+					url: '/pages/tabbar/home'
 				});
 			},
 			openMap(){

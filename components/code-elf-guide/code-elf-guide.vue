@@ -71,7 +71,7 @@
 					}
 				}).catch((err) => {
 					uni.switchTab({
-						url: '/pages/home/index'
+						url: '/pages/tabbar/home'
 					});
 				})
 			},
@@ -86,7 +86,7 @@
 						curRoute += '';
 						if(curRoute.indexOf("startup/index") != -1){//如果当前路由还是在该页面，则进行跳转主页操作
 							uni.switchTab({
-								url: '/pages/home/index'
+								url: '/pages/tabbar/home'
 							});
 						}
 					}, _this.interval-500);
@@ -102,7 +102,7 @@
 				}); */
 				this.autoplay = false;
 				uni.switchTab({
-					url: '/pages/home/index'
+					url: '/pages/tabbar/home'
 				});
 				
 			},

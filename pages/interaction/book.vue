@@ -50,8 +50,8 @@
 <script>
 	// import publics from "@/common/utils/public.js"
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
-	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
-	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
+	import uniSwipeAction from './components/uni-swipe-action/uni-swipe-action.vue'
+	import uniSwipeActionItem from './components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	import jinEdit from '@/components/jin-edit/jin-edit.vue';
+	import jinEdit from '../components/jin-edit/jin-edit.vue';
 
 	export default {
 		components: { jinEdit },

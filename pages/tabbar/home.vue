@@ -175,8 +175,8 @@
 	import url from "@/common/http/url.js"
 	import publics from "@/common/utils/public.js"
 	import { checkOpenGPSService } from "@/common/utils/index.js"
-	import product from "./modules/product.vue"
-	import shop from "./modules/shop.vue"
+	import product from "../home/modules/product.vue"
+	import shop from "../home/modules/shop.vue"
 	import modal from "@/components/modal.vue"
 	import redEnvelopes from "@/components/red-envelopes.vue"
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';

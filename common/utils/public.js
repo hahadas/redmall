@@ -1,7 +1,7 @@
 import url from "../http/url.js"
 import { inviteUrl } from "@/common/http/index.js"
 import { sendRequest } from "@/common/http/api.js" 
-import JSEncrypt from "@/js_sdk/jsencrypt-Rsa/jsencrypt/jsencrypt.min.js"
+import JSEncrypt from "@/libs/jsencrypt-Rsa/jsencrypt.min.js"
 import sysAddress from "@/common/utils/sysAddress.js"
 var QQMapWX = require('@/libs/qqmap-wx-jssdk.min.js')
 var qqmapsdk = new QQMapWX({

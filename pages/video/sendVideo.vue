@@ -75,7 +75,7 @@
 	import publics from "@/common/utils/public.js"
 	import upload from "@/common/http/upload.js"
 	// 以下路径需根据项目实际情况填写
-	import { pathToBase64, base64ToPath } from '@/js_sdk/gsq-image-tools/image-tools/index.js'
+	import { pathToBase64, base64ToPath } from '@/libs/gsq-image-tools.js'
 	
 	// #ifdef APP-PLUS
 	const crop = uni.requireNativePlugin("Html5app-VideoCrop");

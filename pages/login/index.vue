@@ -1,5 +1,5 @@
 <template>
-	<view class="main" :style="{backgroundImage: 'url('+ staticUrl + 'login/login_bg.png)'}">
+	<view class="main" :style="{backgroundImage: 'url('+ staticUrl + 'login/login_bg1.png)'}">
 		<view class="flex flex-center flex-column fixed">
 			<view class="flex flex-between btn color-purple">
 				<view class="flex flex-center btn-item bg-w" @tap="jumpTo('login')">

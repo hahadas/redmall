@@ -52,6 +52,7 @@
 		components: { youScroll },
 		data() {
 			return {
+				staticUrl: getApp().staticUrl,
 				loadingType: 'nomore',
 				count:0,
 				list:[]
@@ -105,6 +106,7 @@
 
 <style>
 	@import url('../../common/main.css');
+	/* @import url('https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/resources/main.css'); */
 </style>
 <style lang="less">
 </style>

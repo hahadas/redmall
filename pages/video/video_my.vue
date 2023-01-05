@@ -141,7 +141,7 @@
 		},
 		data() {
 			return {
-				staticUrl: this.$staticUrl,
+				staticUrl: getApp().staticUrl,
 				subjectByKey:null,
 				myImUtils:imUtils,
 				avatarFlag:'display: none;',

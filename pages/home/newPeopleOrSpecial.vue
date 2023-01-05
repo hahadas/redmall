@@ -7,7 +7,7 @@
 					<view><image :src="item.goodsInfo.mainImage" mode="" class="img"></image></view>
 					<view class="flex flex-column flex-wrap" style="width: 100%;">
 						<text class="line">{{item.goodsInfo.titleName}}</text>
-						<text class="font30 color-purple" style="margin-top: 10rpx;">¥{{item.goodsInfo.wholesalePrice}} - 已售{{item.goodsInfo.totalSales}}件</text>
+						<text class="font30 color-purple" style="margin-top: 10rpx;">¥{{item.goodsInfo.wholesalePrice}} {{type == 5 ? " - 赠"+(item.goodsInfo.bonusIntegral/100*item.goodsInfo.wholesalePrice).toFixed(2)+"积分":""}} - 已售{{item.goodsInfo.totalSales}}件</text>
 						<view class="btn" v-if="type === 4">
 							<text class="left">{{item.groupNumber}}人拼团</text>
 							<text class="color-w flex-1">去拼团 ></text>
@@ -70,13 +70,30 @@
 					let list = res.data
 					if (list && list.length > 0 && this.type === 2) { // 限时秒杀 倒计时
 						list.map((v, i) => {
-							this.countDownReturn(v, i)
+							/* this.countDownReturn(v, i) */
+							v.time = this.countTime(v.dueDateTime);
 						})
 					}
 					this.list = this.list.concat(list)
 					this.loading = list.length < 12 ? 'nomore' : 'more'
 					uni.stopPullDownRefresh()
 				})
+			},
+			countTime(dueDateTime){
+				let timeReplace = dueDateTime.replace(/\.|\-/g, '/')
+				
+				let startTime = new Date(); // 开始时间
+				let endTime = new Date(timeReplace); // 结束时间
+				let usedTime = endTime - startTime; // 相差的毫秒数
+				let days = Math.floor(usedTime / (24 * 3600 * 1000)); // 计算出天数
+				let leavel = usedTime % (24 * 3600 * 1000); // 计算天数后剩余的时间
+				let hours = Math.floor(leavel / (3600 * 1000)); // 计算剩余的小时数
+				let leavel2 = leavel % (3600 * 1000); // 计算剩余小时后剩余的毫秒数
+				let minutes = Math.floor(leavel2 / (60 * 1000)); // 计算剩余的分钟数
+				
+				let timer = days + '天' + hours + '时' + minutes + '分';
+				console.log(timer)
+				return timer;
 			},
 			countDownReturn(item, i){
 				let _this = this

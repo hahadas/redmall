@@ -114,7 +114,7 @@
 		},
 		data() {
 			return {
-				staticUrl: this.$staticUrl,
+				staticUrl: getApp().staticUrl,
 				jianPanHeight:0,
 				commentType:0,
 				commentId:0,

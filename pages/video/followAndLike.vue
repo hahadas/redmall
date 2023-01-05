@@ -64,6 +64,7 @@
 </template>
 
 <script>
+	import { sendRequest } from "@/common/http/api.js"
 	import { mapState } from "vuex"
 	import url from "@/common/http/url.js"
 	import vTabs from "@/components/v-tabs/v-tabs.vue"
@@ -202,9 +203,20 @@
 			},
 			//浏览视频
 			showVideo(row, index){
+				uni.setStorageSync("VideoByUserCommentOneData",JSON.stringify(row));
 				uni.navigateTo({
-					url: "/pages/video/indexByUser?pages=like&id="+row.id
+					url: "/pages/video/videoComment?commentId="+row.id
 				})
+				/* console.log(row)
+				sendRequest('get', url.interaction.getVideoByCommentId, {videoId:row.id}).then(res => {
+					let data = res.data
+					if(data){
+						uni.setStorageSync("VideoByUserCommentOneData",JSON.stringify(data));
+						uni.navigateTo({
+							url: "/pages/video/videoComment?commentId="+row.id
+						})
+					}
+				}) */
 			},
 			// 取消关注 1-取消关注 0-关注
 			guanZu(item, i, type){

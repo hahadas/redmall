@@ -34,11 +34,11 @@
 					<text class="iconfont icon">&#xe609;</text>
 					<text class="font26">安卓下载</text>
 				</view>
-				<text class="font28 color-purple">苹果用户请先使用网页版</text>
-				<!-- <view class="item bg-base" @click="download(iosUrl)">
+				<!-- <text class="font28 color-purple">苹果用户请先使用网页版</text> -->
+				<view class="item bg-base" @click="download(iosUrl)">
 					<text class="iconfont icon">&#xe607;</text>
 					<text class="font26">苹果下载</text>
-				</view> -->
+				</view>
 			</view>
 			<view style="height: 150rpx;"></view>
 			<!-- #endif -->

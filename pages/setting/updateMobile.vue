@@ -8,7 +8,7 @@
 			<sms :phone="form.mobile" typeCode="3"></sms>
 		</view>
 		<view class="section flex flex-between">
-			<input :password="!showPwd" v-model="password" maxlength="24"  placeholder="登入密码" placeholder-style="font-size:30rpx" class="password flex-grow"/>
+			<input :password="!showPwd" v-model="password" maxlength="24"  placeholder="登录密码" placeholder-style="font-size:30rpx" class="password flex-grow"/>
 			<text class="iconfont icon" @click="showPwd = !showPwd">{{showPwd?'\ue7c0':'\ue7bf'}}</text>
 		</view>
 		<view class="btn-area">
@@ -42,11 +42,11 @@
 			async formSubmit(){
 				if (!this.form.mobile) return this.$msg("请输入新的手机号码")
 				if (!this.form.code) return this.$msg("请输入短信验证码")
-				if (!this.password) return this.$msg("请输入登入密码")
+				if (!this.password) return this.$msg("请输入登录密码")
 				this.loading = true
 				this.form.password = await publics.passwordEncryption(this.rsaKey,this.password)
 				this.$http("POST", url.user.updateMobile, this.form).then(res =>{
-					this.$msg("修改成功,请重新登入")
+					this.$msg("修改成功,请重新登录")
 					this.logout()
 					uni.removeStorageSync('smsTime')
 				}).catch(()=>{

@@ -138,7 +138,7 @@
 		},
 		data(){
 			return{
-				staticUrl: this.$staticUrl,
+				staticUrl: getApp().staticUrl,
 				commentId:0,
 				videoNowIndex:0,//当前播放视频的下标
 				videoByUserData:{},

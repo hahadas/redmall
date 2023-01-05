@@ -1,4 +1,9 @@
 export default{
+	// 外部资源请求地址
+	externalSources: {
+		areadataJson: 'https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/resources/areadata.json',
+		sysAddressJson: 'https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/resources/sysAddress.json',
+	},
 	// 公共
 	common: {
 		getCaptcha: "captcha/get", // 获取滑动图片验证码
@@ -15,6 +20,7 @@ export default{
 		getImChatWarning: "sys/config/imChatWarning", // 获取聊天框中大警示语
 		threeProportion: "sys/config/thirdPartyServicesProportion", // 第三方服务比例
 		distributorDepositConfig: "sys/config/distributorDepositConfig", // 配送员押金协议
+		appstoreHidePage: "sys/config/appstoreHidePage", // 苹果应用商店需要隐藏的页面和功能模块
 	},
 	// 聚合相关
 	juhe:{
@@ -58,6 +64,7 @@ export default{
 		editUserInfo: "user/updateInfo", // 修改个人信息
 		editPassword: "user/updatePassword", // 修改密码，原密码+新密码
 		updateMobile: "user/updateMobile", // 修改手机号
+		delMyUserInfo: "user/delMyUserInfo", // 删除自身账户并退出登入
 		updateAddress: "user/updateAddress", // 更新个人位置信息
 		updateUniappClientInfo: "user/updateUniappClientInfo", // 更新设备信息
 		getLabels: "user/labels", // 获取酒量、过往职业、兴趣爱好标签
@@ -235,7 +242,7 @@ export default{
 		inintIndexVideo: 'single/home/inintIndexVideoData', //视频：附近、推荐、关注数据初始化
 		indexVideoDates: 'single/home/indexVideoDates', //视频：附近、推荐、关注
 		userVideoType: 'single/home/userVideoType', //用户主页作品、关注、喜欢数据
-		getVideoDetailById: "single/home/findByJiuYinId", // 根据id获取视频
+		getVideoDetailById: "single/home/findByVideoId", // 根据id获取视频
 		followByUserId: 'single/home/followByUserId', //关注、取关
 		likeByVideo: 'single/home/likeByVideo', //点赞、取消点赞视频
 		comments: 'single/home/comments', //获取评论、回复

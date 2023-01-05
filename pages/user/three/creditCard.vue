@@ -44,8 +44,8 @@
 				<text class="flex-grow">{{(Number(amount || 0)*scale).toFixed(2)}}</text>
 			</view>
 			<view class="form-item bor-no">
-				<text class="label">登入密码</text>
-				<input type="password" placeholder="请输入登入密码" v-model="password" class="input" />
+				<text class="label">登录密码</text>
+				<input type="password" placeholder="请输入登录密码" v-model="password" class="input" />
 			</view>
 		</view>
 		<view class="flex flex-center" style="margin-top: 20rpx;" v-if="remarks">
@@ -123,7 +123,7 @@
 			async onConfirm(){
 				if (!this.bankData) return this.$msg("请选择还款账户")
 				if (!this.amount) return this.$msg("请输入还款金额")
-				if (!this.password) return this.$msg("请输入登入密码")
+				if (!this.password) return this.$msg("请输入登录密码")
 				this.loading = true
 				let params = {
 					account: this.bankData.account,

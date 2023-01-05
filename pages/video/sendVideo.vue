@@ -404,6 +404,7 @@
 
 <style scoped>
 	@import url('../../common/main.css');
+	/* @import url('https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/resources/main.css'); */
 </style>
 <style scoped>
 	.bg-img{

@@ -11,7 +11,7 @@
 				<text class="cell-more iconfont">&#xe770;</text>
 			</view>
 			<view class="b-b"></view>
-			<view class="list-cell" @click="navTo('/pages/user/payment/index')" hover-class="cell-hover" :hover-stay-time="50">
+			<view class="list-cell" @click="navTo('/pages/user/payment/index')" hover-class="cell-hover" :hover-stay-time="50" v-if="configAppstoreHidePage">
 				<text class="cell-tit">收款信息</text>
 				<text class="cell-more iconfont">&#xe770;</text>
 			</view>
@@ -39,6 +39,11 @@
 			<view class="b-b"></view>
 			<view class="list-cell" hover-class="cell-hover" :hover-stay-time="50" @click="navTo('/pages/login/forget')">
 				<text class="cell-tit">忘记密码？找回密码</text>
+				<text class="cell-more iconfont">&#xe770;</text>
+			</view>
+			<view class="b-b"></view>
+			<view class="list-cell" hover-class="cell-hover" :hover-stay-time="50" @click="navTo('delMyUserInfo')">
+				<text class="cell-tit">删除我的账户</text>
 				<text class="cell-more iconfont">&#xe770;</text>
 			</view>
 		</view>
@@ -84,7 +89,9 @@
 			return {
 				version: "1.0.0",
 				aboutId: 0,
-				mobileList: []
+				mobileList: [],
+				platform: uni.getSystemInfoSync().platform,
+				configAppstoreHidePage: false,
 			}
 		},
 		onLoad() {
@@ -105,6 +112,18 @@
 			this.$http("GET", url.common.getAboutId).then(res =>{
 				this.aboutId = res.data
 			})
+			
+			// 获取 苹果应用商店需要隐藏的页面和功能模块 配置
+			if (this.platform === "ios") {
+				this.$http("GET", url.common.appstoreHidePage).then(res => {
+					console.log(this.platform)
+					if(res.data){
+						this.configAppstoreHidePage = res.data.keyValue === "1" ? false : true
+					}
+				})
+			}else{//其它设备则显示
+				this.configAppstoreHidePage = true
+			}
 		},
 		methods:{
 			...mapMutations(["logout"]),

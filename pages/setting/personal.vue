@@ -241,7 +241,7 @@
 		onBackPress(e) {
 			// if (e.from !== 'navigateBack') {
 			// 	if ((!this.userInfo.headPortrait && !this.examineAvatar.ossUrl) || !this.userInfo.birthDate || !this.userInfo.gender || !this.userInfo.nickname) {
-			// 		this.$showModal("请检查您的头像、昵称、生日、性别信息是否已完善，未完善点击返回则退出登入，是否确认退出登入？", "提示", res =>{
+			// 		this.$showModal("请检查您的头像、昵称、生日、性别信息是否已完善，未完善点击返回则退出登录，是否确认退出登录？", "提示", res =>{
 			// 			if (res.confirm) {
 			// 				// uni.navigateBack()
 			// 			}
@@ -253,7 +253,7 @@
 			// return true
 			
 			if ((!this.userInfo.headPortrait && !this.examineAvatar.ossUrl) || !this.userInfo.birthDate || !this.userInfo.gender || !this.userInfo.nickname) {
-				this.$showModal("请检查您的头像、昵称、生日、性别信息是否已完善，未完善点击返回则退出登入，是否确认退出登入？", "提示", res =>{
+				this.$showModal("请检查您的头像、昵称、生日、性别信息是否已完善，未完善点击返回则退出登录，是否确认退出登录？", "提示", res =>{
 					if (res.confirm) {
 						this.logout()
 					}
@@ -280,7 +280,7 @@
 					}
 					if (res.data.userResources.length > 0){
 						res.data.userResources.forEach(v=>{
-							if (v.type === 0){
+							if (v.type === 0 && v.status === 4){
 								this.examineAvatar = v
 							}
 							if (v.type === 1){

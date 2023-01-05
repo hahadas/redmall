@@ -40,7 +40,7 @@ export default{
 	},
 	methods: {
 		async onSubmit() {
-			if (!this.password) return this.$msg("请输入登入密码")
+			if (!this.password) return this.$msg("请输入登录密码")
 			this.loading = true
 			this.paymentInfo.loginPwd = await publics.passwordEncryption(this.rsaKey, this.password)
 			if (this.imgUrl) {

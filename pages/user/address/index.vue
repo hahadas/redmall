@@ -55,7 +55,7 @@
 		filters: {
 			filterAddr(code) {
 				if (!code) return
-				let addrObj = publics.getLngAndLatByCode(code)
+				let addrObj = publics.getLngAndLatByCode(code);
 				let addrName = ""
 				if (addrObj){
 					addrObj.map(v=>{

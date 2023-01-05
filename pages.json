@@ -146,9 +146,9 @@
 				"enablePullDownRefresh": true,
 				"navigationBarBackgroundColor":"#161823",
 				"navigationBarTextStyle": "white",//设置手机顶部状态栏字体颜色为白色
-				"app-plus": {  
-					"titleNView": {  
-						"type": "transparent"  
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
 					},
 					"pullToRefresh": {
 						"color": "#381895"
@@ -209,7 +209,7 @@
 							"bottom":"0",
 							"background":"transparent",
 							"zindex":1
-							
+
 						}
 					}]
 				}
@@ -283,9 +283,9 @@
 					"pullToRefresh": {
 						"color": "#381895"
 					},
-					"subNVues":[{  
-						"id": "popup", // 唯一标识  
-						"path": "pages/order/popup", // 页面路径  
+					"subNVues":[{
+						"id": "popup", // 唯一标识
+						"path": "pages/order/popup", // 页面路径
 						"type": "popup",  //原生子窗口内置样式，可取值：'popup',弹出层；"navigationBar",导航栏
 						"style": {
 							"margin":"auto",
@@ -294,7 +294,7 @@
 							"background": "transparent",
 							"zindex": 99
 						}
-					}]  
+					}]
 				}
 			}
 		},
@@ -904,6 +904,94 @@
 			}
 		},
 		{
+			"path": "pages/setting/index",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/setting/blackList",
+			"style": {
+				"navigationBarTitleText": "黑名单",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"color": "#381895"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/setting/reminder",
+			"style": {
+				"navigationBarTitleText": "新消息提醒"
+			}
+		},
+		{
+			"path": "pages/setting/privacy",
+			"style": {
+				"navigationBarTitleText": "服务协议和隐私策略"
+			}
+		},
+		{
+			"path": "pages/setting/personal",
+			"style": {
+				"navigationBarTitleText": "编辑资料",
+				"navigationBarBackgroundColor":"#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/setting/video",
+			"style": {
+				"navigationBarTitleText": "查看视频",
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/setting/signature",
+			"style": {
+				"navigationBarTitleText": "个性签名",
+				"navigationBarBackgroundColor":"#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/setting/hobby",
+			"style": {
+				"navigationBarTitleText": "兴趣爱好",
+				"navigationBarBackgroundColor":"#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/setting/editPassword",
+			"style": {
+				"navigationBarTitleText": "修改密码",
+				"navigationBarBackgroundColor":"#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/setting/payPwd",
+			"style": {
+				"navigationBarTitleText": "支付密码",
+				"navigationStyle": "custom",
+				"navigationBarBackgroundColor":"#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/setting/updateMobile",
+			"style": {
+				"navigationBarTitleText": "修改手机号",
+				"navigationBarBackgroundColor":"#FFFFFF"
+			}
+		},
+		{
+			"path": "pages/setting/delMyUserInfo",
+			"style": {
+				"navigationBarTitleText": "删除我的账户",
+				"navigationBarBackgroundColor":"#FFFFFF"
+			}
+		},
+		{
 			"path": "pages/home/details",
 			"style": {
 				"navigationBarTitleText": "商品详情",
@@ -1460,6 +1548,13 @@
 					"path": "updateMobile",
 					"style": {
 						"navigationBarTitleText": "修改手机号",
+						"navigationBarBackgroundColor":"#FFFFFF"
+					}
+				},
+				{
+					"path": "delMyUserInfo",
+					"style": {
+						"navigationBarTitleText": "删除我的账户",
 						"navigationBarBackgroundColor":"#FFFFFF"
 					}
 				}

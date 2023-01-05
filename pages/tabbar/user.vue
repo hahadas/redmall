@@ -1,7 +1,7 @@
 <template>
 	<view class="main">
 		<view class="header flex flex-align-center color-w" :style="{'padding-top': statusBarHeight+'px'}">
-			<view class="flex flex-grow" style="justify-content: space-between;">
+			<view class="flex flex-grow" style="justify-content: space-between;" v-if="userDetailInfo.username">
 				<view class="flex flex-align-center" @click="toNav('/pages/setting/personal')">
 					<view>
 						<image :src="filterImg(avatar)" mode="aspectFill" class="avatar"></image>
@@ -21,6 +21,18 @@
 					</view>
 				</view>
 				<text class="iconfont blod font48" @click="toNav('/pages/setting/index')">&#xe62a;</text>
+			</view>
+			<view class="flex flex-grow" style="justify-content: space-between;" v-else>
+				<view class="flex flex-align-center" @click="toNav('/pages/login/index')">
+					<view>
+						<image :src="filterImg(avatar)" mode="aspectFill" class="avatar"></image>
+					</view>
+					<view>
+						<view class="flex flex-align-center">
+							<text class="font38 line">登录/注册</text>
+						</view>
+					</view>
+				</view>
 			</view>
 		</view>
 		<view class="con">
@@ -79,7 +91,7 @@
 				</view>
 			</view>
 			<!-- 图片 -->
-			<view class="carousel-section">
+			<view class="carousel-section" v-if="configAppstoreHidePage">
 				<view class="carousel" @click="toAgent">
 					<image :src="staticUrl + 'user/agent_use1.png'" v-if="userDetailInfo.distributorIsOpen === 1" mode="scaleToFill" class="img"/>
 					<image :src="staticUrl + 'user/agent_1.png'" v-else mode="scaleToFill" class="img"/>
@@ -131,23 +143,23 @@
 				</view>
 			</view>
 			<!-- 第三方 -->
-			<view class="culist">
+			<view class="culist" v-if="configAppstoreHidePage">
 				<view class="title flex flex-between">
 					<text class="blod font32">第三方服务</text>
 				</view>
 				<view class="flex flex-column">
 					<view class="grod">
-						<view class="grod-item" v-if="showThreeItem('third_party_services_credit_card')" @click="toNav('three/creditCard')">
+						<view class="grod-item" v-if="showThreeItem('third_party_services_credit_card')" @click="toNav('/pages/user/three/creditCard')">
 							<text class="iconfont icon" style="color: #d75a1b;">&#xe657;</text>
 							<text class="color-b5 font26">还信用卡</text>
 							<text class="color-b9 font26">{{getScale("third_party_services_credit_card")}}</text>
 						</view>
-						<view class="grod-item" v-if="showThreeItem('third_party_services_pay_phone_bill')" @click="toNav('three/phoneBill')">
+						<view class="grod-item" v-if="showThreeItem('third_party_services_pay_phone_bill')" @click="toNav('/pages/user/three/phoneBill')">
 							<view class="iconfont icon" style="color: #d75a1b;">&#xe664;</view>
 							<text class="color-b5 font26">充话费</text>
 							<text class="color-b9 font26">{{getScale("third_party_services_pay_phone_bill")}}</text>
 						</view>
-						<view class="grod-item" v-if="showThreeItem('third_party_services_recharge_oil_card')" @click="toNav('three/oilCard')">
+						<view class="grod-item" v-if="showThreeItem('third_party_services_recharge_oil_card')" @click="toNav('/pages/user/three/oilCard')">
 							<view class="iconfont icon" style="color: #00b173;">&#xe684;</view>
 							<text class="color-b5 font26">油卡充值</text>
 							<text class="color-b9 font26">{{getScale("third_party_services_recharge_oil_card")}}</text>
@@ -200,6 +212,8 @@
 				redList: [],
 				mobileList: [],
 				threeData: [],
+				platform: uni.getSystemInfoSync().platform,
+				configAppstoreHidePage: false,
 			}
 		},
 		onPullDownRefresh() {
@@ -223,6 +237,18 @@
 		onShow() {
 			this.init()
 			this.getRedBagList()
+			
+			// 获取 苹果应用商店需要隐藏的页面和功能模块 配置
+			if (this.platform === "ios") {
+				this.$http("GET", url.common.appstoreHidePage).then(res => {
+					console.log(this.platform)
+					if(res.data){
+						this.configAppstoreHidePage = res.data.keyValue === "1" ? false : true
+					}
+				})
+			}else{//其它设备则显示
+				this.configAppstoreHidePage = true
+			}
 		},
 		onBackPress(){
 			//隐藏到后台，不退出app

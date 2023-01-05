@@ -81,11 +81,14 @@
 			<view class="bg-w servies flex flex-align-center font28 color-b9">
 				<text>服务说明：</text>
 				<view class="flex flex-align-center">
-					<text><text class="b blue">无</text>破损无忧</text>
-					<text><text class="b red">正</text>正品保证</text>
+					<text v-if="goodsInfo.deliveryPlatform == 1"><text class="b red">送</text>配送上门</text>
+					<text v-if="goodsInfo.deliveryBusiness == 1"><text class="b blue">商</text>商家送货</text>
+					<text v-if="goodsInfo.deliveryExpress == 1"><text class="b green">寄</text>快递邮寄</text>
+					<text v-if="goodsInfo.deliveryNo == 1"><text class="b green">无</text>无实物，支付成功后自动确认收货</text>
+					<!-- <text><text class="b blue">正</text>正品保证</text>
 					<text v-if="goodsInfo.deliveryNo === 2 || goodsInfo.deliveryBusiness == 1 || goodsInfo.deliveryPlatform === 1">
 						<text class="b green">送</text>配送上门
-					</text>
+					</text> -->
 				</view>
 			</view>
 			<view class="reward" v-if="goodsInfo.goodsRewardLevelRule">
@@ -331,8 +334,8 @@
 			if (addressData) {
 				this.myAddressData = JSON.parse(addressData)
 			} else {
-				this.$msg("请先设置您当前的位置")
-				this.openMap()
+				/* this.$msg("请先设置您当前的位置")
+				this.openMap() */
 			}
 			let id = opt.id
 			this.id = id
@@ -425,7 +428,8 @@
 					}
 					this.money = this.rangePrice
 					if (res.data.goodsType === 12 && res.data.homeGoodsSeckill) {
-						this.countDown(res.data.homeGoodsSeckill.dueDateTime)
+						//this.countDown(res.data.homeGoodsSeckill.dueDateTime)
+						this.time = this.countTime(res.data.homeGoodsSeckill.dueDateTime);
 					}
 					if (res.data.goodsType === 14) {
 						this.btnTxt = "发起拼单"
@@ -438,6 +442,21 @@
 					this.$msg(err.msg)
 					this.$navigateBack(1, 1000);
 				})
+			},
+			countTime(dueDateTime){
+				let timeReplace = dueDateTime.replace(/\.|\-/g, '/')
+				
+				let startTime = new Date(); // 开始时间
+				let endTime = new Date(timeReplace); // 结束时间
+				let usedTime = endTime - startTime; // 相差的毫秒数
+				let days = Math.floor(usedTime / (24 * 3600 * 1000)); // 计算出天数
+				let leavel = usedTime % (24 * 3600 * 1000); // 计算天数后剩余的时间
+				let hours = Math.floor(leavel / (3600 * 1000)); // 计算剩余的小时数
+				let leavel2 = leavel % (3600 * 1000); // 计算剩余小时后剩余的毫秒数
+				let minutes = Math.floor(leavel2 / (60 * 1000)); // 计算剩余的分钟数
+				
+				let timer = days + '天' + hours + '时' + minutes + '分';
+				return timer;
 			},
 			countDown(time){
 				if (timer) {

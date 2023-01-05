@@ -1,6 +1,7 @@
 @font-face {
 	font-family: "iconfont";
 	src: url('~@/common/fonts/iconfont.ttf');
+	/* src: url('https://hejiume-public.oss-cn-chengdu.aliyuncs.com/app/resources/fonts/iconfont.ttf'); */
 }
 
 .iconfont {

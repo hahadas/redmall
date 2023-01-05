@@ -92,6 +92,10 @@
 					}
 					uni.stopPullDownRefresh();
 				})
+			},
+			changeTab(e){
+				this.current = e
+				this.getList('refresh')
 			}
 		}
 	}

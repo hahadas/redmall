@@ -60,7 +60,7 @@
 			<view class="flex flex-between color-b6">
 				<view class="flex flex-align-center font24">
 					<text class="iconfont font24" style="margin-right: 6rpx;">&#xe613;</text>
-					<text>品质好酒</text>
+					<text>品质保证</text>
 				</view>
 				<view class="flex flex-align-center font24">
 					<text class="iconfont font24" style="margin-right: 6rpx;">&#xe613;</text>

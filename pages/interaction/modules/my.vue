@@ -197,6 +197,7 @@
 		},
 		data() {
 			return {
+				staticUrl: this.$staticUrl,
 				statusBarHeight: system.statusBarHeight,
 				screenHeight: system.screenHeight,
 				swiperList: [],
@@ -254,7 +255,7 @@
 					this.addressName = publics.getAddressByThreeCode(this.userDetail.adcode)
 				}
 				let userResources = this.userDetail.userResources
-				if (userResources.length > 0) {
+				if (userResources && userResources.length > 0) {
 					this.swiperList = []
 					userResources.map(v =>{
 						if (v.type === 1) {
@@ -265,7 +266,9 @@
 				this.getList()
 				this.getVideoInit()
 				if (userInfo.distributorIsOpen){
-					this.cellTabs.push({name:"配送员库存", total:0})
+					if(this.cellTabs.length < 3){
+						this.cellTabs.push({name:"配送员库存", total:0})
+					}
 					this.getProductList()
 				}
 			},

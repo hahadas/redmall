@@ -36,7 +36,7 @@
 		},
 		methods:{
 			jumpTo(item) {
-				this.$navigateTo('details?id='+item.id)
+				this.$navigateTo('/pages/home/details?id='+item.id)
 			},
 			filterImg(img){
 				return publics.filterImgUrl(img, 3)

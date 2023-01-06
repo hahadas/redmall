@@ -46,10 +46,10 @@
 				return publics.filterImgUrl(img, 3)
 			},
 			goStore(item){
-				this.$navigateTo("store?id="+item.id)
+				this.$navigateTo("/pages/home/store?id="+item.id)
 			},
 			jumpGoodsDetail(item){
-				this.$navigateTo('details?id='+item.id)
+				this.$navigateTo('/pages/home/details?id='+item.id)
 			}
 		}
 	}

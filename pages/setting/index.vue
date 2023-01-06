@@ -54,7 +54,7 @@
 			</view>
 			<view class="b-b"></view>
 			<view class="list-cell m-t" @click="navTo('/pages/notice/agreement?id='+aboutId)" hover-class="cell-hover" :hover-stay-time="50">
-				<text class="cell-tit">关于redMall</text>
+				<text class="cell-tit">关于RedMall</text>
 				<text class="cell-more iconfont">&#xe770;</text>
 			</view>
 			<view class="b-b"></view>

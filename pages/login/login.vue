@@ -33,7 +33,8 @@
 			
 		</view>
 		<view class="flex flex-center flex-column fixed">
-			<text class="color-b9 font24" @tap="jumpTo('/pages/setting/privacy?status=hide')">登录注册即表示同意《用户协议及隐私策略》</text>
+			<!-- <text class="color-b9 font24" @tap="jumpTo('/pages/setting/privacy?status=hide')">登录注册即表示同意《用户协议及隐私策略》</text> -->
+			<text class="color-b9 font24" @tap="$navigateTo('/pages/notice/agreement?id='+noticeId)">登录注册即表示同意《用户协议及隐私策略》</text>
 		</view>
 	</view>
 </template>
@@ -45,7 +46,8 @@
 		mixins: [mix],
 		data(){
 			return {
-				isSupport: false
+				isSupport: false,
+				noticeId: getApp().privacyAgreementNoticeId,//隐私协议ID
 			}
 		},
 		onLoad() {

@@ -28,7 +28,7 @@ export default{
 			rsaKey: "",
 			iosUrl: "",
 			androidUrl: "",
-			noticeId: ""
+			noticeId: getApp().privacyAgreementNoticeId,//隐私协议ID
 		}
 	},
 	mounted(){
@@ -86,7 +86,7 @@ export default{
 		})
 		
 		// 获取隐私协议
-		this.$http("GET", url.common.privacyAgreement).then(res =>{
+		/* this.$http("GET", url.common.privacyAgreement).then(res =>{
 			if (res.data && res.data.length > 0) {
 				res.data.forEach(v => {
 					if (v.keyCode === "platform_privacy_agreement_user"){
@@ -95,7 +95,7 @@ export default{
 					}
 				})
 			}
-		})
+		}) */
 	},
 	methods: {
 		...mapMutations(["setToken", "setUserInfo", "logout"]),

@@ -5,7 +5,6 @@
 				<rich-text :nodes="info.textDescribe" v-if="info.textDescribe"></rich-text>
 				<image :src="item.ossUrl" mode="widthFix" class="img" v-for="(item, i) in info.resources" @click="jumpTo(item)"></image>
 			</view>
-			
 		</view>
 	</view>
 </template>

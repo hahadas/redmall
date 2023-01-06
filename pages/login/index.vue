@@ -11,7 +11,8 @@
 					<text class="font28">手机注册</text>
 				</view>
 			</view>
-			<text class="color-w font24" @tap="jumpTo('/pages/setting/privacy?status=hide')">登录注册即表示同意《用户协议及隐私策略》</text>
+			<!-- <text class="color-w font24" @tap="jumpTo('/pages/setting/privacy?status=hide')">登录注册即表示同意《用户协议及隐私策略》</text> -->
+			<text class="color-w font24" @tap="$navigateTo('/pages/notice/agreement?id='+noticeId)">登录注册即表示同意《用户协议及隐私策略》</text>
 		</view>
 	</view>
 </template>
@@ -21,7 +22,7 @@
 	export default{
 		data(){
 			return {
-				noticeId: "",
+				noticeId: getApp().privacyAgreementNoticeId,//隐私协议ID
 				staticUrl: this.$staticUrl
 			}
 		},

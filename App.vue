@@ -111,6 +111,7 @@
 				globalData: {},
 				staticUrl: staticUrl,
 				sysAddress: [],
+				privacyAgreementNoticeId: 0,//隐私协议ID
 			}
 		},
 		computed:{
@@ -126,6 +127,17 @@
 			// 获取缩略图比列
 			this.$http("GET", url.common.getOssImageResize).then(res =>{
 				uni.setStorageSync("ossResizeData", res.data)
+			})
+			
+			// 获取隐私协议
+			this.$http("GET", url.common.privacyAgreement).then(res =>{
+				if (res.data && res.data.length > 0) {
+					res.data.forEach(v => {
+						if (v.keyCode === "platform_privacy_agreement_user"){
+							_this.privacyAgreementNoticeId = v.keyValue
+						}
+					})
+				}
 			})
 			
 			// 判断用户信息时候完善

@@ -56,7 +56,7 @@
 				staticUrl: this.$staticUrl,
 				confimpassword: "",
 				hasCode: false,
-				noticeId: ""
+				noticeId: getApp().privacyAgreementNoticeId,//隐私协议ID
 			}
 		},
 		async onLoad(opt) {
@@ -67,7 +67,7 @@
 			}
 			
 			// 获取隐私协议
-			this.$http("GET", url.common.privacyAgreement).then(res =>{
+			/* this.$http("GET", url.common.privacyAgreement).then(res =>{
 				if (res.data && res.data.length > 0) {
 					res.data.forEach(v => {
 						if (v.keyCode === "platform_privacy_agreement_user"){
@@ -76,7 +76,7 @@
 						}
 					})
 				}
-			})
+			}) */
 			
 			let _this = this
 			// #ifdef APP-PLUS

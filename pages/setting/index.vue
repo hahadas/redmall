@@ -76,7 +76,7 @@
 		</view>
 		<view class="fixed">
 			<text class="p1" @tap="navTo('privacy?status=hide')">服务协议｜隐私政策</text>
-			<text class="p2">Copyright ©️ 2020 RedMall.All Rights Reserved.</text>
+			<text class="p2" style="margin-bottom: 88upx;">Copyright©️2018 南宁物芊科技有限公司 版权所有</text>
 		</view>
 	</view>
 </template>

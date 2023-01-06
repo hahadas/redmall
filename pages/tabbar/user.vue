@@ -167,6 +167,10 @@
 					</view>
 				</view>
 			</view>
+			
+			<!-- <view class="fixed">
+				<text class="p2" style="margin-bottom: 88upx;">Copyright©️2018 南宁物芊科技有限公司 版权所有</text>
+			</view> -->
 		</view>
 				
 		<!-- 弹框 -->
@@ -673,6 +677,27 @@
 			border: 2rpx solid #381895;
 			border-radius: 6rpx;
 			padding: 4rpx 20rpx;
+		}
+	}
+	
+	.fixed{
+		// position: fixed;
+		// bottom: 30rpx;
+		// left: 0;
+		// right: 0;
+		margin-top: 80rpx;
+		margin-bottom: 50rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		.p1{
+			font-size: 30rpx;
+			color: #666;
+		}
+		.p2{
+			font-size: 24rpx;
+			color: #999999;
 		}
 	}
 </style>

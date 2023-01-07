@@ -246,6 +246,8 @@
 			},
 			openMap(){
 				let _this = this;
+				
+				/* H5浏览器不执行，所以H5的时候直接加载数据 */
 				uni.getLocation({
 					type: 'wgs84',
 					geocode: true,
@@ -259,6 +261,13 @@
 						_this.$refs.dynamic.loadData()
 					}
 				});
+				// #ifdef H5
+				setTimeout(()=>{
+					// 请求附近动态数据
+					_this.$refs.dynamic.loadData()
+				}, 300)
+				// #endif
+				
 			},
 			setAddress(res){
 				let _this = this

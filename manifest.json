@@ -2,8 +2,8 @@
     "name" : "RedMall",
     "appid" : "__UNI__2311B04",
     "description" : "",
-    "versionName" : "2.0.7",
-    "versionCode" : 200007,
+    "versionName" : "2.0.8",
+    "versionCode" : 200008,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -253,7 +253,10 @@
                 "desc" : "获取当前位置"
             }
         },
-        "lazyCodeLoading" : "requiredComponents"
+        "lazyCodeLoading" : "requiredComponents",
+        "uniStatistics" : {
+            "enable" : true
+        }
     },
     "mp-alipay" : {
         "usingComponents" : true
@@ -265,7 +268,8 @@
         "usingComponents" : true
     },
     "uniStatistics" : {
-        "enable" : false
+        "enable" : false,
+        "version" : "2"
     },
     "h5" : {
         "title" : "RedMall",
@@ -278,6 +282,9 @@
                     "serviceHost" : ""
                 }
             }
+        },
+        "uniStatistics" : {
+            "enable" : true
         }
     }
 }

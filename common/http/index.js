@@ -5,7 +5,7 @@ export const staticUrl = "https://redmall-public.oss-cn-shenzhen.aliyuncs.com/st
 export const baseUrl = "https://redmall-app-api.nnwqkj.com/api/"
 // export const baseUrl = "http://192.168.1.188:6001/api/"
 // export const baseUrl = "http://47.109.18.227:6001/api/"
-export const imUrl = "ws://redmall-im.nnwqkj.com?imToken="
+export const imUrl = "wss://redmall-im.nnwqkj.com?imToken="
 // export const imUrl = "ws://47.109.18.227:6000?imToken="
 
 export const inviteUrl = "https://redmall-register.nnwqkj.com/#/pages/public/reg?code="

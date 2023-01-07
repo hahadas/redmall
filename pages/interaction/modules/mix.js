@@ -21,10 +21,10 @@ export default{
 	},
 	methods: {
 		goDetails(item){
-			this.$navigateTo("details?id="+item.id)
+			this.$navigateTo("/pages/interaction/details?id="+item.id)
 		},
 		viewUser(item, current=0) {
-			this.$navigateTo("user?userId="+item.imAccount+"&&current="+current)
+			this.$navigateTo("/pages/interaction/user?userId="+item.imAccount+"&&current="+current)
 		},
 		filterImg(img, type){
 			return publics.filterImgUrl(img, type)

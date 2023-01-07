@@ -25,7 +25,7 @@
 					</view>
 					<view class="nav-right">
 						<image :src="staticUrl + 'video/search.png'" class="nav-right-icon" @click="showSearch"></image>
-						<view class="nav-right-message" @tap="jumpTo('message')">
+						<view class="nav-right-message" @tap="jumpTo('/pages/interaction/message')">
 							<image :src="staticUrl + 'video/message.png'" class="nav-right-icon"></image>
 							<text class="nav-right-message-dian" :style="{top: statusBarHeight + 5 + 'px'}" v-if="unReadTotal">{{unReadTotal>99?'99+':unReadTotal}}</text>
 						</view>

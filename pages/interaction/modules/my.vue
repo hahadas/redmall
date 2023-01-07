@@ -370,7 +370,7 @@
 			},
 			goDetails(item){
 				uni.navigateTo({
-					url: "details?id="+item.id
+					url: "/pages/interaction/details?id="+item.id
 				})
 			},
 			jumpToFollow(){

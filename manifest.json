@@ -2,8 +2,8 @@
     "name" : "RedMall",
     "appid" : "__UNI__2311B04",
     "description" : "",
-    "versionName" : "2.0.6",
-    "versionCode" : 200006,
+    "versionName" : "2.0.7",
+    "versionCode" : 200007,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {

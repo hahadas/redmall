@@ -51,7 +51,7 @@
 					const value = uni.getStorageSync('launchFlag');
 					if (value) {
 						// launchFlag=true直接跳转到首页
-						uni.switchTab({
+						uni.reLaunch({
 							url: '/pages/tabBar/component/component'
 						});
 					} else {

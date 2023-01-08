@@ -1,14 +1,19 @@
 <template>
 	<view>
-		<view class="header flex flex-between">
-			<text class="iconfont icon" @click="$navigateBack()">&#xe771;</text>
-			<view class="tabs">
-				<view class="tab" :class="{'active': current === i}" v-for="(item, i) in tabs" :key="i" @click="tabsChange(i)">
-					<text class="name">{{item.name}}<text v-if="item.total">({{item.total}})</text></text>
-					<text class="xian"></text>
+		<view class="header">
+			<!-- #ifdef MP-WEIXIN -->
+			<view :style="{height: wxBtnHeight + 'px'}"></view>
+			<!-- #endif -->
+			<view class="header-item flex flex-between">
+				<text class="iconfont icon" @click="$navigateBack()">&#xe771;</text>
+				<view class="tabs">
+					<view class="tab" :class="{'active': current === i}" v-for="(item, i) in tabs" :key="i" @click="tabsChange(i)">
+						<text class="name">{{item.name}}<text v-if="item.total">({{item.total}})</text></text>
+						<text class="xian"></text>
+					</view>
 				</view>
+				<text class="iconfont icon" @click="showDrawer">&#xe61a;</text>
 			</view>
-			<text class="iconfont icon" @click="showDrawer">&#xe61a;</text>
 		</view>
 		<swiper :current="current" @change="swiperChange" :style="{height: (scrollHeight-45-statusBarHeight)+'px'}">
 			<swiper-item style="height: 100%;" v-for="(tab, index) in tabs" :key="index">
@@ -179,13 +184,19 @@
 				orderInfo: {},
 				depositTitle: "配送定金",
 				orderId: null,
-				deliveryPlatformServiceCode: ""
+				deliveryPlatformServiceCode: "",
+				// #ifdef MP-WEIXIN
+				wxBtnHeight: 0,
+				// #endif
 			}
 		},
 		onShow() {
 			this.scrollHeight = uni.getSystemInfoSync().windowHeight
 		},
 		onLoad() {
+			// #ifdef MP-WEIXIN
+			this.wxBtnHeight = wx.getMenuButtonBoundingClientRect().height
+			// #endif
 			this.getUserInfo()
 			this.getWalletInfo()
 			this.getDepositTitle()
@@ -472,8 +483,10 @@
 	.header{
 		background-color: #FFFFFF;
 		padding: 0 20rpx;
-		height: 90rpx;
 		padding-top: var(--status-bar-height);
+		&-item{
+			height: 90rpx;	
+		}
 		.icon{
 			font-size: 56rpx;
 		}

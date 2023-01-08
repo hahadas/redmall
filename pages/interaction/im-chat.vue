@@ -82,11 +82,18 @@
 									<view v-if="row.msgType === 1" class="bubble img" @tap="showPic(row.content.url)">
 										<image :src="filterImg(row.content.url, 4)" mode="aspectFill" :style="{'width': row.ossWidth+'px','height': row.ossHeight+'px'}"></image>
 									</view>
-									<!-- 语音消息 -->
+									<!-- 语音消息 h5不支持 -->
+									<!-- #ifndef H5 -->
 									<view v-if="row.msgType === 2" class="bubble voice" @tap="playVoice(index)" :class="playMsgid === row.uid?'play':''">
 										<view class="length">{{row.content.length}}</view>
 										<view class="icon my-voice"></view>
 									</view>
+									<!-- #endif -->
+									<!-- #ifdef H5 -->
+									<view v-if="row.msgType === 2" class="bubble">
+										<text>H5不支持语音消息</text>
+									</view>
+									<!-- #endif -->
 									<!-- 发送位置 -->
 									<view class="bubble location" v-if="row.msgType===3" @tap="viewLocation(row.content)">
 										<view class="addr">
@@ -109,12 +116,14 @@
 											<cmd-progress type="circle" :stroke-width="2" stroke-color="#381895" :percent="row.percent"></cmd-progress>
 										</view>
 									</view>
-									<!-- 视频语音通话 -->
+									<!-- 视频语音通话 只支持app -->
+									<!-- #ifdef APP-PLUS -->
 									<view v-if="row.msgType === 5" class="bubble" @click="videoCall(row.content.callType)">
 										<text>{{row.content.text}} {{row.content.time?row.content.time:''}}</text>
 										<text class="iconfont color-w font44" style="margin-left: 10rpx;" v-if="row.content.callType === 'video'">&#xe811;</text>
 										<text class="iconfont color-w font44" style="margin-left: 10rpx;" v-else>&#xe6fc;</text>
 									</view>
+									<!-- #endif -->
 									<!-- 邀请对方接单 -->
 									<view v-if="row.msgType === 6" class="bubble goods color-w" @tap="jumpToOrder(row.content, 1)">
 										<text class="font32 line line-2">{{row.content.goodsName}}</text>
@@ -204,11 +213,18 @@
 									<view v-if="row.msgType===1" class="bubble img" @tap="showPic(row.content.url)">
 										<image :src="filterImg(row.content.url, 4)" mode="aspectFill" :style="{'width': row.ossWidth+'px','height': row.ossHeight+'px'}"></image>
 									</view>
-									<!-- 语音消息 -->
+									<!-- 语音消息 h5不支持 -->
+									<!-- #ifndef H5 -->
 									<view v-if="row.msgType===2" class="bubble voice" @tap="playVoice(index)" :class="playMsgid === row.uid?'play':''">
 										<view class="icon other-voice"></view>
 										<view class="length">{{row.content.length}}</view>
 									</view>
+									<!-- #endif -->
+									<!-- #ifdef H5 -->
+									<view v-if="row.msgType === 2" class="bubble">
+										<text>H5不支持语音消息</text>
+									</view>
+									<!-- #endif -->
 									<!-- 发送位置 -->
 									<view class="bubble location" v-if="row.msgType===3" @tap="viewLocation(row.content)">
 										<view class="addr">
@@ -227,11 +243,13 @@
 										<text class="time">{{row.content.length}}</text>
 									</view>
 									<!-- 视频语音通话 -->
+									<!-- #ifdef APP-PLUS -->
 									<view v-if="row.msgType === 5" class="bubble" @click="videoCall(row.content.callType)">
 										<text class="iconfont font44" style="margin-right: 10rpx;" v-if="row.content.callType === 'video'">&#xe64e;</text>
 										<text class="iconfont font44" style="margin-right: 10rpx;" v-else>&#xe6fc;</text>
 										<text>{{row.content.text}} {{row.content.time?row.content.time:''}}</text>
 									</view>
+									<!-- #endif -->
 									<!-- 接单 -->
 									<view v-if="row.msgType === 6" class="bubble goods color-w" @tap="jumpToOrder(row.content, 1)">
 										<text class="font32 line line-2">{{row.content.goodsName}}</text>
@@ -922,6 +940,7 @@
 			getMsgList() {
 				// 消息列表
 				pullSQL(null, 'conversationId', this.conversationId, 0, this.getMsgListLimit, 'desc').then(res=>{
+					console.log('pullSQL', res)
 					if (res.length < 1) {
 						// 没有历史记录
 						this.ifHaveMore = false;

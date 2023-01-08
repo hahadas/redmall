@@ -103,8 +103,8 @@
 				if (!this.addr) return this.$msg("请选择地区")
 				this.loading = true
 				this.$http("POST", url.user.editUserInfo, this.form).then(res => {
-					uni.switchTab({
-						url:"/pages/tabbar/home"
+					uni.reLaunch({
+						url:"/pages/home/index"
 					})
 				}).catch(()=>{
 					this.loading = false

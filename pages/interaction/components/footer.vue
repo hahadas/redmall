@@ -1,13 +1,15 @@
 <template>
 	<view class="footer">
-		<view class="footer-item bg1" @tap="goPath" :data-index="1">
+		<view class="footer-item bg1" @tap="goPath(1)">
 			<image :src="staticUrl + 'video/chat.png'" mode="" class="footer-item-img"></image>
 			<text class="footer-item-title">聊天</text>
 		</view>
-		<view class="footer-item bg3" @tap="goPath" :data-index="3">
+		<!-- #ifdef APP-PLUS -->
+		<view class="footer-item bg3" @tap="goPath(2)">
 			<image :src="staticUrl + 'video/video.png'" mode="" class="footer-item-img"></image>
 			<text class="footer-item-title">语音视频</text>
 		</view>
+		<!-- #endif -->
 	</view>
 </template>
 
@@ -24,8 +26,7 @@
 			}
 		},
 		methods: {
-			goPath: function(e) {
-				var index = e.target.dataset.index;
+			goPath: function(index) {
 				this.$emit("change", index)
 			}
 		}
@@ -39,7 +40,12 @@
 		bottom: 20rpx;
 		display: flex;
 		align-items: center;
+		/* #ifdef APP-PLUS */
 		justify-content: space-between;
+		/* #endif */
+		/* #ifndef APP-PLUS */
+		justify-content: center;
+		/* #endif */
 		flex-direction: row;
 	}
 

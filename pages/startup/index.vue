@@ -30,8 +30,8 @@
 				    const value = uni.getStorageSync('launchFlag');
 				    if (value) {
 						// launchFlag=true直接跳转到首页
-						uni.switchTab({
-							url: '/pages/tabbar/home'
+						uni.reLaunch({
+							url: '/pages/home/index'
 						});
 				    } else {
 						// launchFlag!=true显示引导页
@@ -49,8 +49,8 @@
 					this.guidePages = true
 				}
 				return;
-				uni.switchTab({
-				    url: '/pages/tabbar/home'
+				uni.reLaunch({
+				    url: '/pages/home/index'
 				});
 			},
 		}

@@ -54,16 +54,18 @@
 			<image :src="advertData.ossUrl" mode="widthFix" @click="imgJump"></image>
 			<text class="iconfont color-w font60" style="margin-top: 20rpx;" @click="showModal = false">&#xe64a;</text>
 		</modal>
+		
+		<tabbar></tabbar>
 	</view>
 </template>
 
 <script>
 	import url from '@/common/http/url.js';
 	import publics from "@/common/utils/public.js"
-	import empty from "@/components/empty.vue"
 	import modal from "@/components/modal.vue"
+	import tabbar from "@/components/tabbar.vue"
 	export default {
-		components: { empty, modal },
+		components: { modal, tabbar },
 		data() {
 			return {
 				swiperHeight: "900",

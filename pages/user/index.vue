@@ -181,6 +181,8 @@
 		
 		<!-- 福利红包 -->
 		<red-envelopes v-for="(item, i) in redList" :key="i" :data="item" :type="3" :bottom="i === 0 ? 100 : i*80+100"></red-envelopes>
+		
+		<tabbar></tabbar>
 	</view>
 </template>
 
@@ -189,10 +191,11 @@
 	import modal from "@/components/modal.vue"
 	import redEnvelopes from "@/components/red-envelopes.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	import tabbar from "@/components/tabbar.vue"
 	import url from "@/common/http/url.js"
 	import publics from "@/common/utils/public.js"
 	export default{
-		components:{ modal, redEnvelopes, uniPopup },
+		components:{ modal, redEnvelopes, uniPopup, tabbar },
 		data(){
 			return {
 				userDetailInfo: {},

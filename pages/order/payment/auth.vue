@@ -45,7 +45,7 @@ export default {
             console.log(data);
             this.$db.set('userInfos', data.userInfo);
             this.$db.set('token', data.tokenHead+data.token);
-            uni.switchTab({
+            uni.reLaunch({
               url: '/pages/index/index'
             });
 

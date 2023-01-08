@@ -34,22 +34,22 @@
 			</view>
 		</view>		
 		<swiper class="swiper" :style="{height: swiperHeight + 'px'}" :current="current" @change="swiperChange">
-			<swiper-item :style="{height: swiperHeight + 'px'}">
+			<swiper-item>
 				<dynamic ref="dynamic" :myAddressData="myAddressData" :swiperHeight="swiperHeight"></dynamic>
 			</swiper-item>
-			<swiper-item :style="{height: swiperHeight + 'px'}">
+			<swiper-item>
 				<nearby ref="nearby" :myAddressData="myAddressData" :swiperHeight="swiperHeight" :wordKey="nearbyWordKey"></nearby>
 			</swiper-item>
-			<swiper-item :style="{height: swiperHeight + 'px'}">
+			<swiper-item>
 				<angel ref="angel" :myAddressData="myAddressData" :swiperHeight="swiperHeight" :wordKey="angelWordKey"></angel>
 			</swiper-item>
-			<swiper-item :style="{height: swiperHeight + 'px'}">
+			<swiper-item>
 				<publish ref="publish"></publish>
 			</swiper-item>
-			<swiper-item :style="{height: swiperHeight + 'px'}">
+			<swiper-item>
 				<my ref="my"></my>
 			</swiper-item>
-			<swiper-item :style="{height: swiperHeight + 'px'}">
+			<swiper-item>
 				<comment ref="comment" :swiperHeight="swiperHeight"></comment>
 			</swiper-item>
 		</swiper>		
@@ -77,6 +77,7 @@
 		<!-- 福利红包 -->
 		<red-envelopes v-for="(item, i) in redList" :key="i" :data="item" :type="2" :bottom="i === 0 ? 100 : i*80+100"></red-envelopes>
 		
+		<tabbar></tabbar>
 	</div>
 </template>
 
@@ -86,19 +87,20 @@
 	import { checkOpenGPSService } from "@/common/utils/index.js"
 	import url from "@/common/http/url.js"
 	import publics from "@/common/utils/public.js"
-	import dynamic from "../interaction/modules/dynamic.vue"
-	import nearby from "../interaction/modules/nearby.vue"
-	import angel from "../interaction/modules/angel.vue"
-	import publish from "../interaction/modules/publish.vue"
-	import my from "../interaction/modules/my.vue"
-	import comment from "../interaction/modules/comment.vue"
+	import dynamic from "./modules/dynamic.vue"
+	import nearby from "./modules/nearby.vue"
+	import angel from "./modules/angel.vue"
+	import publish from "./modules/publish.vue"
+	import my from "./modules/my.vue"
+	import comment from "./modules/comment.vue"
 	import modal from "@/components/modal.vue"
 	import redEnvelopes from "@/components/red-envelopes.vue"
+	import tabbar from "@/components/tabbar.vue"
 	// import redEnvelopes from "@/components/red-envelopes-n.nvue"
 	
 	export default {
 		components: {
-			dynamic, nearby, angel, publish, my, comment, modal, redEnvelopes
+			dynamic, nearby, angel, publish, my, comment, modal, redEnvelopes, tabbar
 		},
 		data(){
 			return {

@@ -201,8 +201,9 @@
 			:videoHas="videoHas" :headerScroll="headerScroll" 
 			:isShowMore="!(localUserId === id)" @onMore="onMore"></uni-header>
 		
-		<!-- #ifdef APP-PLUS -->
 		<uni-footer @change="footerChange" v-if="localUserId !== id && !fromImChat"></uni-footer>
+		
+		<!-- #ifdef APP-PLUS -->
 		<uni-popup ref="popup" type="bottom">
 			<view class="popup">
 				<view class="popup-item" @click="goChatIm(true, 'video')">
@@ -226,18 +227,14 @@
 	import publics from "@/common/utils/public.js"
 	var system = uni.getSystemInfoSync();
 	import uniHeader from './components/header';
-	// #ifdef APP-PLUS
 	import uniFooter from './components/footer';
-	// #endif
 	import uniPush from './components/push';
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
 		components: {
 			uniHeader,
-			// #ifdef APP-PLUS
 			uniFooter,
-			// #endif
 			uniPush,
 			uniLoadMore,
 			uniPopup,
@@ -585,7 +582,6 @@
 				if (this.current === 0) this.headerScroll = false
 			},
 			footerChange(index){
-				console.log(index)
 				if (index === 1) {
 					this.goChatIm(false)
 				} else {
@@ -603,7 +599,7 @@
 					uni.navigateTo({
 						url: url
 					})
-					this.closePopup()
+					if (sendVideo) this.closePopup()
 				}, 300)
 			},
 			closePopup(){
@@ -812,7 +808,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-right: 40rpx;
+		margin-right: 20rpx;
 		flex-direction: column;
 	}
 	.cell-item-name{

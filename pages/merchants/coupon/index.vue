@@ -1,6 +1,8 @@
 <template>
 	<view class="main">
-		<empty v-if="list.length === 0" textTitle="优惠券空空如也～"></empty>
+		<view class="flex flex-center" v-if="list.length === 0">
+			<text class="color-b6 font34">优惠券空空如也~</text>
+		</view>
 		<view class="list" v-for="(item, i) in list" :key="i" @tap="jumpTo(item)">
 			<view class="left color-purple">
 				<text class="font24 tip">¥</text>
@@ -20,9 +22,7 @@
 
 <script>
 	import url from "@/common/http/url.js"
-	import empty from "@/components/empty.vue"
 	export default{
-		components: { empty },
 		data(){
 			return {
 				list: []

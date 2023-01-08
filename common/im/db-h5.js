@@ -14,7 +14,7 @@ function getChatName(){
 	return chatList + "_" + getUserId()
 }
 
-// 判断是否有用户表,没有则创建,有则返回数据
+// 判断是否有用户表,没有则创建
 function tableIshas(){
 	let sessionDB = uni.getStorageSync(getSessionName());
 	if (!sessionDB) {
@@ -28,7 +28,7 @@ function tableIshas(){
 
  // 获取未读消息数量
  function getUnReadTotal(){
-	let list = uni.getStorageSync(getSessionName())
+	let list = uni.getStorageSync(getSessionName()) || []
 	let unReadTotal = 0
 	list.map(v =>{
 		unReadTotal += Number(v.localUnreadNumber || 0)
@@ -196,35 +196,37 @@ function addDataToSessionTable(data){
   * @param {Number} size 条数，默认20
   * @param {String} sort 排序 desc倒序 asc顺序（默认）
   * */
- function pullSQL(db, aa, bb, num=0, size = 20, sort="asc"){
-	 return new Promise((resolve,reject) =>{
+ function pullSQL (db, aa, bb, num=0, size = 20, sort="asc") {
+	return new Promise((resolve, reject) => {
 		if (!db) db = chatList
 		db = db+"_"+getUserId()
 		let list = uni.getStorageSync(db) || []
 		if (!list.length) {
-			resolve(list)
+		 	resolve(list)
 		} else {
-			let sortList = [...list]
-			if (sort === "desc") {
-				let data = []
-				for(let i = list.length - 1; i >= 0; i--) {
-					data.push(list[i])
-				}
-				sortList = [...data]
-			}
-			let newList = []
-			for(let i = num; i < sortList.length; i++) {
-				let obj = sortList[i];
-				if (newList.length < size && obj[aa] === bb) {
-					newList.push(obj)
-				} else {
-					obj = null;
-					return
-				}
-			}
-			resolve(newList)
+		 	let sortList = [...list]
+		 	if (sort === "desc") {
+		 		let data = []
+		 		for(let i = list.length - 1; i >= 0; i--) {
+		 			data.push(list[i])
+		 		}
+		 		sortList = [...data]
+		 	}
+		 	let newList = []
+		 	for(let i = num; i < sortList.length; i++) {
+		 		let obj = sortList[i];
+		 		if (newList.length < size && obj[aa] === bb) {
+		 			newList.push(obj)
+					console.log("ddddd", newList)
+		 		} else {
+		 			obj = null;
+		 			break;
+		 		}
+		 	}
+		 	resolve(newList)
 		}
 	})
+	
  }
 
 export {

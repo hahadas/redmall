@@ -70,8 +70,8 @@
 						_this.launchFlag();
 					}
 				}).catch((err) => {
-					uni.switchTab({
-						url: '/pages/tabbar/home'
+					uni.reLaunch({
+						url: '/pages/home/index'
 					});
 				})
 			},
@@ -85,8 +85,8 @@
 						let curRoute = routes[routes.length - 1].route // 获取当前页面路由，也就是最后一个打开的页面路由
 						curRoute += '';
 						if(curRoute.indexOf("startup/index") != -1){//如果当前路由还是在该页面，则进行跳转主页操作
-							uni.switchTab({
-								url: '/pages/tabbar/home'
+							uni.reLaunch({
+								url: '/pages/home/index'
 							});
 						}
 					}, _this.interval-500);
@@ -101,8 +101,8 @@
 						data: true,
 				}); */
 				this.autoplay = false;
-				uni.switchTab({
-					url: '/pages/tabbar/home'
+				uni.reLaunch({
+					url: '/pages/home/index'
 				});
 				
 			},

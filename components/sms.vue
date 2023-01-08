@@ -1,21 +1,6 @@
 <template>
 	<view>
 		<text class="sms" @tap="openPopup">{{smsTxt}}</text>
-		<!-- <uni-popup ref="popup">
-			<view class="flex flex-center">
-				<view class="bg-w con">
-					<text class="title color-b3 font32">发送验证码</text>
-					<view class="image bg-f5 flex flex-column">
-						<image :src="pic" mode="aspectFit" @tap="generationImg" class="pic bg-w"></image>
-						<input type="number" :maxlength="6" placeholder="请输入图形验证码" class="input bg-w font34" v-model="code">
-					</view>
-					<view class="flex bom">
-						<text class="btn green" @tap="closePopup">取消</text>
-						<text class="btn" @tap="sendSMS">确定</text>
-					</view>
-				</view>
-			</view>
-		</uni-popup> -->
 		<verify
 			@success="onSuccess"
 			mode="pop"     

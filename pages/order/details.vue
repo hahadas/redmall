@@ -285,7 +285,7 @@
 	import { computeLngLatDistance } from "@/common/utils/index.js"
 	import mix from "./mix.js"
 	import imMix from "./imMix.js"
-	import uniSteps from '@/components/uni-steps/uni-steps.vue'
+	import uniSteps from './components/uni-steps/uni-steps.vue'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import uniRate from "@/components/uni-rate/uni-rate.vue"
 	let timer = null

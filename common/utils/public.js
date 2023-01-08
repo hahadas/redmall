@@ -396,7 +396,8 @@ let publics = {
 	 * {"id":1,"adcode":110000,"name":"北京市","level":1,"centerLng":116.405285000000000,"centerLat":39.904989000000000,"padcode":0}
 	 * */
 	getLngAndLatByCode(code){
-		let sysAddress = getApp().sysAddress;
+		// let sysAddress = getApp().sysAddress;
+		let sysAddress = uni.getStorageSync('SYSADDRESS_SOURCES') || [];
 		
 		if (!code) return
 		if (typeof code === "string") {

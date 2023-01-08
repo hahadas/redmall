@@ -168,6 +168,8 @@
 		
 		<!-- 福利红包 -->
 		<red-envelopes v-for="(item, i) in redList" :key="i" :data="item" :type="1" :bottom="i === 0 ? 100 : i*80+100"></red-envelopes>
+		
+		<tabbar></tabbar>
 	</view>
 </template>
 
@@ -175,14 +177,15 @@
 	import url from "@/common/http/url.js"
 	import publics from "@/common/utils/public.js"
 	import { checkOpenGPSService } from "@/common/utils/index.js"
-	import product from "../home/modules/product.vue"
-	import shop from "../home/modules/shop.vue"
+	import product from "./modules/product.vue"
+	import shop from "./modules/shop.vue"
 	import modal from "@/components/modal.vue"
 	import redEnvelopes from "@/components/red-envelopes.vue"
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
+	import tabbar from '@/components/tabbar.vue';
  
 	export default {
-		components: { uniLoadMore, product, shop, modal, redEnvelopes },
+		components: { uniLoadMore, product, shop, modal, redEnvelopes, tabbar },
 		data() {
 			return {
 				staticUrl: this.$staticUrl,
@@ -231,6 +234,7 @@
 		onLoad() {
 			// #ifdef MP-WEIXIN
 			this.wxBtnHeight = wx.getMenuButtonBoundingClientRect().height
+			this.statusBarHeight = uni.getSystemInfoSync().statusBarHeight
 			// #endif
 			this.swiperHeight = uni.getSystemInfoSync().screenHeight
 			// 获取新品商品

@@ -44,7 +44,7 @@
 	import url from "@/common/http/url.js"
 	import filter from "./filter.js"
 	import mix from "./mix.js"
-	import HMfilterDropdown from '@/components/HM-filterDropdown/HM-filterDropdown.vue';
+	import HMfilterDropdown from '../components/HM-filterDropdown/HM-filterDropdown.vue';
 	import youScroll from '@/components/you-scroll'
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	export default{

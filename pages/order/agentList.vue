@@ -49,7 +49,7 @@
 <script>
 	import url from "@/common/http/url.js"
 	import imMix from "./imMix.js"
-	import HMfilterDropdown from '@/components/HM-filterDropdown/HM-filterDropdown.vue';
+	import HMfilterDropdown from './components/HM-filterDropdown/HM-filterDropdown.vue';
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	export default{
 		mixins: [imMix],

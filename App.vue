@@ -20,6 +20,7 @@
 	} from "@/common/im/db.js"
 	const call = uni.requireNativePlugin('Html5App-TencentCall');
 	const music = uni.createInnerAudioContext(); //创建播放器对象
+	// const music = new Audio(); //创建播放器对象
 	const upDater=uni.requireNativePlugin("CL-UpDater"); // 版本升级
 	let shockTimer = null
 	let failNumber = 0
@@ -109,7 +110,6 @@
 				isSynchroSuccess: false,
 				localUnReadNum: 0,
 				globalData: {},
-				staticUrl: staticUrl,
 				sysAddress: [],
 				privacyAgreementNoticeId: 0,//隐私协议ID
 			}
@@ -118,6 +118,9 @@
 			...mapState(["reminderStatus"]),
 			statusBarHeight(){
 				return uni.getSystemInfoSync().statusBarHeight
+			},
+			staticUrl(){
+				return staticUrl
 			}
 		},
 		onLaunch: function() {
@@ -179,27 +182,19 @@
 				
 				// #ifndef APP-PLUS
 				tableIshas()
-				_this.localUnReadNum = getUnReadTotal()
+				this.localUnReadNum = getUnReadTotal()
 				// #endif
 			}
 			
-			// #ifdef APP-PLUS
-			// 中间按钮点击
-			uni.onTabBarMidButtonTap(function(e) {
-				let userInfo = uni.getStorageSync('userInfo');
-				uni.navigateTo({
-					url: '/pages/video/index?userId=' + userInfo.id
-				})
-			});
-			
 			// 如果用户是配送员并且有待接订单则提示声音
 			this.agentShowMusic()
+			// 获取位置
+			this.openMap()
 			
+			// #ifdef APP-PLUS
 			// 检测推送权限
 			permissions()
 			
-			// 获取位置
-			this.openMap()
 			// 判断升级
 			this.versionApp()
 			// #endif
@@ -209,6 +204,9 @@
 		},
 		onShow: function() {
 			console.log('App Show')
+			if (this.token) {
+				this.globalData.socket.initSocket();
+			}
 			
 			// #ifdef APP-PLUS
 			// APP隐私用户协议
@@ -217,10 +215,6 @@
 				uni.navigateTo({
 					url: "/pages/setting/privacy"
 				})
-			}
-			
-			if (this.token) {
-				this.globalData.socket.initSocket();
 			}
 			
 			/**
@@ -287,7 +281,7 @@
 							})
 						}
 					} else if (args.jumpMode === "2") {
-						uni.switchTab({
+						uni.reLaunch({
 							url: router
 						})
 					} else if (args.jumpMode === "3") {
@@ -400,7 +394,9 @@
 				let total = await getUnReadTotal()
 				console.log("...........同步消息获取未读消息数量。。。。", total)
 				this.setUnReadNum(total)
+				// #ifdef APP-PLUS
 				plus.runtime.setBadgeNumber(total)
+				// #endif
 				if (total > 0) {
 					uni.setTabBarBadge({
 						index: 2,
@@ -461,32 +457,11 @@
 							let videoCallMyStatus = uni.getStorageSync("VideoCallMyStatus");
 							if (content.text==="已挂断" || content.text==="忙线中"){
 								this.closeCall()
-								// if (videoCallMyStatus === 0 && content.text==="已挂断"){
-								// 	let routes = getCurrentPages();
-								// 	let curRoute = routes[routes.length - 1].route
-								// 	if(curRoute.indexOf('imPopup') > -1){
-								// 		uni.navigateBack()	
-								// 	}
-								// }
 							}
 							if (content.text==="视频通话" || content.text==="语音通话"){
 								if(videoCallMyStatus === 1){//通话中，告诉对方忙线
 									this.sendVideoMsg(message, {text: "忙线中"})
 								} else { //空闲
-									// this.msgOrderPromptTone(2)
-									// setTimeout(function() {
-									// 	music.stop();//定时25秒关闭停止铃声
-									// }, 1000*25);
-									// let data = {
-									// 	nickname: content.type ? conversation.storeName : conversation.nickname,
-									// 	avatar: conversation.headPortrait,
-									// 	message: message
-									// }
-									// uni.setStorageSync("callVideoData", JSON.stringify(data))
-									// uni.navigateTo({
-									// 	url: "/pages/imPopup",
-									// 	animationType: "fade-in"
-									// })
 									this.callVideo({
 										to: message.from,
 										from: message.to,
@@ -694,7 +669,7 @@
 								showLat: res.latitude,
 								showAddress: address.province+address.city+address.district+(address.street ? address.street:'')+(address.streetNum ? address.streetNum:'')||'',
 								showAdname: address.poiName,
-								deviceId: plus.device.uuid,	// 设备id
+								deviceId: uni.getSystemInfoSync().deviceId,	// 设备id
 								deviceMac: getMacAddress(),	// 设备mac地址
 								deviceChannel: uni.getSystemInfoSync().platform || "", // 客户端类型
 								deviceName: uni.getSystemInfoSync().brand || "",		// 设备名称
@@ -719,21 +694,24 @@
 			},
 			// type-类型 issue-是否是自己发出
 			msgOrderPromptTone(type, issue) {
+				// #ifndef APP-PLUS
+				return false;
+				// #endif
 				let reminderStatus = uni.getStorageSync("reminderStatus") || this.reminderStatus
 				console.log("........reminderStatus........", reminderStatus)
 				if (reminderStatus.length === 0) return
 				if (type == 1) {
 					music.loop = false; //循环播放
-					music.src = this.$staticUrl + "music/msg.mp3"; // 新消息提示
+					music.src = this.staticUrl + "music/msg.mp3"; // 新消息提示
 				} else if (type == 2) {
 					music.loop = true; //循环播放
-					music.src = this.$staticUrl + "music/video.mp3"; // 视频语音通话
+					music.src = this.staticUrl + "music/video.mp3"; // 视频语音通话
 				} else if (type === 3) {
 					music.loop = false; //循环播放
-					music.src = this.$staticUrl + "music/order.mp3"; // 订单提示
+					music.src = this.staticUrl + "music/order.mp3"; // 订单提示
 				} else if (type === 4) {
 					music.loop = false; //循环播放
-					music.src = this.$staticUrl + "music/store.mp3"; // 用户下单商家提示
+					music.src = this.staticUrl + "music/store.mp3"; // 用户下单商家提示
 				}
 				if (reminderStatus.indexOf("voice") !== -1){ // 是否开启声音
 					music.play(); //执行播放

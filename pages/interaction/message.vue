@@ -29,7 +29,7 @@
 					<view class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''" :data-target="'move-box-' + index"
 					@click="skipToSingleChat(item.toImAccount, item.type, false, index, item.toConversationId)">
 						<image :src="filterImg(item.toType === 3 ? item.storeLogoImage : item.headPortrait)" class="cu-avatar round lg" mode=""></image>
-						<view class="content" style="background-color: #ffffff;padding-top: 0upx;">
+						<view class="content" style="background-color: #ffffff;padding-top: 0upx;width: 55%">
 							<view class="text-grey">
 								<text class="tips bg-base" v-if="item.toType === 2">配送员</text>
 								<text class="tips yellow" v-if="item.toType === 3">商家</text>
@@ -208,6 +208,7 @@
 						}
 					})
 					let doc = await pullSQL(null, 'conversationId', e.id, 0, 1, 'desc')
+					console.log(doc)
 					if (doc.length > 0) {
 						let chatObj = doc[0]
 						e.createTime = chatObj.createTime

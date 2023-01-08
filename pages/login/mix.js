@@ -161,8 +161,8 @@ export default{
 					if (!userInfo.gender || !userInfo.birthDate || !userInfo.nickname){
 						this.$navigateTo("/pages/login/set")
 					} else {
-						uni.switchTab({
-							url: "/pages/tabbar/interaction"
+						uni.reLaunch({
+							url: "/pages/interaction/index"
 						})
 					}
 					this.loading = false

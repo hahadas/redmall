@@ -140,8 +140,8 @@
 			},
 			onAgree(){
 				uni.setStorageSync("agreePrivacy", true)
-				uni.switchTab({
-					url: '/pages/tabbar/interaction'
+				uni.reLaunch({
+					url: '/pages/interaction/index'
 				});
 			}
 		}

@@ -770,14 +770,14 @@
 				that.videoNoPay();
 				// 跳转发布视频
 				uni.setStorageSync("interactionCurrent", 3)
-				uni.switchTab({
-					url:'/pages/tabbar/interaction'
+				uni.reLaunch({
+					url:'/pages/interaction/index'
 				})
 			},
 			clickLeft(){
 				//视频会自动暂停，不进入onHide()方法
-				uni.switchTab({
-					url: '/pages/tabbar/home'
+				uni.reLaunch({
+					url: '/pages/home/index'
 				});
 			},
 			openMap(){

@@ -256,7 +256,8 @@
         "lazyCodeLoading" : "requiredComponents",
         "uniStatistics" : {
             "enable" : true
-        }
+        },
+		"requiredPrivateInfos": ["getLocation", "chooseLocation"]
     },
     "mp-alipay" : {
         "usingComponents" : true

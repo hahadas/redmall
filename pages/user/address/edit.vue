@@ -129,7 +129,7 @@
 						} else if (res.name === '地图位置' || res.name === res.address){
 							_this.user.addressDetails = res.address
 						} else {
-							_this.user.addressDetails = res.name + res.address || ""
+							_this.user.addressDetails = (res.name || "") + res.address || ""
 						}
 						_this.user.lng = res.longitude
 						_this.user.lat = res.latitude

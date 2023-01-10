@@ -1,6 +1,6 @@
 <template>
 	<view class="main" v-if="isDone">
-		<view class="header flex flex-align-center bg-w" :style="{'padding-top': statusBarHeight+'px'}">
+		<view class="header flex flex-align-center bg-w" :style="{'padding-top': statusBarHeight + wxBtnHeight +'px'}">
 			<text class="iconfont icon" @tap="$navigateBack()">&#xe771;</text>
 			<v-tabs :tabs="tabs" :bold="false" :scroll="false" fontSize="30rpx" lineHeight="4rpx" v-model="current" @change="tabsChange"></v-tabs>
 			<view class="iconfont icon" @click="showActive">&#xe60b;</view>
@@ -307,7 +307,8 @@
 				discountList: [],
 				rangePrice: "",
 				time: null,
-				groupList: []
+				groupList: [],
+				wxBtnHeight: 0,
 			}
 		},
 		computed:{
@@ -330,12 +331,16 @@
 			}
 		},
 		onLoad(opt) {
+			// #ifdef MP-WEIXIN
+			this.wxBtnHeight = wx.getMenuButtonBoundingClientRect().height
+			this.statusBarHeight = uni.getSystemInfoSync().statusBarHeight
+			// #endif
 			let addressData = publics.getMyaddressLngLat()
 			if (addressData) {
 				this.myAddressData = JSON.parse(addressData)
 			} else {
-				/* this.$msg("请先设置您当前的位置")
-				this.openMap() */
+				// this.$msg("请先设置您当前的位置")
+				// this.openMap()
 			}
 			let id = opt.id
 			this.id = id
@@ -393,8 +398,8 @@
 			getGoodsDetail(){
 				let params = {
 					goodsId: this.id,
-					lng: this.myAddressData.longitude, //经度
-					lat: this.myAddressData.latitude   //纬度
+					lng: this.myAddressData.longitude || "0", //经度
+					lat: this.myAddressData.latitude || "0"   //纬度
 				}
 				this.$http("GET", url.goods.goodsDetail,params).then(res =>{
 					this.goodsInfo = res.data
@@ -692,6 +697,7 @@
 		padding: 0rpx 30rpx;
 		height: 100rpx;
 		position: fixed;
+		justify-content: space-between;
 		top: 0;
 		left: 0;
 		right: 0;
@@ -700,6 +706,7 @@
 			font-size: 60rpx;
 			width: 100rpx;
 			margin-bottom: -10rpx;
+			text-align: center;
 		}
 	}
 	.swiper{

@@ -254,6 +254,11 @@
 				}
 			})
 			// #endif
+			
+			// #ifndef APP-PLUS
+			this.getMyLocation()
+			// #endif
+			
 			// 获取红包信息
 			this.getRedBagList()
 			// 获取公告未读数量
@@ -456,7 +461,7 @@
 				uni.getLocation({
 				    type: 'wgs84',
 					geocode: true,
-				    success: async function (res) {
+				    success: function (res) {
 						console.log("获取当前位置成功。。。。", res)
 				        //设置地址
 						publics.setMyaddressLngLat(JSON.stringify(res));
@@ -464,11 +469,12 @@
 						//设置当前位置名称
 						if (res.address){
 							_this.addressName = res.address.district+(res.address.poiName||res.address.street);
-						} else {
-							let r = await publics.getPositionToLngAndLat(res.longitude, res.latitude)
-							_this.addressName = r.result.address
+						// } else {
+							// let r = await publics.getPositionToLngAndLat(res.longitude, res.latitude)
+							// _this.addressName = r.result.address
 						}
 				    }, fail: function (err) { // 定位权限没开启
+						console.log('getLocation.error.', err)
 						// _this.openMap()
 					}
 				});

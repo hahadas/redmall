@@ -16,7 +16,7 @@
 
 <script>
 	import url from "@/common/http/url.js"
-	/* import areaData from "./areadata/areadata.js" */
+	import areaData from "./areadata/areadata.js"
 	export default {
 		data() {
 			return {

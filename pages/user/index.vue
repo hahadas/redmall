@@ -1,6 +1,6 @@
 <template>
 	<view class="main">
-		<view class="header flex flex-align-center color-w" :style="{'padding-top': statusBarHeight+'px'}">
+		<view class="header flex flex-align-center color-w" :style="{'padding-top': wxBtnHeight+'px'}">
 			<view class="flex flex-grow" style="justify-content: space-between;" v-if="userDetailInfo.username">
 				<view class="flex flex-align-center" @click="toNav('/pages/setting/personal')">
 					<view>
@@ -209,7 +209,6 @@
 					{name: "退款/售后", tip: 0, icon: "user/refund.png", status: 6}
 				],
 				servicePhone: "",
-				statusBarHeight: getApp().statusBarHeight,
 				cbfcAcountData: {},
 				teamTotal: 0,
 				balance: 0,
@@ -221,12 +220,17 @@
 				threeData: [],
 				platform: uni.getSystemInfoSync().platform,
 				configAppstoreHidePage: false,
+				wxBtnHeight: 0,
 			}
 		},
 		onPullDownRefresh() {
 			this.init()
 		},
 		onLoad() {
+			// #ifdef MP-WEIXIN
+			this.wxBtnHeight = wx.getMenuButtonBoundingClientRect().height
+			// #endif
+			
 			// 广告弹框
 			this.$http("GET", url.cms.advertisingMap, {position: 8}).then(res =>{
 				if (res.data && res.data.length > 0) {

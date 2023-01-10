@@ -271,20 +271,8 @@
 					deliveryMethod: this.orderInfo.deliveryId || 5 // 配送方式
 				}
 				this.$http("POST", url.order.commitOrder, params).then(res =>{
-					let data = {
-						goodsId: this.orderInfo.goodsId,
-						goodsImage: this.orderInfo.goodsSku.mainImage || this.orderInfo.goodsInfo.mainImage,
-						goodsName: this.orderInfo.goodsInfo.titleName,
-						skuName: this.orderInfo.goodsSku.skuName,
-						price: this.orderInfo.goodsSku.skuPrice,
-						number: this.orderInfo.number,
-						orderType: this.orderInfo.orderType,
-						toImAccount: this.orderInfo.storeInfo.imAccount,
-						...res.data
-					}
-					uni.setStorageSync("orderData", data)
 					uni.redirectTo({
-						url: "/pages/order/payment/index"
+						url: "/pages/order/payment/index?orderId="+res.data.orderId
 					})
 					uni.hideLoading();
 				}).catch((err)=>{

@@ -151,19 +151,7 @@ export default{
 		},
 		// 支付订单
 		payOrder(row){
-			let data = {
-				goodsId: row.goodsId,
-				goodsImage: row.skuImage || row.goodsImage,
-				goodsName: row.goodsName,
-				skuName: row.skuName,
-				price: row.unitPrice,
-				number: row.number,
-				orderType: row.orderType,
-				toImAccount: row.storeInfo.imAccount,
-				orderId: row.id
-			}
-			uni.setStorageSync("orderData", data)
-			this.$navigateTo('/pages/order/payment/index')
+			this.$navigateTo('/pages/order/payment/index?orderId='+row.id)
 		},
 		// 去评价
 		toEvaluate(orderId) {

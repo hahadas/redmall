@@ -64,6 +64,7 @@
 	import url from '@/common/http/url.js';
 	import publics from "@/common/utils/public.js"
 	import keyWords from "@/components/bian-keywords/index.vue"
+	import { baseUrl } from "@/common/http/index.js"
 
 	let timer = null
     export default {
@@ -85,22 +86,55 @@
 				orderData: {},
 				rsaKey: "",
 				show: false,
-				userInfo: {}
+				userInfo: {},
+				showCheckPayStatus: false,
             }
         },
 		onShow(){
 			this.$http("GET", url.user.getUserInfoBasic).then(res =>{
 				this.userInfo = res.data
 			})
+			
+			let that = this
+			//弹窗校验是否已支付成功
+			let showCheckPayStatus = uni.getStorageSync("ShowCheckPayStatus");
+			if(showCheckPayStatus){
+				uni.setStorageSync("ShowCheckPayStatus",false);//取消
+				uni.showModal({
+					content: '是否已经支付成功？',
+					cancelText: '未支付',
+					confirmText: '支付成功',
+					success: function (res) {
+						if (res.confirm) {
+							that.checkPayResult();
+						}
+					}
+				});
+			}
 		},
         onLoad (opt) {
-			let orderData = uni.getStorageSync("orderData")
-			if (orderData) {
-				this.orderData = orderData
-				this.orderId = orderData.orderId
-				this.getOrderInfo()
-				uni.removeStorageSync("orderData")
-			}
+			let that = this
+			this.$http("GET", url.order.getOrderInfoById, {orderId: opt.orderId}).then(res =>{
+				let row = res.data
+				if (row) {
+					let orderData = {
+						goodsId: row.goodsId,
+						goodsImage: row.skuImage || row.goodsImage,
+						goodsName: row.goodsName,
+						skuName: row.skuName,
+						price: row.unitPrice,
+						number: row.number,
+						orderType: row.orderType,
+						toImAccount: row.storeInfo.imAccount,
+						orderId: row.id
+					}
+					
+					that.orderData = orderData
+					that.orderId = orderData.orderId
+					that.getOrderInfo()
+				}
+			});
+				
 			this.$http("GET", url.login.getPublicKey).then(res => {
 				this.rsaKey = res.data
 			})
@@ -186,7 +220,25 @@
 					path = url.pay.wechatPay
 					type = "wxpay"
 				}
-				this.$http("GET", path, {orderId: this.orderId}).then(res =>{
+				
+				let payType = 0;//支付的平台，默认0，0=app，1=wap，2=pc
+				//#ifdef H5
+				uni.setStorageSync("ShowCheckPayStatus",true);//开启onshow时候弹出是否已支付的弹框
+				
+				payType = 1;
+				if(navigator.userAgent.indexOf('Mobile') === -1) {  
+				  payType = 2;//pc
+				}
+				
+				//关闭loading
+				uni.hideLoading();
+				
+				//跳转到页面支付
+				window.open(baseUrl+path+"?payType="+payType+"&orderId="+this.orderId);
+				//#endif
+				
+				// #ifdef APP-PLUS  
+				this.$http("GET", path, {payType: payType, orderId: this.orderId}).then(res =>{
 					this.requestPayment(type, res.data)
 				}).catch((err)=>{
 					uni.hideLoading()
@@ -198,6 +250,7 @@
 						})
 					}
 				})
+				//#endif
 			},
 			// 支付成功后跳转结果页
 			requestPayment(type, data){
@@ -233,11 +286,16 @@
 				setTimeout(()=>{
 					this.$http("GET", url.pay.checkPay, {orderId: this.orderId}).then(doc=>{
 						uni.hideLoading()
-						this.imSend()
-						this.$msg("支付成功");
-						uni.redirectTo({
-							url: '/pages/order/payment/result?orderInfo=' + JSON.stringify(this.orderInfo)
-						})
+						if(doc.payStatus){
+							this.imSend()
+							this.$msg("支付成功");
+							uni.redirectTo({
+								url: '/pages/order/payment/result?orderInfo=' + JSON.stringify(this.orderInfo)
+							})
+						}else{
+							this.$msg("未检测到支付成功的订单，如您已支付，可联系平台客服咨询")
+							uni.hideLoading()
+						}
 					}).catch(()=>{
 						this.$msg("支付失败")
 						uni.hideLoading()

@@ -2,8 +2,8 @@ import Request from './request.js'
 import { throttle } from './throttle.js'
 
 export const staticUrl = "https://redmall-public.oss-cn-shenzhen.aliyuncs.com/static_resources/"
-export const baseUrl = "https://redmall-app-api.nnwqkj.com/api/"
-// export const baseUrl = "http://192.168.1.188:6001/api/"
+// export const baseUrl = "https://redmall-app-api.nnwqkj.com/api/"
+export const baseUrl = "http://192.168.1.188:6001/api/"
 // export const baseUrl = "http://47.109.18.227:6001/api/"
 export const imUrl = "wss://redmall-im.nnwqkj.com?imToken="
 // export const imUrl = "ws://47.109.18.227:6000?imToken="

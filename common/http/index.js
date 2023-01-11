@@ -1,5 +1,6 @@
 import Request from './request.js'
 import { throttle } from './throttle.js'
+import { officialAccountAuthorize,setMiniOpenIdByCode } from '@/common/utils/weChatPay.js'
 
 export const staticUrl = "https://redmall-public.oss-cn-shenzhen.aliyuncs.com/static_resources/"
 // export const baseUrl = "https://redmall-app-api.nnwqkj.com/api/"
@@ -9,6 +10,8 @@ export const imUrl = "wss://redmall-im.nnwqkj.com?imToken="
 // export const imUrl = "ws://47.109.18.227:6000?imToken="
 
 export const inviteUrl = "https://redmall-register.nnwqkj.com/#/pages/public/reg?code="
+
+
 
 const config = {
 	baseUrl: baseUrl
@@ -118,6 +121,7 @@ function _responseLog(res, conf = {}, describe = null) {
 		// console.log("结果: " + JSON.stringify(res.data))
 	}
 	//TODO into log server
+	
 	if (_statusCode === 500) {
 		console.log(res)
 		let duration = 1500
@@ -129,11 +133,16 @@ function _responseLog(res, conf = {}, describe = null) {
 		} else if (msg.length > 20) {
 			duration = 8000
 		}
-		uni.showToast({
-			title: msg,
-			duration: duration,
-			icon: "none"
-		})
+		//关闭loading
+		uni.hideLoading();
+		setTimeout(()=> {
+			uni.showToast({
+				title: msg,
+				duration: duration,
+				icon: "none"
+			})
+		}, 100)
+		
 	} else if (_statusCode === 401 || _statusCode === 100) {
 		throttle.canDoFunction({
 			key: "is401",
@@ -168,11 +177,24 @@ function _responseLog(res, conf = {}, describe = null) {
 				}
 			}
 		})
+	} else if(_statusCode === 81001){//微信公众号授权登入
+		//#ifdef H5
+		officialAccountAuthorize();
+		//#endif
+	} else if(_statusCode === 81002){//微信小程序授权登入
+		//#ifdef MP-WEIXIN
+		setMiniOpenIdByCode();
+		//#endif
 	} else if(_statusCode === 404) {
-		uni.showToast({
-			title: res.data.msg,
-			icon: "none"
-		})
+		//关闭loading
+		uni.hideLoading();
+		setTimeout(()=> {
+			uni.showToast({
+				title: res.data.msg,
+				duration: duration,
+				icon: "none"
+			})
+		}, 100)
 	}
 }
 

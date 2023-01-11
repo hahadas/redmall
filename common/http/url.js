@@ -67,6 +67,10 @@ export default{
 		delMyUserInfo: "user/delMyUserInfo", // 删除自身账户并退出登入
 		updateAddress: "user/updateAddress", // 更新个人位置信息
 		updateUniappClientInfo: "user/updateUniappClientInfo", // 更新设备信息
+		getOfficialAccountAppID: "user/getOfficialAccountAppID", // 获取微信公众号AppID
+		setOfficialAccountOpenIdByCode: "user/setOfficialAccountOpenIdByCode",//设置并获取用户微信公众号openid，返回openid
+		reSetOfficialAccountOpenId: "user/reSetOfficialAccountOpenId",//重置微信公众号openid
+		setMiniOpenIdByCode: "user/setMiniOpenIdByCode", //设置并获取用户微信小程序openid，返回openid
 		getLabels: "user/labels", // 获取酒量、过往职业、兴趣爱好标签
 		getWalletInfo: "user/userWallet", // 获取自身钱包信息
 		cbfcAcount: "user/cbfcAcount", // 商品收藏、商品浏览、商家关注、未使用的优惠券 的数量
@@ -210,12 +214,12 @@ export default{
 	// 支付相关
 	pay: {
 		balancePay: "payBalance/payOrder", //余额支付
-		aliPay: "payAli/appPayOrder", // 支付宝支付
-		wechatPay: "payWeChat/appPayOrder", // 微信支付
+		aliPay: "payAli/payOrder", // 支付宝支付
+		wechatPay: "payWeChat/payOrder", // 微信支付
 		checkPay: "payCheck/order", // 校验支付宝/微信是否支付成功
 		cardPay: "payCards/payOrder", // 消费卡支付
-		aliPayOther: "payAli/appPayOther", // 支付宝支付-非商品类型
-		wechatPayOther: "payWeChat/appPayOther", // 微信支付-非商品类型
+		aliPayOther: "payAli/payOther", // 支付宝支付-非商品类型
+		wechatPayOther: "payWeChat/payOther", // 微信支付-非商品类型
 		payCheckOther: "payOtherCheck/other", // 校验非商品类型订单微信/支付宝是否已支付成功
 		checkStoreCollection: "payCollectionCheck/checkStoreCollection", // 商家检查用户是否扫码支付成功
 		scanWechat: "payWeChat/scanPayment", // 用户扫码微信支付

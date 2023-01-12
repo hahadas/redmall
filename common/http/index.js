@@ -3,8 +3,8 @@ import { throttle } from './throttle.js'
 import { officialAccountAuthorize,setMiniOpenIdByCode } from '@/common/utils/weChatPay.js'
 
 export const staticUrl = "https://redmall-public.oss-cn-shenzhen.aliyuncs.com/static_resources/"
-// export const baseUrl = "https://redmall-app-api.nnwqkj.com/api/"
-export const baseUrl = "http://192.168.1.188:6001/api/"
+export const baseUrl = "https://redmall-app-api.nnwqkj.com/api/"
+// export const baseUrl = "http://192.168.1.188:6001/api/"
 // export const baseUrl = "http://47.109.18.227:6001/api/"
 export const imUrl = "wss://redmall-im.nnwqkj.com?imToken="
 // export const imUrl = "ws://47.109.18.227:6000?imToken="
@@ -181,9 +181,33 @@ function _responseLog(res, conf = {}, describe = null) {
 		//#ifdef H5
 		officialAccountAuthorize();
 		//#endif
+		
+		//#ifndef H5
+		//关闭loading
+		uni.hideLoading();
+		setTimeout(()=> {
+			uni.showToast({
+				title: "该平台不支持微信公众号登入",
+				duration: 1500,
+				icon: "none"
+			})
+		}, 100)
+		//#endif
 	} else if(_statusCode === 81002){//微信小程序授权登入
 		//#ifdef MP-WEIXIN
 		setMiniOpenIdByCode();
+		//#endif
+		
+		//#ifndef MP-WEIXIN
+		//关闭loading
+		uni.hideLoading();
+		setTimeout(()=> {
+			uni.showToast({
+				title: "该平台不支持微信小程序登入",
+				duration: 1500,
+				icon: "none"
+			})
+		}, 100)
 		//#endif
 	} else if(_statusCode === 404) {
 		//关闭loading
@@ -191,7 +215,7 @@ function _responseLog(res, conf = {}, describe = null) {
 		setTimeout(()=> {
 			uni.showToast({
 				title: res.data.msg,
-				duration: duration,
+				duration: 1500,
 				icon: "none"
 			})
 		}, 100)

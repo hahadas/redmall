@@ -289,12 +289,12 @@
         },
         //用内网穿透，映射本地Vue项目给外网访问，出现Invalid Host header
         "devServer" : {
-            "port" : "8080",
+            "port" : "",
             "disableHostCheck" : true
         },
         "router" : {
             "mode" : "history",
-            "base" : "./"
+            "base" : "/"
         }
     }
 }

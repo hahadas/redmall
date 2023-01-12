@@ -4,31 +4,30 @@ import { sendRequest } from "@/common/http/api.js"
 import jWeixin from '@/components/jweixin-module/index.js'
 //#endif
 
-/**
- * 去除url中指定参数
- * @param {Object} paramKey
- * @param {Object} url
- */
-function delUrlParam(paramKey,url) {
-	var urlParam = window.location.search.substr(1);   //页面参数
-	var beforeUrl = url.substr(0, url.indexOf("?"));   //页面主地址（参数之前地址）
-	var nextUrl = "";
 
-	var arr = new Array();
-	if (urlParam != "") {
-		var urlParamArr = urlParam.split("&"); //将参数按照&符分成数组
-		for (var i = 0; i < urlParamArr.length; i++) {
-			var paramArr = urlParamArr[i].split("="); //将参数键，值拆开
-			//如果键雨要删除的不一致，则加入到参数中
-			if (paramArr[0] != paramKey) {
-				arr.push(urlParamArr[i]);
-			}
-		}
+/**
+ * 删除当前url中指定参数
+ * @param names 数组或字符串
+ * @returns {string}
+ */
+function delUrlParam(names) {
+	if(typeof(names)=='string'){
+		names = [names];
 	}
-	if (arr.length > 0) {
-		nextUrl = "?" + arr.join("&");
+	var loca = window.location;
+	var obj = {}
+	var arr = loca.search.substr(1).split("&");
+	//获取参数转换为object
+	for(var i = 0; i < arr.length; i++) {
+		arr[i] = arr[i].split("=");
+		obj[arr[i][0]] = arr[i][1];
+	};
+	//删除指定参数
+	for(var i = 0; i < names.length; i++) {
+		 delete obj[names[i]];
 	}
-	url = beforeUrl + nextUrl;
+	//重新拼接url
+	var url = loca.origin + loca.pathname + "?" + JSON.stringify(obj).replace(/[\"\{\}]/g, "").replace(/\:/g, "=").replace(/\,/g, "&");
 	return url;
 }
 function msg(title, duration = 1500, mask = false, icon = 'none') {
@@ -51,8 +50,8 @@ export const officialAccountAuthorize = () => {
 	//获取微信公众号ID
 	sendRequest("GET", url.user.getOfficialAccountAppID, {}).then(res => {
 		let appid = res.data;
-		//去除url中的code，防止重复叠加
-		let nowUrl = delUrlParam("code",window.location.href)
+		//去除当前url中的code和state，防止重复叠加
+		let nowUrl = delUrlParam(["code","state"])
 		//进行微信授权
 		let href= encodeURIComponent(nowUrl)
 		window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+href +"&response_type=code&scope=snsapi_userinfo#wechat_redirect"
@@ -174,8 +173,14 @@ export const payWeChatH5OfficialAccount = (verifyData, payData,callback) => {
 
 /**
  * 设置并获取用户微信小程序openid，返回openid
+ * @param reset 是否重置，如果用户原本就存在openid，还是会重新获取openid并重新设置
  */
-export const setMiniOpenIdByCode = () => {
+export const setMiniOpenIdByCode = (reset = false) => {
+	uni.showLoading({
+		title: '小程序授权登入中',
+		mask: true
+	});
+	
 	// 获取微信小程序用户信息
 	uni.login({
 	  provider: 'weixin',
@@ -183,9 +188,12 @@ export const setMiniOpenIdByCode = () => {
 		  if(infoRes && infoRes.code){
 			  //根据小程序授权后的code 获取openid
 			  sendRequest("GET", url.user.setMiniOpenIdByCode, {
-			  	code: infoRes.code
+			  	code: infoRes.code,
+				reset: reset
 			  }).then(setMiniOpenIdByCodeRes => {
-			  	
+			  	//关闭loading
+			  	uni.hideLoading();
+				msg("授权成功！可继续下一步操作~")
 			  })
 		  }else{
 			  //关闭loading
@@ -199,5 +207,43 @@ export const setMiniOpenIdByCode = () => {
 		uni.hideLoading();
 		msg(err.errMsg)
 	  },
+	});
+}
+
+/**
+ * 微信小程序支付
+ * @param payData 支付的签名信息
+ */
+export const payWeChatMini = (payType, payData, callback) => {
+	uni.requestPayment({
+		provider: payType,
+		orderInfo: payData,
+		timeStamp: payData.timeStamp,
+		nonceStr: payData.nonceStr,
+		package: payData.package,
+		signType: payData.signType,
+		paySign: payData.paySign,
+		success: function(res) {
+			callback(res)
+		},
+		fail: function(err) {
+			//关闭loading
+			uni.hideLoading();
+			
+			//下单账号与支付账号不一致
+			uni.showModal({
+				content: '是否“下单账号与支付账号不一致”？可以重新授权登入后支付！',
+				cancelText: '取消',
+				confirmText: '重新授权',
+				success: function(res) {
+					if (res.confirm) {
+						//重置账号openId
+						setMiniOpenIdByCode(true);
+					}else{
+						_this.$msg("已经取消支付");
+					}
+				}
+			});
+		}
 	});
 }

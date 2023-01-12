@@ -97,7 +97,8 @@
 		officialAccountAuthorize,
 		setOfficialAccountOpenIdByCode,
 		reSetOfficialAccountOpenId,
-		payWeChatH5OfficialAccount } from '@/common/utils/weChatPay.js'
+		payWeChatH5OfficialAccount,
+		payWeChatMini } from '@/common/utils/weChatPay.js'
 
 	let timer = null
 	export default {
@@ -369,23 +370,10 @@
 				//获取支付签名
 				this.getPaySign(path, payType, this.orderId, "", payData => {
 					if (payData) {
-						uni.requestPayment({
-							provider: payType,
-							orderInfo: payData,
-							timeStamp: payData.timeStamp,
-							nonceStr: payData.nonceStr,
-							package: payData.package,
-							signType: payData.signType,
-							paySign: payData.paySign,
-							success: function(res) {
-								uni.hideLoading()
-								_this.checkPayResult()
-							},
-							fail: function(err) {
-								console.log("err..........")
-								uni.hideLoading()
-								_this.$msg("支付失败")
-							}
+						payWeChatMini(payType,payData,callback => {
+							//支付成功校验
+							uni.hideLoading()
+							_this.checkPayResult()
 						});
 					}else{
 						//关闭loading
@@ -397,7 +385,7 @@
 
 				// #ifdef APP-PLUS  
 				//获取支付签名
-				this.getPaySign(payType, this.orderId, "", sign => {
+				this.getPaySign(path, payType, this.orderId, "", sign => {
 					if (sign) {
 						this.requestPayment(path, type, sign)
 					}else{
@@ -413,11 +401,13 @@
 				this.$http("GET", path, {
 					payType: payType,
 					orderId: orderId,
-					url: url,
+					url: url
 				}).then(res => {
 					callback(res.data)
 				}).catch((err) => {
 					uni.hideLoading()
+					console.log("err====")
+					console.log(err)
 					let resErr = err.res
 					if (resErr.data.code === 15001) {
 						this.$msg(resErr.data.msg)

@@ -123,8 +123,8 @@
 				return staticUrl
 			}
 		},
-		onLaunch: function() {
-			console.log('App Launch')
+		onLaunch: function(e) {
+			console.log('App Launch', e)
 			
 			let _this = this
 			// 获取缩略图比列
@@ -165,6 +165,14 @@
 			let token = uni.getStorageSync('token')
 			this.token = token
 			if (token) {
+				// #ifdef MP-WEIXIN
+				if (e.path !== "pages/home/index") {
+					uni.reLaunch({
+						url: "/pages/home/index"
+					})
+				}
+				// #endif
+				
 				// 初始化webSocket数据
 				this.initIMClientText()
 				// #ifdef APP-PLUS

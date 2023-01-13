@@ -92,7 +92,7 @@
 			<view 
 				class="tabs" 
 				:class="{'tabsFixed': tabsFixed}" 
-				:style="{'padding-top': tabsFixed ? (statusBarHeight+'px') : 0}"
+				:style="{'padding-top': tabsFixed ? (statusBarHeight + wxBtnHeight +'px') : 0}"
 				id="tabs">
 				<view class="tab flex flex-center" v-for="(item, i) in tabs" :key="i" @click="changeTab(i)">
 					<image mode="widthFix" v-if="current === i" :src="staticUrl + 'home/tabs/' + item.img + '_use.png'"></image>
@@ -226,9 +226,7 @@
 				redList: [],
 				noticeTotal: 0,
 				isOpenPosition: true,
-				// #ifdef MP-WEIXIN
 				wxBtnHeight: 0,
-				// #endif
 			}
 		},
 		onLoad() {

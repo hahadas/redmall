@@ -1,7 +1,7 @@
 import url from '@/common/http/url.js';
 import { sendRequest } from "@/common/http/api.js"
 //#ifdef H5
-import jWeixin from '@/components/jweixin-module/index.js'
+import jWeixin from '@/libs/jweixin-module/index.js'
 //#endif
 
 

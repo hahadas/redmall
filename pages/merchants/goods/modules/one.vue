@@ -70,6 +70,12 @@
 					</text>
 					<input type="number" placeholder="必填" :maxlength="4" v-model="form.bonusIntegral" class="flex-grow input">
 				</view>
+				<view class="list-item" style="height: auto;">
+					<text class="font26 color-b9">
+					1、积分赠送比例可最低设置为0，不赠送任何积分。
+					2、如设置赠送积分为1%，该商品价格为100元，则用户获得1积分，商家实际收入为99元，赠送的积分与商品金额对等。
+					</text>
+				</view>
 				<view class="list-item">
 					<text>
 						<text class="color-red">*</text>
@@ -77,6 +83,12 @@
 					</text>
 					<input type="number" placeholder="必填" :maxlength="4" v-model="form.bonusProfit" style="width: 200rpx;" class="flex-grow input">
 					<text class="font26 color-b9">最低：{{profit}}</text>
+				</view>
+				<view class="list-item" style="height: auto;">
+					<text class="font26 color-b9">
+					1、如需平台配送，则该设置的分润内的（{{distributionFee}}%）为平台配送员的配送费（如商品价格为100元，分润设置1%，配送费为1元的{{distributionFee}}%，就是{{parseFloat(distributionFee)/100}}元），剩余的为平台佣金和平台的分销奖励。
+					2、如不需要平台配送，则该分润全部为平台佣金和平台的分销奖励。
+					</text>
 				</view>
 			</block>
 			<!-- 普通商品 -->
@@ -93,15 +105,22 @@
 						<text style="width: 160rpx;">
 							人民币：
 						</text>
-						<input type="number" :maxlength="3" placeholder="%" @input="onInput" v-model="form.paymentRmb" class="input" style="width: 200rpx;">
+						<input type="number" :maxlength="3" placeholder="%" @input="onInput" v-model="form.paymentRmb" class="input" style="width: 200rpx;">%
 					</block>
 					<block>
 						<text style="width: 160rpx;">
 							积分：
 						</text>
-						<input type="number" :maxlength="3" placeholder="自动计算" disabled v-model="form.paymentIntegral" class="input" style="width: 200rpx;">
+						<input type="number" :maxlength="3" placeholder="自动计算" disabled v-model="form.paymentIntegral" class="input" style="width: 200rpx;">%
 					</block>
 				</view>
+				<view class="list-item" style="height: auto;" v-if="form.paymentCombination === 1">
+					<text class="font26 color-b9">
+					积分收益换算：1积分={{pointCombinationPaymentMerchantIncome}}元
+					如：人民币90%，积分10%，商品价格为100元，用户支付90元+10积分，商家实际收益为：90元+{{parseFloat(pointCombinationPaymentMerchantIncome)*10}}元。
+					</text>
+				</view>
+				
 			</block>
 			<!-- 精品商品 -->
 			<view class="list-item bor-no" v-if="goodsTypeIndex === 1">
@@ -189,7 +208,9 @@
 				profit: 0,
 				goodsTypeList: [],
 				goodsTypeIndex: 0,
-				endTime: ""
+				endTime: "",
+				distributionFee: "",
+				pointCombinationPaymentMerchantIncome: "",
 			}
 		},
 		mounted() {
@@ -213,6 +234,14 @@
 			// 获取分润比例
 			this.$http("GET", url.store.minBonusProfit).then(res=>{
 				this.profit = res.data
+			})
+			// 获取配送员佣金比例
+			this.$http("GET", url.common.distributionFee).then(res=>{
+				this.distributionFee = res.data.unBoutique
+			})
+			// 获取积分组合支付时商家实际收入比例
+			this.$http("GET", url.common.pointCombinationPaymentMerchantIncome).then(res=>{
+				this.pointCombinationPaymentMerchantIncome = res.data
 			})
 		},
 		methods:{

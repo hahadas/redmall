@@ -4,15 +4,15 @@ import { officialAccountAuthorize,setMiniOpenIdByCode } from '@/common/utils/weC
 
 //静态资源访问路径，有些资源不宜放太多到项目中影响微信小程序打包大小
 export const staticUrl = "https://redmall-public.oss-cn-shenzhen.aliyuncs.com/static_resources/"
-//后台服务接口请求地址
-export const baseUrl = "https://redmall-app-api.nnwqkj.com/api/"
-// export const baseUrl = "http://192.168.1.188:6001/api/"
-// export const baseUrl = "http://47.109.18.227:6001/api/"
-//即时通讯连接地址，https时用wss，http时用ws
+//后台服务接口请求地址，如果是本地运行可以用ip+端口
+// export const baseUrl = "https://redmall-app-api.nnwqkj.com/api/"
+export const baseUrl = "http://192.168.1.188:6001/api/"
+//即时通讯连接地址，https时用wss，http时用ws，如果是本地运行可以用ip+端口
 export const imUrl = "wss://redmall-im.nnwqkj.com?imToken="
-// export const imUrl = "ws://47.109.18.227:6000?imToken="
-//用户推广邀请注册h5网页网站地址
+// export const imUrl = "ws://192.168.1.188:6000?imToken="
+//用户推广邀请注册h5网页网站地址，如果是本地运行可以用ip+端口
 export const inviteUrl = "https://redmall-register.nnwqkj.com/#/pages/public/reg?code="
+// export const inviteUrl = "http://192.168.1.188:8081/#/pages/public/reg?code="
 
 const config = {
 	baseUrl: baseUrl
@@ -122,7 +122,7 @@ function _responseLog(res, conf = {}, describe = null) {
 		// console.log("结果: " + JSON.stringify(res.data))
 	}
 	//TODO into log server
-	
+
 	if (_statusCode === 500) {
 		console.log(res)
 		let duration = 1500
@@ -143,7 +143,7 @@ function _responseLog(res, conf = {}, describe = null) {
 				icon: "none"
 			})
 		}, 100)
-		
+
 	} else if (_statusCode === 401 || _statusCode === 100) {
 		throttle.canDoFunction({
 			key: "is401",
@@ -182,7 +182,7 @@ function _responseLog(res, conf = {}, describe = null) {
 		//#ifdef H5
 		officialAccountAuthorize();
 		//#endif
-		
+
 		//#ifndef H5
 		//关闭loading
 		uni.hideLoading();
@@ -198,7 +198,7 @@ function _responseLog(res, conf = {}, describe = null) {
 		//#ifdef MP-WEIXIN
 		setMiniOpenIdByCode();
 		//#endif
-		
+
 		//#ifndef MP-WEIXIN
 		//关闭loading
 		uni.hideLoading();

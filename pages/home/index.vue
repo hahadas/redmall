@@ -467,9 +467,6 @@
 						//设置当前位置名称
 						if (res.address){
 							_this.addressName = res.address.district+(res.address.poiName||res.address.street);
-						// } else {
-							// let r = await publics.getPositionToLngAndLat(res.longitude, res.latitude)
-							// _this.addressName = r.result.address
 						}
 				    }, fail: function (err) { // 定位权限没开启
 						console.log('getLocation.error.', err)

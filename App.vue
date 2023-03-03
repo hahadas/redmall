@@ -208,7 +208,7 @@
 			// #endif
 			
 			//获取三级地址数据
-			this.initSysAddressSources();
+			publics.getExternalSources()
 		},
 		onShow: function() {
 			console.log('App Show')
@@ -1001,31 +1001,12 @@
 				}
 			},
 			// #endif
-			initSysAddressSources(){
-				console.log("initSysAddressSources=====")
-				let that = this;
-				let key = 'SYSADDRESS_SOURCES';
-				//先从缓存获取，如果缓存不存在，则请求数据后存入缓存中
-				let externalSources = uni.getStorageSync(key);
-				if(externalSources){
-					that.sysAddress = externalSources
-				}else{
-					uni.request({
-						url: url.externalSources.sysAddressJson,
-						method: 'GET',
-						header:{
-							'Content-Type' : 'application/json',
-							'Access-Control-Allow-Origin': '*'
-						},
-						success: res => {
-							uni.setStorageSync(key, res.data)
-							that.sysAddress = res.data
-						},
-						fail: () => {},
-						complete: () => {}
-					});
-				}
-			},
+			// initSysAddressSources(){
+			// 	let that = this;
+			// 	publics.getExternalSources(res => {
+			// 		that.sysAddress = res;
+			// 	})
+			// },
 		}
 	}
 

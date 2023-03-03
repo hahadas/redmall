@@ -2,16 +2,15 @@
 	<view class="main" :style="{backgroundImage: 'url('+ staticUrl + 'login/login_bg1.png)'}">
 		<view class="flex flex-center flex-column fixed">
 			<view class="flex flex-between btn color-purple">
-				<view class="flex flex-center btn-item bg-w" @tap="jumpTo('login')">
+				<view class="flex flex-center btn-item bg-w" @tap="$navigateTo('login')">
 					<text class="iconfont" style="font-size: 52rpx;">&#xe60f;</text>
 					<text class="font28">手机登录</text>
 				</view>
-				<view class="flex flex-center btn-item bg-w" @tap="jumpTo('register')">
+				<view class="flex flex-center btn-item bg-w" @tap="$navigateTo('register')">
 					<text class="iconfont icon">&#xe62d;</text>
 					<text class="font28">手机注册</text>
 				</view>
 			</view>
-			<!-- <text class="color-w font24" @tap="jumpTo('/pages/setting/privacy?status=hide')">登录注册即表示同意《用户协议及隐私策略》</text> -->
 			<text class="color-w font24" @tap="$navigateTo('/pages/notice/agreement?id='+noticeId)">登录注册即表示同意《用户协议及隐私策略》</text>
 		</view>
 	</view>
@@ -34,23 +33,6 @@
 			let page = this.$mp.page.$getAppWebview();
 			page.setStyle({ popGesture: 'none' });
 			// #endif
-			
-			// 获取隐私协议
-			// this.$http("GET", url.common.privacyAgreement).then(res =>{
-			// 	if (res.data && res.data.length > 0) {
-			// 		res.data.forEach(v => {
-			// 			if (v.keyCode === "platform_privacy_agreement_user"){
-			// 				this.noticeId = v.keyValue
-			// 				return
-			// 			}
-			// 		})
-			// 	}
-			// })
-		},
-		methods: {
-			jumpTo(path) {
-				this.$navigateTo(path)
-			}
 		}
 	}
 </script>

@@ -9,7 +9,7 @@
 				<view class="address-box">
 					<text class="address">
 						<text class="mark" v-if="item.defaultAd">默认</text>
-						{{ item.threeAdcode | filterAddr }}{{item.addressDetails}}{{item.addressSupplement}}
+						{{ filterAddr(item.threeAdcode) }}{{item.addressDetails}}{{item.addressSupplement}}
 					</text>
 				</view>
 			</view>
@@ -31,7 +31,6 @@
 				</view>
 			</view>
 		</view>
-	
 		<button class="add-btn bg-base" @click="addAddress('add')">+新增地址</button>
 	</view>
 </template>
@@ -49,20 +48,7 @@
 				type: 1 ,// 1=用户收货地址，2=商家发货地址
 				isSelectId: null,
 				editAddr: false,
-				orderId: ""
-			}
-		},
-		filters: {
-			filterAddr(code) {
-				if (!code) return
-				let addrObj = publics.getLngAndLatByCode(code);
-				let addrName = ""
-				if (addrObj){
-					addrObj.map(v=>{
-						addrName = addrName + v.name
-					})
-				}
-				return addrName
+				orderId: "",
 			}
 		},
 		onLoad(option) {
@@ -139,6 +125,17 @@
 						this.$navigateBack()
 					})
 				}
+			},
+			filterAddr(code) {
+				if (!code) return
+				let addrObj = publics.getLngAndLatByCode(code);
+				let addrName = ""
+				if (addrObj){
+					addrObj.map(v=>{
+						addrName = addrName + v.name
+					})
+				}
+				return addrName
 			}
 		}
 	}

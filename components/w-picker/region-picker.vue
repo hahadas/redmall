@@ -58,32 +58,33 @@
 		},
 		methods:{
 			async getExternalSources(callback){
-				let key = 'EXTERNAL_SOURCES';
-				//先从缓存获取，如果缓存不存在，则请求数据后存入缓存中
-				let externalSources = uni.getStorageSync(key);
-				if(externalSources){
-					callback(externalSources);
-				}else{
-					await uni.request({
-						url: url.externalSources.areadataJson,
-						method: 'GET',
-						header:{
-							'Content-Type' : 'application/json',
-							'Access-Control-Allow-Origin': '*'
-						},
-						success: res => {
-							uni.setStorageSync(key, res.data)
-							callback(res.data);
-						},
-						fail: () => {},
-						complete: () => {}
-					});
-				}
+				callback(areaData)
+				// let key = 'EXTERNAL_SOURCES';
+				// //先从缓存获取，如果缓存不存在，则请求数据后存入缓存中
+				// let externalSources = uni.getStorageSync(key);
+				// if(externalSources){
+				// 	callback(externalSources);
+				// }else{
+				// 	await uni.request({
+				// 		url: url.externalSources.areadataJson,
+				// 		method: 'GET',
+				// 		header:{
+				// 			'Content-Type' : 'application/json',
+				// 			'Access-Control-Allow-Origin': '*'
+				// 		},
+				// 		success: res => {
+				// 			uni.setStorageSync(key, res.data)
+				// 			callback(res.data);
+				// 		},
+				// 		fail: () => {},
+				// 		complete: () => {}
+				// 	});
+				// }
 			},
 			async getData(callback){
 				let that = this
 				await this.getExternalSources(areaData => {
-					that.areaData = areaData
+					// that.areaData = areaData
 					//用来处理初始化数据
 					let provinces=areaData;
 					let dVal=[];
@@ -164,7 +165,8 @@
 			handlerChange(e){
 				let arr=[...e.detail.value];
 				let provinceIndex=arr[0],cityIndex=arr[1],areaIndex=this.hideArea?0:arr[2];
-				let provinces=this.areaData;
+				// let provinces=this.areaData;
+				let provinces=areaData;
 				let citys=(provinces[provinceIndex]&&provinces[provinceIndex].children)||provinces[provinces.length-1].children||[];
 				let areas=this.hideArea?[]:((citys[cityIndex]&&citys[cityIndex].children)||citys[citys.length-1].children||[]);
 				let province=provinces[provinceIndex]||provinces[provinces.length-1],

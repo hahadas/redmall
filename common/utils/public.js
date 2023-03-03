@@ -2,10 +2,11 @@ import url from "../http/url.js"
 import { inviteUrl } from "@/common/http/index.js"
 import { sendRequest } from "@/common/http/api.js" 
 import JSEncrypt from "@/libs/jsencrypt-Rsa/jsencrypt.min.js"
-var QQMapWX = require('@/libs/qqmap-wx-jssdk.min.js')
-var qqmapsdk = new QQMapWX({
+let QQMapWX = require('@/libs/qqmap-wx-jssdk.min.js')
+let qqmapsdk = new QQMapWX({
 	key: 'BJVBZ-UWBR6-DCZSL-E6DJE-AXQGZ-O5BMI'
 })
+let sysAddress = []
 let publics = {
 	shareFriend(id, nickname, icon) {
 		//分享到微信朋友
@@ -367,14 +368,15 @@ let publics = {
 		let passwordEncryp = encryptor.encrypt(password)  // 对密码进行加密
 		return passwordEncryp
 	},
-	async getExternalSources(callback){
-		let key = 'SYSADDRESS_SOURCES';
-		//先从缓存获取，如果缓存不存在，则请求数据后存入缓存中
-		let externalSources = uni.getStorageSync(key);
-		if(externalSources){
-			callback(externalSources);
-		}else{
-			await uni.request({
+	getExternalSources(){
+		// let key = 'SYSADDRESS_SOURCES';
+		// //先从缓存获取，如果缓存不存在，则请求数据后存入缓存中
+		// let externalSources = uni.getStorageSync(key);
+		// if(externalSources){
+		// 	externalSources = JSON.parse(externalSources)
+		// 	return Promise.resolve(externalSources)
+		// }else{
+			uni.request({
 				url: url.externalSources.sysAddressJson,
 				method: 'GET',
 				header:{
@@ -382,13 +384,15 @@ let publics = {
 					'Access-Control-Allow-Origin': '*'
 				},
 				success: res => {
-					uni.setStorageSync(key, res.data)
-					callback(res.data);
+					uni.setStorageSync(key, JSON.stringify(res.data))
+					sysAddress = res.data
+					return Promise.resolve(res.data)
 				},
-				fail: () => {},
-				complete: () => {}
+				fail: () => {
+					return Promise.resolve([])
+				}
 			});
-		}
+		// }
 	},
 	/**
 	 * 根据code获取当前城市数据
@@ -396,13 +400,16 @@ let publics = {
 	 * {"id":1,"adcode":110000,"name":"北京市","level":1,"centerLng":116.405285000000000,"centerLat":39.904989000000000,"padcode":0}
 	 * */
 	getLngAndLatByCode(code){
-		// let sysAddress = getApp().sysAddress;
-		let sysAddress = uni.getStorageSync('SYSADDRESS_SOURCES') || [];
-		
 		if (!code) return
 		if (typeof code === "string") {
 			code = parseInt(code)
 		}
+		// let sysAddress = uni.getStorageSync('SYSADDRESS_SOURCES');
+		// if (sysAddress) {
+		// 	sysAddress = JSON.parse(sysAddress)
+		// } else {
+			// let sysAddress = 
+		// }
 		let arrRes = []
 		let rev = (array, nodeCode) => {
 			array.map(v =>{
@@ -415,7 +422,6 @@ let publics = {
 			return arrRes
 		}
 		arrRes = rev(sysAddress, code)
-		
 		return arrRes;
 	},
 	// 根据三级地区code获取省市区

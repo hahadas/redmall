@@ -83,7 +83,7 @@
 					<switch :checked="checked" @change="switchChange" style="transform: scale(0.8);"/>
 				</view>
 				<view class="addr" v-if="userData.showAddress">
-					<image src="/static/user/addr.png" mode="" class="icon"></image>
+					<image :src="staticUrl+'user/addr.png'" mode="" class="icon"></image>
 					<text class="color-b6 font28">{{userData.showAddress}}</text>
 				</view>
 				<view class="list">
@@ -163,6 +163,7 @@
 		mixins: [imMix],
 		data(){
 			return {
+				staticUrl: this.$staticUrl,
 				// tabs: ["待接单", "已接单", "普通订单大厅"],
 				tabs: [
 					{ name: "待接单", status: 1, total: 0, loading: "loading", list: [], pageSize: 1 },

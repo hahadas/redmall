@@ -14,7 +14,7 @@
 			</view>
 			<view class="list-item">
 				<text class="label">身份证号：</text>
-				<input type="text" :maxlength="20" class="input flex-grow" v-model="infor.idNumber" placeholder="请输入身份证号" />
+				<input type="text" :maxlength="18" class="input flex-grow" v-model="infor.idNumber" placeholder="请输入身份证号" />
 			</view>
 		</view>
 		<view class="grid flex flex-between" @click="uplodingImg('idNumberJustImg')">

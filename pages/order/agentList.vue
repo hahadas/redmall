@@ -13,7 +13,7 @@
 		</view>
 		<view class="list">
 			<view class="list-item" v-for="(item, i) in list" :key="i">
-				<view class="flex">
+				<view class="flex" @tap="viewUser(item, 2)">
 					<view class="img-box">
 						<image :src="item.headPortrait" mode="" class="avatar"></image>
 						<text class="status" style="background-color: #0488a9;" v-if="item.distributorWorkStatus === 2">已开工</text>
@@ -29,15 +29,15 @@
 							</view>
 							<text class="line font32">{{item.nickname}}</text>
 						</view>
-						<text class="font30" style="margin: 6rpx 0;display: block;">Ta的酒量：{{item.alcoholConsumption}}</text>
-						<view class="flex flex-between font28 color-b6">
-							<text>评分：{{item.distributorScore}}</text>
-							<text>接单：{{item.distributorTurnover}}</text>
-							<text>距离：{{item.distance}}</text>
+						<!-- <text class="font30" style="margin: 6rpx 0;display: block;">Ta的酒量：{{item.alcoholConsumption}}</text> -->
+						<view class="flex flex-between font28 color-b6" style="margin-top: 10rpx;">
+							<text>评分：{{item.distributorScore || '0'}}</text>
+							<text>接单：{{item.distributorTurnover || '0'}}</text>
+							<text>距离：{{item.distance}}m</text>
 						</view>
 					</view>
 				</view>
-				<view class="flex flex-center" style="margin-top: 20rpx;">
+				<view class="flex flex-center" style="margin-top: 0rpx;">
 					<button type="primary" class="bg-base" size="mini" @click="onSelect(item)">为我配送</button>
 				</view>
 			</view>
@@ -51,8 +51,9 @@
 	import imMix from "./imMix.js"
 	import HMfilterDropdown from './components/HM-filterDropdown/HM-filterDropdown.vue';
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	import mix from "@/pages/interaction/modules/mix.js"
 	export default{
-		mixins: [imMix],
+		mixins: [imMix,mix],
 		components:{
 			HMfilterDropdown, uniLoadMore
 		},

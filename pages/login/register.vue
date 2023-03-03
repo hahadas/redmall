@@ -34,7 +34,6 @@
 					<text class="iconfont icon">&#xe609;</text>
 					<text class="font26">安卓下载</text>
 				</view>
-				<!-- <text class="font28 color-purple">苹果用户请先使用网页版</text> -->
 				<view class="item bg-base" @click="download(iosUrl)">
 					<text class="iconfont icon">&#xe607;</text>
 					<text class="font26">苹果下载</text>
@@ -73,8 +72,9 @@
 			// #ifdef APP-PLUS
 			let _this = this
 			uni.getLocation({
-			    type: 'wgs84',
+			    type: 'gcj02',
 				geocode: true,
+				isHighAccuracy: true,
 			    success: async function (res) {
 					let e = await publics.getPositionToLngAndLat(res.longitude, res.latitude)
 					_this.form.adcode = e.result['ad_info'].adcode

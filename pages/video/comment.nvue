@@ -105,7 +105,6 @@
 	
 	//#ifdef APP-NVUE
 	const animation = weex.requireModule('animation')
-	const modal = weex.requireModule('modal');
 	//#endif
 	
     export default {

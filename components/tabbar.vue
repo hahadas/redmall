@@ -9,7 +9,7 @@
 					</image>
 					<text class="name" :class="{active: current === index}">{{item.name}}</text>
 				</view>
-				<view class="nav-item" v-else>
+				<view class="nav-item" @click="jumpTo(item, index)" v-else>
 					<image :src="item.iconPath" class="midButton" mode=""></image>
 				</view>
 			</block>
@@ -74,10 +74,19 @@
 		methods: {
 			jumpTo(row, index) {
 				if (this.current === index) return;
-				this.current = index;
-				uni.reLaunch({
-					url: row.url
-				})
+				// 点击中间按钮的时候不改变current，因为进入视频后返回应该是停留在进入前的页面
+				if (index !== 2) {
+					this.current = index;
+				}
+				if (row.midButton) {
+					uni.navigateTo({
+						url: row.url
+					})
+				} else {
+					uni.reLaunch({
+						url: row.url
+					})	
+				}
 			}
 		},
 	}

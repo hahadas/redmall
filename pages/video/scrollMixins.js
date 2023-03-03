@@ -1,8 +1,4 @@
-// #ifdef APP-PLUS
 const BindingX = uni.requireNativePlugin('bindingx');
-const animation = weex.requireModule('animation');
-const modal = weex.requireModule('modal');
-// #endif
 export default {
 	data(){
 		return{
@@ -30,9 +26,7 @@ export default {
 		}
 	},
 	created(){
-		//#ifdef APP-PLUS
-			plus.screen.lockOrientation("portrait-primary")
-		//#endif
+		plus.screen.lockOrientation("portrait-primary")
 		this.sysheight = uni.getSystemInfoSync().windowHeight
 		this.height = `${this.sysheight}px` 
 		let width = uni.getSystemInfoSync().windowWidth 

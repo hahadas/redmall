@@ -1,5 +1,5 @@
 <template>
-	<div class="page" style="background-color: #000;" >
+	<div class="page">
 		<cover-view class="cover-view-center">
 			<div :style="{ height: `${sysheight-60}px`,width: width }" ref="touch" @click="clickVideo(index)" @touchstart="ListTouchStart" @touchmove="ListTouchMove">
 				<div class="nav">
@@ -34,7 +34,6 @@
 					<text class="right-text"> </text>
 				</div>
 			</div>
-			
 		</cover-view>
 		<div class="swiper" ref="swiper">
 			<block v-for="(item, idx) in videoList" :key="idx">
@@ -66,10 +65,8 @@
 						</cover-view>
 					</block>
 				</div>
-				
 			</block>
 		</div>
-		
 		<div class="left-div" @click="clickVideo(index)" :style="{ width: width,left:`${-parseInt(width)}px` }" ref="left"  @touchstart="ListTouchStart" @touchmove="ListTouchMove">
 			<block v-if="isShowLocal">
 				<div class="video-box" v-for="(item, idx) in videoList1" :key="idx" :style="{ height: height }">
@@ -100,7 +97,6 @@
 						</cover-view>
 					</block>
 				</div>
-				
 			</block>
 		</div>
 		<div class="right-div" :style="{ width: width,right:`${-parseInt(width)}px` }" ref="right"  @touchstart="ListTouchStart" @touchmove="ListTouchMove">
@@ -133,10 +129,8 @@
 						</cover-view>
 					</block>
 				</div>
-				
 			</block>
 		</div>
-		
 		<div class="mark" v-if="rbagmodelshow" @touchmove.prevent.stop>
 			<div class="mark-wrapper" ref="wrapper">
 				<image :src="staticUrl + 'home/redBagClose.png'" mode="widthFix" class="mark-wrapper-img"></image>
@@ -170,7 +164,6 @@
 				<icon type="cancel" color="#fbd977" size="28" style="margin-top: 50rpx;" @click="close"/>
 			</div>
 		</div>
-		
 	</div>
 </template>
 
@@ -178,25 +171,14 @@
 	import { mapState } from "vuex"
 	import url from '@/common/http/url.js';
 	import publics from "@/common/utils/public.js"
-	import { sendRequest } from "@/common/http/api.js" // nvue 不能使用this.$http
-	
-	var QQMapWX = require('@/libs/qqmap-wx-jssdk.min.js')
-	var qqmapsdk = new QQMapWX({
-	  key: 'BJVBZ-UWBR6-DCZSL-E6DJE-AXQGZ-O5BMI'
-	})
-	import chunleiVideo from '../../components/chunlei-video/chunlei-video';
+	import { sendRequest } from "@/common/http/api.js"
+	import chunleiVideo from '@/components/chunlei-video/chunlei-video';
 	import scrollMixins from './scrollMixins';
-	const music = uni.createInnerAudioContext(); //创建播放器对象
-	const BindingX = uni.requireNativePlugin('bindingx');
-	const animation = weex.requireModule('animation');
-
-	export default { 
+	export default{
 		mixins:[scrollMixins],
-		components:{
-			chunleiVideo
-		},
-		data(){
-			return{
+		components: { chunleiVideo },
+		data() {
+			return {
 				staticUrl: getApp().staticUrl,
 				myUserId:0,
 				videoNowIndex:0,//当前播放视频的下标
@@ -238,22 +220,16 @@
 		computed: {
 			...mapState(["userInfo"])
 		},
-		async onLoad(option) {
-			//#ifdef APP-PLUS
+		onLoad(option) {
 			//隐藏subnvue
 			uni.getSubNVueById('comment').hide()
-			//#endif
-			
 			//获取自己的ID
 			this.myUserId = this.userInfo.id
 		},
 		created(){
-			//#ifdef APP-PLUS
 			plus.screen.lockOrientation("portrait-primary")
 			//隐藏subnvue
 			uni.getSubNVueById('comment').hide()
-			//#endif
-			
 			this.init()
 		},
 		onShow() {
@@ -265,7 +241,7 @@
 				success: function(res) {
 					console.log("getLocation...", res)
 					//设置地址
-					publics.setMyaddressLngLat(JSON.stringify(res));
+					publics.setMyaddressLngLat(JSON.stringify(res)); 
 					that.lngLatByCityName(res);
 				},
 				fail: function(err) {
@@ -807,6 +783,7 @@
 		flex: 1;
 		overflow: hidden;
 		position: relative;
+		background-color: #000;
 	}
 	.swiper{
 		position: relative;

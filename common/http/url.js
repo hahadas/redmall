@@ -21,6 +21,8 @@ export default{
 		threeProportion: "sys/config/thirdPartyServicesProportion", // 第三方服务比例
 		distributorDepositConfig: "sys/config/distributorDepositConfig", // 配送员押金协议
 		appstoreHidePage: "sys/config/appstoreHidePage", // 苹果应用商店需要隐藏的页面和功能模块
+		distributionFee: "sys/config/distributionFee", // 配送费精品和非精品的五星佣金比例
+		pointCombinationPaymentMerchantIncome: "sys/config/pointCombinationPaymentMerchantIncome", // 积分组合支付时商家实际收入比例
 	},
 	// 聚合相关
 	juhe:{

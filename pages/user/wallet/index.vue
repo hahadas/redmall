@@ -55,6 +55,7 @@
 				type: 1, // 1-用户， 2-配送员， 3-用户, 4-存托
 				walletInfo: {},
 				platform: uni.getSystemInfoSync().platform,
+				uniPlatform: uni.getSystemInfoSync().uniPlatform,
 				configAppstoreHidePage: false,
 			}
 		},
@@ -80,7 +81,7 @@
 				}
 				
 				// 获取 苹果应用商店需要隐藏的页面和功能模块 配置
-				if (this.platform === "ios") {
+				if (this.platform === "ios" && this.uniPlatform === 'app') {
 					this.$http("GET", url.common.appstoreHidePage).then(res => {
 						console.log(this.platform)
 						if(res.data){

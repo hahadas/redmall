@@ -5,8 +5,8 @@ import { officialAccountAuthorize,setMiniOpenIdByCode } from '@/common/utils/weC
 //静态资源访问路径，有些资源不宜放太多到项目中影响微信小程序打包大小
 export const staticUrl = "https://redmall-public.oss-cn-shenzhen.aliyuncs.com/static_resources/"
 //后台服务接口请求地址，如果是本地运行可以用ip+端口
-// export const baseUrl = "https://redmall-app-api.nnwqkj.com/api/"
-export const baseUrl = "http://192.168.1.188:6001/api/"
+export const baseUrl = "https://redmall-app-api.nnwqkj.com/api/"
+// export const baseUrl = "http://192.168.1.188:6001/api/"
 //即时通讯连接地址，https时用wss，http时用ws，如果是本地运行可以用ip+端口
 export const imUrl = "wss://redmall-im.nnwqkj.com?imToken="
 // export const imUrl = "ws://192.168.1.188:6000?imToken="

@@ -295,7 +295,8 @@
         "router" : {
             "mode" : "history",
             "base" : "/"
-        }
+        },
+        "template" : "template.h5.html"
     },
     "locale" : "zh-Hans"
 }

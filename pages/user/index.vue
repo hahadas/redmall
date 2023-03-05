@@ -219,6 +219,7 @@
 				mobileList: [],
 				threeData: [],
 				platform: uni.getSystemInfoSync().platform,
+				uniPlatform: uni.getSystemInfoSync().uniPlatform,
 				configAppstoreHidePage: false,
 				wxBtnHeight: 0,
 			}
@@ -250,7 +251,7 @@
 			this.getRedBagList()
 			
 			// 获取 苹果应用商店需要隐藏的页面和功能模块 配置
-			if (this.platform === "ios") {
+			if (this.platform === "ios" && this.uniPlatform === 'app') {
 				this.$http("GET", url.common.appstoreHidePage).then(res => {
 					console.log(this.platform)
 					if(res.data){

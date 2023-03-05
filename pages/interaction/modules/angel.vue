@@ -26,7 +26,7 @@
 									<text class="right">{{item.constellation}}/{{item.age||0}}岁</text>
 								</view>
 								<view class="box mar">
-									<text class="right">评分：{{item.distributorScore}}</text>
+									<text class="right">评分：{{item.distributorScore || '-'}}</text>
 									<text class="right">{{item.distance | distance}}</text>
 								</view>
 							</view>

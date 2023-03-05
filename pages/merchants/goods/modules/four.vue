@@ -68,6 +68,13 @@
 					</text>
 					<switch color="#381895" :checked="form.deliveryPlatform === 1 ?true:false" :disabled="form.goodsType === 2" @change="switchChange($event, 'deliveryPlatform')" class="switch" />
 				</view>
+				<!-- 开启平台配送 并且 商品类型不是 精品商品 才显示 -->
+				<view class="list-item" style="height: auto;" v-if="form.deliveryPlatform === 1 && form.goodsType != 2">
+					<text class="font26 color-b9">
+						配送员配送费：￥{{(parseFloat(form.wholesalePrice)*(parseFloat(form.bonusProfit)/100)*(parseFloat(distributionFee)/100)).toFixed(2)}} {{(parseFloat(form.wholesalePrice)*(parseFloat(form.bonusProfit)/100)*(parseFloat(distributionFee)/100))<1 ? ' ，配送费过低，可能导致无人接单配送，可去“商品信息”增加“商品分润比例”提高配送费。':''}}
+						配送费计算方式：商品零售价(￥{{form.wholesalePrice}})*商品分润比例({{form.bonusProfit}}%)*配送员佣金比例({{distributionFee}}%)。
+					</text>
+				</view>
 				<view class="list-item">
 					<text class="label">
 						<text class="color-w">*</text>
@@ -116,11 +123,13 @@
 <script>
 	import wPicker from "@/components/w-picker/w-picker.vue"
 	import publics from "@/common/utils/public.js"
+	import url from "@/common/http/url.js"
 	export default{
 		components: { wPicker },
 		props: ["form", "loading"],
 		data(){
 			return {
+				distributionFee: "",
 				visible: false,
 				pickerText: "",
 				pickerValue: [],
@@ -154,6 +163,12 @@
 				this.form.shippingLat = val.lat
 				this.$forceUpdate()
 			}
+		},
+		mounted() {
+			// 获取配送员佣金比例
+			this.$http("GET", url.common.distributionFee).then(res=>{
+				this.distributionFee = res.data.unBoutique
+			})
 		},
 		methods:{
 			selectAddress(){

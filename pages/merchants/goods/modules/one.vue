@@ -128,7 +128,14 @@
 					<text class="color-red">*</text>
 					进货实付比例：
 				</text>
-				<input type="number" placeholder="必填" :maxlength="3" v-model="form.boutiqueBuying" class="flex-grow input">
+				<input type="number" placeholder="必填" :maxlength="3" v-model="form.boutiqueBuying" class="flex-grow input">%
+			</view>
+			<view class="list-item" style="height: auto;" v-if="goodsTypeIndex === 1">
+				<text class="font26 color-b9">
+				配送员进货实付：￥{{parseFloat(form.wholesalePrice)*(parseFloat(form.boutiqueBuying)/100)}}
+				如：商品价格为100元，配送员进货该商品仅需要支付商品价格的{{form.boutiqueBuying}}%。
+				配送员进货付款的金额全部都归商家收入。
+				</text>
 			</view>
 			<!-- 限时秒杀 -->
 			<view class="list-item bor-no" v-if="goodsTypeIndex === 3">

@@ -12,13 +12,13 @@
 		},
 		// #endif
 		// #ifdef MP-WEIXIN
-		{
-			"path": "pages/login/camouflage",
-			"style": {
-				"navigationBarTitleText": "活动参与资格报名",
-				"navigationStyle": "custom"
-			}
-		},
+		// {
+		// 	"path": "pages/login/camouflage",
+		// 	"style": {
+		// 		"navigationBarTitleText": "活动参与资格报名",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
 		// #endif
 		{
 			"path": "pages/login/index",

@@ -2,7 +2,10 @@
 
 ## 简介
 
-该项目为前端uniapp项目，需要结合后台服务使用，该项目内部http请求和websock连接地址均为咱公司自己的地址，可以提供大家使用，方便大家体验项目功能！如需后台服务源码，大家可前往RedMall官网查看：https://redmall.nnwqkj.com/
+该项目为前端uniapp项目，需要结合后台服务使用，该项目内部http请求和websock连接地址均为咱公司自己的地址，可以提供大家使用，方便大家体验项目功能！如需后台服务源码，大家可前往
+<a href="https://redmall.nnwqkj.com" target="_blank">[RedMall官网查看：https://redmall.nnwqkj.com]</a>
+
+QQ技术交流群：719677078
 
 
 
@@ -24,7 +27,7 @@
 
 ## 后台管理演示地址
 
-地址：https://redmall-admin-web.nnwqkj.com/
+<a href="https://redmall-admin-web.nnwqkj.com/" target="_blank">[后台管理演示地址：https://redmall-admin-web.nnwqkj.com]</a>
 账号：testredmall
 密码：123456
 
@@ -32,11 +35,11 @@
 
 ## 前端模板运行教程
 
-dcloud插件(点击按钮【下载zip插件】)：https://ext.dcloud.net.cn/plugin?id=11146
+<a href="https://ext.dcloud.net.cn/plugin?id=11146" target="_blank">[dcloud插件(点击按钮【下载zip插件】)：https://ext.dcloud.net.cn/plugin?id=11146]</a>
 
-gitee地址：https://gitee.com/hehedas/red-mall
+<a href="https://gitee.com/hehedas/red-mall" target="_blank">[gitee地址：https://gitee.com/hehedas/red-mall]</a>
 
-github地址：https://github.com/ruigeone/red-mall
+<a href="https://github.com/ruigeone/red-mall" target="_blank">[github地址：https://github.com/ruigeone/red-mall]</a>
 
 下载好项目到本地后，用HBuilderX工具打开
 
@@ -57,7 +60,7 @@ HBuilderX开发工具，登录自己的账号，没有的可以自行注册
 
 ### 使用-腾讯实时音视频插件
 
-在浏览器打开插件地址：<https://ext.dcloud.net.cn/plugin?id=493>
+<a href="https://ext.dcloud.net.cn/plugin?id=493" target="_blank">[在浏览器打开插件地址：https://ext.dcloud.net.cn/plugin?id=493]</a>
 
 点击试用，然后选择自己对应的项目，导入插件
 
@@ -75,7 +78,7 @@ HBuilderX开发工具，登录自己的账号，没有的可以自行注册
 
 ### 使用-Android和IOS视频裁剪、视频压缩插件
 
-在浏览器打开插件地址：<https://ext.dcloud.net.cn/plugin?id=894>
+<a href="https://ext.dcloud.net.cn/plugin?id=894" target="_blank">[在浏览器打开插件地址：https://ext.dcloud.net.cn/plugin?id=894]</a>
 
 点击试用，然后选择自己对应的项目，导入插件
 
@@ -89,7 +92,7 @@ HBuilderX开发工具，登录自己的账号，没有的可以自行注册
 
 ### 使用-Android和IOS视频裁剪、视频压缩插件
 
-在浏览器打开插件地址：<https://ext.dcloud.net.cn/plugin?id=1371>
+<a href="https://ext.dcloud.net.cn/plugin?id=1371" target="_blank">[在浏览器打开插件地址：https://ext.dcloud.net.cn/plugin?id=1371]</a>
 
 点击试用，然后选择自己对应的项目，导入插件
 
@@ -137,6 +140,19 @@ l 运行的时候选择真机运行时，基座选择时勾选自定义基座
 ## 详细功能文档
 
 【在线文档地址】 https://kdocs.cn/l/coCxXRneJ2hl
+
+
+
+## 联系客服
+
+QQ技术交流群：719677078
+
+客服qq和企业微信
+
+<figure class="third">
+    <img src="https://redmall-public.oss-cn-shenzhen.aliyuncs.com/md/qq.png" width="40%"/>
+    <img src="https://redmall-public.oss-cn-shenzhen.aliyuncs.com/md/微信.png" width="40%"/>
+</figure>
 
 
 

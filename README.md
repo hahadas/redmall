@@ -32,7 +32,7 @@
 
 ## 前端模板运行教程
 
-dcloud插件：点击按钮【下载zip插件】
+dcloud插件(点击按钮【下载zip插件】)：https://ext.dcloud.net.cn/plugin?id=11146
 
 gitee地址：https://gitee.com/hehedas/red-mall
 
